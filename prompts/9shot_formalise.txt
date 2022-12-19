@@ -1,0 +1,60 @@
+Natural language version: "Let $P$ be a $p$-subgroup of $G$. Then $P$ is contained in a Sylow $p$-subgroup of $G$." Translate the natural language version to an Isabelle version: 
+theorem exists_le_sylow:
+  fixes p a m::nat and G::"('a, 'b) monoid_scheme"
+  assumes "normalization_semidom_class.prime p" "group G" "order G = (p^a) * m" "finite (carrier G)"
+  shows "∃H. subgroup H G ∧ card H = p^a"
+  oops
+
+Natural language version: "Let $E$ and $F$ be complex normed spaces and let $f:E\to F$. If $f$ is differentiable and bounded, then $f$ is constant." Translate the natural language version to an Isabelle version: 
+theorem exists_eq_const_of_bounded:
+  fixes  f::"complex ⇒ 'a::real_normed_vector"
+  assumes "∀x. f differentiable (at x)" "bounded (range f)"
+  shows "f constant_on (UNIV::complex set)"
+  oops
+
+Natural language version: "Let $X$ be a topological space; let $A$ be a subset of $X$. Suppose that for each $x\in A$ there is an open set $U$ containing $x$ such that $U\subset A$. Then $A$ is open in $X$." Translate the natural language version to an Isabelle version: 
+theorem subset_of_open_subset_is_open:
+  fixes T::"'a topology" and A::"'a set"
+  assumes "A ⊆ topspace T" "∀x∈A. ∃ U ⊆ topspace T. openin T U ∧ x∈U ∧ U ⊆ A"
+  shows "openin T A"
+  oops
+
+Natural language version: "If $z_1, \\dots, z_n$ are complex, then $|z_1 + z_2 + \\dots + z_n|\\leq |z_1| + |z_2| + \\dots + |z_n|$." Translate the natural language version to an Isabelle version:
+theorem abs_sum_leq_sum_abs:
+  fixes n::nat and f::"nat ⇒ complex"
+  shows "abs (∑i<n. f i) ≤ (∑i<n. abs (f i))"
+  oops
+
+Natural language version: "If x and y are in $\\mathbb{R}^n$, then $|x+y|^2 + |x-y|^2 = 2|x|^2 + 2|y|^2$." Translate the natural language version to an Isabelle version:
+theorem sum_add_square_sub_square_eq_sum_square:
+  fixes x y::"'a::euclidean_space"
+  shows "norm (x+y)^2 + norm (x - y) ^ 2 = 2 * (norm x)^2 + 2* (norm y)^2"
+  oops
+
+Natural language version: "If $x$ is an element of infinite order in $G$, prove that the elements $x^n$, $n\\in\\mathbb{Z}$ are all distinct." Translate the natural language version to an Isabelle version:
+theorem distinct_powers_of_infinite_order_element:
+  fixes G::"('a, 'b) monoid_scheme" (structure)
+  assumes "group G" "∀n ::nat. x [^] n ≠ 𝟭"
+  shows "∀ m n :: int. m ≠ n ⟶ x [^] m ≠ x [^] n"
+  oops
+
+Natural language version "A set of vectors $\{v_i\}_{i\in I}$ orthogonal with respect to some bilinear form $B: V\times V\to K$ is linearly independent if for all $i \in I, B(v_i, v_i)\neq 0$." Translate the natural language version to an Isabelle version:
+theorem linear_independent_of_is_Ortho:
+  fixes B::"'a::real_vector ⇒ 'a ⇒ 'b::real_vector"
+  assumes "bilinear B" "pairwise (λx y. B x y=0) v" "∀x∈v. B x x≠0"
+  shows "independent v"
+  oops
+
+Natural language version: "Suppose that $V$ is an $n$-dimensional vector space. Then for some set of vectors $\{v_i\}_{i=1}^k$, if $k>n$ then there exist scalars $f_1, \dots, f_k$ such that $\sum_{i=1}^k f_kv_k = 0$." Translate the natural language version to an Isabelle version: 
+theorem exists_nontrivial_relation_sum_zero_of_dim_succ_lt_card:
+  fixes v::"'a::euclidean_space set"
+  assumes "card v > DIM('a)"
+  shows "∃f. (∑x∈v. f x *⇩R x) = 0 ∧ (∃x∈v. f x≠0)"
+  oops
+
+Natural language version: "Suppose $X, Y, Z$ are metric spaces, and $Y$ is compact. Let $f$ map $X$ into $Y$, let $g$ be a continuous one-to-one mapping of $Y$ into $Z$, and put $h(x)=g(f(x))$ for $x \in X$. Prove that $f$ is uniformly continuous if $h$ is uniformly continuous." Translate the natural language version to an Isabelle version:
+theorem uniform_continuous_of_continuous_injective_uniform_continuous_comp:
+  fixes f::"'a::metric_space ⇒ 'b::metric_space" and g::"'b::metric_space ⇒ 'c::metric_space"
+  assumes "compact (UNIV::'b set)" "continuous_on UNIV g" "inj g" "uniformly_continuous_on UNIV (g ∘ f)"
+  shows "uniformly_continuous_on UNIV f"
+  oops
