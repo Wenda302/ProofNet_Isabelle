@@ -28,7 +28,7 @@ where in the comment part we have
 - a Lean statement (if available),
 - and an auto-formalised statement from Codex (a large language model).
 
-Here we want to formalise this natural language statement in Isabelle (by replacing the undefined symbol). The Lean statement can often serve as a good hint for our formalisation. If possible, regarding the auto-formalised version from Codex we can leave our one-sentence comment (e.g., good translation, some assumption is missed, totally irrelevant, etc.). In this particular example, the Codex statement is surprisingly decent so that I will simply copy its answer:
+Here we want to formalise this natural language statement in Isabelle (by replacing the undefined symbol). The Lean statement can often serve as a good hint for our formalisation. If possible, regarding the auto-formalised version from Codex we can leave our one-sentence comment (e.g., good translation, some assumption is missed, totally irrelevant, etc.). In this particular example, the Codex statement is mostly correct but is slightly wrong for the conclusion part. I commented on this issue and then posted my formalisation:
 ```
 (*
 problem_number:1_13a
@@ -44,12 +44,12 @@ theorem holomorphic_const_of_real_const:
   fixes f::"complex ⇒ complex"
   assumes "open s" "f holomorphic_on s" "∀x∈s. Re (f x) = c"
   shows "∀x∈s. f x = c"
-Our comment on the codex statement: perfect formalisation.
+Our comment on the codex statement: f is constant but not necessary equal to c.
  *)
 theorem exercise_1_13a: 
   fixes f::"complex ⇒ complex"
   assumes "open s" "f holomorphic_on s" "∀x∈s. Re (f x) = c"
-  shows "∀x∈s. f x = c" 
+  shows "∃ c. ∀x∈s. f x = c"
   oops
 ```
 

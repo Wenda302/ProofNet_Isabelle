@@ -16,12 +16,12 @@ theorem holomorphic_const_of_real_const:
   fixes f::"complex ⇒ complex"
   assumes "open s" "f holomorphic_on s" "∀x∈s. Re (f x) = c"
   shows "∀x∈s. f x = c"
-Our comment on the codex statement: perfect formalisation.
+Our comment on the codex statement: f is constant but not necessary equal to c.
  *)
 theorem exercise_1_13a: 
   fixes f::"complex ⇒ complex"
   assumes "open s" "f holomorphic_on s" "∀x∈s. Re (f x) = c"
-  shows "∀x∈s. f x = c"
+  shows "∃ c. ∀x∈s. f x = c"
   oops
 
 
