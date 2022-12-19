@@ -23,7 +23,7 @@ Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
 theorem exercise_1_13a: undefined oops
 ```
 where in the comment part we have
-- a problem identifier (i.e, `problem_number`),
+- a problem identifier (e.g. `1_13a`),
 - a natural language statement,
 - a Lean statement (if available),
 - and an auto-formalised statement from Codex (a large language model).
