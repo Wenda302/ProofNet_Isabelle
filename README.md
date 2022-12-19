@@ -52,3 +52,5 @@ theorem exercise_1_13a:
   shows "∀x∈s. f x = c" 
   oops
 ```
+
+PS: we may sometimes need to change the 'imports' part of the target theory file when the background theories are missing.
