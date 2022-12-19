@@ -1,5 +1,5 @@
 theory Shakarchi
- imports Main
+ imports "HOL-Complex_Analysis.Complex_Analysis"
 begin
 
 (*
@@ -16,9 +16,13 @@ theorem holomorphic_const_of_real_const:
   fixes f::"complex ⇒ complex"
   assumes "open s" "f holomorphic_on s" "∀x∈s. Re (f x) = c"
   shows "∀x∈s. f x = c"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: perfect formalisation.
  *)
-theorem exercise_1_13a: undefined oops
+theorem exercise_1_13a: 
+  fixes f::"complex ⇒ complex"
+  assumes "open s" "f holomorphic_on s" "∀x∈s. Re (f x) = c"
+  shows "∀x∈s. f x = c"
+  oops
 
 
 (*
