@@ -147,7 +147,7 @@ theorem power_of_commutator_eq_one:
   fixes G::"('a, 'b) monoid_scheme" (structure) and a b::'a
   assumes "group G" "\<forall>a b. (a * b) [^] n = a [^] n * b [^] n" "n > 1"
   shows "(a * b * a [^] -1 * b [^] -1) [^] (n * (n - 1)) = \<one>"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: Mainly it's * versus \<otimes>
  *)
 theorem (in group) exercise_2_2_6c:
   assumes "\<forall>a b. (a \<otimes> b) [^] n = a [^] n \<otimes> b [^] n" and "n > 1"
@@ -169,10 +169,9 @@ theorem conjugate_of_conjugate_eq_conjugate:
   fixes G::"('a, 'b) monoid_scheme" (structure) and a x::'a
   assumes "group G"
   shows "conjugate x (conjugate x a) = conjugate x a"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: CENTRALISER NOT AVAILABLE IN HOL-ALGEBRA
  *)
-theorem exercise_2_3_17: undefined oops
-
+theorem (in group) exercise_2_3_17: undefined oops
 
 (*
 problem_number:2_3_19
@@ -188,9 +187,12 @@ theorem subgroup_of_conjugate_subset_is_conjugate:
   fixes G::"('a, 'b) monoid_scheme" (structure) and M::"'a set"
   assumes "group G" "subgroup M G" "\<forall>x\<in>carrier G. inv x * M * x \<subseteq> M"
   shows "\<forall>x\<in>carrier G. inv x * M * x = M"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: locale subgroup needed
  *)
-theorem exercise_2_3_19: undefined oops
+theorem (in subgroup) exercise_2_3_19: 
+  assumes "\<forall>x\<in>carrier G. inv x <# H #> x \<subseteq> H"
+  shows "\<forall>x\<in>carrier G. inv x <# H #> x = H"
+  oops
 
 
 (*
@@ -207,9 +209,12 @@ theorem cyclic_of_prime_order_of_no_proper_subgroups:
   fixes G::"('a, 'b) monoid_scheme" (structure)
   assumes "group G" "\<forall>H. subgroup H G \<rightarrow> H = G \<or> H = {\<one>}"
   shows "\<exists>p. prime p \<and> order G = p"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: "prime" has multiple meanings: Divisibility defines "prime" for groups!
  *)
-theorem exercise_2_3_16: undefined oops
+theorem(in group) exercise_2_3_16: 
+  assumes "\<And>H. subgroup H G \<Longrightarrow> H = carrier G \<or> H = {\<one>}"
+  shows "\<exists>p. Factorial_Ring.prime p \<and> order G = p"
+  oops
 
 
 (*
