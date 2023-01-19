@@ -187,10 +187,10 @@ theorem subgroup_of_conjugate_subset_is_conjugate:
   fixes G::"('a, 'b) monoid_scheme" (structure) and M::"'a set"
   assumes "group G" "subgroup M G" "\<forall>x\<in>carrier G. inv x * M * x \<subseteq> M"
   shows "\<forall>x\<in>carrier G. inv x * M * x = M"
-Our comment on the codex statement: locale subgroup needed
+Our comment on the codex statement: locale group needed
  *)
-theorem (in subgroup) exercise_2_3_19: 
-  assumes "\<forall>x\<in>carrier G. inv x <# H #> x \<subseteq> H"
+theorem (in group) exercise_2_3_19: 
+  assumes "\<forall>x\<in>carrier G. inv x <# H #> x \<subseteq> H" "subgroup H G"
   shows "\<forall>x\<in>carrier G. inv x <# H #> x = H"
   oops
 
@@ -287,10 +287,10 @@ theorem subgroup_of_conjugate_subset_is_conjugate:
   fixes G::"('a, 'b) monoid_scheme" (structure) and M::"('a, 'b) monoid_scheme" (structure)
   assumes "group G" "subgroup M G" "\<forall>x\<in>carrier G. inv x * M * x \<subseteq> M"
   shows "\<forall>x\<in>carrier G. inv x * M * x = M"
-Our comment on the codex statement: locale subgroup; set product operators
+Our comment on the codex statement: locale group; set product operators
  *)
-theorem (in subgroup) exercise_2_3_29: 
-  assumes "\<forall>x\<in>carrier G. inv x <# H #> x \<subseteq> H"
+theorem (in group) exercise_2_3_29: 
+  assumes "\<forall>x\<in>carrier G. inv x <# H #> x \<subseteq> H" "subgroup H G"
   shows "\<forall>x\<in>carrier G. inv x <# H #> x = H"
   oops
 
@@ -308,8 +308,8 @@ theorem right_coset_eq_left_coset_of_H_in_G_of_all_a_in_G:
   shows "\<forall>a\<in>carrier G. a * H * inv a = H"
 Our comment on the codex statement: A different interpretation of the ambiguous text
  *)
-theorem (in subgroup) exercise_2_4_8: 
-  assumes "\<forall>x\<in>carrier G. \<exists>y\<in>carrier G. H #> x = y <# H"
+theorem (in group) exercise_2_4_8: 
+  assumes "rcosets H \<subseteq> lcosets H" "subgroup H G"
   shows "\<forall>x\<in>carrier G. x <# H #> inv x = H"
   oops
 
@@ -327,7 +327,10 @@ theorem exists_bijective_of_right_left_cosets:
   shows "\<exists>f. bij_betw f (right_cosets H G) (left_cosets H G)"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
-theorem exercise_2_4_26: undefined oops
+theorem (in group) exercise_2_4_26: 
+  assumes "subgroup H G"
+  shows "\<exists>f. bij_betw f (rcosets H) (lcosets H)"
+  oops
 
 
 (*
@@ -343,7 +346,11 @@ theorem order_of_element_divides_order_of_subgroup:
   shows "order G a ∣ order H a"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
-theorem exercise_2_4_32: undefined oops
+theorem (in group) exercise_2_4_32: 
+  assumes "finite (carrier G)" "subgroup H G"
+  defines "f \<equiv> \<lambda>a. LEAST m. a [^] m \<in> H"
+  shows "\<forall>x\<in>carrier G. f x dvd ord x"
+  oops
 
 
 (*
@@ -359,7 +366,7 @@ theorem divides_phi_of_int_succ_one_power_int_sub_one:
   fixes a::int
   assumes "a > 1"
   shows "\<forall>n::nat. n ∣ phi (a^n - 1)"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: Needs the theory HOL-Number_Theory.Totient
  *)
 theorem exercise_2_4_36: undefined oops
 
@@ -375,9 +382,11 @@ theorem image_of_homomorphism_is_subgroup:
   fixes G G'::"('a, 'b) monoid_scheme" (structure)
   assumes "group G" "group G'" "\<forall>x y. \<exists>z. z \<in> carrier G \<and> \<exists>z'. z' \<in> carrier G' \<and> f z = z' \<and> f (x * y) = f x * f y"
   shows "subgroup (f ` carrier G) G'"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: use locale group_hom
  *)
-theorem exercise_2_5_6: undefined oops
+theorem (in group_hom) exercise_2_5_6: 
+  shows "subgroup (h ` carrier G) H"
+  using img_is_subgroup by blast
 
 
 (*
@@ -396,7 +405,10 @@ theorem exists_j_of_subgroup_normal:
   shows "\<exists>j. b * a = a [^] j * b"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
-theorem exercise_2_5_23: undefined oops
+theorem (in group) exercise_2_5_23: 
+  assumes "\<And>H. subgroup H G \<Longrightarrow> normal H G"
+  shows "\<forall>a\<in>carrier G. \<forall>b\<in>carrier G. \<exists>j. b \<otimes> a = a [^] j \<otimes> b"
+  oops
 
 
 (*
@@ -414,9 +426,13 @@ theorem characteristic_of_order_prime_power_div_order_prime:
   fixes G::"('a, 'b) monoid_scheme" (structure) and H::"('a, 'b) monoid_scheme" (structure)
   assumes "group G" "group H" "order G = p * m" "prime p" "p ∣ m" "order H = p" "H \<subseteq> G" "normal G H"
   shows "char G H"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: Locale. And no need for m (also in the problem statement)
  *)
-theorem exercise_2_5_30: undefined oops
+theorem (in group) exercise_2_5_30: 
+  fixes p::nat
+  assumes "normal N G" "card N = p" "Factorial_Ring.prime p" "finite (carrier G)" "p dvd order G"
+  shows "char N G"
+  oops
 
 
 (*
@@ -434,9 +450,13 @@ theorem characteristic_of_abelian_group_of_order_p_power_n_times_m:
   fixes G::"('a, 'b) monoid_scheme" (structure) and H::"('a, 'b) monoid_scheme" (structure)
   assumes "abelian_group G" "order G = p^n * m" "prime p" "coprime m p" "order H = p^n" "subgroup H G"
   shows "char_subgroup H G"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: problem statement can be simplified
  *)
-theorem exercise_2_5_31: undefined oops
+theorem (in comm_group) exercise_2_5_31: 
+  fixes p::nat
+  assumes "subgroup H G" "card H = p^n" "Factorial_Ring.prime p" "finite (carrier G)" "p^n dvd order G"
+  shows "char H G"
+  oops
 
 
 (*
@@ -453,9 +473,13 @@ theorem nonabelian_group_of_order_6_is_isomorphic_to_S3:
   fixes G::"('a, 'b) monoid_scheme" (structure)
   assumes "group G" "order G = 6" "\<not> abelian G"
   shows "G ≅ (permutations (UNIV::'a set))"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: comm_group not abelian
  *)
 theorem exercise_2_5_37: undefined oops
+theorem (in group) exercise_2_5_37: 
+  assumes "order G = 6" "\<not> comm_group G"
+  shows "G \<cong> sym_group 3"
+  oops
 
 
 (*
@@ -472,9 +496,13 @@ theorem abelian_of_order_9:
   fixes G::"('a, 'b) monoid_scheme" (structure)
   assumes "group G" "order G = 9"
   shows "abelian G"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: comm_group not abelian
  *)
 theorem exercise_2_5_43: undefined oops
+theorem (in group) exercise_2_5_43: 
+  assumes "order G = 9"
+  shows "comm_group G"
+  oops
 
 
 (*
@@ -493,7 +521,11 @@ theorem exists_normal_subgroup_of_order_prime_power:
   shows "\<exists>H. subgroup H G \<and> order H = p"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
-theorem exercise_2_5_44: undefined oops
+theorem (in group) exercise_2_5_44: 
+  fixes p::nat
+  assumes "order G = p^2" "Factorial_Ring.prime p" 
+  shows "\<exists>N. normal N G \<and> card N = p"
+  oops
 
 
 (*
