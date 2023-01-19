@@ -209,11 +209,12 @@ theorem cyclic_of_prime_order_of_no_proper_subgroups:
   fixes G::"('a, 'b) monoid_scheme" (structure)
   assumes "group G" "\<forall>H. subgroup H G \<rightarrow> H = G \<or> H = {\<one>}"
   shows "\<exists>p. prime p \<and> order G = p"
-Our comment on the codex statement: "prime" has multiple meanings: Divisibility defines "prime" for groups!
+Our comment on the codex statement: "prime" has multiple meanings: Divisibility defines "prime" for groups! 
+          Doesn't G have to be finite?
  *)
-theorem(in group) exercise_2_3_16: 
+theorem (in group) exercise_2_3_16: 
   assumes "\<And>H. subgroup H G \<Longrightarrow> H = carrier G \<or> H = {\<one>}"
-  shows "\<exists>p. Factorial_Ring.prime p \<and> order G = p"
+  shows "cyclic_group G" "\<exists>p. Factorial_Ring.prime p \<and> order G = p"
   oops
 
 
@@ -228,9 +229,12 @@ theorem subgroup_of_subgroup_conjugate_subset:
   fixes A B::"'a::group_add set"
   assumes "subgroup A G" "subgroup B G" "\<forall>b\<in>B. inv b * A * b \<subseteq> A"
   shows "subgroup (A + B) G"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: product of sets operator
  *)
-theorem exercise_2_3_21: undefined oops
+theorem (in group) exercise_2_3_21: 
+  assumes "subgroup A G" "subgroup B G" "\<forall>b\<in> B. inv b <# A #> b \<subseteq> A"
+  shows "subgroup (A<#>B) G"
+  oops
 
 
 (*
@@ -244,9 +248,12 @@ theorem order_of_product_of_finite_subgroups_is_product_of_orders:
   fixes A B::"'a::group_add set"
   assumes "finite A" "finite B" "subgroup A G" "subgroup B G" "\<forall>x\<in>A. \<forall>y\<in>B. x+y\<in>A \<or> x+y\<in>B"
   shows "card (A+B) = card A * card B"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: need locale comm_group and set product operators
  *)
-theorem exercise_2_3_22: undefined oops
+theorem (in comm_group) exercise_2_3_22: 
+  assumes "finite A" "finite B" "subgroup A G" "subgroup B G" "coprime (card A) (card B)"
+  shows "subgroup (A<#>B) G" "card (A<#>B) = card A * card B"
+  oops
 
 
 (*
@@ -260,9 +267,13 @@ theorem subgroup_of_conjugate_subgroups:
   fixes G::"('a, 'b) monoid_scheme" (structure) and M N::"'a set"
   assumes "group G" "subgroup M G" "subgroup N G" "\<forall>x\<in>G. inv x * M * x \<subseteq> M" "\<forall>x\<in>G. inv x * N * x \<subseteq> N"
   shows "subgroup (M * N) G" "\<forall>x\<in>G. inv x * (M * N) * x \<subseteq> M * N"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: need locale group and set product operators
  *)
-theorem exercise_2_3_28: undefined oops
+theorem (in group) exercise_2_3_28: 
+  assumes "subgroup M G" "\<forall>x\<in>carrier G. inv x <# M #> x \<subseteq> M"
+  assumes "subgroup N G" "\<forall>x\<in>carrier G. inv x <# N #> x \<subseteq> N"
+  shows "subgroup (M<#>N) G" "\<forall>x\<in>carrier G. inv x <# (M<#>N) #> x \<subseteq> (M<#>N)"
+  oops
 
 
 (*
@@ -276,9 +287,12 @@ theorem subgroup_of_conjugate_subset_is_conjugate:
   fixes G::"('a, 'b) monoid_scheme" (structure) and M::"('a, 'b) monoid_scheme" (structure)
   assumes "group G" "subgroup M G" "\<forall>x\<in>carrier G. inv x * M * x \<subseteq> M"
   shows "\<forall>x\<in>carrier G. inv x * M * x = M"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: locale subgroup; set product operators
  *)
-theorem exercise_2_3_29: undefined oops
+theorem (in subgroup) exercise_2_3_29: 
+  assumes "\<forall>x\<in>carrier G. inv x <# H #> x \<subseteq> H"
+  shows "\<forall>x\<in>carrier G. inv x <# H #> x = H"
+  oops
 
 
 (*
@@ -292,9 +306,12 @@ theorem right_coset_eq_left_coset_of_H_in_G_of_all_a_in_G:
   fixes G::"('a, 'b) monoid_scheme" (structure) and H::"('a, 'b) submonoid" (structure)
   assumes "group G" "subgroup H G" "\<forall>a\<in>carrier G. right_coset H a = left_coset H a"
   shows "\<forall>a\<in>carrier G. a * H * inv a = H"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: A different interpretation of the ambiguous text
  *)
-theorem exercise_2_4_8: undefined oops
+theorem (in subgroup) exercise_2_4_8: 
+  assumes "\<forall>x\<in>carrier G. \<exists>y\<in>carrier G. H #> x = y <# H"
+  shows "\<forall>x\<in>carrier G. x <# H #> inv x = H"
+  oops
 
 
 (*
