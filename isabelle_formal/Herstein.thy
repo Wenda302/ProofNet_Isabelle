@@ -810,10 +810,13 @@ theorem permutation_of_disturb_no_common_eq_id_eq_id:
   fixes \<sigma>::"'a \<Rightarrow> 'a" and \<tau>::"'a \<Rightarrow> 'a"
   assumes "permutation \<sigma>" "permutation \<tau>" "\<forall>x. \<sigma> x \<noteq> x \<rightarrow> \<tau> x \<noteq> x" "\<sigma> \<circ> \<tau> = id"
   shows "\<sigma> = id \<and> \<tau> = id"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: wrong
  *)
-theorem exercise_3_2_21: undefined oops
-
+theorem exercise_3_2_21: 
+  fixes \<sigma>::"'a \<Rightarrow> 'a" and \<tau>::"'a \<Rightarrow> 'a"
+  assumes "permutation \<sigma>" "permutation \<tau>" "{x. \<sigma> x \<noteq> x} \<inter> {x. \<tau> x \<noteq> x} = {}" "\<sigma> \<circ> \<tau> = id"
+  shows "\<sigma> = id \<and> \<tau> = id"
+  oops
 
 (*
 problem_number:3_2_23
@@ -842,9 +845,11 @@ theorem even_permutation_of_even_cycle:
   fixes \<sigma>::"'a::finite perm"
   assumes "\<sigma> = (a_R b_R c_R d_R e_R f_R g_R h_R i_R j_R k_R l_R m_R n_R o_R p_R q_R r_R s_R t_R u_R v_R w_R x_R y_R z_R)"
   shows "evenperm \<sigma>"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: assumption is crazy, link to evenperm is nice
  *)
-theorem exercise_3_3_2: undefined oops
+theorem exercise_3_3_2: 
+  shows "evenperm (cycle_of_list l) \<longleftrightarrow> even (length l)"
+  oops
 
 
 (*
@@ -860,7 +865,11 @@ theorem exists_three_cycle_of_normal_subgroup_of_An:
   shows "\<exists>a b c. a \<noteq> b \<and> b \<noteq> c \<and> c \<noteq> a \<and> (a, b, c) \<in> N"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
-theorem exercise_3_3_9: undefined oops
+theorem (in group) exercise_3_3_9:
+  fixes n::nat
+  assumes "normal N (alt_group n)" "card N \<ge> 2" "n \<ge> 5"
+  shows "\<exists>x \<in> N. \<exists>l. length l = 3 \<and> x = cycle_of_list l"
+  oops
 
 
 (*
@@ -875,7 +884,7 @@ theorem infinite_solutions_of_quaternion_square_eq_neg_one:
   fixes x::"'a::real_normed_algebra_1"
   assumes "x^2 = -1"
   shows "\<exists>y. y^2 = -1 \<and> y \<noteq> x"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: We do have quaternions but should we bother to load it just one exercise?
  *)
 theorem exercise_4_1_19: undefined oops
 
@@ -891,7 +900,7 @@ theorem det_neq_zero_is_group:
   fixes R::"('a::{comm_ring_1,ring_no_zero_divisors}^'n) set"
   assumes "\<forall>x\<in>R. det x \<noteq> 0"
   shows "group R"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: 
  *)
 theorem exercise_4_1_28: undefined oops
 
@@ -915,7 +924,8 @@ theorem exercise_4_1_29: undefined oops
 (*
 problem_number:4_1_34
 natural language statement:
-Let $T$ be the group of matrices $A$ with entries in the field $\mathbb{Z}_2$ such that $\det A$ is not equal to 0. Prove that $T$ is isomorphic to $S_3$, the symmetric group of degree 3.
+Let $T$ be the group of matrices $A$ with entries in the field $\mathbb{Z}_2$ such that $\det A$ is not equal to 0. 
+Prove that $T$ is isomorphic to $S_3$, the symmetric group of degree 3.
 lean statement:
 theorem exercise_4_1_34 : equiv.perm (fin 3) \<cong>* general_linear_group (fin 2) (zmod 2) :=
 
@@ -924,7 +934,7 @@ theorem isomorphic_to_symmetric_group_of_degree_3:
   fixes T::"int matrix set"
   assumes "T = {A. det A \<noteq> 0}"
   shows "T \<cong> (permutations_of_set (UNIV::'a::finite set))"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: We do have matrices and determinants but again it's a bit much to load them for this one exercise
  *)
 theorem exercise_4_1_34: undefined oops
 
@@ -944,8 +954,10 @@ theorem commutative_of_cube_eq_id:
   shows "comm_ring R"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
-theorem exercise_4_2_5: undefined oops
-
+theorem (in ring) exercise_4_2_5: 
+  assumes "\<forall>x \<in> carrier R. x[^]3 = x"
+  shows "cring R"
+  oops
 
 (*
 problem_number:4_2_6
@@ -960,9 +972,12 @@ theorem commutes_of_square_zero:
   fixes a x::"'a::ring"
   assumes "a^2 = 0"
   shows "a * x + x * a = a * (x + x)"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: the operators
  *)
-theorem exercise_4_2_6: undefined oops
+theorem (in ring) exercise_4_2_6: 
+  assumes "a \<in> carrier R" "a[^]2 = x"
+  shows "\<forall>x \<in> carrier R. a \<otimes> (a \<otimes> x \<oplus> x \<otimes> a) = (x \<oplus> x \<otimes> a) \<otimes> a"
+  oops
 
 
 (*
@@ -980,8 +995,11 @@ theorem prime_divides_a_of_sum_frac_eq_frac_a_b:
   shows "p dvd a"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
-theorem exercise_4_2_9: undefined oops
-
+theorem exercise_4_2_9: 
+  fixes p::nat and a b::nat
+  assumes "Factorial_Ring.prime p" "p > 2" "(\<Sum>i=1..p-1. 1/(real i)) = real a / real b"
+  shows "p dvd a"
+oops
 
 (*
 problem_number:4_3_1
@@ -998,7 +1016,10 @@ theorem ideal_of_left_zero_of_commutative_ring:
   shows "ideal R (left_zero_of R a)"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
-theorem exercise_4_3_1: undefined oops
+theorem (in cring) exercise_4_3_1: 
+  defines "L \<equiv> \<lambda>a. {x \<in> carrier R. x \<otimes> a = \<zero>}"
+  shows "\<forall>a \<in> carrier R. ideal (L a) R"
+  oops
 
 
 (*
@@ -1012,9 +1033,14 @@ theorem sum_ideals_is_ideal:
   fixes R::"'a::comm_ring_1 ring" and I J::"'a set"
   assumes "ideal R I" "ideal R J"
   shows "ideal R (I + J)"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: not bad                          
  *)
-theorem exercise_4_3_4: undefined oops
+
+theorem (in ring) exercise_4_3_4: 
+  assumes "ideal I R" "ideal J R"
+  defines "IJ \<equiv> \<Union>i \<in> I. \<Union>j \<in> J. {i\<oplus>j}"
+  shows "ideal IJ R"
+  oops
 
 
 (*
