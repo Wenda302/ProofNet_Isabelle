@@ -546,7 +546,7 @@ theorem abelian_of_inverse_of_automorphism_of_finite_group:
 Our comment on the codex statement: It's wrong, e.g. no 3/4 and wrong conclusion
  *)
 theorem (in group) exercise_2_5_52:
-  assumes "finite (carrier G)" "group_hom G G \<phi>"
+  assumes "finite (carrier G)" "\<phi> \<in> iso G G"
   defines "INV \<equiv> {x \<in> carrier G. \<phi> x = inv x}"
   assumes "card INV > (3/4) * real (order G)"
   shows "\<forall>x\<in> carrier G. \<phi> x = inv x"
@@ -657,7 +657,7 @@ Our comment on the codex statement: Great but for comm_group
 theorem exercise_2_8_12:
   assumes "group G" "group H" "order G = 21" "order H = 21" "\<not> comm_group G" "\<not> comm_group H"
   shows "G \<cong> H"
-
+  oops
 
 (*
 problem_number:2_8_15
@@ -676,8 +676,12 @@ theorem isomorphic_of_prime_divides_prime_minus_one:
   shows "\<forall>G H. group G \<and> group H \<and> order G = p * q \<and> order H = p * q \<rightarrow> G \<cong> H"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
-theorem exercise_2_8_15: undefined oops
-
+theorem exercise_2_8_15:
+  fixes p q::nat
+  assumes "group G" "group H" "order G = p*q" "order H = p*q" "\<not> comm_group G" "\<not> comm_group H"
+  assumes "Factorial_Ring.prime p" "Factorial_Ring.prime q" "q dvd (p - 1)"
+  shows "G \<cong> H"
+  oops
 
 (*
 problem_number:2_9_2
@@ -693,9 +697,12 @@ theorem cyclic_of_relatively_prime:
   fixes G1 G2::"('a, 'b) monoid_scheme" (structure)
   assumes "group G1" "group G2" "cyclic G1" "cyclic G2" "\<forall>x\<in>carrier G1. \<forall>y\<in>carrier G2. order x = order y \<rightarrow> x = \<one> \<and> y = \<one>"
   shows "cyclic (G1 \<times> G2)"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: just wrong
  *)
-theorem exercise_2_9_2: undefined oops
+theorem exercise_2_9_2:
+  assumes "group G" "group H" "cyclic_group G" "cyclic_group H" "finite (carrier G)" "finite (carrier H)"
+  shows "cyclic_group (G1 \<times>\<times> G2) \<longleftrightarrow> coprime (order G) (order H)"
+  oops
 
 
 (*
@@ -714,7 +721,10 @@ theorem trivial_intersection_of_prime_order_element_and_normal_subgroup:
   shows "A \<cap> (carrier (b)) = {\<one>}"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
-theorem exercise_2_10_1: undefined oops
+theorem (in group) exercise_2_10_1:
+  assumes "normal N G" "b \<in> carrier G" "b \<notin> N" "Factorial_Ring.prime (ord b)"
+  shows "N \<inter> generate G {b} = {\<one>}"
+  oops
 
 
 (*
@@ -731,10 +741,13 @@ theorem sylow_subgroup_of_normal_subgroup_is_unique:
   fixes p::nat and G::"('a, 'b) monoid_scheme" (structure)
   assumes "normalization_semidom_class.prime p" "group G" "order G = (p^a) * m" "finite (carrier G)" "subgroup P G" "card P = p^a" "P \<subseteq> carrier G" "P \<subseteq> normalizer G P"
   shows "\<forall>Q. subgroup Q G \<and> card Q = p^a \<rightarrow> Q = P"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: not bad
  *)
-theorem exercise_2_11_6: undefined oops
-
+theorem (in group) exercise_2_11_6:
+  fixes p::nat
+  assumes "Factorial_Ring.prime p" "p^k dvd order G" "\<not> (p * p^k dvd order G)" "normal P G" "card P = p^k"
+  shows "\<forall>Q. subgroup Q G \<and> card Q = p^k \<longrightarrow> Q = P"
+  oops
 
 (*
 problem_number:2_11_7
@@ -752,7 +765,11 @@ theorem phi_of_sylow_is_sylow:
   shows "group_hom P P \<phi>"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
-theorem exercise_2_11_7: undefined oops
+theorem (in group) exercise_2_11_7:
+  fixes p::nat
+  assumes "Factorial_Ring.prime p" "p^k dvd order G" "\<not> (p ^ Suc k dvd order G)" "normal P G" "card P = p^k" "\<phi> \<in> iso G G"
+  shows "\<phi> ` P = P"
+  oops
 
 
 (*
@@ -770,9 +787,13 @@ theorem normal_of_order_p_pow_n_minus_1_of_order_p_pow_n:
   fixes G::"('a, 'b) monoid_scheme" (structure)
   assumes "group G" "order G = p^n" "subgroup H G" "order H = p^(n-1)"
   shows "normal H G"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: every variable called p ranges over primes\<And>
  *)
-theorem exercise_2_11_22: undefined oops
+theorem (in group) exercise_2_11_22:
+  fixes p::nat
+  assumes "Factorial_Ring.prime p" "subgroup H G" "card H = p^k" "order G = p ^ Suc k" 
+  shows "normal H G"
+  oops
 
 
 (*
