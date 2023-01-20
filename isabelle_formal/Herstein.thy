@@ -135,7 +135,7 @@ theorem (in group) exercise_2_2_5:
 (*
 problem_number:2_2_6c
 natural language statement:
-Let $G$ be a group in which $(a b)^{n}=a^{n} b^{n}$ for some fixed integer $n>1$ for all $a, b \in G$. 
+Let $G$ be a group in which $(a b)^{n}=a^{n} b^{n}$ for some fixed integer $n>1$ for all $a, b \in G$.
 For all $a, b \in G$, prove that $\left(a b a^{-1} b^{-1}\right)^{n(n-1)}=e$.
 lean statement:
 theorem exercise_2_2_6c {G : Type*} [group G] {n : \<nat>} (hn : n > 1)
@@ -189,7 +189,7 @@ theorem subgroup_of_conjugate_subset_is_conjugate:
   shows "\<forall>x\<in>carrier G. inv x * M * x = M"
 Our comment on the codex statement: locale group needed
  *)
-theorem (in group) exercise_2_3_19: 
+theorem (in group) exercise_2_3_19:
   assumes "\<forall>x\<in>carrier G. inv x <# H #> x \<subseteq> H" "subgroup H G"
   shows "\<forall>x\<in>carrier G. inv x <# H #> x = H"
   oops
@@ -209,10 +209,10 @@ theorem cyclic_of_prime_order_of_no_proper_subgroups:
   fixes G::"('a, 'b) monoid_scheme" (structure)
   assumes "group G" "\<forall>H. subgroup H G \<rightarrow> H = G \<or> H = {\<one>}"
   shows "\<exists>p. prime p \<and> order G = p"
-Our comment on the codex statement: "prime" has multiple meanings: Divisibility defines "prime" for groups! 
+Our comment on the codex statement: "prime" has multiple meanings: Divisibility defines "prime" for groups!
           Doesn't G have to be finite?
  *)
-theorem (in group) exercise_2_3_16: 
+theorem (in group) exercise_2_3_16:
   assumes "\<And>H. subgroup H G \<Longrightarrow> H = carrier G \<or> H = {\<one>}"
   shows "cyclic_group G" "\<exists>p. Factorial_Ring.prime p \<and> order G = p"
   oops
@@ -231,7 +231,7 @@ theorem subgroup_of_subgroup_conjugate_subset:
   shows "subgroup (A + B) G"
 Our comment on the codex statement: product of sets operator
  *)
-theorem (in group) exercise_2_3_21: 
+theorem (in group) exercise_2_3_21:
   assumes "subgroup A G" "subgroup B G" "\<forall>b\<in> B. inv b <# A #> b \<subseteq> A"
   shows "subgroup (A<#>B) G"
   oops
@@ -250,7 +250,7 @@ theorem order_of_product_of_finite_subgroups_is_product_of_orders:
   shows "card (A+B) = card A * card B"
 Our comment on the codex statement: need locale comm_group and set product operators
  *)
-theorem (in comm_group) exercise_2_3_22: 
+theorem (in comm_group) exercise_2_3_22:
   assumes "finite A" "finite B" "subgroup A G" "subgroup B G" "coprime (card A) (card B)"
   shows "subgroup (A<#>B) G" "card (A<#>B) = card A * card B"
   oops
@@ -269,7 +269,7 @@ theorem subgroup_of_conjugate_subgroups:
   shows "subgroup (M * N) G" "\<forall>x\<in>G. inv x * (M * N) * x \<subseteq> M * N"
 Our comment on the codex statement: need locale group and set product operators
  *)
-theorem (in group) exercise_2_3_28: 
+theorem (in group) exercise_2_3_28:
   assumes "subgroup M G" "\<forall>x\<in>carrier G. inv x <# M #> x \<subseteq> M"
   assumes "subgroup N G" "\<forall>x\<in>carrier G. inv x <# N #> x \<subseteq> N"
   shows "subgroup (M<#>N) G" "\<forall>x\<in>carrier G. inv x <# (M<#>N) #> x \<subseteq> (M<#>N)"
@@ -289,7 +289,7 @@ theorem subgroup_of_conjugate_subset_is_conjugate:
   shows "\<forall>x\<in>carrier G. inv x * M * x = M"
 Our comment on the codex statement: locale group; set product operators
  *)
-theorem (in group) exercise_2_3_29: 
+theorem (in group) exercise_2_3_29:
   assumes "\<forall>x\<in>carrier G. inv x <# H #> x \<subseteq> H" "subgroup H G"
   shows "\<forall>x\<in>carrier G. inv x <# H #> x = H"
   oops
@@ -308,7 +308,7 @@ theorem right_coset_eq_left_coset_of_H_in_G_of_all_a_in_G:
   shows "\<forall>a\<in>carrier G. a * H * inv a = H"
 Our comment on the codex statement: A different interpretation of the ambiguous text
  *)
-theorem (in group) exercise_2_4_8: 
+theorem (in group) exercise_2_4_8:
   assumes "rcosets H \<subseteq> lcosets H" "subgroup H G"
   shows "\<forall>x\<in>carrier G. x <# H #> inv x = H"
   oops
@@ -327,7 +327,7 @@ theorem exists_bijective_of_right_left_cosets:
   shows "\<exists>f. bij_betw f (right_cosets H G) (left_cosets H G)"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
-theorem (in group) exercise_2_4_26: 
+theorem (in group) exercise_2_4_26:
   assumes "subgroup H G"
   shows "\<exists>f. bij_betw f (rcosets H) (lcosets H)"
   oops
@@ -343,10 +343,10 @@ codex statement:
 theorem order_of_element_divides_order_of_subgroup:
   fixes G::"('a, 'b) monoid_scheme" (structure) and H::"('a, 'b) monoid_scheme" (structure)
   assumes "group G" "subgroup H G" "finite_group G" "a \<in> carrier G"
-  shows "order G a ∣ order H a"
+  shows "order G a | order H a"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
-theorem (in group) exercise_2_4_32: 
+theorem (in group) exercise_2_4_32:
   assumes "finite (carrier G)" "subgroup H G"
   defines "f \<equiv> \<lambda>a. LEAST m. a [^] m \<in> H"
   shows "\<forall>x\<in>carrier G. f x dvd ord x"
@@ -359,13 +359,13 @@ natural language statement:
 If $a > 1$ is an integer, show that $n \mid \varphi(a^n - 1)$, where $\phi$ is the Euler $\varphi$-function.
 lean statement:
 theorem exercise_2_4_36 {a n : \<nat>} (h : a > 1) :
-  n ∣ (a ^ n - 1).totient :=
+  n | (a ^ n - 1).totient :=
 
 codex statement:
 theorem divides_phi_of_int_succ_one_power_int_sub_one:
   fixes a::int
   assumes "a > 1"
-  shows "\<forall>n::nat. n ∣ phi (a^n - 1)"
+  shows "\<forall>n::nat. n | phi (a^n - 1)"
 Our comment on the codex statement: Needs the theory HOL-Number_Theory.Totient
  *)
 theorem exercise_2_4_36: undefined oops
@@ -384,7 +384,7 @@ theorem image_of_homomorphism_is_subgroup:
   shows "subgroup (f ` carrier G) G'"
 Our comment on the codex statement: use locale group_hom
  *)
-theorem (in group_hom) exercise_2_5_6: 
+theorem (in group_hom) exercise_2_5_6:
   shows "subgroup (h ` carrier G) H"
   using img_is_subgroup by blast
 
@@ -405,7 +405,7 @@ theorem exists_j_of_subgroup_normal:
   shows "\<exists>j. b * a = a [^] j * b"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
-theorem (in group) exercise_2_5_23: 
+theorem (in group) exercise_2_5_23:
   assumes "\<And>H. subgroup H G \<Longrightarrow> normal H G"
   shows "\<forall>a\<in>carrier G. \<forall>b\<in>carrier G. \<exists>j. b \<otimes> a = a [^] j \<otimes> b"
   oops
@@ -417,18 +417,18 @@ natural language statement:
 Suppose that $|G| = pm$, where $p \nmid m$ and $p$ is a prime. If $H$ is a normal subgroup of order $p$ in $G$, prove that $H$ is characteristic.
 lean statement:
 theorem exercise_2_5_30 {G : Type*} [group G] [fintype G]
-  {p m : \<nat>} (hp : nat.prime p) (hp1 : \<not> p ∣ m) (hG : card G = p*m)
+  {p m : \<nat>} (hp : nat.prime p) (hp1 : \<not> p | m) (hG : card G = p*m)
   {H : subgroup G} [fintype H] [H.normal] (hH : card H = p):
   characteristic H :=
 
 codex statement:
 theorem characteristic_of_order_prime_power_div_order_prime:
   fixes G::"('a, 'b) monoid_scheme" (structure) and H::"('a, 'b) monoid_scheme" (structure)
-  assumes "group G" "group H" "order G = p * m" "prime p" "p ∣ m" "order H = p" "H \<subseteq> G" "normal G H"
+  assumes "group G" "group H" "order G = p * m" "prime p" "p | m" "order H = p" "H \<subseteq> G" "normal G H"
   shows "char G H"
 Our comment on the codex statement: Locale. And no need for m (also in the problem statement)
  *)
-theorem (in group) exercise_2_5_30: 
+theorem (in group) exercise_2_5_30:
   fixes p::nat
   assumes "normal N G" "card N = p" "Factorial_Ring.prime p" "finite (carrier G)" "p dvd order G"
   shows "char N G"
@@ -441,7 +441,7 @@ natural language statement:
 Suppose that $G$ is an abelian group of order $p^nm$ where $p \nmid m$ is a prime.  If $H$ is a subgroup of $G$ of order $p^n$, prove that $H$ is a characteristic subgroup of $G$.
 lean statement:
 theorem exercise_2_5_31 {G : Type*} [comm_group G] [fintype G]
-  {p m n : \<nat>} (hp : nat.prime p) (hp1 : \<not> p ∣ m) (hG : card G = p^n*m)
+  {p m n : \<nat>} (hp : nat.prime p) (hp1 : \<not> p | m) (hG : card G = p^n*m)
   {H : subgroup G} [fintype H] (hH : card H = p^n) :
   characteristic H :=
 
@@ -452,7 +452,7 @@ theorem characteristic_of_abelian_group_of_order_p_power_n_times_m:
   shows "char_subgroup H G"
 Our comment on the codex statement: problem statement can be simplified
  *)
-theorem (in comm_group) exercise_2_5_31: 
+theorem (in comm_group) exercise_2_5_31:
   fixes p::nat
   assumes "subgroup H G" "card H = p^n" "Factorial_Ring.prime p" "finite (carrier G)" "p^n dvd order G"
   shows "char H G"
@@ -466,17 +466,17 @@ If $G$ is a nonabelian group of order 6, prove that $G \simeq S_3$.
 lean statement:
 theorem exercise_2_5_37 (G : Type* ) [group G] [fintype G]
   (hG : card G = 6) (hG' : is_empty (comm_group G)) :
-  G ≅ equiv.perm (fin 3) :=
+  G \<cong> equiv.perm (fin 3) :=
 
 codex statement:
 theorem nonabelian_group_of_order_6_is_isomorphic_to_S3:
   fixes G::"('a, 'b) monoid_scheme" (structure)
   assumes "group G" "order G = 6" "\<not> abelian G"
-  shows "G ≅ (permutations (UNIV::'a set))"
+  shows "G \<cong> (permutations (UNIV::'a set))"
 Our comment on the codex statement: comm_group not abelian
  *)
 theorem exercise_2_5_37: undefined oops
-theorem (in group) exercise_2_5_37: 
+theorem (in group) exercise_2_5_37:
   assumes "order G = 6" "\<not> comm_group G"
   shows "G \<cong> sym_group 3"
   oops
@@ -499,7 +499,7 @@ theorem abelian_of_order_9:
 Our comment on the codex statement: comm_group not abelian
  *)
 theorem exercise_2_5_43: undefined oops
-theorem (in group) exercise_2_5_43: 
+theorem (in group) exercise_2_5_43:
   assumes "order G = 9"
   shows "comm_group G"
   oops
@@ -521,9 +521,9 @@ theorem exists_normal_subgroup_of_order_prime_power:
   shows "\<exists>H. subgroup H G \<and> order H = p"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
-theorem (in group) exercise_2_5_44: 
+theorem (in group) exercise_2_5_44:
   fixes p::nat
-  assumes "order G = p^2" "Factorial_Ring.prime p" 
+  assumes "order G = p^2" "Factorial_Ring.prime p"
   shows "\<exists>N. normal N G \<and> card N = p"
   oops
 
@@ -545,7 +545,7 @@ theorem abelian_of_inverse_of_automorphism_of_finite_group:
   shows "abelian G"
 Our comment on the codex statement: It's wrong, e.g. no 3/4 and wrong conclusion
  *)
-theorem (in group) exercise_2_5_52: 
+theorem (in group) exercise_2_5_52:
   assumes "finite (carrier G)" "group_hom G G \<phi>"
   defines "INV \<equiv> {x \<in> carrier G. \<phi> x = inv x}"
   assumes "card INV > (3/4) * real (order G)"
@@ -571,7 +571,7 @@ theorem exists_element_of_order_mul_of_relatively_prime:
   shows "\<exists>z. z [^] (m*n) = \<one>"
 Our comment on the codex statement: Needs to use ord
  *)
-theorem (in comm_group) exercise_2_6_15: 
+theorem (in comm_group) exercise_2_6_15:
   assumes "a \<in> carrier G" "b \<in> carrier G" "coprime (ord a) (ord b)"
   shows "\<exists>x \<in> carrier G. ord x = ord a * ord b"
   oops
@@ -588,7 +588,7 @@ theorem quotient_group_of_nonzero_real_numbers_isomorphic_positive_real_numbers:
   shows "group_isomorphism (quotient_group (nonzero_real_numbers::real monoid) {1, -1}) (positive_real_numbers::real monoid)"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
-theorem exercise_2_7_3: 
+theorem exercise_2_7_3:
   defines "R_group \<equiv>  \<lparr>carrier = UNIV-{0}, monoid.mult = (*), one = (1::real)\<rparr>"
   defines "RP_group \<equiv> \<lparr>carrier = {0<..}, monoid.mult = (*), one = (1::real)\<rparr>"
   shows "FactGroup R_group {1,-1} \<cong> RP_group"
@@ -606,12 +606,12 @@ theorem exercise_2_7_7 {G : Type*} [group G] {G' : Type*} [group G']
 
 codex statement:
 theorem normal_of_homomorphism_image:
-  fixes G G'::"('a, 'b) monoid_scheme" (structure) and \<phi>::"'a ⇒ 'a"
+  fixes G G'::"('a, 'b) monoid_scheme" (structure) and \<phi>::"'a \<Rightarrow> 'a"
   assumes "group G" "group G'" "homomorphism G G' \<phi>" "normal_subgroup N G"
   shows "normal_subgroup (\<phi> '' N) G'"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
-theorem (in group_hom) exercise_2_7_7: 
+theorem (in group_hom) exercise_2_7_7:
   assumes "normal N G"
   shows "normal (h ` N) H"
   oops
@@ -628,10 +628,10 @@ theorem card_prod_of_subgroups_eq_mul_card_of_subgroups:
   fixes G::"('a, 'b) monoid_scheme" (structure) and A B::"'a set"
   assumes "group G" "subgroup A G" "subgroup B G" "coprime (card A) (card B)"
   shows "card (A * B) = card A * card B"
-Our comment on the codex statement: Note that the conclusion overlaps with exercise_2_3_22, though not assuming G is abelian 
+Our comment on the codex statement: Note that the conclusion overlaps with exercise_2_3_22, though not assuming G is abelian
  *)
 theorem exercise_2_8_7: undefined oops
-theorem (in group) exercise_2_8_7: 
+theorem (in group) exercise_2_8_7:
   assumes "finite A" "finite B" "subgroup A G" "subgroup B G" "coprime (card A) (card B)"
   shows "card (A<#>B) = card A * card B"
   oops
@@ -652,9 +652,11 @@ theorem isomorphic_of_nonabelian_order_21:
   fixes G H::"('a, 'b) monoid_scheme" (structure)
   assumes "group G" "group H" "order G = 21" "order H = 21" "\<not> abelian_group G" "\<not> abelian_group H"
   shows "G \<cong> H"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: Great but for comm_group
  *)
-theorem exercise_2_8_12: undefined oops
+theorem exercise_2_8_12:
+  assumes "group G" "group H" "order G = 21" "order H = 21" "\<not> comm_group G" "\<not> comm_group H"
+  shows "G \<cong> H"
 
 
 (*
@@ -664,7 +666,7 @@ Prove that if $p > q$ are two primes such that $q \mid p - 1$, then any two nona
 lean statement:
 theorem exercise_2_8_15 {G H: Type*} [fintype G] [group G] [fintype H]
   [group H] {p q : \<nat>} (hp : nat.prime p) (hq : nat.prime q)
-  (h : p > q) (h1 : q ∣ p - 1) (hG : card G = p*q) (hH : card G = p*q) :
+  (h : p > q) (h1 : q | p - 1) (hG : card G = p*q) (hH : card G = p*q) :
   G \<cong>* H :=
 
 codex statement:
@@ -703,13 +705,13 @@ Let $A$ be a normal subgroup of a group $G$, and suppose that $b \in G$ is an el
 lean statement:
 theorem exercise_2_10_1 {G : Type*} [group G] (A : subgroup G)
   [A.normal] {b : G} (hp : nat.prime (order_of b)) :
-  A ⊓ (closure {b}) = \<bot> :=
+  A \<sqcap> (closure {b}) = \<bot> :=
 
 codex statement:
 theorem trivial_intersection_of_prime_order_element_and_normal_subgroup:
   fixes G::"('a, 'b) monoid_scheme" (structure) and A::"'a set"
-  assumes "group G" "normal_subgroup G A" "prime (order b)" "b ∉ A"
-  shows "A ∩ (carrier (⟦b⟧)) = {\<one>}"
+  assumes "group G" "normal_subgroup G A" "prime (order b)" "b \<notin> A"
+  shows "A \<cap> (carrier (b)) = {\<one>}"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_2_10_1: undefined oops
@@ -779,13 +781,13 @@ natural language statement:
 If $\sigma, \tau$ are two permutations that disturb no common element and $\sigma \tau = e$, prove that $\sigma = \tau = e$.
 lean statement:
 theorem exercise_3_2_21 {\<alpha> : Type*} [fintype \<alpha>] {\<sigma> \<tau>: equiv.perm \<alpha>}
-  (h1 : \<forall> a : \<alpha>, \<sigma> a = a \<Longrightarrow> \<tau> a \<noteq> a) (h2 : \<tau> ∘ \<sigma> = id) :
+  (h1 : \<forall> a : \<alpha>, \<sigma> a = a \<Longrightarrow> \<tau> a \<noteq> a) (h2 : \<tau> \<circ> \<sigma> = id) :
   \<sigma> = 1 \<and> \<tau> = 1 :=
 
 codex statement:
 theorem permutation_of_disturb_no_common_eq_id_eq_id:
-  fixes \<sigma>::"'a ⇒ 'a" and \<tau>::"'a ⇒ 'a"
-  assumes "permutation \<sigma>" "permutation \<tau>" "\<forall>x. \<sigma> x \<noteq> x \<rightarrow> \<tau> x \<noteq> x" "\<sigma> ∘ \<tau> = id"
+  fixes \<sigma>::"'a \<Rightarrow> 'a" and \<tau>::"'a \<Rightarrow> 'a"
+  assumes "permutation \<sigma>" "permutation \<tau>" "\<forall>x. \<sigma> x \<noteq> x \<rightarrow> \<tau> x \<noteq> x" "\<sigma> \<circ> \<tau> = id"
   shows "\<sigma> = id \<and> \<tau> = id"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
@@ -801,8 +803,8 @@ lean statement:
 codex statement:
 theorem exists_permutation_eq_permutation_comp_permutation_inv:
   fixes \<sigma>::"'a perm" and \<tau>::"'a perm"
-  assumes "\<sigma> permutes {1..n}" "\<tau> permutes {1..n}" "\<sigma> = (∏i\<in>{1..n}. (\<sigma> i))" "\<tau> = (∏i\<in>{1..n}. (\<tau> i))"
-  shows "\<exists>\<beta>. \<tau> = \<beta> ∘ \<sigma> ∘ inv \<beta>"
+  assumes "\<sigma> permutes {1..n}" "\<tau> permutes {1..n}" "\<sigma> = (\<prod>i\<in>{1..n}. (\<sigma> i))" "\<tau> = (\<prod>i\<in>{1..n}. (\<tau> i))"
+  shows "\<exists>\<beta>. \<tau> = \<beta> \<circ> \<sigma> \<circ> inv \<beta>"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_3_2_23: undefined oops
@@ -817,7 +819,7 @@ lean statement:
 codex statement:
 theorem even_permutation_of_even_cycle:
   fixes \<sigma>::"'a::finite perm"
-  assumes "\<sigma> = (a⇩R b⇩R c⇩R d⇩R e⇩R f⇩R g⇩R h⇩R i⇩R j⇩R k⇩R l⇩R m⇩R n⇩R o⇩R p⇩R q⇩R r⇩R s⇩R t⇩R u⇩R v⇩R w⇩R x⇩R y⇩R z⇩R)"
+  assumes "\<sigma> = (a_R b_R c_R d_R e_R f_R g_R h_R i_R j_R k_R l_R m_R n_R o_R p_R q_R r_R s_R t_R u_R v_R w_R x_R y_R z_R)"
   shows "evenperm \<sigma>"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
@@ -833,7 +835,7 @@ lean statement:
 codex statement:
 theorem exists_three_cycle_of_normal_subgroup_of_An:
   fixes n::nat and N::"'a set"
-  assumes "n ≥ 5" "group_set A_n" "N \<subseteq> carrier A_n" "normal_subgroup A_n N" "N \<noteq> {𝟙}"
+  assumes "n \<ge> 5" "group_set A_n" "N \<subseteq> carrier A_n" "normal_subgroup A_n N" "N \<noteq> {\<one>}"
   shows "\<exists>a b c. a \<noteq> b \<and> b \<noteq> c \<and> c \<noteq> a \<and> (a, b, c) \<in> N"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
@@ -948,7 +950,7 @@ natural language statement:
 Let $p$ be an odd prime and let $1 + \frac{1}{2} + ... + \frac{1}{p - 1} = \frac{a}{b}$, where $a, b$ are integers. Show that $p \mid a$.
 lean statement:
 theorem exercise_4_2_9 {p : \<nat>} (hp : nat.prime p) (hp1 : odd p) :
-  \<exists> (a b : \<int>), a / b = \<Sum> i in finset.range p, 1 / (i + 1) \<rightarrow>  UP p ∣ a :=
+  \<exists> (a b : \<int>), a / b = \<Sum> i in finset.range p, 1 / (i + 1) \<rightarrow>  UP p | a :=
 
 codex statement:
 theorem prime_divides_a_of_sum_frac_eq_frac_a_b:
@@ -1025,7 +1027,7 @@ codex statement:
 theorem quadratic_residues_and_nonresidues_mod_p:
   fixes p::nat
   assumes "prime p"
-  shows "card {x. x < p \<and> x^2 ≡ 1 [MOD p]} = (p - 1) div 2"
+  shows "card {x. x < p \<and> x^2 == 1 [MOD p]} = (p - 1) div 2"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_4_4_9: undefined oops
@@ -1054,13 +1056,13 @@ Let $F = \mathbb{Z}_p$ be the field of integers $\mod p$, where $p$ is a prime, 
 lean statement:
 theorem exercise_4_5_16 {p n: \<nat>} (hp : nat.prime p)
   {q : polynomial (zmod p)} (hq : irreducible q) (hn : q.degree = n) :
-  \<exists> is_fin : fintype $ polynomial (zmod p) ⧸ ideal.span ({q} : set (polynomial $ zmod p)),
-  @card (polynomial (zmod p) ⧸ ideal.span {q}) is_fin = p ^ n \<and>
+  \<exists> is_fin : fintype $ polynomial (zmod p) / ideal.span ({q} : set (polynomial $ zmod p)),
+  @card (polynomial (zmod p) / ideal.span {q}) is_fin = p ^ n \<and>
   is_field (polynomial $ zmod p):=
 
 codex statement:
 theorem card_of_quotient_ring_eq_pow_prime:
-  fixes p::nat and q::"nat ⇒ nat"
+  fixes p::nat and q::"nat \<Rightarrow> nat"
   assumes "prime p" "irreducible q" "degree q = n"
   shows "card (quotient_ring (poly_ring p) q) = p^n"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
@@ -1076,8 +1078,8 @@ lean statement:
 theorem exercise_4_5_23 {p q: polynomial (zmod 7)}
   (hp : p = X^3 - 2) (hq : q = X^3 + 2) :
   irreducible p \<and> irreducible q \<and>
-  (nonempty $ polynomial (zmod 7) ⧸ ideal.span ({p} : set $ polynomial $ zmod 7) \<cong>+*
-  polynomial (zmod 7) ⧸ ideal.span ({q} : set $ polynomial $ zmod 7)) :=
+  (nonempty $ polynomial (zmod 7) / ideal.span ({p} : set $ polynomial $ zmod 7) \<cong>+*
+  polynomial (zmod 7) / ideal.span ({q} : set $ polynomial $ zmod 7)) :=
 
 codex statement:
 theorem isomorphic_of_irreducible_polynomial:
@@ -1113,7 +1115,7 @@ theorem exercise_4_6_2 : irreducible (X^3 + 3*X + 2 : polynomial \<rat>) :=
 
 codex statement:
 theorem irreducible_of_polynomial:
-  fixes f::"real ⇒ real"
+  fixes f::"real \<Rightarrow> real"
   assumes "f = (\<lambda>x. x^3 + 3*x + 2)"
   shows "irreducible (polynomial f)"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
