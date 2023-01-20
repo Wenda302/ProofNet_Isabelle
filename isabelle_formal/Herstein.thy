@@ -543,9 +543,14 @@ theorem abelian_of_inverse_of_automorphism_of_finite_group:
   fixes G::"'a::group_add monoid"
   assumes "finite (carrier G)" "\<exists>\<phi>. automorphism G \<phi> \<and> (\<forall>x\<in>carrier G. \<phi> x = inv x)"
   shows "abelian G"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: It's wrong, e.g. no 3/4 and wrong conclusion
  *)
-theorem exercise_2_5_52: undefined oops
+theorem (in group) exercise_2_5_52: 
+  assumes "finite (carrier G)" "group_hom G G \<phi>"
+  defines "INV \<equiv> {x \<in> carrier G. \<phi> x = inv x}"
+  assumes "card INV > (3/4) * real (order G)"
+  shows "\<forall>x\<in> carrier G. \<phi> x = inv x"
+  oops
 
 
 (*
@@ -564,9 +569,12 @@ theorem exists_element_of_order_mul_of_relatively_prime:
   fixes G::"('a, 'b) monoid_scheme" (structure)
   assumes "group G" "\<forall>n ::nat. x [^] n \<noteq> \<one>" "\<forall>n ::nat. y [^] n \<noteq> \<one>" "coprime m n"
   shows "\<exists>z. z [^] (m*n) = \<one>"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: Needs to use ord
  *)
-theorem exercise_2_6_15: undefined oops
+theorem (in comm_group) exercise_2_6_15: 
+  assumes "a \<in> carrier G" "b \<in> carrier G" "coprime (ord a) (ord b)"
+  shows "\<exists>x \<in> carrier G. ord x = ord a * ord b"
+  oops
 
 
 (*
@@ -580,7 +588,11 @@ theorem quotient_group_of_nonzero_real_numbers_isomorphic_positive_real_numbers:
   shows "group_isomorphism (quotient_group (nonzero_real_numbers::real monoid) {1, -1}) (positive_real_numbers::real monoid)"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
-theorem exercise_2_7_3: undefined oops
+theorem exercise_2_7_3: 
+  defines "R_group \<equiv>  \<lparr>carrier = UNIV-{0}, monoid.mult = (*), one = (1::real)\<rparr>"
+  defines "RP_group \<equiv> \<lparr>carrier = {0<..}, monoid.mult = (*), one = (1::real)\<rparr>"
+  shows "FactGroup R_group {1,-1} \<cong> RP_group"
+  oops
 
 
 (*
@@ -599,7 +611,10 @@ theorem normal_of_homomorphism_image:
   shows "normal_subgroup (\<phi> '' N) G'"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
-theorem exercise_2_7_7: undefined oops
+theorem (in group_hom) exercise_2_7_7: 
+  assumes "normal N G"
+  shows "normal (h ` N) H"
+  oops
 
 
 (*
@@ -613,9 +628,13 @@ theorem card_prod_of_subgroups_eq_mul_card_of_subgroups:
   fixes G::"('a, 'b) monoid_scheme" (structure) and A B::"'a set"
   assumes "group G" "subgroup A G" "subgroup B G" "coprime (card A) (card B)"
   shows "card (A * B) = card A * card B"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: Note that the conclusion overlaps with exercise_2_3_22, though not assuming G is abelian 
  *)
 theorem exercise_2_8_7: undefined oops
+theorem (in group) exercise_2_8_7: 
+  assumes "finite A" "finite B" "subgroup A G" "subgroup B G" "coprime (card A) (card B)"
+  shows "card (A<#>B) = card A * card B"
+  oops
 
 
 (*
