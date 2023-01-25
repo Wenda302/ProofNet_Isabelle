@@ -8,7 +8,7 @@ natural language statement:
 Let $X$ be a topological space; let $A$ be a subset of $X$. Suppose that for each $x \in A$ there is an open set $U$ containing $x$ such that $U \subset A$. Show that $A$ is open in $X$.
 lean statement:
 theorem exercise_13_1 (X : Type* ) [topological_space X] (A : set X)
-  (h1 : ∀ x ∈ A, ∃ U : set X, x ∈ U ∧ is_open U ∧ U ⊆ A) :
+  (h1 : \<forall> x ∈ A, \<exists> U : set X, x ∈ U \<and> is_open U \<and> U \<subseteq> A) :
   is_open A :=
 begin
   have : A = ⋃ x, ⋃ h : x ∈ A, (classical.some (h1 x h)),
@@ -31,7 +31,7 @@ end
 codex statement:
 theorem subset_of_open_subset_is_open:
   fixes T::"'a topology" and A::"'a set"
-  assumes "A ⊆ topspace T" "∀x∈A. ∃ U ⊆ topspace T. openin T U ∧ x∈U ∧ U ⊆ A"
+  assumes "A \<subseteq> topspace T" "\<forall>x∈A. \<exists> U \<subseteq> topspace T. openin T U \<and> x∈U \<and> U \<subseteq> A"
   shows "openin T A"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
@@ -45,13 +45,13 @@ Show that if $\mathcal{A}$ is a basis for a topology on $X$, then the topology g
 lean statement:
 theorem exercise_13_5a {X : Type*}
   [topological_space X] (A : set (set X)) (hA : is_topological_basis A) :
-  generate_from A = generate_from (sInter {T | is_topology X T ∧ A ⊆ T}) :=
+  generate_from A = generate_from (sInter {T | is_topology X T \<and> A \<subseteq> T}) :=
 
 codex statement:
 theorem topology_generated_by_basis_eq_intersection_of_topologies_containing_basis:
   fixes X::"'a set" and A::"'a set set"
   assumes "topological_basis A"
-  shows "topology_generated_by A = ⋂T. topological_space T ∧ A ⊆ sets T"
+  shows "topology_generated_by A = ⋂T. topological_space T \<and> A \<subseteq> sets T"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_13_5a: undefined oops
@@ -64,13 +64,13 @@ Show that if $\mathcal{A}$ is a subbasis for a topology on $X$, then the topolog
 lean statement:
 theorem exercise_13_5b {X : Type*}
   [t : topological_space X] (A : set (set X)) (hA : t = generate_from A) :
-  generate_from A = generate_from (sInter {T | is_topology X T ∧ A ⊆ T}) :=
+  generate_from A = generate_from (sInter {T | is_topology X T \<and> A \<subseteq> T}) :=
 
 codex statement:
 theorem topology_generated_by_subbasis_eq_intersection_of_topologies_containing_subbasis:
   fixes X::"'a set" and A::"'a set set"
   assumes "subbasis A X"
-  shows "topology_generated_by A = ⋂T. topology T ∧ A ⊆ T"
+  shows "topology_generated_by A = ⋂T. topology T \<and> A \<subseteq> T"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_13_5b: undefined oops
@@ -85,12 +85,12 @@ theorem exercise_16_1 {X : Type*} [topological_space X]
   (Y : set X)
   (A : set Y)
   :
-  ∀ U : set A, is_open U ↔ is_open (subtype.val '' U) :=
+  \<forall> U : set A, is_open U ↔ is_open (subtype.val '' U) :=
 
 codex statement:
 theorem subspace_topology_of_subspace_eq_subspace_topology_of_superspace:
   fixes X::"'a::topological_space set" and Y::"'a::topological_space set" and A::"'a::topological_space set"
-  assumes "subspace Y" "A ⊆ Y"
+  assumes "subspace Y" "A \<subseteq> Y"
   shows "subtopology (subspace_topology Y A) (subspace_topology X A)"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
@@ -107,12 +107,12 @@ theorem exercise_16_4 {X Y : Type*} [topological_space X] [topological_space Y]
   (π₂ : X × Y → Y)
   (h₁ : π₁ = prod.fst)
   (h₂ : π₂ = prod.snd) :
-  is_open_map π₁ ∧ is_open_map π₂ :=
+  is_open_map π₁ \<and> is_open_map π₂ :=
 
 codex statement:
 theorem open_map_of_prod_space:
   fixes X Y::"'a::topological_space"
-  shows "open_map (prod_topology X Y) (X × Y) (λx. fst x)" "open_map (prod_topology X Y) (X × Y) (λx. snd x)"
+  shows "open_map (prod_topology X Y) (X × Y) (\<lambda>x. fst x)" "open_map (prod_topology X Y) (X × Y) (\<lambda>x. snd x)"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_16_4: undefined oops
@@ -125,8 +125,8 @@ Show that the countable collection \[\{(a, b) \times (c, d) | a < b \text{ and }
 lean statement:
 theorem exercise_16_6
   (S : set (set (ℝ × ℝ)))
-  (hS : ∀ s, s ∈ S → ∃ a b c d, (rational a ∧ rational b ∧ rational c ∧ rational d
-  ∧ s = {x | ∃ x₁ x₂, x = (x₁, x₂) ∧ a < x₁ ∧ x₁ < b ∧ c < x₂ ∧ x₂ < d})) :
+  (hS : \<forall> s, s ∈ S → \<exists> a b c d, (rational a \<and> rational b \<and> rational c \<and> rational d
+  \<and> s = {x | \<exists> x₁ x₂, x = (x₁, x₂) \<and> a < x₁ \<and> x₁ < b \<and> c < x₂ \<and> x₂ < d})) :
   is_topological_basis S :=
 
 codex statement:
@@ -192,7 +192,7 @@ Show that if $U$ is open in $X$ and $A$ is closed in $X$, then $U-A$ is open in 
 lean statement:
 theorem exercise_17_4 {X : Type*} [topological_space X]
   (U A : set X) (hU : is_open U) (hA : is_closed A) :
-  is_open (U \ A) ∧ is_closed (A \ U) :=
+  is_open (U \ A) \<and> is_closed (A \ U) :=
 
 codex statement:
 theorem open_of_open_diff_closed:
@@ -212,13 +212,13 @@ lean statement:
 theorem exercise_18_8a {X Y : Type*} [topological_space X] [topological_space Y]
   [linear_order Y] [order_topology Y] {f g : X → Y}
   (hf : continuous f) (hg : continuous g) :
-  is_closed {x | f x ≤ g x} :=
+  is_closed {x | f x \<le> g x} :=
 
 codex statement:
 theorem closed_of_continuous_leq:
-  fixes f g::"'a::topological_space ⇒ 'b::order_topology"
+  fixes f g::"'a::topological_space \<Rightarrow> 'b::order_topology"
   assumes "continuous_on UNIV f" "continuous_on UNIV g"
-  shows "closed {x. f x ≤ g x}"
+  shows "closed {x. f x \<le> g x}"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_18_8a: undefined oops
@@ -232,13 +232,13 @@ lean statement:
 theorem exercise_18_8b {X Y : Type*} [topological_space X] [topological_space Y]
   [linear_order Y] [order_topology Y] {f g : X → Y}
   (hf : continuous f) (hg : continuous g) :
-  continuous (λ x, min (f x) (g x)) :=
+  continuous (\<lambda> x, min (f x) (g x)) :=
 
 codex statement:
 theorem continuous_of_continuous_min:
-  fixes f g::"'a::topological_space ⇒ 'b::order_topology"
+  fixes f g::"'a::topological_space \<Rightarrow> 'b::order_topology"
   assumes "continuous_on UNIV f" "continuous_on UNIV g"
-  shows "continuous_on UNIV (λx. min (f x) (g x))"
+  shows "continuous_on UNIV (\<lambda>x. min (f x) (g x))"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_18_8b: undefined oops
@@ -254,11 +254,11 @@ theorem exercise_18_13
   [t2_space Y] {A : set X} {f : A → Y} (hf : continuous f)
   (g : closure A → Y)
   (g_con : continuous g) :
-  ∀ (g' : closure A → Y), continuous g' →  (∀ (x : closure A), g x = g' x) :=
+  \<forall> (g' : closure A → Y), continuous g' →  (\<forall> (x : closure A), g x = g' x) :=
 
 codex statement:
 theorem unique_continuous_extension_of_continuous_on_closure:
-  fixes f::"'a::t1_space ⇒ 'b::t2_space" and g::"'a::t1_space ⇒ 'b::t2_space"
+  fixes f::"'a::t1_space \<Rightarrow> 'b::t2_space" and g::"'a::t1_space \<Rightarrow> 'b::t2_space"
   assumes "continuous_on A f" "continuous_on (closure A) g" "g|`A = f"
   shows "g = f"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
@@ -292,12 +292,12 @@ theorem exercise_19_6a
   {f : fin n → Type*} {x : ℕ → Πa, f a}
   (y : Πi, f i)
   [Πa, topological_space (f a)] :
-  tendsto x at_top (𝓝 y) ↔ ∀ i, tendsto (λ j, (x j) i) at_top (𝓝 (y i)) :=
+  tendsto x at_top (𝓝 y) ↔ \<forall> i, tendsto (\<lambda> j, (x j) i) at_top (𝓝 (y i)) :=
 
 codex statement:
 theorem convergent_of_prod_convergent:
-  fixes X::"('a::metric_space) set" and f::"nat ⇒ 'a"
-  assumes "∀n. f n ∈ X" "∀n. (∀x∈X. (f n x) = (f (n+1) x)) ⟶ (f n = f (n+1))"
+  fixes X::"('a::metric_space) set" and f::"nat \<Rightarrow> 'a"
+  assumes "\<forall>n. f n ∈ X" "\<forall>n. (\<forall>x∈X. (f n x) = (f (n+1) x)) \<longrightarrow> (f n = f (n+1))"
   shows "convergent f"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
@@ -312,9 +312,9 @@ lean statement:
 
 codex statement:
 theorem choice_iff_cartesian_product_not_empty:
-  fixes J::"'a set" and A::"'a ⇒ 'b set"
-  assumes "J ≠ ∅"
-  shows "∃f. ∀x∈J. f x ∈ A x ⟺ (∃f. ∀x∈J. f x ∈ A x)"
+  fixes J::"'a set" and A::"'a \<Rightarrow> 'b set"
+  assumes "J \<noteq> ∅"
+  shows "\<exists>f. \<forall>x∈J. f x ∈ A x ⟺ (\<exists>f. \<forall>x∈J. f x ∈ A x)"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_19_9: undefined oops
@@ -347,9 +347,9 @@ lean statement:
 
 codex statement:
 theorem closure_of_eventually_zero_seq_is_all_seq:
-  fixes f::"nat ⇒ 'a::real_normed_vector"
-  assumes "∀n. ∃m. ∀k. m ≤ k ⟶ f k = 0"
-  shows "closure {f. ∀n. ∃m. ∀k. m ≤ k ⟶ f k = 0} = UNIV"
+  fixes f::"nat \<Rightarrow> 'a::real_normed_vector"
+  assumes "\<forall>n. \<exists>m. \<forall>k. m \<le> k \<longrightarrow> f k = 0"
+  shows "closure {f. \<forall>n. \<exists>m. \<forall>k. m \<le> k \<longrightarrow> f k = 0} = UNIV"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_20_5: undefined oops
@@ -362,14 +362,14 @@ Define $f_{n}:[0,1] \rightarrow \mathbb{R}$ by the equation $f_{n}(x)=x^{n}$. Sh
 lean statement:
 theorem exercise_21_6a
   (f : ℕ → I → ℝ )
-  (h : ∀ x n, f n x = x ^ n) :
-  ∀ x, ∃ y, tendsto (λ n, f n x) at_top (𝓝 y) :=
+  (h : \<forall> x n, f n x = x ^ n) :
+  \<forall> x, \<exists> y, tendsto (\<lambda> n, f n x) at_top (𝓝 y) :=
 
 codex statement:
 theorem converges_of_power_seq:
   fixes x::real
-  assumes "0 ≤ x ∧ x ≤ 1"
-  shows "convergent (λn. x^n)"
+  assumes "0 \<le> x \<and> x \<le> 1"
+  shows "convergent (\<lambda>n. x^n)"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_21_6a: undefined oops
@@ -382,13 +382,13 @@ Define $f_{n}:[0,1] \rightarrow \mathbb{R}$ by the equation $f_{n}(x)=x^{n}$. Sh
 lean statement:
 theorem exercise_21_6b
   (f : ℕ → I → ℝ )
-  (h : ∀ x n, f n x = x ^ n) :
-  ¬ ∃ f₀, tendsto_uniformly f f₀ at_top :=
+  (h : \<forall> x n, f n x = x ^ n) :
+  ¬ \<exists> f₀, tendsto_uniformly f f₀ at_top :=
 
 codex statement:
 theorem not_uniformly_convergent_of_power_function:
   fixes n::nat
-  shows "∀ε>0. ∃x. ∀n. dist (x^n) (x^(n+1)) > ε"
+  shows "\<forall>ε>0. \<exists>x. \<forall>n. dist (x^n) (x^(n+1)) > ε"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_21_6b: undefined oops
@@ -402,16 +402,16 @@ lean statement:
 theorem exercise_21_8
   {X : Type*} [topological_space X] {Y : Type*} [metric_space Y]
   {f : ℕ → X → Y} {x : ℕ → X}
-  (hf : ∀ n, continuous (f n))
+  (hf : \<forall> n, continuous (f n))
   (x₀ : X)
   (hx : tendsto x at_top (𝓝 x₀))
   (f₀ : X → Y)
   (hh : tendsto_uniformly f f₀ at_top) :
-  tendsto (λ n, f n (x n)) at_top (𝓝 (f₀ x₀)) :=
+  tendsto (\<lambda> n, f n (x n)) at_top (𝓝 (f₀ x₀)) :=
 
 codex statement:
 theorem converges_of_uniformly_converges_and_converges:
-  fixes f::"'a::metric_space ⇒ 'b::metric_space" and X::"'a set" and Y::"'b set"
+  fixes f::"'a::metric_space \<Rightarrow> 'b::metric_space" and X::"'a set" and Y::"'b set"
   assumes "compact X" "continuous_on X f" "uniformly_convergent_on X (f ∘ g)" "convergent g"
   shows "convergent (f ∘ g)"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
@@ -426,12 +426,12 @@ Let $p: X \rightarrow Y$ be a continuous map. Show that if there is a continuous
 lean statement:
 theorem exercise_22_2a {X Y : Type*} [topological_space X]
   [topological_space Y] (p : X → Y) (h : continuous p) :
-  quotient_map p ↔ ∃ (f : Y → X), continuous f ∧ p ∘ f = id :=
+  quotient_map p ↔ \<exists> (f : Y → X), continuous f \<and> p ∘ f = id :=
 
 codex statement:
 theorem quotient_map_of_continuous_map_and_continuous_map_comp_id:
-  fixes p::"'a::topological_space ⇒ 'b::topological_space" and f::"'b::topological_space ⇒ 'a::topological_space"
-  assumes "continuous_on UNIV p" "continuous_on UNIV f" "∀x. p (f x) = x"
+  fixes p::"'a::topological_space \<Rightarrow> 'b::topological_space" and f::"'b::topological_space \<Rightarrow> 'a::topological_space"
+  assumes "continuous_on UNIV p" "continuous_on UNIV f" "\<forall>x. p (f x) = x"
   shows "quotient_map p"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
@@ -444,13 +444,13 @@ natural language statement:
 If $A \subset X$, a retraction of $X$ onto $A$ is a continuous map $r: X \rightarrow A$ such that $r(a)=a$ for each $a \in A$. Show that a retraction is a quotient map.
 lean statement:
 theorem exercise_22_2b {X : Type*} [topological_space X]
-  {A : set X} (r : X → A) (hr : continuous r) (h : ∀ x : A, r x = x) :
+  {A : set X} (r : X → A) (hr : continuous r) (h : \<forall> x : A, r x = x) :
   quotient_map r :=
 
 codex statement:
 theorem retraction_is_quotient_map:
-  fixes X::"'a::topological_space topology" and A::"'a set" and r::"'a ⇒ 'a"
-  assumes "continuous_on (carrier X) r" "r ` (carrier X) ⊆ A" "∀x∈A. r x = x"
+  fixes X::"'a::topological_space topology" and A::"'a set" and r::"'a \<Rightarrow> 'a"
+  assumes "continuous_on (carrier X) r" "r ` (carrier X) \<subseteq> A" "\<forall>x∈A. r x = x"
   shows "quotient_map X (subtopology X A) r"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
@@ -468,7 +468,7 @@ theorem exercise_22_5 {X Y : Type*} [topological_space X]
 
 codex statement:
 theorem open_map_of_open_subset:
-  fixes p::"'a::topological_space ⇒ 'b::topological_space"
+  fixes p::"'a::topological_space \<Rightarrow> 'b::topological_space"
   assumes "open_map p" "openin (top_of_set (UNIV::'a set)) A"
   shows "open_map (p|A)"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
@@ -482,14 +482,14 @@ natural language statement:
 Let $\left\{A_{n}\right\}$ be a sequence of connected subspaces of $X$, such that $A_{n} \cap A_{n+1} \neq \varnothing$ for all $n$. Show that $\bigcup A_{n}$ is connected.
 lean statement:
 theorem exercise_23_2 {X : Type*}
-  [topological_space X] {A : ℕ → set X} (hA : ∀ n, is_connected (A n))
-  (hAn : ∀ n, A n ∩ A (n + 1) ≠ ∅) :
+  [topological_space X] {A : ℕ → set X} (hA : \<forall> n, is_connected (A n))
+  (hAn : \<forall> n, A n ∩ A (n + 1) \<noteq> ∅) :
   is_connected (⋃ n, A n) :=
 
 codex statement:
 theorem connected_of_connected_inter_nonempty:
-  fixes X::"'a::topological_space set" and A::"nat ⇒ 'a set"
-  assumes "∀n. connected (A n)" "∀n. A n ∩ A (n+1) ≠ {}"
+  fixes X::"'a::topological_space set" and A::"nat \<Rightarrow> 'a set"
+  assumes "\<forall>n. connected (A n)" "\<forall>n. A n ∩ A (n+1) \<noteq> {}"
   shows "connected (⋃i. A i)"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
@@ -503,17 +503,17 @@ Let $\left\{A_{\alpha}\right\}$ be a collection of connected subspaces of $X$; l
 lean statement:
 theorem exercise_23_3 {X : Type*} [topological_space X]
   [topological_space X] {A : ℕ → set X}
-  (hAn : ∀ n, is_connected (A n))
+  (hAn : \<forall> n, is_connected (A n))
   (A₀ : set X)
   (hA : is_connected A₀)
-  (h : ∀ n, A₀ ∩ A n ≠ ∅) :
+  (h : \<forall> n, A₀ ∩ A n \<noteq> ∅) :
   is_connected (A₀ ∪ (⋃ n, A n)) :=
 
 codex statement:
 theorem connected_of_connected_inter_nonempty:
-  fixes X::"'a::topological_space set" and A::"'a set" and Aα::"'a set"
-  assumes "∀α. connected (Aα α)" "connected A" "∀α. A ∩ Aα α ≠ {}"
-  shows "connected (A ∪ (⋃α. Aα α))"
+  fixes X::"'a::topological_space set" and A::"'a set" and A\<alpha>::"'a set"
+  assumes "\<forall>\<alpha>. connected (A\<alpha> \<alpha>)" "connected A" "\<forall>\<alpha>. A ∩ A\<alpha> \<alpha> \<noteq> {}"
+  shows "connected (A ∪ (⋃\<alpha>. A\<alpha> \<alpha>))"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_23_3: undefined oops
@@ -544,14 +544,14 @@ Let $A \subset X$. Show that if $C$ is a connected subspace of $X$ that intersec
 lean statement:
 theorem exercise_23_6 {X : Type*}
   [topological_space X] {A C : set X} (hc : is_connected C)
-  (hCA : C ∩ A ≠ ∅) (hCXA : C ∩ Aᶜ ≠ ∅) :
-  C ∩ (frontier A) ≠ ∅ :=
+  (hCA : C ∩ A \<noteq> ∅) (hCXA : C ∩ Aᶜ \<noteq> ∅) :
+  C ∩ (frontier A) \<noteq> ∅ :=
 
 codex statement:
 theorem connected_intersect_of_subset_intersect_diff_subset_intersect_boundary:
   fixes A::"'a::topological_space set" and C::"'a set"
-  assumes "connected C" "C ∩ A ≠ {}" "C ∩ (UNIV - A) ≠ {}"
-  shows "C ∩ (boundary A) ≠ {}"
+  assumes "connected C" "C ∩ A \<noteq> {}" "C ∩ (UNIV - A) \<noteq> {}"
+  shows "C ∩ (boundary A) \<noteq> {}"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_23_6: undefined oops
@@ -570,8 +570,8 @@ theorem exercise_23_9 {X Y : Type*}
   (hB : B₁ ⊂ B₂)
   (hA : is_connected A₂)
   (hB : is_connected B₂) :
-  is_connected ({x | ∃ a b, x = (a, b) ∧ a ∈ A₂ ∧ b ∈ B₂} \
-      {x | ∃ a b, x = (a, b) ∧ a ∈ A₁ ∧ b ∈ B₁}) :=
+  is_connected ({x | \<exists> a b, x = (a, b) \<and> a ∈ A₂ \<and> b ∈ B₂} \
+      {x | \<exists> a b, x = (a, b) \<and> a ∈ A₁ \<and> b ∈ B₁}) :=
 
 codex statement:
 theorem connected_of_connected_times_connected_minus_proper_subset:
@@ -590,13 +590,13 @@ Let $p: X \rightarrow Y$ be a quotient map. Show that if each set $p^{-1}(\{y\})
 lean statement:
 theorem exercise_23_11 {X Y : Type*} [topological_space X] [topological_space Y]
   (p : X → Y) (hq : quotient_map p)
-  (hY : connected_space Y) (hX : ∀ y : Y, is_connected (p ⁻¹' {y})) :
+  (hY : connected_space Y) (hX : \<forall> y : Y, is_connected (p ⁻¹' {y})) :
   connected_space X :=
 
 codex statement:
 theorem connected_of_connected_quotient_map:
   fixes X::"'a topology" and Y::"'b topology"
-  assumes "continuous_map X Y p" "∀y∈Y. connected (p -` {y})" "connected Y"
+  assumes "continuous_map X Y p" "\<forall>y∈Y. connected (p -` {y})" "connected Y"
   shows "connected X"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
@@ -612,7 +612,7 @@ lean statement:
 codex statement:
 theorem connected_of_connected_of_separation:
   fixes X Y::"'a::topological_space set"
-  assumes "connected X" "connected Y" "Y ⊆ X" "separation_set (X - Y) A B"
+  assumes "connected X" "connected Y" "Y \<subseteq> X" "separation_set (X - Y) A B"
   shows "connected (Y ∪ A)" "connected (Y ∪ B)"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
@@ -625,13 +625,13 @@ natural language statement:
 Let $f: S^{1} \rightarrow \mathbb{R}$ be a continuous map. Show there exists a point $x$ of $S^{1}$ such that $f(x)=f(-x)$.
 lean statement:
 theorem exercise_24_2 {f : (metric.sphere 0 1 : set ℝ) → ℝ}
-  (hf : continuous f) : ∃ x, f x = f (-x) :=
+  (hf : continuous f) : \<exists> x, f x = f (-x) :=
 
 codex statement:
 theorem exists_eq_of_continuous_map:
-  fixes f::"complex ⇒ real"
+  fixes f::"complex \<Rightarrow> real"
   assumes "continuous_on (sphere 1) f"
-  shows "∃x. f x = f (-x)"
+  shows "\<exists>x. f x = f (-x)"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_24_2: undefined oops
@@ -644,13 +644,13 @@ Let $f \colon X \rightarrow X$ be continuous. Show that if $X = [0, 1]$, there i
 lean statement:
 theorem exercise_24_3a [topological_space I]
   (f : I → I) (hf : continuous f) :
-  ∃ (x : I), f x = x :=
+  \<exists> (x : I), f x = x :=
 
 codex statement:
 theorem exists_fixed_point_of_continuous_on_closed_interval:
-  fixes f::"'a::metric_space ⇒ 'a"
+  fixes f::"'a::metric_space \<Rightarrow> 'a"
   assumes "continuous_on {0..1} f"
-  shows "∃x. f x = x"
+  shows "\<exists>x. f x = x"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_24_3a: undefined oops
@@ -720,7 +720,7 @@ codex statement:
 theorem component_of_topological_group_is_normal:
   fixes G::"('a, 'b) topological_group_scheme"
   assumes "topological_group G"
-  shows "normal_subgroup (component_of G (𝟭 G)) G"
+  shows "normal_subgroup (component_of G (\<one> G)) G"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_25_9: undefined oops
@@ -735,8 +735,8 @@ lean statement:
 codex statement:
 theorem exists_open_subset_of_compact_subset_in_open_set:
   fixes A B::"'a::euclidean_space set" and N::"'a set × 'a set"
-  assumes "compact A" "compact B" "open N" "A × B ⊆ N"
-  shows "∃U V. open U ∧ open V ∧ A × B ⊆ U × V ∧ U × V ⊆ N"
+  assumes "compact A" "compact B" "open N" "A × B \<subseteq> N"
+  shows "\<exists>U V. open U \<and> open V \<and> A × B \<subseteq> U × V \<and> U × V \<subseteq> N"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_26_9: undefined oops
@@ -749,14 +749,14 @@ Let $X$ be a compact Hausdorff space. Let $\mathcal{A}$ be a collection of close
 lean statement:
 theorem exercise_26_11
   {X : Type*} [topological_space X] [compact_space X] [t2_space X]
-  (A : set (set X)) (hA : ∀ (a b : set X), a ∈ A → b ∈ A → a ⊆ b ∨ b ⊆ a)
-  (hA' : ∀ a ∈ A, is_closed a) (hA'' : ∀ a ∈ A, is_connected a) :
+  (A : set (set X)) (hA : \<forall> (a b : set X), a ∈ A → b ∈ A → a \<subseteq> b \<or> b \<subseteq> a)
+  (hA' : \<forall> a ∈ A, is_closed a) (hA'' : \<forall> a ∈ A, is_connected a) :
   is_connected (⋂₀ A) :=
 
 codex statement:
 theorem connected_of_compact_hausdorff_simply_ordered_closed_connected_subsets:
   fixes X::"'a::t2_space set" and A::"'a set set"
-  assumes "compact X" "hausdorff X" "∀A B. A ∈ A ∧ B ∈ A ⟶ A ⊆ B ∨ B ⊆ A" "∀A∈A. closedin (subtopology X UNIV) A ∧ connected A"
+  assumes "compact X" "hausdorff X" "\<forall>A B. A ∈ A \<and> B ∈ A \<longrightarrow> A \<subseteq> B \<or> B \<subseteq> A" "\<forall>A∈A. closedin (subtopology X UNIV) A \<and> connected A"
   shows "connected (⋂A∈A. A)"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
@@ -769,13 +769,13 @@ natural language statement:
 Let $p: X \rightarrow Y$ be a closed continuous surjective map such that $p^{-1}(\{y\})$ is compact, for each $y \in Y$. (Such a map is called a perfect map.) Show that if $Y$ is compact, then $X$ is compact.
 lean statement:
 theorem exercise_26_12 {X Y : Type*} [topological_space X] [topological_space Y]
-  (p : X → Y) (h : function.surjective p) (hc : continuous p) (hp : ∀ y, is_compact (p ⁻¹' {y}))
+  (p : X → Y) (h : function.surjective p) (hc : continuous p) (hp : \<forall> y, is_compact (p ⁻¹' {y}))
   (hY : compact_space Y) : compact_space X :=
 
 codex statement:
 theorem compact_of_perfect_map_compact:
-  fixes f::"'a::metric_space ⇒ 'b::metric_space"
-  assumes "compact (UNIV::'b set)" "continuous_on UNIV f" "surj f" "∀y∈UNIV. compact (f -` {y})"
+  fixes f::"'a::metric_space \<Rightarrow> 'b::metric_space"
+  assumes "compact (UNIV::'b set)" "continuous_on UNIV f" "surj f" "\<forall>y∈UNIV. compact (f -` {y})"
   shows "compact (UNIV::'a set)"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
@@ -792,7 +792,7 @@ codex statement:
 theorem least_upper_bound_of_compact_closed_interval:
   fixes X::"'a::{order_topology, linorder_topology} set"
   assumes "compact {a..b}"
-  shows "∃c. is_lub {a..b} c"
+  shows "\<exists>c. is_lub {a..b} c"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_27_1: undefined oops
@@ -804,7 +804,7 @@ natural language statement:
 Show that a connected metric space having more than one point is uncountable.
 lean statement:
 theorem exercise_27_4
-  {X : Type*} [metric_space X] [connected_space X] (hX : ∃ x y : X, x ≠ y) :
+  {X : Type*} [metric_space X] [connected_space X] (hX : \<exists> x y : X, x \<noteq> y) :
   ¬ countable (univ : set X) :=
 
 codex statement:
@@ -843,14 +843,14 @@ Show that X is countably compact if and only if every nested sequence $C_1 \sups
 lean statement:
 theorem exercise_28_5
   (X : Type* ) [topological_space X] :
-  countably_compact X ↔ ∀ (C : ℕ → set X), (∀ n, is_closed (C n)) ∧
-  (∀ n, C n ≠ ∅) ∧ (∀ n, C n ⊆ C (n + 1)) → ∃ x, ∀ n, x ∈ C n :=
+  countably_compact X ↔ \<forall> (C : ℕ → set X), (\<forall> n, is_closed (C n)) \<and>
+  (\<forall> n, C n \<noteq> ∅) \<and> (\<forall> n, C n \<subseteq> C (n + 1)) → \<exists> x, \<forall> n, x ∈ C n :=
 
 codex statement:
 theorem countably_compact_of_nested_closed_nonempty_has_nonempty_intersection:
   fixes X::"'a::t2_space set"
-  assumes "∀n. closed (C n)" "∀n. C n ≠ {}" "∀n. C n ⊆ C (n+1)"
-  shows "∃x. x∈⋂n. C n"
+  assumes "\<forall>n. closed (C n)" "\<forall>n. C n \<noteq> {}" "\<forall>n. C n \<subseteq> C (n+1)"
+  shows "\<exists>x. x∈⋂n. C n"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_28_5: undefined oops
@@ -867,8 +867,8 @@ theorem exercise_28_6 {X : Type*} [metric_space X]
 
 codex statement:
 theorem isometry_of_compact_is_homeomorphism:
-  fixes f::"'a::metric_space ⇒ 'a"
-  assumes "compact (UNIV::'a set)" "∀x y. dist (f x) (f y) = dist x y"
+  fixes f::"'a::metric_space \<Rightarrow> 'a"
+  assumes "compact (UNIV::'a set)" "\<forall>x y. dist (f x) (f y) = dist x y"
   shows "homeomorphism (UNIV::'a set) (UNIV::'a set) f"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
@@ -884,7 +884,7 @@ theorem exercise_29_1 : ¬ locally_compact_space ℚ :=
 
 codex statement:
 theorem not_locally_compact_of_Q:
-  shows "∀x∈UNIV. ∃U. open U ∧ x∈U ∧ (∀V. open V ∧ x∈V ⟶ ∃y∈V. y∉U)"
+  shows "\<forall>x∈UNIV. \<exists>U. open U \<and> x∈U \<and> (\<forall>V. open V \<and> x∈V \<longrightarrow> \<exists>y∈V. y∉U)"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_29_1: undefined oops
@@ -900,9 +900,9 @@ theorem exercise_29_4 [topological_space (ℕ → I)] :
 
 codex statement:
 theorem not_locally_compact_of_uniform_topology:
-  fixes X::"nat ⇒ real"
-  assumes "∀n. 0 ≤ X n ∧ X n ≤ 1"
-  shows "∀U. openin (uniform_topology (product_topology real UNIV)) U ⟶ ∃V. openin (uniform_topology (product_topology real UNIV)) V ∧ compact V ∧ X ∈ V ∧ V ⊆ U"
+  fixes X::"nat \<Rightarrow> real"
+  assumes "\<forall>n. 0 \<le> X n \<and> X n \<le> 1"
+  shows "\<forall>U. openin (uniform_topology (product_topology real UNIV)) U \<longrightarrow> \<exists>V. openin (uniform_topology (product_topology real UNIV)) V \<and> compact V \<and> X ∈ V \<and> V \<subseteq> U"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_29_4: undefined oops
@@ -916,7 +916,7 @@ lean statement:
 
 codex statement:
 theorem homeomorphism_of_one_point_compactification:
-  fixes f::"'a::t2_space ⇒ 'b::t2_space"
+  fixes f::"'a::t2_space \<Rightarrow> 'b::t2_space"
   assumes "homeomorphism X1 X2 f" "locally compact X1" "locally compact X2" "compact_space X1" "compact_space X2"
   shows "homeomorphism (one_point_compactification X1) (one_point_compactification X2) (extend_map f)"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
@@ -945,15 +945,15 @@ Show that if $X$ is a Hausdorff space that is locally compact at the point $x$, 
 lean statement:
 theorem exercise_29_10 {X : Type*}
   [topological_space X] [t2_space X] (x : X)
-  (hx : ∃ U : set X, x ∈ U ∧ is_open U ∧ (∃ K : set X, U ⊂ K ∧ is_compact K))
+  (hx : \<exists> U : set X, x ∈ U \<and> is_open U \<and> (\<exists> K : set X, U ⊂ K \<and> is_compact K))
   (U : set X) (hU : is_open U) (hxU : x ∈ U) :
-  ∃ (V : set X), is_open V ∧ x ∈ V ∧ is_compact (closure V) ∧ closure V ⊆ U :=
+  \<exists> (V : set X), is_open V \<and> x ∈ V \<and> is_compact (closure V) \<and> closure V \<subseteq> U :=
 
 codex statement:
 theorem exists_compact_subset_of_neighborhood:
   fixes X::"'a::metric_space topology" and x::'a
-  assumes "x∈topspace X" "t1_space X" "locally_compact_space X" "∃U. openin X U ∧ x∈U"
-  shows "∃V. openin X V ∧ x∈V ∧ compact (closure V) ∧ closure V ⊆ U"
+  assumes "x∈topspace X" "t1_space X" "locally_compact_space X" "\<exists>U. openin X U \<and> x∈U"
+  shows "\<exists>V. openin X V \<and> x∈V \<and> compact (closure V) \<and> closure V \<subseteq> U"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_29_10: undefined oops
@@ -965,15 +965,15 @@ natural language statement:
 Show that if $X$ is a countable product of spaces having countable dense subsets, then $X$ has a countable dense subset.
 lean statement:
 theorem exercise_30_10
-  {X : ℕ → Type*} [∀ i, topological_space (X i)]
-  (h : ∀ i, ∃ (s : set (X i)), countable s ∧ dense s) :
-  ∃ (s : set (Π i, X i)), countable s ∧ dense s :=
+  {X : ℕ → Type*} [\<forall> i, topological_space (X i)]
+  (h : \<forall> i, \<exists> (s : set (X i)), countable s \<and> dense s) :
+  \<exists> (s : set (Π i, X i)), countable s \<and> dense s :=
 
 codex statement:
 theorem countable_dense_subset_of_countable_product_of_countable_dense_subset:
   fixes X::"'a::{second_countable_topology, t2_space} set"
-  assumes "countable X" "∀x∈X. ∃D. countable D ∧ dense_in (top_of_set X) D"
-  shows "∃D. countable D ∧ dense_in (top_of_set X) D"
+  assumes "countable X" "\<forall>x∈X. \<exists>D. countable D \<and> dense_in (top_of_set X) D"
+  shows "\<exists>D. countable D \<and> dense_in (top_of_set X) D"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_30_10: undefined oops
@@ -985,14 +985,14 @@ natural language statement:
 Show that if $X$ has a countable dense subset, every collection of disjoint open sets in $X$ is countable.
 lean statement:
 theorem exercise_30_13 {X : Type*} [topological_space X]
-  (h : ∃ (s : set X), countable s ∧ dense s) (U : set (set X))
-  (hU : ∀ (x y : set X), x ∈ U → y ∈ U → x ≠ y → x ∩ y = ∅) :
+  (h : \<exists> (s : set X), countable s \<and> dense s) (U : set (set X))
+  (hU : \<forall> (x y : set X), x ∈ U → y ∈ U → x \<noteq> y → x ∩ y = ∅) :
   countable U :=
 
 codex statement:
 theorem countable_of_dense_countable:
   fixes X::"'a::metric_space set"
-  assumes "countable (UNIV::'a set)" "∀x∈X. ∃U. open U ∧ x∈U ∧ U ⊆ X"
+  assumes "countable (UNIV::'a set)" "\<forall>x∈X. \<exists>U. open U \<and> x∈U \<and> U \<subseteq> X"
   shows "countable X"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
@@ -1006,13 +1006,13 @@ Show that if $X$ is regular, every pair of points of $X$ have neighborhoods whos
 lean statement:
 theorem exercise_31_1 {X : Type*} [topological_space X]
   (hX : regular_space X) (x y : X) :
-  ∃ (U V : set X), is_open U ∧ is_open V ∧ x ∈ U ∧ y ∈ V ∧ closure U ∩ closure V = ∅ :=
+  \<exists> (U V : set X), is_open U \<and> is_open V \<and> x ∈ U \<and> y ∈ V \<and> closure U ∩ closure V = ∅ :=
 
 codex statement:
 theorem regular_implies_disjoint_closure_of_neighborhoods:
   fixes X::"'a::t1_space topology"
   assumes "regular_space X"
-  shows "∀x y. x ∈ topspace X ∧ y ∈ topspace X ⟶ ∃U V. openin X U ∧ openin X V ∧ x∈U ∧ y∈V ∧ closure U ∩ closure V = {}"
+  shows "\<forall>x y. x ∈ topspace X \<and> y ∈ topspace X \<longrightarrow> \<exists>U V. openin X U \<and> openin X V \<and> x∈U \<and> y∈V \<and> closure U ∩ closure V = {}"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_31_1: undefined oops
@@ -1026,13 +1026,13 @@ lean statement:
 theorem exercise_31_2 {X : Type*}
   [topological_space X] [normal_space X] {A B : set X}
   (hA : is_closed A) (hB : is_closed B) (hAB : disjoint A B) :
-  ∃ (U V : set X), is_open U ∧ is_open V ∧ A ⊆ U ∧ B ⊆ V ∧ closure U ∩ closure V = ∅ :=
+  \<exists> (U V : set X), is_open U \<and> is_open V \<and> A \<subseteq> U \<and> B \<subseteq> V \<and> closure U ∩ closure V = ∅ :=
 
 codex statement:
 theorem disjoint_closed_sets_have_disjoint_neighborhoods:
   fixes X::"'a::t2_space topology" and A B::"'a set"
   assumes "normal_space X" "closedin X A" "closedin X B" "A ∩ B = {}"
-  shows "∃U V. openin X U ∧ openin X V ∧ A ⊆ U ∧ B ⊆ V ∧ closure U ∩ closure V = {}"
+  shows "\<exists>U V. openin X U \<and> openin X V \<and> A \<subseteq> U \<and> B \<subseteq> V \<and> closure U ∩ closure V = {}"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_31_2: undefined oops
@@ -1043,8 +1043,8 @@ problem_number:31_3
 natural language statement:
 Show that every order topology is regular.
 lean statement:
-theorem exercise_31_3 {α : Type*} [partial_order α]
-  [topological_space α] (h : order_topology α) : regular_space α :=
+theorem exercise_31_3 {\<alpha> : Type*} [partial_order \<alpha>]
+  [topological_space \<alpha>] (h : order_topology \<alpha>) : regular_space \<alpha> :=
 
 codex statement:
 theorem regular_of_order_topology:
@@ -1080,15 +1080,15 @@ natural language statement:
 Show that if $\prod X_\alpha$ is Hausdorff, or regular, or normal, then so is $X_\alpha$. Assume that each $X_\alpha$ is nonempty.
 lean statement:
 theorem exercise_32_2a
-  {ι : Type*} {X : ι → Type*} [∀ i, topological_space (X i)]
-  (h : ∀ i, nonempty (X i)) (h2 : t2_space (Π i, X i)) :
-  ∀ i, t2_space (X i) :=
+  {ι : Type*} {X : ι → Type*} [\<forall> i, topological_space (X i)]
+  (h : \<forall> i, nonempty (X i)) (h2 : t2_space (Π i, X i)) :
+  \<forall> i, t2_space (X i) :=
 
 codex statement:
 theorem prod_topology_of_topology_is_topology:
-  fixes α::"'a" and X::"'a ⇒ 'b::topological_space"
-  assumes "∀α. x ∈ X α"
-  shows "∀α. openin (prod_topology (α::'a) X) {x} ⟶ openin (X α) {x α}"
+  fixes \<alpha>::"'a" and X::"'a \<Rightarrow> 'b::topological_space"
+  assumes "\<forall>\<alpha>. x ∈ X \<alpha>"
+  shows "\<forall>\<alpha>. openin (prod_topology (\<alpha>::'a) X) {x} \<longrightarrow> openin (X \<alpha>) {x \<alpha>}"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_32_2: undefined oops
@@ -1100,9 +1100,9 @@ natural language statement:
 Show that every locally compact Hausdorff space is regular.
 lean statement:
 theorem exercise_32_2a
-  {ι : Type*} {X : ι → Type*} [∀ i, topological_space (X i)]
-  (h : ∀ i, nonempty (X i)) (h2 : t2_space (Π i, X i)) :
-  ∀ i, t2_space (X i) :=
+  {ι : Type*} {X : ι → Type*} [\<forall> i, topological_space (X i)]
+  (h : \<forall> i, nonempty (X i)) (h2 : t2_space (Π i, X i)) :
+  \<forall> i, t2_space (X i) :=
 
 codex statement:
 theorem regular_of_locally_compact_hausdorff:
@@ -1121,8 +1121,8 @@ Show that every locally compact Hausdorff space is completely regular.
 lean statement:
 theorem exercise_33_7 {X : Type*} [topological_space X]
   (hX : locally_compact_space X) (hX' : t2_space X) :
-  ∀ x A, is_closed A ∧ ¬ x ∈ A →
-  ∃ (f : X → I), continuous f ∧ f x = 1 ∧ f '' A = {0}
+  \<forall> x A, is_closed A \<and> ¬ x ∈ A →
+  \<exists> (f : X → I), continuous f \<and> f x = 1 \<and> f '' A = {0}
   :=
 
 codex statement:
@@ -1142,18 +1142,18 @@ Let $X$ be completely regular, let $A$ and $B$ be disjoint closed subsets of $X$
 lean statement:
 theorem exercise_33_8
   (X : Type* ) [topological_space X] [regular_space X]
-  (h : ∀ x A, is_closed A ∧ ¬ x ∈ A →
-  ∃ (f : X → I), continuous f ∧ f x = (1 : I) ∧ f '' A = {0})
+  (h : \<forall> x A, is_closed A \<and> ¬ x ∈ A →
+  \<exists> (f : X → I), continuous f \<and> f x = (1 : I) \<and> f '' A = {0})
   (A B : set X) (hA : is_closed A) (hB : is_closed B)
   (hAB : disjoint A B)
   (hAc : is_compact A) :
-  ∃ (f : X → I), continuous f ∧ f '' A = {0} ∧ f '' B = {1} :=
+  \<exists> (f : X → I), continuous f \<and> f '' A = {0} \<and> f '' B = {1} :=
 
 codex statement:
 theorem exists_continuous_function_of_disjoint_compact_closed_sets:
   fixes X::"'a::t2_space" and A B::"'a set"
   assumes "compact A" "closed A" "closed B" "A ∩ B = ∅"
-  shows "∃f. continuous_on X f ∧ f ` X ⊆ {0..1} ∧ f ` A = {0} ∧ f ` B = {1}"
+  shows "\<exists>f. continuous_on X f \<and> f ` X \<subseteq> {0..1} \<and> f ` A = {0} \<and> f ` B = {1}"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_33_8: undefined oops
@@ -1190,7 +1190,7 @@ codex statement:
 theorem lindelof_iff_countable_intersection_property:
   fixes X::"'a::metric_space topology"
   assumes "countable_basis X"
-  shows "Lindelöf_space X ↔ (∀A. (∀a∈A. openin X a) ⟶ (∃b. openin X b ∧ ∀a∈A. a ⊆ b) ⟶ (∃x. ∀a∈A. x∈a))"
+  shows "Lindelöf_space X ↔ (\<forall>A. (\<forall>a∈A. openin X a) \<longrightarrow> (\<exists>b. openin X b \<and> \<forall>a∈A. a \<subseteq> b) \<longrightarrow> (\<exists>x. \<forall>a∈A. x∈a))"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_37_2: undefined oops
@@ -1206,7 +1206,7 @@ codex statement:
 theorem exists_continuous_surjective_closed_map_of_compactification:
   fixes X::"'a::t1_space set" and Y::"'b::t1_space set"
   assumes "compactification X Y"
-  shows "∃g. continuous_on (UNIV::'b set) g ∧ g ` (UNIV::'b set) = UNIV ∧ closed_in (subtopology (top_of_set (UNIV::'b set)) (UNIV::'b set)) (g -` (UNIV::'a set)) ∧ g ` (UNIV::'a set) = (UNIV::'a set)"
+  shows "\<exists>g. continuous_on (UNIV::'b set) g \<and> g ` (UNIV::'b set) = UNIV \<and> closed_in (subtopology (top_of_set (UNIV::'b set)) (UNIV::'b set)) (g -` (UNIV::'a set)) \<and> g ` (UNIV::'a set) = (UNIV::'a set)"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_38_4: undefined oops
@@ -1219,8 +1219,8 @@ Let $X$ be completely regular. Show that $X$ is connected if and only if $\beta(
 lean statement:
 theorem exercise_38_6 {X : Type*}
   (X : Type* ) [topological_space X] [regular_space X]
-  (h : ∀ x A, is_closed A ∧ ¬ x ∈ A →
-  ∃ (f : X → I), continuous f ∧ f x = (1 : I) ∧ f '' A = {0}) :
+  (h : \<forall> x A, is_closed A \<and> ¬ x ∈ A →
+  \<exists> (f : X → I), continuous f \<and> f x = (1 : I) \<and> f '' A = {0}) :
   is_connected (univ : set X) ↔ is_connected (univ : set (stone_cech X)) :=
 
 codex statement:
@@ -1257,14 +1257,14 @@ lean statement:
 theorem exercise_43_2 {X : Type*} [metric_space X]
   {Y : Type*} [metric_space Y] [complete_space Y] (A : set X)
   (f : X → Y) (hf : uniform_continuous_on f A) :
-  ∃! (g : X → Y), continuous_on g (closure A) ∧
-  uniform_continuous_on g (closure A) ∧ ∀ (x : A), g x = f x :=
+  \<exists>! (g : X → Y), continuous_on g (closure A) \<and>
+  uniform_continuous_on g (closure A) \<and> \<forall> (x : A), g x = f x :=
 
 codex statement:
 theorem uniformly_continuous_extends_to_continuous_uniformly_continuous:
-  fixes f::"'a::metric_space ⇒ 'b::complete_space"
+  fixes f::"'a::metric_space \<Rightarrow> 'b::complete_space"
   assumes "uniformly_continuous_on A f"
-  shows "∃g. continuous_on (closure A) g ∧ g|`A = f ∧ uniformly_continuous_on (closure A) g"
+  shows "\<exists>g. continuous_on (closure A) g \<and> g|`A = f \<and> uniformly_continuous_on (closure A) g"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_43_2: undefined oops
@@ -1278,9 +1278,9 @@ lean statement:
 
 codex statement:
 theorem complete_of_sum_square_converges:
-  fixes X::"nat ⇒ 'a::real_normed_vector"
-  assumes "∀n. norm (X n) < ∞"
-  shows "∃l. (∀n. norm (X n - l) < e) ⟶ (∃N. ∀n≥N. norm (X n - l) < e)"
+  fixes X::"nat \<Rightarrow> 'a::real_normed_vector"
+  assumes "\<forall>n. norm (X n) < \<infinity>"
+  shows "\<exists>l. (\<forall>n. norm (X n - l) < e) \<longrightarrow> (\<exists>N. \<forall>n\<ge>N. norm (X n - l) < e)"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_43_7: undefined oops

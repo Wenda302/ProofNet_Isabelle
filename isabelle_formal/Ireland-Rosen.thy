@@ -7,13 +7,13 @@ problem_number:1_27
 natural language statement:
 For all odd $n$ show that $8 \mid n^{2}-1$.
 lean statement:
-theorem exercise_1_27 {n : ℕ} (hn : odd n) : 8 ∣ (n^2 - 1) :=
+theorem exercise_1_27 {n : ℕ} (hn : odd n) : 8  dvd  (n^2 - 1) :=
 
 codex statement:
 theorem div_8_of_odd_n:
   fixes n::nat
   assumes "odd n"
-  shows "8 ∣ n^2 - 1"
+  shows "8  dvd  n^2 - 1"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_1_27: undefined oops
@@ -24,13 +24,13 @@ problem_number:1_30
 natural language statement:
 Prove that $\frac{1}{2}+\frac{1}{3}+\cdots+\frac{1}{n}$ is not an integer.
 lean statement:
-theorem exercise_1_30 {n : ℕ} : 
-  ¬ ∃ a : ℤ, ∑ (i : fin n), (1 : ℚ) / (n+2) = a :=
+theorem exercise_1_30 {n : ℕ} :
+  ¬ \<exists> a : ℤ, \<Sum> (i : fin n), (1 : ℚ) / (n+2) = a :=
 
 codex statement:
 theorem sum_frac_not_integer:
   fixes n::nat
-  shows "∑i<n. 1 / real i ≠ int (∑i<n. 1 / real i)"
+  shows "\<Sum>i<n. 1 / real i \<noteq> int (\<Sum>i<n. 1 / real i)"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_1_30: undefined oops
@@ -41,13 +41,13 @@ problem_number:1_31
 natural language statement:
 Show that 2 is divisible by $(1+i)^{2}$ in $\mathbb{Z}[i]$.
 lean statement:
-theorem exercise_1_31  : (⟨1, 1⟩ : gaussian_int) ^ 2 ∣ 2 := 
+theorem exercise_1_31  : (⟨1, 1⟩ : gaussian_int) ^ 2  dvd  2 :=
 
 codex statement:
 theorem divisible_of_power_of_one_plus_i:
   fixes z::complex
-  assumes "z ∈ {x + y * \<i> |x y. x ∈ UNIV ∧ y ∈ UNIV}"
-  shows "∃a. 2 = (1 + \<i>)^2 * a"
+  assumes "z ∈ {x + y * \<i> |x y. x ∈ UNIV \<and> y ∈ UNIV}"
+  shows "\<exists>a. 2 = (1 + \<i>)^2 * a"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_1_31: undefined oops
@@ -58,16 +58,16 @@ problem_number:2_4
 natural language statement:
 If $a$ is a nonzero integer, then for $n>m$ show that $\left(a^{2^{n}}+1, a^{2^{m}}+1\right)=1$ or 2 depending on whether $a$ is odd or even.
 lean statement:
-theorem exercise_2_4 {a : ℤ} (ha : a ≠ 0) 
-  (f_a := λ n m : ℕ, int.gcd (a^(2^n) + 1) (a^(2^m)+1)) {n m : ℕ} 
-  (hnm : n > m) : 
-  (odd a → f_a n m = 1) ∧ (even a → f_a n m = 2) :=
+theorem exercise_2_4 {a : ℤ} (ha : a \<noteq> 0)
+  (f_a := \<lambda> n m : ℕ, int.gcd (a^(2^n) + 1) (a^(2^m)+1)) {n m : ℕ}
+  (hnm : n > m) :
+  (odd a → f_a n m = 1) \<and> (even a → f_a n m = 2) :=
 
 codex statement:
 theorem gcd_of_power_of_two_plus_one_eq_one_or_two:
   fixes a::int
-  assumes "a ≠ 0" "n > m"
-  shows "gcd (a^(2^n) + 1) (a^(2^m) + 1) = 1 ∨ gcd (a^(2^n) + 1) (a^(2^m) + 1) = 2"
+  assumes "a \<noteq> 0" "n > m"
+  shows "gcd (a^(2^n) + 1) (a^(2^m) + 1) = 1 \<or> gcd (a^(2^n) + 1) (a^(2^m) + 1) = 2"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_2_4: undefined oops
@@ -78,16 +78,16 @@ problem_number:2_21
 natural language statement:
 Define $\wedge(n)=\log p$ if $n$ is a power of $p$ and zero otherwise. Prove that $\sum_{A \mid n} \mu(n / d) \log d$ $=\wedge(n)$.
 lean statement:
-theorem exercise_2_21 {l : ℕ → ℝ} 
-  (hl : ∀ p n : ℕ, p.prime → l (p^n) = log p )
-  (hl1 : ∀ m : ℕ, ¬ is_prime_pow m → l m = 0) :
-  l = λ n, ∑ d : divisors n, moebius (n/d) * log d  := 
+theorem exercise_2_21 {l : ℕ → ℝ}
+  (hl : \<forall> p n : ℕ, p.prime → l (p^n) = log p )
+  (hl1 : \<forall> m : ℕ, ¬ is_prime_pow m → l m = 0) :
+  l = \<lambda> n, \<Sum> d : divisors n, moebius (n/d) * log d  :=
 
 codex statement:
 theorem sum_mu_log_divisors_eq_log_prime_power:
   fixes n::nat
-  assumes "∃p. prime p ∧ n = p^a"
-  shows "(∑d∣n. μ (n div d) * log d) = log p"
+  assumes "\<exists>p. prime p \<and> n = p^a"
+  shows "(\<Sum>d dvd n. μ (n div d) * log d) = log p"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_2_21: undefined oops
@@ -98,13 +98,13 @@ problem_number:2_27a
 natural language statement:
 Show that $\sum^{\prime} 1 / n$, the sum being over square free integers, diverges.
 lean statement:
-theorem exercise_2_27a : 
-  ¬ summable (λ i : {p : ℤ // squarefree p}, (1 : ℚ) / i) :=
+theorem exercise_2_27a :
+  ¬ summable (\<lambda> i : {p : ℤ // squarefree p}, (1 : ℚ) / i) :=
 
 codex statement:
 theorem diverges_sum_of_inverse_square_free_integers:
   fixes n::nat
-  shows "∑i=1..n. 1 / (real_of_nat i) = ∞"
+  shows "\<Sum>i=1..n. 1 / (real_of_nat i) = \<infinity>"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_2_27a: undefined oops
@@ -119,7 +119,7 @@ theorem exercise_3_1 : infinite {p : primes // p ≡ -1 [ZMOD 6]} :=
 
 codex statement:
 theorem infinite_primes_congruent_minus_one_mod_six:
-  shows "infinite {p::nat. prime p ∧ p ≡ -1 [MOD 6]}"
+  shows "infinite {p::nat. prime p \<and> p ≡ -1 [MOD 6]}"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_3_1: undefined oops
@@ -130,7 +130,7 @@ problem_number:3_4
 natural language statement:
 Show that the equation $3 x^{2}+2=y^{2}$ has no solution in integers.
 lean statement:
-theorem exercise_3_4 : ¬ ∃ x y : ℤ, 3*x^2 + 2 = y^2 :=
+theorem exercise_3_4 : ¬ \<exists> x y : ℤ, 3*x^2 + 2 = y^2 :=
 
 codex statement:
 theorem no_solution_of_3_x_square_plus_2_eq_y_square:
@@ -147,11 +147,11 @@ problem_number:3_5
 natural language statement:
 Show that the equation $7 x^{3}+2=y^{3}$ has no solution in integers.
 lean statement:
-theorem exercise_3_5 : ¬ ∃ x y : ℤ, 7*x^3 + 2 = y^3 :=
+theorem exercise_3_5 : ¬ \<exists> x y : ℤ, 7*x^3 + 2 = y^3 :=
 
 codex statement:
 theorem no_solution_of_eq_7_x_cube_plus_2_eq_y_cube:
-  assumes "∃x y. 7 * x^3 + 2 = y^3"
+  assumes "\<exists>x y. 7 * x^3 + 2 = y^3"
   shows False
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
@@ -163,13 +163,13 @@ problem_number:3_10
 natural language statement:
 If $n$ is not a prime, show that $(n-1) ! \equiv 0(n)$, except when $n=4$.
 lean statement:
-theorem exercise_3_10 {n : ℕ} (hn0 : ¬ n.prime) (hn1 : n ≠ 4) : 
+theorem exercise_3_10 {n : ℕ} (hn0 : ¬ n.prime) (hn1 : n \<noteq> 4) :
   factorial (n-1) ≡ 0 [MOD n] :=
 
 codex statement:
 theorem fact_minus_one_equiv_zero_of_not_prime:
   fixes n::nat
-  assumes "n>2" "∀p. prime p ⟶ p ∣ n ⟶ p = 2 ∨ p = n"
+  assumes "n>2" "\<forall>p. prime p \<longrightarrow> p  dvd  n \<longrightarrow> p = 2 \<or> p = n"
   shows "(fact (n - 1)) mod n = 0"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
@@ -181,15 +181,15 @@ problem_number:3_14
 natural language statement:
 Let $p$ and $q$ be distinct odd primes such that $p-1$ divides $q-1$. If $(n, p q)=1$, show that $n^{q-1} \equiv 1(p q)$.
 lean statement:
-theorem exercise_3_14 {p q n : ℕ} (hp0 : p.prime ∧ p > 2) 
-  (hq0 : q.prime ∧ q > 2) (hpq0 : p ≠ q) (hpq1 : p - 1 ∣ q - 1)
-  (hn : n.gcd (p*q) = 1) : 
+theorem exercise_3_14 {p q n : ℕ} (hp0 : p.prime \<and> p > 2)
+  (hq0 : q.prime \<and> q > 2) (hpq0 : p \<noteq> q) (hpq1 : p - 1  dvd  q - 1)
+  (hn : n.gcd (p*q) = 1) :
   n^(q-1) ≡ 1 [MOD p*q] :=
 
 codex statement:
 theorem congruent_one_of_prime_diff_one_divides_prime_diff_one:
   fixes p q n::nat
-  assumes "prime p" "prime q" "p ≠ q" "p - 1 ∣ q - 1" "coprime n (p * q)"
+  assumes "prime p" "prime q" "p \<noteq> q" "p - 1  dvd  q - 1" "coprime n (p * q)"
   shows "n [^] (q - 1) ≡ 1 (mod p * q)"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
@@ -204,9 +204,9 @@ lean statement:
 
 codex statement:
 theorem number_of_solutions_of_congruence_eq_product_of_number_of_solutions_of_congruence_mod_prime_power:
-  fixes f::"nat ⇒ nat" and n::nat
-  assumes "∀p. prime p ⟶ ∃a. p^a ∣ n"
-  shows "∃N. ∀p. prime p ⟶ ∃a. p^a ∣ n ⟶ (∃Np. ∀x. f x ≡ 0 [MOD p^a] ⟶ (∃!x. f x ≡ 0 [MOD p^a])) ⟶ (∃Np. ∀x. f x ≡ 0 [MOD n] ⟶ (∃!x. f x ≡ 0 [MOD n]))"
+  fixes f::"nat \<Rightarrow> nat" and n::nat
+  assumes "\<forall>p. prime p \<longrightarrow> \<exists>a. p^a  dvd  n"
+  shows "\<exists>N. \<forall>p. prime p \<longrightarrow> \<exists>a. p^a  dvd  n \<longrightarrow> (\<exists>Np. \<forall>x. f x ≡ 0 [MOD p^a] \<longrightarrow> (\<exists>!x. f x ≡ 0 [MOD p^a])) \<longrightarrow> (\<exists>Np. \<forall>x. f x ≡ 0 [MOD n] \<longrightarrow> (\<exists>!x. f x ≡ 0 [MOD n]))"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_3_18: undefined oops
@@ -221,7 +221,7 @@ lean statement:
 codex statement:
 theorem number_of_solutions_of_x_square_equiv_1_mod_2_power_b:
   fixes b::nat
-  assumes "b≥1"
+  assumes "b\<ge>1"
   shows "card {x::int. x^2 ≡ 1 [MOD 2^b]} = 2^(b-1)"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
@@ -233,15 +233,15 @@ problem_number:4_4
 natural language statement:
 Consider a prime $p$ of the form $4 t+1$. Show that $a$ is a primitive root modulo $p$ iff - $a$ is a primitive root modulo $p$.
 lean statement:
-theorem exercise_4_4 {p t: ℕ} (hp0 : p.prime) (hp1 : p = 4*t + 1) 
-  (a : zmod p): 
+theorem exercise_4_4 {p t: ℕ} (hp0 : p.prime) (hp1 : p = 4*t + 1)
+  (a : zmod p):
   is_primitive_root a p ↔ is_primitive_root (-a) p :=
 
 codex statement:
 theorem primitive_root_of_prime_of_form_4_t_1:
   fixes p::nat and a::int
   assumes "prime p" "p = 4 * t + 1" "coprime a p"
-  shows "∃n. a [^] n ≡ -1 [mod p]"
+  shows "\<exists>n. a [^] n ≡ -1 [mod p]"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_4_4: undefined oops
@@ -257,7 +257,7 @@ codex statement:
 theorem primitive_root_iff_order_half_minus_a:
   fixes p::nat and a::int
   assumes "prime p" "p ≡ 3 (mod 4)"
-  shows "∃b. order b p = (p - 1) div 2 ⟷ primitive_root a p"
+  shows "\<exists>b. order b p = (p - 1) div 2 \<longleftrightarrow> primitive_root a p"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_4_5: undefined oops
@@ -272,8 +272,8 @@ lean statement:
 codex statement:
 theorem primitive_root_of_fermat_prime:
   fixes p::nat
-  assumes "prime p" "∃n. p = 2^n + 1"
-  shows "∃m. ∀k. coprime k p ⟶ (3::nat) [^] k ≡ 1 [^] m [MOD p]"
+  assumes "prime p" "\<exists>n. p = 2^n + 1"
+  shows "\<exists>m. \<forall>k. coprime k p \<longrightarrow> (3::nat) [^] k ≡ 1 [^] m [MOD p]"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_4_6: undefined oops
@@ -289,7 +289,7 @@ codex statement:
 theorem primitive_root_of_prime_iff_not_cong_one_of_prime_divisor:
   fixes p::nat and a::int
   assumes "prime p" "odd p"
-  shows "∀q. prime q ∧ q dvd p - 1 ⟶ a [^] ((p - 1) div q) ≡ 1 (mod p) ⟷ ¬ primitive_root p a"
+  shows "\<forall>q. prime q \<and> q dvd p - 1 \<longrightarrow> a [^] ((p - 1) div q) ≡ 1 (mod p) \<longleftrightarrow> ¬ primitive_root p a"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_4_8: undefined oops
@@ -321,7 +321,7 @@ codex statement:
 theorem sum_primitive_roots_eq_mu_p_minus_one:
   fixes p::nat
   assumes "prime p"
-  shows "(∑x∈{x. x < p ∧ coprime x p ∧ ∃n. x [^] n ≡ 1 [MOD p]}. x) ≡ μ (p - 1) [MOD p]"
+  shows "(\<Sum>x∈{x. x < p \<and> coprime x p \<and> \<exists>n. x [^] n ≡ 1 [MOD p]}. x) ≡ μ (p - 1) [MOD p]"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_4_10: undefined oops
@@ -336,8 +336,8 @@ lean statement:
 codex statement:
 theorem sum_of_powers_cong_zero_mod_p_of_p_minus_one_not_dvd_k:
   fixes p::nat and k::int
-  assumes "prime p" "p-1 ≠ 0" "p-1 ∣ k"
-  shows "(∑i<p-1. i^k) ≡ -1 (mod p)"
+  assumes "prime p" "p-1 \<noteq> 0" "p-1  dvd  k"
+  shows "(\<Sum>i<p-1. i^k) ≡ -1 (mod p)"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_4_11: undefined oops
@@ -352,8 +352,8 @@ lean statement:
 codex statement:
 theorem order_of_one_plus_a_eq_6_of_order_a_eq_3:
   fixes a::nat and p::nat
-  assumes "prime p" "a mod p ≠ 0" "∀n. a [^] n mod p ≠ 1 ⟶ n ≥ 3"
-  shows "∀n. (1 + a) [^] n mod p ≠ 1 ⟶ n ≥ 6"
+  assumes "prime p" "a mod p \<noteq> 0" "\<forall>n. a [^] n mod p \<noteq> 1 \<longrightarrow> n \<ge> 3"
+  shows "\<forall>n. (1 + a) [^] n mod p \<noteq> 1 \<longrightarrow> n \<ge> 6"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_4_22: undefined oops
@@ -369,7 +369,7 @@ codex statement:
 theorem number_of_solutions_of_congruence_eq_number_of_solutions_of_congruence_of_coprime_powers:
   fixes a b c::"int" and m n m' n'::nat
   assumes "prime p" "coprime m (p - 1)" "coprime n (p - 1)" "m' = gcd m (p - 1)" "n' = gcd n (p - 1)"
-  shows "card {(x, y). x < p ∧ y < p ∧ a * x ^ m + b * y ^ n ≡ c (mod p)} = card {(x, y). x < p ∧ y < p ∧ a * x ^ m' + b * y ^ n' ≡ c (mod p)}"
+  shows "card {(x, y). x < p \<and> y < p \<and> a * x ^ m + b * y ^ n ≡ c (mod p)} = card {(x, y). x < p \<and> y < p \<and> a * x ^ m' + b * y ^ n' ≡ c (mod p)}"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_4_24: undefined oops
@@ -380,8 +380,8 @@ problem_number:5_2
 natural language statement:
 Show that the number of solutions to $x^{2} \equiv a(p)$ is given by $1+(a / p)$.
 lean statement:
-theorem exercise_5_28 {p : ℕ} (hp : p.prime) (hp1 : p ≡ 1 [MOD 4]): 
-  ∃ x, x^4 ≡ 2 [MOD p] ↔ ∃ A B, p = A^2 + 64*B^2 :=
+theorem exercise_5_28 {p : ℕ} (hp : p.prime) (hp1 : p ≡ 1 [MOD 4]):
+  \<exists> x, x^4 ≡ 2 [MOD p] ↔ \<exists> A B, p = A^2 + 64*B^2 :=
 
 codex statement:
 theorem number_of_solutions_of_congruence_eq_one_plus_a_div_p:
@@ -399,14 +399,14 @@ natural language statement:
 Suppose that $p \nmid a$. Show that the number of solutions to $a x^{2}+b x+c \equiv 0(p)$ is given by $1+\left(\left(b^{2}-4 a c\right) / p\right)$.
 lean statement:
 theorem exercise_5_37 {p q : ℕ} [fact(p.prime)] [fact(q.prime)] {a : ℤ}
-  (ha : a < 0) (h0 : p ≡ q [ZMOD 4*a]) (h1 : ¬ ((p : ℤ) ∣ a)) :
+  (ha : a < 0) (h0 : p ≡ q [ZMOD 4*a]) (h1 : ¬ ((p : ℤ)  dvd  a)) :
   legendre_sym p a = legendre_sym q a :=
 
 codex statement:
 theorem number_of_solutions_of_quadratic_congruence_eq_1_plus_Legendre_symbol:
   fixes a b c p::nat
   assumes "prime p" "coprime a p"
-  shows "card {x. x < p ∧ (a * x^2 + b * x + c) ≡ 0 [MOD p]} = 1 + (Legendre_symbol (a * b^2 - 4 * a * c) p)"
+  shows "card {x. x < p \<and> (a * x^2 + b * x + c) ≡ 0 [MOD p]} = 1 + (Legendre_symbol (a * b^2 - 4 * a * c) p)"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_5_3: undefined oops
@@ -422,7 +422,7 @@ codex statement:
 theorem sum_of_p_minus_one_eq_zero:
   fixes p::nat
   assumes "prime p"
-  shows "(∑a=1..p-1. a / p) = 0"
+  shows "(\<Sum>a=1..p-1. a / p) = 0"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_5_4: undefined oops
@@ -438,7 +438,7 @@ codex statement:
 theorem sum_of_arithmetic_progression_eq_zero_of_coprime:
   fixes a b p::nat
   assumes "coprime a p"
-  shows "(∑x=0..p-1. (a * x + b) / p) = 0"
+  shows "(\<Sum>x=0..p-1. (a * x + b) / p) = 0"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_5_5: undefined oops
@@ -454,7 +454,7 @@ codex statement:
 theorem sum_of_solutions_of_congruence_eq_sum_of_legendre_symbol:
   fixes p::nat and a::int
   assumes "prime p"
-  shows "card {x. x^2 ≡ a [MOD p]} = (∑y<p. 1 + legendre_symbol (y^2 + a) p)"
+  shows "card {x. x^2 ≡ a [MOD p]} = (\<Sum>y<p. 1 + legendre_symbol (y^2 + a) p)"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_5_6: undefined oops
@@ -469,7 +469,7 @@ lean statement:
 codex statement:
 theorem number_of_solutions_of_congruence_eq_p_minus_one_if_p_not_dvd_a:
   fixes p::nat and a::int
-  assumes "prime p" "p ∣ a"
+  assumes "prime p" "p  dvd  a"
   shows "card {x. x^2 ≡ a [MOD p]} = 2*p - 1"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
@@ -481,8 +481,8 @@ problem_number:5_13
 natural language statement:
 Show that any prime divisor of $x^{4}-x^{2}+1$ is congruent to 1 modulo 12 .
 lean statement:
-theorem exercise_5_13 {p x: ℤ} (hp : prime p) 
-  (hpx : p ∣ (x^4 - x^2 + 1)) : p ≡ 1 [ZMOD 12] :=
+theorem exercise_5_13 {p x: ℤ} (hp : prime p)
+  (hpx : p  dvd  (x^4 - x^2 + 1)) : p ≡ 1 [ZMOD 12] :=
 
 codex statement:
 theorem prime_divisor_of_x_4_minus_x_2_plus_1_cong_1_mod_12:
@@ -502,8 +502,8 @@ lean statement:
 
 codex statement:
 theorem square_eq_minus_one_of_equiv_a_f_p:
-  fixes f::"int ⇒ int" and a b p::int
-  assumes "∀x. f (f x) = -1" "b ≡ a * f p [MOD p]"
+  fixes f::"int \<Rightarrow> int" and a b p::int
+  assumes "\<forall>x. f (f x) = -1" "b ≡ a * f p [MOD p]"
   shows "f p ≡ a * b / 2 [MOD p]"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
@@ -515,14 +515,14 @@ problem_number:5_28
 natural language statement:
 Show that $x^{4} \equiv 2(p)$ has a solution for $p \equiv 1(4)$ iff $p$ is of the form $A^{2}+64 B^{2}$.
 lean statement:
-theorem exercise_5_28 {p : ℕ} (hp : p.prime) (hp1 : p ≡ 1 [MOD 4]): 
-  ∃ x, x^4 ≡ 2 [MOD p] ↔ ∃ A B, p = A^2 + 64*B^2 :=
+theorem exercise_5_28 {p : ℕ} (hp : p.prime) (hp1 : p ≡ 1 [MOD 4]):
+  \<exists> x, x^4 ≡ 2 [MOD p] ↔ \<exists> A B, p = A^2 + 64*B^2 :=
 
 codex statement:
 theorem exists_solution_of_x_4_eq_2_of_p_1_4:
   fixes p::nat
   assumes "prime p" "p ≡ 1 (mod 4)"
-  shows "∃x. x^4 ≡ 2 (mod p)"
+  shows "\<exists>x. x^4 ≡ 2 (mod p)"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_5_28: undefined oops
@@ -534,7 +534,7 @@ natural language statement:
 Show that if $a$ is negative then $p \equiv q(4 a), p \times a$ implies $(a / p)=(a / q)$.
 lean statement:
 theorem exercise_5_37 {p q : ℕ} [fact(p.prime)] [fact(q.prime)] {a : ℤ}
-  (ha : a < 0) (h0 : p ≡ q [ZMOD 4*a]) (h1 : ¬ ((p : ℤ) ∣ a)) :
+  (ha : a < 0) (h0 : p ≡ q [ZMOD 4*a]) (h1 : ¬ ((p : ℤ)  dvd  a)) :
   legendre_sym p a = legendre_sym q a :=
 
 codex statement:
@@ -556,7 +556,7 @@ lean statement:
 codex statement:
 theorem exists_algebraic_of_degree_succ:
   fixes n::nat
-  shows "∃x::'a::algebra_1. algebraic x ∧ degree x = n"
+  shows "\<exists>x::'a::algebra_1. algebraic x \<and> degree x = n"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_6_18: undefined oops
@@ -571,8 +571,8 @@ lean statement:
 codex statement:
 theorem not_square_of_not_square_of_degree_three:
   fixes F::"'a::field" and K::"'b::field"
-  assumes "finite_field F" "finite_field K" "F ⊆ K" "[K:F] = 3" "∀x∈F. x^2 ≠ α"
-  shows "∀x∈K. x^2 ≠ α"
+  assumes "finite_field F" "finite_field K" "F \<subseteq> K" "[K:F] = 3" "\<forall>x∈F. x^2 \<noteq> \<alpha>"
+  shows "\<forall>x∈K. x^2 \<noteq> \<alpha>"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_7_6: undefined oops
@@ -587,8 +587,8 @@ lean statement:
 codex statement:
 theorem exists_poly_of_additive_poly:
   fixes p::nat and f::"int poly"
-  assumes "∀x y. f (x + y) = f x + f y"
-  shows "∃a. f = (∑i<p. a i * X^(p^i))"
+  assumes "\<forall>x y. f (x + y) = f x + f y"
+  shows "\<exists>a. f = (\<Sum>i<p. a i * X^(p^i))"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_7_24: undefined oops
@@ -618,7 +618,7 @@ lean statement:
 codex statement:
 theorem finite_integral_domain_is_field:
   fixes R::"'a::comm_ring_1"
-  assumes "finite (carrier R)" "∀x∈carrier R. x ≠ 0 ⟶ ∃y∈carrier R. y * x = 1"
+  assumes "finite (carrier R)" "\<forall>x∈carrier R. x \<noteq> 0 \<longrightarrow> \<exists>y∈carrier R. y * x = 1"
   shows "field R"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
@@ -634,8 +634,8 @@ lean statement:
 codex statement:
 theorem exists_extension_of_isomorphism_of_algebraic_number_field:
   fixes F E::"'a::{field_char_0, algebraic_semidom}"
-  assumes "F ⊆ E" "algebraic_semidom F" "algebraic_semidom E" "isomorphism F ℂ"
-  shows "∃f. isomorphism E ℂ ∧ ∀x∈F. f x = (isomorphism_to_complex F) x"
+  assumes "F \<subseteq> E" "algebraic_semidom F" "algebraic_semidom E" "isomorphism F ℂ"
+  shows "\<exists>f. isomorphism E ℂ \<and> \<forall>x∈F. f x = (isomorphism_to_complex F) x"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_12_22: undefined oops
@@ -650,8 +650,8 @@ lean statement:
 codex statement:
 theorem frobenius_automorphism_of_prime_ideal_of_sqrt_prime:
   fixes p q::nat
-  assumes "prime p" "prime q" "q ≠ p"
-  shows "frobenius_automorphism (prime_ideal_of_sqrt_prime p q) = (λx. (p / q) * x)"
+  assumes "prime p" "prime q" "q \<noteq> p"
+  shows "frobenius_automorphism (prime_ideal_of_sqrt_prime p q) = (\<lambda>x. (p / q) * x)"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_12_30: undefined oops
@@ -662,11 +662,11 @@ problem_number:18_1
 natural language statement:
 Show that $165 x^{2}-21 y^{2}=19$ has no integral solution.
 lean statement:
-theorem exercise_18_1 : ¬ ∃ x y : ℤ, 165*x^2 - 21*y^2 = 19 := 
+theorem exercise_18_1 : ¬ \<exists> x y : ℤ, 165*x^2 - 21*y^2 = 19 :=
 
 codex statement:
 theorem no_integral_solution_of_165_x_square_minus_21_y_square_eq_19:
-  assumes "∃x y::int. 165 * x^2 - 21 * y^2 = 19"
+  assumes "\<exists>x y::int. 165 * x^2 - 21 * y^2 = 19"
   shows False
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
@@ -678,15 +678,15 @@ problem_number:18_4
 natural language statement:
 Show that 1729 is the smallest positive integer expressible as the sum of two different integral cubes in two ways.
 lean statement:
-theorem exercise_18_4 {n : ℕ} (hn : ∃ x y z w : ℤ, 
-  x^3 + y^3 = n ∧ z^3 + w^3 = n ∧ x ≠ z ∧ x ≠ w ∧ y ≠ z ∧ y ≠ w) : 
-  n ≥ 1729 :=
+theorem exercise_18_4 {n : ℕ} (hn : \<exists> x y z w : ℤ,
+  x^3 + y^3 = n \<and> z^3 + w^3 = n \<and> x \<noteq> z \<and> x \<noteq> w \<and> y \<noteq> z \<and> y \<noteq> w) :
+  n \<ge> 1729 :=
 
 codex statement:
 theorem smallest_positive_integer_expressible_as_sum_of_two_different_integral_cubes_in_two_ways:
   fixes a b c d::nat
-  assumes "a^3 + b^3 = c^3 + d^3" "a^3 ≠ b^3" "c^3 ≠ d^3" "a^3 + b^3 = 1729"
-  shows "∀x y z w::nat. x^3 + y^3 = z^3 + w^3 ⟶ x^3 ≠ y^3 ⟶ z^3 ≠ w^3 ⟶ x^3 + y^3 ≥ 1729"
+  assumes "a^3 + b^3 = c^3 + d^3" "a^3 \<noteq> b^3" "c^3 \<noteq> d^3" "a^3 + b^3 = 1729"
+  shows "\<forall>x y z w::nat. x^3 + y^3 = z^3 + w^3 \<longrightarrow> x^3 \<noteq> y^3 \<longrightarrow> z^3 \<noteq> w^3 \<longrightarrow> x^3 + y^3 \<ge> 1729"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_18_4: undefined oops
@@ -701,7 +701,7 @@ lean statement:
 codex statement:
 theorem gcd_eq_one_of_square_free_cong_one_or_two_mod_four:
   fixes d::int and x y::nat
-  assumes "square_free d" "d ≡ 1 ∨ d ≡ 2 [MOD 4]" "y^2 = x^3 - d"
+  assumes "square_free d" "d ≡ 1 \<or> d ≡ 2 [MOD 4]" "y^2 = x^3 - d"
   shows "gcd x (2*d) = 1"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)

@@ -12,9 +12,9 @@ theorem exercise_1_2 :
 
 codex statement:
 theorem entire_function_of_order_one_over_alpha:
-  fixes α::real
-  assumes "α > 0"
-  shows "entire_function (λz. (∑n. z^n / (fact n)^α))"
+  fixes \<alpha>::real
+  assumes "\<alpha> > 0"
+  shows "entire_function (\<lambda>z. (\<Sum>n. z^n / (fact n)^\<alpha>))"
 Our comment on the codex statement: entire_function is not relavent here.
  *)
 theorem exercise_1_2: "(-1/2 + sqrt 3 * 𝗂 /2)^3 = -1" oops
@@ -30,9 +30,9 @@ theorem exercise_1_3 {F V : Type*} [add_comm_group V] [field F]
 
 codex statement:
 theorem entire_function_of_order_one_over_alpha:
-  fixes α::real and z::complex
-  assumes "α > 0"
-  shows "entire_function (λz. (∑n. z^n / (fact n)^α))"
+  fixes \<alpha>::real and z::complex
+  assumes "\<alpha> > 0"
+  shows "entire_function (\<lambda>z. (\<Sum>n. z^n / (fact n)^\<alpha>))"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_1_3: undefined oops
@@ -44,13 +44,13 @@ natural language statement:
 Prove that if $a \in \mathbf{F}$, $v \in V$, and $av = 0$, then $a = 0$ or $v = 0$.
 lean statement:
 theorem exercise_1_4 {F V : Type*} [add_comm_group V] [field F]
-  [module F V] (v : V) (a : F): a • v = 0 ↔ a = 0 ∨ v = 0 :=
+  [module F V] (v : V) (a : F): a • v = 0 ↔ a = 0 \<or> v = 0 :=
 
 codex statement:
 theorem entire_of_sum_frac_power_factorial:
-  fixes α::real and z::complex
-  assumes "α > 0"
-  shows "entire_function (λz. (∑n. z^n / (fact n)^α))"
+  fixes \<alpha>::real and z::complex
+  assumes "\<alpha> > 0"
+  shows "entire_function (\<lambda>z. (\<Sum>n. z^n / (fact n)^\<alpha>))"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_1_4: undefined oops
@@ -61,17 +61,17 @@ problem_number:1_6
 natural language statement:
 Give an example of a nonempty subset $U$ of $\mathbf{R}^2$ such that $U$ is closed under addition and under taking additive inverses (meaning $-u \in U$ whenever $u \in U$), but $U$ is not a subspace of $\mathbf{R}^2$.
 lean statement:
-theorem exercise_1_6 : ∃ U : set (ℝ × ℝ),
-  (U ≠ ∅) ∧
-  (∀ (u v : ℝ × ℝ), u ∈ U ∧ v ∈ U → u + v ∈ U) ∧
-  (∀ (u : ℝ × ℝ), u ∈ U → -u ∈ U) ∧
-  (∀ U' : submodule ℝ (ℝ × ℝ), U ≠ ↑U') :=
+theorem exercise_1_6 : \<exists> U : set (ℝ × ℝ),
+  (U \<noteq> ∅) \<and>
+  (\<forall> (u v : ℝ × ℝ), u ∈ U \<and> v ∈ U → u + v ∈ U) \<and>
+  (\<forall> (u : ℝ × ℝ), u ∈ U → -u ∈ U) \<and>
+  (\<forall> U' : submodule ℝ (ℝ × ℝ), U \<noteq> ↑U') :=
 
 codex statement:
 theorem entire_of_sum_frac_power_factorial:
-  fixes α::real
-  assumes "α > 0"
-  shows "entire_function (λz. (∑n. z^n / (fact n)^α))"
+  fixes \<alpha>::real
+  assumes "\<alpha> > 0"
+  shows "entire_function (\<lambda>z. (\<Sum>n. z^n / (fact n)^\<alpha>))"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_1_6: undefined oops
@@ -82,16 +82,16 @@ problem_number:1_7
 natural language statement:
 Give an example of a nonempty subset $U$ of $\mathbf{R}^2$ such that $U$ is closed under scalar multiplication, but $U$ is not a subspace of $\mathbf{R}^2$.
 lean statement:
-theorem exercise_1_7 : ∃ U : set (ℝ × ℝ),
-  (U ≠ ∅) ∧
-  (∀ (c : ℝ) (u : ℝ × ℝ), u ∈ U → c • u ∈ U) ∧
-  (∀ U' : submodule ℝ (ℝ × ℝ), U ≠ ↑U') :=
+theorem exercise_1_7 : \<exists> U : set (ℝ × ℝ),
+  (U \<noteq> ∅) \<and>
+  (\<forall> (c : ℝ) (u : ℝ × ℝ), u ∈ U → c • u ∈ U) \<and>
+  (\<forall> U' : submodule ℝ (ℝ × ℝ), U \<noteq> ↑U') :=
 
 codex statement:
 theorem entire_of_sum_frac_power_factorial:
-  fixes α::real
-  assumes "α > 0"
-  shows "entire_function (λz. (∑n. z^n / (fact n)^α))"
+  fixes \<alpha>::real
+  assumes "\<alpha> > 0"
+  shows "entire_function (\<lambda>z. (\<Sum>n. z^n / (fact n)^\<alpha>))"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_1_7: undefined oops
@@ -104,13 +104,13 @@ Prove that the intersection of any collection of subspaces of $V$ is a subspace 
 lean statement:
 theorem exercise_1_8 {F V : Type*} [add_comm_group V] [field F]
   [module F V] {ι : Type*} (u : ι → submodule F V) :
-  ∃ U : submodule F V, (⋂ (i : ι), (u i).carrier) = ↑U :=
+  \<exists> U : submodule F V, (⋂ (i : ι), (u i).carrier) = ↑U :=
 
 codex statement:
 theorem entire_function_of_order_one_over_alpha:
-  fixes α::real
-  assumes "α > 0"
-  shows "entire_function (λz. (∑n. z^n / (fact n)^α))"
+  fixes \<alpha>::real
+  assumes "\<alpha> > 0"
+  shows "entire_function (\<lambda>z. (\<Sum>n. z^n / (fact n)^\<alpha>))"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_1_8: undefined oops
@@ -123,13 +123,13 @@ Prove that the union of two subspaces of $V$ is a subspace of $V$ if and only if
 lean statement:
 theorem exercise_1_9 {F V : Type*} [add_comm_group V] [field F]
   [module F V] (U W : submodule F V):
-  ∃ U' : submodule F V, U'.carrier = ↑U ∩ ↑W ↔ U ≤ W ∨ W ≤ U :=
+  \<exists> U' : submodule F V, U'.carrier = ↑U ∩ ↑W ↔ U \<le> W \<or> W \<le> U :=
 
 codex statement:
 theorem entire_function_of_order_one_over_alpha:
-  fixes α::real and z::complex
-  assumes "α > 0"
-  shows "entire_function (λn. z^n / (fact n)^α)"
+  fixes \<alpha>::real and z::complex
+  assumes "\<alpha> > 0"
+  shows "entire_function (\<lambda>n. z^n / (fact n)^\<alpha>)"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_1_9: undefined oops
@@ -143,9 +143,9 @@ lean statement:
 
 codex statement:
 theorem entire_function_of_order_one_over_alpha:
-  fixes α::real
-  assumes "α > 0"
-  shows "entire_function (λz. (∑n. z^n / (fact n)^α))"
+  fixes \<alpha>::real
+  assumes "\<alpha> > 0"
+  shows "entire_function (\<lambda>z. (\<Sum>n. z^n / (fact n)^\<alpha>))"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_2_1: undefined oops
@@ -159,9 +159,9 @@ lean statement:
 
 codex statement:
 theorem entire_of_sum_frac_power_factorial:
-  fixes α::real and z::complex
-  assumes "α > 0"
-  shows "entire_function (λz. (∑n. z^n / (fact n)^α))"
+  fixes \<alpha>::real and z::complex
+  assumes "\<alpha> > 0"
+  shows "entire_function (\<lambda>z. (\<Sum>n. z^n / (fact n)^\<alpha>))"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_2_2: undefined oops
@@ -175,9 +175,9 @@ lean statement:
 
 codex statement:
 theorem entire_function_of_order_one_over_alpha:
-  fixes α::real
-  assumes "α > 0"
-  shows "entire_function (λz. (∑n. z^n / (fact n)^α))"
+  fixes \<alpha>::real
+  assumes "\<alpha> > 0"
+  shows "entire_function (\<lambda>z. (\<Sum>n. z^n / (fact n)^\<alpha>))"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_2_6: undefined oops
@@ -188,16 +188,16 @@ problem_number:3_1
 natural language statement:
 Show that every linear map from a one-dimensional vector space to itself is multiplication by some scalar. More precisely, prove that if $\operatorname{dim} V=1$ and $T \in \mathcal{L}(V, V)$, then there exists $a \in \mathbf{F}$ such that $T v=a v$ for all $v \in V$.
 lean statement:
-theorem exercise_3_1 {F V : Type*}  
+theorem exercise_3_1 {F V : Type*}
   [add_comm_group V] [field F] [module F V] [finite_dimensional F V]
   (T : V →ₗ[F] V) (hT : finrank F V = 1) :
-  ∃ c : F, ∀ v : V, T v = c • v:=
+  \<exists> c : F, \<forall> v : V, T v = c • v:=
 
 codex statement:
 theorem entire_function_of_order_one_over_alpha:
-  fixes α::real
-  assumes "α > 0"
-  shows "entire_function (λz. (∑n. z^n / (fact n)^α))"
+  fixes \<alpha>::real
+  assumes "\<alpha> > 0"
+  shows "entire_function (\<lambda>z. (\<Sum>n. z^n / (fact n)^\<alpha>))"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_3_1: undefined oops
@@ -211,14 +211,14 @@ lean statement:
 theorem exercise_3_8 {F V W : Type*}  [add_comm_group V]
   [add_comm_group W] [field F] [module F V] [module F W]
   (L : V →ₗ[F] W) :
-  ∃ U : submodule F V, U ⊓ L.ker = ⊥ ∧
+  \<exists> U : submodule F V, U ⊓ L.ker = ⊥ \<and>
   linear_map.range L = range (dom_restrict L U):=
 
 codex statement:
 theorem entire_of_sum_frac_power_factorial:
-  fixes α::real
-  assumes "α > 0"
-  shows "entire_function (λz. (∑n. z^n / (fact n)^α))"
+  fixes \<alpha>::real
+  assumes "\<alpha> > 0"
+  shows "entire_function (\<lambda>z. (\<Sum>n. z^n / (fact n)^\<alpha>))"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_3_8: undefined oops
@@ -232,9 +232,9 @@ lean statement:
 
 codex statement:
 theorem entire_function_of_order_one_over_alpha:
-  fixes α::real
-  assumes "α > 0"
-  shows "entire_function (λz. (∑n. z^n / (fact n)^α))"
+  fixes \<alpha>::real
+  assumes "\<alpha> > 0"
+  shows "entire_function (\<lambda>z. (\<Sum>n. z^n / (fact n)^\<alpha>))"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_3_9: undefined oops
@@ -248,9 +248,9 @@ lean statement:
 
 codex statement:
 theorem entire_function_of_order_one_over_alpha:
-  fixes α::real
-  assumes "α > 0"
-  shows "entire_function (λz. (∑n. z^n / (fact n)^α))"
+  fixes \<alpha>::real
+  assumes "\<alpha> > 0"
+  shows "entire_function (\<lambda>z. (\<Sum>n. z^n / (fact n)^\<alpha>))"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_3_10: undefined oops
@@ -264,9 +264,9 @@ lean statement:
 
 codex statement:
 theorem entire_function_of_order_one_over_alpha:
-  fixes α::real
-  assumes "α > 0"
-  shows "entire_function (λz. (∑n. z^n / (fact n)^α))"
+  fixes \<alpha>::real
+  assumes "\<alpha> > 0"
+  shows "entire_function (\<lambda>z. (\<Sum>n. z^n / (fact n)^\<alpha>))"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_3_11: undefined oops
@@ -285,9 +285,9 @@ theorem exercise_4_4 (p : polynomial ℂ) :
 
 codex statement:
 theorem entire_function_of_order_one_over_alpha:
-  fixes α::real and z::complex
-  assumes "α > 0"
-  shows "entire_function (λz. (∑n. z^n / (fact n)^α))"
+  fixes \<alpha>::real and z::complex
+  assumes "\<alpha> > 0"
+  shows "entire_function (\<lambda>z. (\<Sum>n. z^n / (fact n)^\<alpha>))"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_4_4: undefined oops
@@ -300,15 +300,15 @@ Suppose $T \in \mathcal{L}(V)$. Prove that if $U_{1}, \ldots, U_{m}$ are subspac
 lean statement:
 theorem exercise_5_1 {F V : Type*} [add_comm_group V] [field F]
   [module F V] {L : V →ₗ[F] V} {n : ℕ} (U : fin n → submodule F V)
-  (hU : ∀ i : fin n, map L (U i) = U i) :
-  map L (∑ i : fin n, U i : submodule F V) =
-  (∑ i : fin n, U i : submodule F V) :=
+  (hU : \<forall> i : fin n, map L (U i) = U i) :
+  map L (\<Sum> i : fin n, U i : submodule F V) =
+  (\<Sum> i : fin n, U i : submodule F V) :=
 
 codex statement:
 theorem entire_function_of_order_one_over_alpha:
-  fixes α::real
-  assumes "α > 0"
-  shows "entire_function (λz. (∑n. z^n / (fact n)^α))"
+  fixes \<alpha>::real
+  assumes "\<alpha> > 0"
+  shows "entire_function (\<lambda>z. (\<Sum>n. z^n / (fact n)^\<alpha>))"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_5_1: undefined oops
@@ -325,9 +325,9 @@ theorem exercise_5_4 {F V : Type*} [add_comm_group V] [field F]
 
 codex statement:
 theorem entire_of_sum_frac_power_factorial:
-  fixes α::real
-  assumes "α > 0"
-  shows "entire_function (λz. (∑n. z^n / (fact n)^α))"
+  fixes \<alpha>::real
+  assumes "\<alpha> > 0"
+  shows "entire_function (\<lambda>z. (\<Sum>n. z^n / (fact n)^\<alpha>))"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_5_4: undefined oops
@@ -344,9 +344,9 @@ theorem exercise_5_11 {F V : Type*} [add_comm_group V] [field F]
 
 codex statement:
 theorem entire_of_sum_frac_power_factorial:
-  fixes α::real
-  assumes "α > 0"
-  shows "entire_function (λz. (∑n. z^n / (fact n)^α))"
+  fixes \<alpha>::real
+  assumes "\<alpha> > 0"
+  shows "entire_function (\<lambda>z. (\<Sum>n. z^n / (fact n)^\<alpha>))"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_5_11: undefined oops
@@ -359,14 +359,14 @@ Suppose $T \in \mathcal{L}(V)$ is such that every vector in $V$ is an eigenvecto
 lean statement:
 theorem exercise_5_12 {F V : Type*} [add_comm_group V] [field F]
   [module F V] {S : End F V}
-  (hS : ∀ v : V, ∃ c : F, v ∈ eigenspace S c) :
-  ∃ c : F, S = c • id :=
+  (hS : \<forall> v : V, \<exists> c : F, v ∈ eigenspace S c) :
+  \<exists> c : F, S = c • id :=
 
 codex statement:
 theorem entire_function_of_order_one_over_alpha:
-  fixes α::real
-  assumes "α > 0"
-  shows "entire_function (λz. (∑n. z^n / (fact n)^α))"
+  fixes \<alpha>::real
+  assumes "\<alpha> > 0"
+  shows "entire_function (\<lambda>z. (\<Sum>n. z^n / (fact n)^\<alpha>))"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_5_12: undefined oops
@@ -379,14 +379,14 @@ Suppose $T \in \mathcal{L}(V)$ is such that every subspace of $V$ with dimension
 lean statement:
 theorem exercise_5_13 {F V : Type*} [add_comm_group V] [field F]
   [module F V] [finite_dimensional F V] {T : End F V}
-  (hS : ∀ U : submodule F V, finrank F U = finrank F V - 1 →
-  map T U = U) : ∃ c : F, T = c • id :=
+  (hS : \<forall> U : submodule F V, finrank F U = finrank F V - 1 →
+  map T U = U) : \<exists> c : F, T = c • id :=
 
 codex statement:
 theorem entire_of_sum_frac_power_factorial:
-  fixes α::real
-  assumes "α > 0"
-  shows "entire (λz. (∑n. z^n / (fact n)^α))"
+  fixes \<alpha>::real
+  assumes "\<alpha> > 0"
+  shows "entire (\<lambda>z. (\<Sum>n. z^n / (fact n)^\<alpha>))"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_5_13: undefined oops
@@ -400,14 +400,14 @@ lean statement:
 theorem exercise_5_20 {F V : Type*} [add_comm_group V] [field F]
   [module F V] [finite_dimensional F V] {S T : End F V}
   (h1 : @card T.eigenvalues (eigenvalues.fintype T) = finrank F V)
-  (h2 : ∀ v : V, ∃ c : F, v ∈ eigenspace S c ↔ ∃ c : F, v ∈ eigenspace T c) :
+  (h2 : \<forall> v : V, \<exists> c : F, v ∈ eigenspace S c ↔ \<exists> c : F, v ∈ eigenspace T c) :
   S * T = T * S :=
 
 codex statement:
 theorem entire_function_of_order_one_over_alpha:
-  fixes α::real
-  assumes "α > 0"
-  shows "entire_function (λz. (∑n. z^n / (fact n)^α))"
+  fixes \<alpha>::real
+  assumes "\<alpha> > 0"
+  shows "entire_function (\<lambda>z. (\<Sum>n. z^n / (fact n)^\<alpha>))"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_5_20: undefined oops
@@ -420,14 +420,14 @@ Suppose $V$ is a real vector space and $T \in \mathcal{L}(V)$ has no eigenvalues
 lean statement:
 theorem exercise_5_24 {V : Type*} [add_comm_group V]
   [module ℝ V] [finite_dimensional ℝ V] {T : End ℝ V}
-  (hT : ∀ c : ℝ, eigenspace T c = ⊥) {U : submodule ℝ V}
+  (hT : \<forall> c : ℝ, eigenspace T c = ⊥) {U : submodule ℝ V}
   (hU : map T U = U) : even (finrank U) :=
 
 codex statement:
 theorem entire_of_sum_frac_power_factorial:
-  fixes α::real
-  assumes "α > 0"
-  shows "entire_function (λz. (∑n. z^n / (fact n)^α))"
+  fixes \<alpha>::real
+  assumes "\<alpha> > 0"
+  shows "entire_function (\<lambda>z. (\<Sum>n. z^n / (fact n)^\<alpha>))"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_5_24: undefined oops
@@ -440,13 +440,13 @@ Suppose $u, v \in V$. Prove that $\langle u, v\rangle=0$ if and only if $\|u\| \
 lean statement:
 theorem exercise_6_2 {V : Type*} [add_comm_group V] [module ℂ V]
   [inner_product_space ℂ V] (u v : V) :
-  ⟪u, v⟫_ℂ = 0 ↔ ∀ (a : ℂ), ∥u∥ ≤ ∥u + a • v∥ :=
+  ⟪u, v⟫_ℂ = 0 ↔ \<forall> (a : ℂ), ∥u∥ \<le> ∥u + a • v∥ :=
 
 codex statement:
 theorem entire_function_of_order_one_over_alpha:
-  fixes α::real
-  assumes "α > 0"
-  shows "entire_function (λz. (∑n. z^n / (fact n)^α))"
+  fixes \<alpha>::real
+  assumes "\<alpha> > 0"
+  shows "entire_function (\<lambda>z. (\<Sum>n. z^n / (fact n)^\<alpha>))"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_6_2: undefined oops
@@ -458,13 +458,13 @@ natural language statement:
 Prove that $\left(\sum_{j=1}^{n} a_{j} b_{j}\right)^{2} \leq\left(\sum_{j=1}^{n} j a_{j}{ }^{2}\right)\left(\sum_{j=1}^{n} \frac{b_{j}{ }^{2}}{j}\right)$ for all real numbers $a_{1}, \ldots, a_{n}$ and $b_{1}, \ldots, b_{n}$.
 lean statement:
 theorem exercise_6_3 {n : ℕ} (a b : fin n → ℝ) :
-  (∑ i, a i * b i) ^ 2 ≤ (∑ i : fin n, i * a i ^ 2) * (∑ i, b i ^ 2 / i) :=
+  (\<Sum> i, a i * b i) ^ 2 \<le> (\<Sum> i : fin n, i * a i ^ 2) * (\<Sum> i, b i ^ 2 / i) :=
 
 codex statement:
 theorem entire_of_sum_frac_power_factorial:
-  fixes α::real
-  assumes "α > 0"
-  shows "entire_function (λz. (∑n. z^n / (fact n)^α))"
+  fixes \<alpha>::real
+  assumes "\<alpha> > 0"
+  shows "entire_function (\<lambda>z. (\<Sum>n. z^n / (fact n)^\<alpha>))"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_6_3: undefined oops
@@ -480,9 +480,9 @@ theorem exercise_6_7 {V : Type*} [inner_product_space ℂ V] (u v : V) :
 
 codex statement:
 theorem entire_function_of_order_one_over_alpha:
-  fixes α::real and z::complex
-  assumes "α > 0"
-  shows "entire_function (λz. (∑n. z^n / (fact n)^α))"
+  fixes \<alpha>::real and z::complex
+  assumes "\<alpha> > 0"
+  shows "entire_function (\<lambda>z. (\<Sum>n. z^n / (fact n)^\<alpha>))"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_6_7: undefined oops
@@ -495,13 +495,13 @@ Suppose $\left(e_{1}, \ldots, e_{m}\right)$ is an or thonormal list of vectors i
 lean statement:
 theorem exercise_6_13 {V : Type*} [inner_product_space ℂ V] {n : ℕ}
   {e : fin n → V} (he : orthonormal ℂ e) (v : V) :
-  ∥v∥^2 = ∑ i : fin n, ∥⟪v, e i⟫_ℂ∥^2 ↔ v ∈ span ℂ (e '' univ) :=
+  ∥v∥^2 = \<Sum> i : fin n, ∥⟪v, e i⟫_ℂ∥^2 ↔ v ∈ span ℂ (e '' univ) :=
 
 codex statement:
 theorem entire_function_of_order_one_over_alpha:
-  fixes α::real
-  assumes "α > 0"
-  shows "entire_function (λz. (∑n. z^n / (fact n)^α))"
+  fixes \<alpha>::real
+  assumes "\<alpha> > 0"
+  shows "entire_function (\<lambda>z. (\<Sum>n. z^n / (fact n)^\<alpha>))"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_6_13: undefined oops
@@ -513,14 +513,14 @@ natural language statement:
 Suppose $U$ is a subspace of $V$. Prove that $U^{\perp}=\{0\}$ if and only if $U=V$
 lean statement:
 theorem exercise_6_16 {K V : Type*} [is_R_or_C K] [inner_product_space K V]
-  {U : submodule K V} : 
+  {U : submodule K V} :
   U.orthogonal = ⊥  ↔ U = ⊤ :=
 
 codex statement:
 theorem entire_function_of_order_one_over_alpha:
-  fixes α::real
-  assumes "α > 0"
-  shows "entire_function (λz. (∑n. z^n / (fact n)^α))"
+  fixes \<alpha>::real
+  assumes "\<alpha> > 0"
+  shows "entire_function (\<lambda>z. (\<Sum>n. z^n / (fact n)^\<alpha>))"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_6_16: undefined oops
@@ -534,9 +534,9 @@ lean statement:
 
 codex statement:
 theorem entire_of_sum_frac_power_factorial:
-  fixes α::real
-  assumes "α > 0"
-  shows "entire_function (λz. (∑n. z^n / (fact n)^α))"
+  fixes \<alpha>::real
+  assumes "\<alpha> > 0"
+  shows "entire_function (\<lambda>z. (\<Sum>n. z^n / (fact n)^\<alpha>))"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_6_17: undefined oops
@@ -550,9 +550,9 @@ lean statement:
 
 codex statement:
 theorem entire_of_sum_frac_power_factorial:
-  fixes α::real
-  assumes "α > 0"
-  shows "entire_function (λz. (∑n. z^n / (fact n)^α))"
+  fixes \<alpha>::real
+  assumes "\<alpha> > 0"
+  shows "entire_function (\<lambda>z. (\<Sum>n. z^n / (fact n)^\<alpha>))"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_6_18: undefined oops
@@ -566,9 +566,9 @@ lean statement:
 
 codex statement:
 theorem invariant_of_projection_eq_projection_comp:
-  fixes T::"'a::euclidean_space ⇒ 'a" and U::"'a set"
+  fixes T::"'a::euclidean_space \<Rightarrow> 'a" and U::"'a set"
   assumes "subspace U"
-  shows "invariant_under T U ⟷ (T ∘ (projection U) = projection U ∘ T)"
+  shows "invariant_under T U \<longleftrightarrow> (T ∘ (projection U) = projection U ∘ T)"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_6_19: undefined oops
@@ -582,9 +582,9 @@ lean statement:
 
 codex statement:
 theorem orthogonal_projection_eq_projection_orthogonal:
-  fixes T::"'a::euclidean_space ⇒ 'a" and U::"'a set"
+  fixes T::"'a::euclidean_space \<Rightarrow> 'a" and U::"'a set"
   assumes "subspace U"
-  shows "(T ` U) ⊆ U ∧ (T ` U⊥) ⊆ U⊥ ⟷ (T ∘ (projection U)) = (projection U) ∘ T"
+  shows "(T ` U) \<subseteq> U \<and> (T ` U⊥) \<subseteq> U⊥ \<longleftrightarrow> (T ∘ (projection U)) = (projection U) ∘ T"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_6_20: undefined oops
@@ -598,9 +598,9 @@ lean statement:
 
 codex statement:
 theorem invariant_of_adjoint_invariant:
-  fixes T::"'a::euclidean_space ⇒ 'a" and U::"'a set"
+  fixes T::"'a::euclidean_space \<Rightarrow> 'a" and U::"'a set"
   assumes "linear T" "subspace U"
-  shows "U ⊆ carrier T ⟷ (U⊥) ⊆ carrier (adjoint T)"
+  shows "U \<subseteq> carrier T \<longleftrightarrow> (U⊥) \<subseteq> carrier (adjoint T)"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_6_29: undefined oops
@@ -614,9 +614,9 @@ lean statement:
 
 codex statement:
 theorem orthogonal_projection_iff_self_adjoint:
-  fixes P::"'a::euclidean_space ⇒ 'a"
+  fixes P::"'a::euclidean_space \<Rightarrow> 'a"
   assumes "linear P" "P^2 = P"
-  shows "orthogonal_projection P ⟷ selfadjoint P"
+  shows "orthogonal_projection P \<longleftrightarrow> selfadjoint P"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_7_4: undefined oops
@@ -627,16 +627,16 @@ problem_number:7_5
 natural language statement:
 Show that if $\operatorname{dim} V \geq 2$, then the set of normal operators on $V$ is not a subspace of $\mathcal{L}(V)$.
 lean statement:
-theorem exercise_7_5 {V : Type*} [inner_product_space ℂ V] 
-  [finite_dimensional ℂ V] (hV : finrank V ≥ 2) :
-  ∀ U : submodule ℂ (End ℂ V), U.carrier ≠
+theorem exercise_7_5 {V : Type*} [inner_product_space ℂ V]
+  [finite_dimensional ℂ V] (hV : finrank V \<ge> 2) :
+  \<forall> U : submodule ℂ (End ℂ V), U.carrier \<noteq>
   {T | T * T.adjoint = T.adjoint * T} :=
 
 codex statement:
 theorem normal_operators_not_subspace_of_linear_operators:
   fixes V::"'a::euclidean_space set"
-  assumes "DIM('a) ≥ 2"
-  shows "∀N. linear N ⟶ normal N ⟶ False"
+  assumes "DIM('a) \<ge> 2"
+  shows "\<forall>N. linear N \<longrightarrow> normal N \<longrightarrow> False"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_7_5: undefined oops
@@ -654,7 +654,7 @@ theorem exercise_7_6 {V : Type*} [inner_product_space ℂ V]
 
 codex statement:
 theorem range_of_normal_eq_range_of_adjoint:
-  fixes T::"'a::euclidean_space ⇒ 'a"
+  fixes T::"'a::euclidean_space \<Rightarrow> 'a"
   assumes "linear T" "T adjoint = T"
   shows "range T = range (T adjoint)"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
@@ -670,7 +670,7 @@ lean statement:
 
 codex statement:
 theorem not_exists_self_adjoint_operator_of_two_eigenvectors:
-  fixes T::"real^3 ⇒ real^3"
+  fixes T::"real^3 \<Rightarrow> real^3"
   assumes "linear T" "self_adjoint T" "T (vector [1,2,3]) = 0" "T (vector [2,5,7]) = vector [2,5,7]"
   shows False
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
@@ -686,13 +686,13 @@ lean statement:
 theorem exercise_7_9 {V : Type*} [inner_product_space ℂ V]
   [finite_dimensional ℂ V] (T : End ℂ V)
   (hT : T * T.adjoint = T.adjoint * T) :
-  is_self_adjoint T ↔ ∀ e : T.eigenvalues, (e : ℂ).im = 0 :=
+  is_self_adjoint T ↔ \<forall> e : T.eigenvalues, (e : ℂ).im = 0 :=
 
 codex statement:
 theorem normal_operator_is_self_adjoint_iff_eigenvalues_are_real:
-  fixes A::"'a::euclidean_space ⇒ 'a"
+  fixes A::"'a::euclidean_space \<Rightarrow> 'a"
   assumes "normal_operator A"
-  shows "self_adjoint A ⟷ (∀x. eigenvalue A x ⟶ x∈ℝ)"
+  shows "self_adjoint A \<longleftrightarrow> (\<forall>x. eigenvalue A x \<longrightarrow> x∈ℝ)"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_7_9: undefined oops
@@ -706,13 +706,13 @@ lean statement:
 theorem exercise_7_10 {V : Type*} [inner_product_space ℂ V]
   [finite_dimensional ℂ V] (T : End ℂ V)
   (hT : T * T.adjoint = T.adjoint * T) (hT1 : T^9 = T^8) :
-  is_self_adjoint T ∧ T^2 = T :=
+  is_self_adjoint T \<and> T^2 = T :=
 
 codex statement:
 theorem normal_operator_of_power_eq_power_succ:
-  fixes T::"'a::complex_inner_product_space ⇒ 'a"
+  fixes T::"'a::complex_inner_product_space \<Rightarrow> 'a"
   assumes "normal T" "T^9 = T^8"
-  shows "T = adjoint T ∧ T^2 = T"
+  shows "T = adjoint T \<and> T^2 = T"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_7_10: undefined oops
@@ -725,13 +725,13 @@ Suppose $V$ is a complex inner-product space. Prove that every normal operator o
 lean statement:
 theorem exercise_7_11 {V : Type*} [inner_product_space ℂ V]
   [finite_dimensional ℂ V] {T : End ℂ V} (hT : T*T.adjoint = T.adjoint*T) :
-  ∃ (S : End ℂ V), S ^ 2 = T :=
+  \<exists> (S : End ℂ V), S ^ 2 = T :=
 
 codex statement:
 theorem exists_sqrt_of_normal_operator:
   fixes V::"'a::complex_inner_product_space"
   assumes "normal_operator V"
-  shows "∃S. bounded_linear S ∧ S^2 = T"
+  shows "\<exists>S. bounded_linear S \<and> S^2 = T"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_7_11: undefined oops
@@ -745,14 +745,14 @@ lean statement:
 theorem exercise_7_14 {𝕜 V : Type*} [is_R_or_C 𝕜]
   [inner_product_space 𝕜 V] [finite_dimensional 𝕜 V]
   {T : End 𝕜 V} (hT : is_self_adjoint T)
-  {l : 𝕜} {ε : ℝ} (he : ε > 0) : ∃ v : V, ∥v∥ = 1 ∧ ∥T v - l • v∥ < ε →
-  ∃ l' : T.eigenvalues, ∥l - l'∥ < ε :=
+  {l : 𝕜} {ε : ℝ} (he : ε > 0) : \<exists> v : V, ∥v∥ = 1 \<and> ∥T v - l • v∥ < ε →
+  \<exists> l' : T.eigenvalues, ∥l - l'∥ < ε :=
 
 codex statement:
 theorem exists_eigenvalue_of_self_adjoint_operator:
-  fixes T::"'a::euclidean_space ⇒ 'a"
-  assumes "self_adjoint T" "∃v. norm v = 1 ∧ norm (T v - λ v) < ε"
-  shows "∃λ'. eigenvalue T λ' ∧ abs (λ - λ') < ε"
+  fixes T::"'a::euclidean_space \<Rightarrow> 'a"
+  assumes "self_adjoint T" "\<exists>v. norm v = 1 \<and> norm (T v - \<lambda> v) < ε"
+  shows "\<exists>\<lambda>'. eigenvalue T \<lambda>' \<and> abs (\<lambda> - \<lambda>') < ε"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_7_14: undefined oops
@@ -766,9 +766,9 @@ lean statement:
 
 codex statement:
 theorem exists_inner_product_of_eigenvectors_basis:
-  fixes T::"'a::euclidean_space ⇒ 'a"
-  assumes "linear T" "∃b. independent b ∧ b ⊆ carrier_vec n ∧ span b = carrier_vec n"
-  shows "∃B. inner_product_space B ∧ (∀x∈b. eigenvector B T x)"
+  fixes T::"'a::euclidean_space \<Rightarrow> 'a"
+  assumes "linear T" "\<exists>b. independent b \<and> b \<subseteq> carrier_vec n \<and> span b = carrier_vec n"
+  shows "\<exists>B. inner_product_space B \<and> (\<forall>x∈b. eigenvector B T x)"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_7_15: undefined oops
@@ -782,9 +782,9 @@ lean statement:
 
 codex statement:
 theorem sum_of_positive_operators_is_positive:
-  fixes V::"'a::euclidean_space set" and f g::"'a ⇒ 'a"
-  assumes "linear f" "linear g" "∀x∈V. 0 ≤ f x ⋅ x" "∀x∈V. 0 ≤ g x ⋅ x"
-  shows "∀x∈V. 0 ≤ (f + g) x ⋅ x"
+  fixes V::"'a::euclidean_space set" and f g::"'a \<Rightarrow> 'a"
+  assumes "linear f" "linear g" "\<forall>x∈V. 0 \<le> f x ⋅ x" "\<forall>x∈V. 0 \<le> g x ⋅ x"
+  shows "\<forall>x∈V. 0 \<le> (f + g) x ⋅ x"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_7_17: undefined oops
@@ -798,7 +798,7 @@ lean statement:
 
 codex statement:
 theorem positive_of_positive_power:
-  fixes T::"'a::euclidean_space ⇒ 'a"
+  fixes T::"'a::euclidean_space \<Rightarrow> 'a"
   assumes "linear T" "positive T"
   shows "positive (T^k)"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>

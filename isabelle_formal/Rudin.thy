@@ -17,7 +17,7 @@ end
 codex statement:
 theorem irrational_of_add_irrational_rational:
   fixes r::real and x::real
-  assumes "r ≠ 0" "irrational x"
+  assumes "r \<noteq> 0" "irrational x"
   shows "irrational (r + x)"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
@@ -32,7 +32,7 @@ lean statement:
 theorem exercise_1_1b
 (x : ℝ)
 (y : ℚ)
-(h : y ≠ 0)
+(h : y \<noteq> 0)
 : ( irrational x ) -> irrational ( x * y ) :=
 begin
   intro g,
@@ -42,7 +42,7 @@ end
 codex statement:
 theorem irrational_of_rational_times_irrational:
   fixes r::real and x::real
-  assumes "r ≠ 0" "irrational x" "rational r"
+  assumes "r \<noteq> 0" "irrational x" "rational r"
   shows "irrational (r*x)"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
@@ -55,11 +55,11 @@ natural language statement:
 Prove that there is no rational number whose square is $12$.
 lean statement:
 theorem exercise_1_2
-: ¬ ∃ (x : ℚ), ( x ^ 2 = 12 ) :=
+: ¬ \<exists> (x : ℚ), ( x ^ 2 = 12 ) :=
 
 codex statement:
 theorem no_rational_square_eq_12:
-  assumes "∃x. x^2 = 12"
+  assumes "\<exists>x. x^2 = 12"
   shows "False"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
@@ -72,22 +72,22 @@ natural language statement:
 Let $E$ be a nonempty subset of an ordered set; suppose $\alpha$ is a lower bound of $E$ and $\beta$ is an upper bound of $E$. Prove that $\alpha \leq \beta$.
 lean statement:
 theorem exercise_1_4
-(α : Type* ) [partial_order α]
-(s : set α)
-(x y : α)
+(\<alpha> : Type* ) [partial_order \<alpha>]
+(s : set \<alpha>)
+(x y : \<alpha>)
 (h₀ : set.nonempty s)
 (h₁ : x ∈ lower_bounds s)
 (h₂ : y ∈ upper_bounds s)
-: x ≤ y :=
+: x \<le> y :=
 begin
-  have h : ∃ z, z ∈ s := h₀,
+  have h : \<exists> z, z ∈ s := h₀,
   cases h with z,
-  have xlez : x ≤ z :=
+  have xlez : x \<le> z :=
   begin
   apply h₁,
   assumption,
   end,
-  have zley : z ≤ y :=
+  have zley : z \<le> y :=
   begin
   apply h₂,
   assumption,
@@ -98,8 +98,8 @@ end
 codex statement:
 theorem lower_bound_leq_upper_bound:
   fixes E::"'a::linorder set"
-  assumes "E ≠ {}" "∀x∈E. α ≤ x" "∀x∈E. x ≤ β"
-  shows "α ≤ β"
+  assumes "E \<noteq> {}" "\<forall>x∈E. \<alpha> \<le> x" "\<forall>x∈E. x \<le> β"
+  shows "\<alpha> \<le> β"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_1_4: undefined oops
@@ -118,7 +118,7 @@ theorem exercise_1_5
 codex statement:
 theorem inf_of_neg_sup_of_neg:
   fixes A::"real set"
-  assumes "bdd_below A" "A ≠ {}"
+  assumes "bdd_below A" "A \<noteq> {}"
   shows "Inf A = - Sup (-A)"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
@@ -131,12 +131,12 @@ natural language statement:
 Prove that no order can be defined in the complex field that turns it into an ordered field. Hint: $-1$ is a square.
 lean statement:
 theorem exercise_1_8
-  : ¬ ∃ (r : ℂ → ℂ → Prop), is_linear_order ℂ r :=
+  : ¬ \<exists> (r : ℂ → ℂ → Prop), is_linear_order ℂ r :=
 
 codex statement:
 theorem no_order_in_complex_field:
   fixes z::complex
-  assumes "∀x y. x ≤ y ⟶ x + z ≤ y + z" "∀x y. x ≤ y ⟶ x * z ≤ y * z" "∀x. x ≤ x" "∀x y. x ≤ y ⟶ y ≤ x ⟶ x = y" "∀x y z. x ≤ y ⟶ x + z ≤ y + z" "∀x y. x ≤ y ⟶ x * y ≤ y * x" "∀x y z. x ≤ y ⟶ x * (y + z) ≤ x * y + x * z" "∃x. x < x"
+  assumes "\<forall>x y. x \<le> y \<longrightarrow> x + z \<le> y + z" "\<forall>x y. x \<le> y \<longrightarrow> x * z \<le> y * z" "\<forall>x. x \<le> x" "\<forall>x y. x \<le> y \<longrightarrow> y \<le> x \<longrightarrow> x = y" "\<forall>x y z. x \<le> y \<longrightarrow> x + z \<le> y + z" "\<forall>x y. x \<le> y \<longrightarrow> x * y \<le> y * x" "\<forall>x y z. x \<le> y \<longrightarrow> x * (y + z) \<le> x * y + x * z" "\<exists>x. x < x"
   shows False
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
@@ -149,7 +149,7 @@ natural language statement:
 Prove that $|\mathbf{x}+\mathbf{y}|^{2}+|\mathbf{x}-\mathbf{y}|^{2}=2|\mathbf{x}|^{2}+2|\mathbf{y}|^{2}$ if $\mathbf{x} \in R^{k}$ and $\mathbf{y} \in R^{k}$.
 lean statement:
 theorem exercise_1_8
-  : ¬ ∃ (r : ℂ → ℂ → Prop), is_linear_order ℂ r :=
+  : ¬ \<exists> (r : ℂ → ℂ → Prop), is_linear_order ℂ r :=
 
 codex statement:
 theorem sum_add_square_sub_square_eq_sum_square:
@@ -188,13 +188,13 @@ theorem exercise_1_18a
   (n : ℕ)
   (h : n > 1)
   (x : euclidean_space ℝ (fin n)) -- R^n
-  : ∃ (y : euclidean_space ℝ (fin n)), y ≠ 0 ∧ (inner x y) = (0 : ℝ) :=
+  : \<exists> (y : euclidean_space ℝ (fin n)), y \<noteq> 0 \<and> (inner x y) = (0 : ℝ) :=
 
 codex statement:
 theorem exists_nonzero_orthogonal_vector:
   fixes x::"'a::euclidean_space"
-  assumes "k≥2"
-  shows "∃y. y ≠ 0 ∧ x ⋅ y = 0"
+  assumes "k\<ge>2"
+  shows "\<exists>y. y \<noteq> 0 \<and> x ⋅ y = 0"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_1_18a: undefined oops
@@ -258,7 +258,7 @@ codex statement:
 theorem closed_set_union_perfect_set_countable_set:
   fixes X::"'a::metric_space set"
   assumes "separable X" "closed X"
-  shows "∃P C. perfect P ∧ countable C ∧ X = P ∪ C"
+  shows "\<exists>P C. perfect P \<and> countable C \<and> X = P ∪ C"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_1_28: undefined oops
@@ -274,7 +274,7 @@ codex statement:
 theorem open_set_union_of_countable_disjoint_segments:
   fixes A::"real set"
   assumes "open A"
-  shows "∃f. countable (f ` (UNIV::nat set)) ∧ pairwise disjoint (f ` (UNIV::nat set)) ∧ (⋃i∈UNIV. f i) = A"
+  shows "\<exists>f. countable (f ` (UNIV::nat set)) \<and> pairwise disjoint (f ` (UNIV::nat set)) \<and> (⋃i∈UNIV. f i) = A"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_1_29: undefined oops
@@ -305,13 +305,13 @@ natural language statement:
 Let $X$ be a metric space in which every infinite subset has a limit point. Prove that $X$ is separable. Hint: Fix $\delta>0$, and pick $x_{1} \in X$. Having chosen $x_{1}, \ldots, x_{J} \in X$,
 lean statement:
 theorem exercise_2_24 {X : Type*} [metric_space X]
-  (hX : ∀ (A : set X), infinite A → ∃ (x : X), x ∈ closure A) :
+  (hX : \<forall> (A : set X), infinite A → \<exists> (x : X), x ∈ closure A) :
   separable_space X :=
 
 codex statement:
 theorem separable_of_infinite_subset_has_limit_point:
   fixes X::"'a::metric_space set"
-  assumes "∀A. infinite A ⟶ ∃x∈A. ∀ε>0. ∃y∈A. y≠x ∧ dist x y < ε"
+  assumes "\<forall>A. infinite A \<longrightarrow> \<exists>x∈A. \<forall>ε>0. \<exists>y∈A. y\<noteq>x \<and> dist x y < ε"
   shows "separable X"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
@@ -325,8 +325,8 @@ Prove that convergence of $\left\{s_{n}\right\}$ implies convergence of $\left\{
 lean statement:
 theorem exercise_3_1a
   (f : ℕ → ℝ)
-  (h : ∃ (a : ℝ), tendsto (λ (n : ℕ), f n) at_top (𝓝 a))
-  : ∃ (a : ℝ), tendsto (λ (n : ℕ), |f n|) at_top (𝓝 a) :=
+  (h : \<exists> (a : ℝ), tendsto (\<lambda> (n : ℕ), f n) at_top (𝓝 a))
+  : \<exists> (a : ℝ), tendsto (\<lambda> (n : ℕ), |f n|) at_top (𝓝 a) :=
 begin
   cases h with a h,
   use |a|,
@@ -335,9 +335,9 @@ end
 
 codex statement:
 theorem convergent_of_convergent_abs:
-  fixes s::"nat ⇒ 'a::real_normed_vector"
+  fixes s::"nat \<Rightarrow> 'a::real_normed_vector"
   assumes "convergent s"
-  shows "convergent (λn. norm (s n))"
+  shows "convergent (\<lambda>n. norm (s n))"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_3_1a: undefined oops
@@ -349,13 +349,13 @@ natural language statement:
 If $s_{1}=\sqrt{2}$, and $s_{n+1}=\sqrt{2+\sqrt{s_{n}}} \quad(n=1,2,3, \ldots),$ prove that $\left\{s_{n}\right\}$ converges, and that $s_{n}<2$ for $n=1,2,3, \ldots$.
 lean statement:
 theorem exercise_3_3
-  : ∃ (x : ℝ), tendsto f at_top (𝓝 x) ∧ ∀ n, f n < 2 :=
+  : \<exists> (x : ℝ), tendsto f at_top (𝓝 x) \<and> \<forall> n, f n < 2 :=
 
 codex statement:
 theorem sqrt_2_lt_2_of_sqrt_2_plus_sqrt_s_n:
-  fixes s::"nat ⇒ real"
-  assumes "s 1 = sqrt 2" "∀n. s (n+1) = sqrt (2 + sqrt (s n))"
-  shows "∀n. s n < 2"
+  fixes s::"nat \<Rightarrow> real"
+  assumes "s 1 = sqrt 2" "\<forall>n. s (n+1) = sqrt (2 + sqrt (s n))"
+  shows "\<forall>n. s n < 2"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_3_3: undefined oops
@@ -368,14 +368,14 @@ For any two real sequences $\left\{a_{n}\right\},\left\{b_{n}\right\}$, prove th
 lean statement:
 theorem exercise_3_5 -- TODO fix
   (a b : ℕ → ℝ)
-  (h : limsup a + limsup b ≠ 0) :
-  limsup (λ n, a n + b n) ≤ limsup a + limsup b :=
+  (h : limsup a + limsup b \<noteq> 0) :
+  limsup (\<lambda> n, a n + b n) \<le> limsup a + limsup b :=
 
 codex statement:
 theorem limsup_sum_leq_sum_limsup:
-  fixes a b::"nat ⇒ real"
-  assumes "∀n. a n ≤ b n"
-  shows "limsup (λn. a n + b n) ≤ limsup a + limsup b"
+  fixes a b::"nat \<Rightarrow> real"
+  assumes "\<forall>n. a n \<le> b n"
+  shows "limsup (\<lambda>n. a n + b n) \<le> limsup a + limsup b"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_3_5: undefined oops
@@ -388,14 +388,14 @@ Prove that the convergence of $\Sigma a_{n}$ implies the convergence of $\sum \f
 lean statement:
 theorem exercise_3_7
   (a : ℕ → ℝ)
-  (h : ∃ y, (tendsto (λ n, (∑ i in (finset.range n), a i)) at_top (𝓝 y))) :
-  ∃ y, tendsto (λ n, (∑ i in (finset.range n), sqrt (a i) / n)) at_top (𝓝 y) :=
+  (h : \<exists> y, (tendsto (\<lambda> n, (\<Sum> i in (finset.range n), a i)) at_top (𝓝 y))) :
+  \<exists> y, tendsto (\<lambda> n, (\<Sum> i in (finset.range n), sqrt (a i) / n)) at_top (𝓝 y) :=
 
 codex statement:
 theorem sum_sqrt_div_n_converges_of_sum_converges:
-  fixes a::"nat ⇒ real"
-  assumes "summable a" "∀n. a n ≥ 0"
-  shows "summable (λn. sqrt (a n) / n)"
+  fixes a::"nat \<Rightarrow> real"
+  assumes "summable a" "\<forall>n. a n \<ge> 0"
+  shows "summable (\<lambda>n. sqrt (a n) / n)"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_3_7: undefined oops
@@ -408,16 +408,16 @@ If $\Sigma a_{n}$ converges, and if $\left\{b_{n}\right\}$ is monotonic and boun
 lean statement:
 theorem exercise_3_8
   (a b : ℕ → ℝ)
-  (h1 : ∃ y, (tendsto (λ n, (∑ i in (finset.range n), a i)) at_top (𝓝 y)))
+  (h1 : \<exists> y, (tendsto (\<lambda> n, (\<Sum> i in (finset.range n), a i)) at_top (𝓝 y)))
   (h2 : monotone b)
   (h3 : metric.bounded (set.range b)) :
-  ∃ y, tendsto (λ n, (∑ i in (finset.range n), (a i) * (b i))) at_top (𝓝 y) :=
+  \<exists> y, tendsto (\<lambda> n, (\<Sum> i in (finset.range n), (a i) * (b i))) at_top (𝓝 y) :=
 
 codex statement:
 theorem convergent_of_convergent_and_monotonic_bounded:
-  fixes a::"nat ⇒ real" and b::"nat ⇒ real"
+  fixes a::"nat \<Rightarrow> real" and b::"nat \<Rightarrow> real"
   assumes "convergent a" "bounded (range b)" "mono b"
-  shows "convergent (λn. a n * b n)"
+  shows "convergent (\<lambda>n. a n * b n)"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_3_8: undefined oops
@@ -430,16 +430,16 @@ Prove that the Cauchy product of two absolutely convergent series converges abso
 lean statement:
 theorem exercise_3_13
   (a b : ℕ → ℝ)
-  (ha : ∃ y, (tendsto (λ n, (∑ i in (finset.range n), |a i|)) at_top (𝓝 y)))
-  (hb : ∃ y, (tendsto (λ n, (∑ i in (finset.range n), |b i|)) at_top (𝓝 y))) :
-  ∃ y, (tendsto (λ n, (∑ i in (finset.range n),
-  λ i, (∑ j in finset.range (i + 1), a j * b (i - j)))) at_top (𝓝 y)) :=
+  (ha : \<exists> y, (tendsto (\<lambda> n, (\<Sum> i in (finset.range n), |a i|)) at_top (𝓝 y)))
+  (hb : \<exists> y, (tendsto (\<lambda> n, (\<Sum> i in (finset.range n), |b i|)) at_top (𝓝 y))) :
+  \<exists> y, (tendsto (\<lambda> n, (\<Sum> i in (finset.range n),
+  \<lambda> i, (\<Sum> j in finset.range (i + 1), a j * b (i - j)))) at_top (𝓝 y)) :=
 
 codex statement:
 theorem abs_convergent_of_cauchy_product:
-  fixes f g::"nat ⇒ 'a::real_normed_algebra_1"
-  assumes "summable (λn. abs (f n))" "summable (λn. abs (g n))"
-  shows "summable (λn. abs (∑i<n. f i * g (n - i)))"
+  fixes f g::"nat \<Rightarrow> 'a::real_normed_algebra_1"
+  assumes "summable (\<lambda>n. abs (f n))" "summable (\<lambda>n. abs (g n))"
+  shows "summable (\<lambda>n. abs (\<Sum>i<n. f i * g (n - i)))"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_3_13: undefined oops
@@ -453,14 +453,14 @@ lean statement:
 theorem exercise_3_20 {X : Type*} [metric_space X]
   (p : ℕ → X) (l : ℕ) (r : X)
   (hp : cauchy_seq p)
-  (hpl : tendsto (λ n, p (l * n)) at_top (𝓝 r)) :
+  (hpl : tendsto (\<lambda> n, p (l * n)) at_top (𝓝 r)) :
   tendsto p at_top (𝓝 r) :=
 
 codex statement:
 theorem convergent_of_subseq_convergent:
-  fixes X::"'a::metric_space" and p::"'a" and pn::"nat ⇒ 'a"
-  assumes "Cauchy pn" "convergent (λn. pn (n l))" "∀n. pn (n l) ⟶ p"
-  shows "pn ⟶ p"
+  fixes X::"'a::metric_space" and p::"'a" and pn::"nat \<Rightarrow> 'a"
+  assumes "Cauchy pn" "convergent (\<lambda>n. pn (n l))" "\<forall>n. pn (n l) \<longrightarrow> p"
+  shows "pn \<longrightarrow> p"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_3_20: undefined oops
@@ -474,15 +474,15 @@ lean statement:
 theorem exercise_3_21
   {X : Type*} [metric_space X] [complete_space X]
   (E : ℕ → set X)
-  (hE : ∀ n, E n ⊃ E (n + 1))
-  (hE' : tendsto (λ n, metric.diam (E n)) at_top (𝓝 0)) :
-  ∃ a, set.Inter E = {a} :=
+  (hE : \<forall> n, E n ⊃ E (n + 1))
+  (hE' : tendsto (\<lambda> n, metric.diam (E n)) at_top (𝓝 0)) :
+  \<exists> a, set.Inter E = {a} :=
 
 codex statement:
 theorem singleton_of_closed_nonempty_bounded_diam_zero:
   fixes X::"'a::metric_space set"
-  assumes "∀n. closed (E n)" "∀n. E n ≠ {}" "∀n. bounded (E n)" "∀n. E n ⊆ E (n+1)" "diameter (E n) ⟶ 0"
-  shows "∃x. (∩n. E n) = {x}"
+  assumes "\<forall>n. closed (E n)" "\<forall>n. E n \<noteq> {}" "\<forall>n. bounded (E n)" "\<forall>n. E n \<subseteq> E (n+1)" "diameter (E n) \<longrightarrow> 0"
+  shows "\<exists>x. (∩n. E n) = {x}"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_3_21: undefined oops
@@ -494,14 +494,14 @@ natural language statement:
 Suppose $X$ is a nonempty complete metric space, and $\left\{G_{n}\right\}$ is a sequence of dense open sets of $X$. Prove Baire's theorem, namely, that $\bigcap_{1}^{\infty} G_{n}$ is not empty.
 lean statement:
 theorem exercise_3_22 (X : Type* ) [metric_space X] [complete_space X]
-  (G : ℕ → set X) (hG : ∀ n, is_open (G n) ∧ dense (G n)) :
-  ∃ x, ∀ n, x ∈ G n :=
+  (G : ℕ → set X) (hG : \<forall> n, is_open (G n) \<and> dense (G n)) :
+  \<exists> x, \<forall> n, x ∈ G n :=
 
 codex statement:
 theorem baire_theorem:
   fixes X::"'a::metric_space set" and G::"'a set set"
-  assumes "complete_space X" "∀n. openin (subtopology X UNIV) (G n)" "∀n. dense_in (subtopology X UNIV) (G n)"
-  shows "∃x. ∀n. x∈G n"
+  assumes "complete_space X" "\<forall>n. openin (subtopology X UNIV) (G n)" "\<forall>n. dense_in (subtopology X UNIV) (G n)"
+  shows "\<exists>x. \<forall>n. x∈G n"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_3_22: undefined oops
@@ -513,11 +513,11 @@ natural language statement:
 If $f$ is a continuous mapping of a metric space $X$ into a metric space $Y$, prove that $f(\overline{E}) \subset \overline{f(E)}$ for every set $E \subset X$. ($\overline{E}$ denotes the closure of $E$).
 lean statement:
 theorem exercise_4_2a
-  {α : Type} [metric_space α]
+  {\<alpha> : Type} [metric_space \<alpha>]
   {β : Type} [metric_space β]
-  (f : α → β)
+  (f : \<alpha> → β)
   (h₁ : continuous f)
-  : ∀ (x : set α), f '' (closure x) ⊆ closure (f '' x) :=
+  : \<forall> (x : set \<alpha>), f '' (closure x) \<subseteq> closure (f '' x) :=
 begin
   intros X x h₂ Y h₃,
   simp at *,
@@ -525,16 +525,16 @@ begin
   cases h₂ with w h₅,
   cases h₅ with h₅ h₆,
   have h₈ : is_closed (f ⁻¹' Y) := is_closed.preimage h₁ h₃,
-  have h₉ : closure X ⊆ f ⁻¹' Y := closure_minimal h₄ h₈,
+  have h₉ : closure X \<subseteq> f ⁻¹' Y := closure_minimal h₄ h₈,
   rw ←h₆,
   exact h₉ h₅,
 end
 
 codex statement:
 theorem closure_of_continuous_image_subset_continuous_image_closure:
-  fixes f::"'a::metric_space ⇒ 'b::metric_space" and E::"'a set"
+  fixes f::"'a::metric_space \<Rightarrow> 'b::metric_space" and E::"'a set"
   assumes "continuous_on UNIV f"
-  shows "closure (f ` E) ⊆ f ` closure E"
+  shows "closure (f ` E) \<subseteq> f ` closure E"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_4_2a: undefined oops
@@ -546,8 +546,8 @@ natural language statement:
 Let $f$ be a continuous real function on a metric space $X$. Let $Z(f)$ (the zero set of $f$ ) be the set of all $p \in X$ at which $f(p)=0$. Prove that $Z(f)$ is closed.
 lean statement:
 theorem exercise_4_3
-  {α : Type} [metric_space α]
-  (f : α → ℝ) (h : continuous f) (z : set α) (g : z = f⁻¹' {0})
+  {\<alpha> : Type} [metric_space \<alpha>]
+  (f : \<alpha> → ℝ) (h : continuous f) (z : set \<alpha>) (g : z = f⁻¹' {0})
   : is_closed z :=
 begin
   rw g,
@@ -557,7 +557,7 @@ end
 
 codex statement:
 theorem zero_set_of_continuous_is_closed:
-  fixes f::"'a::metric_space ⇒ real"
+  fixes f::"'a::metric_space \<Rightarrow> real"
   assumes "continuous_on UNIV f"
   shows "closed {x∈UNIV. f x = 0}"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
@@ -571,13 +571,13 @@ natural language statement:
 Let $f$ and $g$ be continuous mappings of a metric space $X$ into a metric space $Y$, and let $E$ be a dense subset of $X$. Prove that $f(E)$ is dense in $f(X)$.
 lean statement:
 theorem exercise_4_4a
-  {α : Type} [metric_space α]
+  {\<alpha> : Type} [metric_space \<alpha>]
   {β : Type} [metric_space β]
-  (f : α → β)
-  (s : set α)
+  (f : \<alpha> → β)
+  (s : set \<alpha>)
   (h₁ : continuous f)
   (h₂ : dense s)
-  : f '' set.univ ⊆ closure (f '' s) :=
+  : f '' set.univ \<subseteq> closure (f '' s) :=
 begin
   simp,
   exact continuous.range_subset_closure_image_dense h₁ h₂,
@@ -585,7 +585,7 @@ end
 
 codex statement:
 theorem dense_of_continuous_dense:
-  fixes f::"'a::metric_space ⇒ 'b::metric_space" and g::"'a::metric_space ⇒ 'b::metric_space"
+  fixes f::"'a::metric_space \<Rightarrow> 'b::metric_space" and g::"'a::metric_space \<Rightarrow> 'b::metric_space"
   assumes "continuous_on UNIV f" "continuous_on UNIV g" "dense (f ` UNIV)" "dense (g ` UNIV)"
   shows "dense ((f ∘ g) ` UNIV)"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
@@ -603,13 +603,13 @@ theorem exercise_4_5a
   (E : set ℝ)
   (h₁ : is_closed E)
   (h₂ : continuous_on f E)
-  : ∃ (g : ℝ → ℝ), continuous g ∧ ∀ x ∈ E, f x = g x :=
+  : \<exists> (g : ℝ → ℝ), continuous g \<and> \<forall> x ∈ E, f x = g x :=
 
 codex statement:
 theorem exists_continuous_extension:
-  fixes f::"real ⇒ real" and E::"real set"
+  fixes f::"real \<Rightarrow> real" and E::"real set"
   assumes "continuous_on E f" "closed E"
-  shows "∃g. continuous_on UNIV g ∧ (∀x∈E. g x = f x)"
+  shows "\<exists>g. continuous_on UNIV g \<and> (\<forall>x∈E. g x = f x)"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_4_5a: undefined oops
@@ -630,7 +630,7 @@ theorem exercise_4_6
 
 codex statement:
 theorem compact_of_continuous_graph:
-  fixes f::"'a::metric_space ⇒ 'b::metric_space" and E::"'a::metric_space set"
+  fixes f::"'a::metric_space \<Rightarrow> 'b::metric_space" and E::"'a::metric_space set"
   assumes "compact E" "continuous_on E f"
   shows "compact {(x, f x) | x. x ∈ E}"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
@@ -649,7 +649,7 @@ theorem exercise_4_8a
 
 codex statement:
 theorem bounded_of_uniformly_continuous_on_bounded:
-  fixes f::"'a::metric_space ⇒ 'b::real_normed_vector"
+  fixes f::"'a::metric_space \<Rightarrow> 'b::real_normed_vector"
   assumes "bounded (UNIV::'a set)" "uniformly_continuous_on UNIV f"
   shows "bounded (range f)"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
@@ -667,11 +667,11 @@ theorem exercise_4_11a
   {Y : Type*} [metric_space Y]
   (f : X → Y) (hf : uniform_continuous f)
   (x : ℕ → X) (hx : cauchy_seq x) :
-  cauchy_seq (λ n, f (x n)) :=
+  cauchy_seq (\<lambda> n, f (x n)) :=
 
 codex statement:
 theorem cauchy_of_uniform_continuous:
-  fixes f::"'a::metric_space ⇒ 'b::metric_space"
+  fixes f::"'a::metric_space \<Rightarrow> 'b::metric_space"
   assumes "uniformly_continuous_on UNIV f" "cauchy (f ∘ g)"
   shows "cauchy g"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
@@ -685,14 +685,14 @@ natural language statement:
 A uniformly continuous function of a uniformly continuous function is uniformly continuous.
 lean statement:
 theorem exercise_4_12
-  {α β γ : Type*} [uniform_space α] [uniform_space β] [uniform_space γ]
-  {f : α → β} {g : β → γ}
+  {\<alpha> β γ : Type*} [uniform_space \<alpha>] [uniform_space β] [uniform_space γ]
+  {f : \<alpha> → β} {g : β → γ}
   (hf : uniform_continuous f) (hg : uniform_continuous g) :
   uniform_continuous (g ∘ f) :=
 
 codex statement:
 theorem uniform_continuous_of_uniform_continuous_comp:
-  fixes f::"'a::metric_space ⇒ 'b::metric_space" and g::"'b::metric_space ⇒ 'c::metric_space"
+  fixes f::"'a::metric_space \<Rightarrow> 'b::metric_space" and g::"'b::metric_space \<Rightarrow> 'c::metric_space"
   assumes "uniformly_continuous_on UNIV f" "uniformly_continuous_on UNIV g"
   shows "uniformly_continuous_on UNIV (g ∘ f)"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
@@ -707,13 +707,13 @@ Let $I=[0,1]$ be the closed unit interval. Suppose $f$ is a continuous mapping o
 lean statement:
 theorem exercise_4_14 [topological_space I]
   [linear_order I] (f : I → I) (hf : continuous f) :
-  ∃ (x : I), f x = x :=
+  \<exists> (x : I), f x = x :=
 
 codex statement:
 theorem exists_fixed_point_of_continuous_on_closed_interval:
-  fixes f::"real ⇒ real"
+  fixes f::"real \<Rightarrow> real"
   assumes "continuous_on {0..1} f"
-  shows "∃x. x∈{0..1} ∧ f x = x"
+  shows "\<exists>x. x∈{0..1} \<and> f x = x"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_4_14: undefined oops
@@ -730,7 +730,7 @@ theorem exercise_4_15 {f : ℝ → ℝ}
 
 codex statement:
 theorem monotonic_of_continuous_open_mapping:
-  fixes f::"real ⇒ real"
+  fixes f::"real \<Rightarrow> real"
   assumes "continuous_on UNIV f" "open_mapping f"
   shows "mono f"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
@@ -744,14 +744,14 @@ natural language statement:
 Suppose $f$ is a real function with domain $R^{1}$ which has the intermediate value property. If $f(a)<c<f(b)$, then $f(x)=c$ for some $x$ between $a$ and $b$. Suppose also, for every rational $r$, that the set of all $x$ with $f(x)=r$ is closed. Prove that $f$ is continuous.
 lean statement:
 theorem exercise_4_19
-  {f : ℝ → ℝ} (hf : ∀ a b c, a < b → f a < c → c < f b → ∃ x, a < x ∧ x < b ∧ f x = c)
-  (hg : ∀ r : ℚ, is_closed {x | f x = r}) : continuous f :=
+  {f : ℝ → ℝ} (hf : \<forall> a b c, a < b → f a < c → c < f b → \<exists> x, a < x \<and> x < b \<and> f x = c)
+  (hg : \<forall> r : ℚ, is_closed {x | f x = r}) : continuous f :=
 
 codex statement:
 theorem continuous_of_intermediate_value_property_and_closed_set_of_rational_value:
-  fixes f::"real ⇒ real"
-  assumes "∀a b c. a < b ⟶ f a < c ⟶ c < f b ⟶ ∃x. a < x ⟶ x < b ⟶ f x = c"
-    "∀r. closed {x | x ∈ UNIV ∧ f x = r}"
+  fixes f::"real \<Rightarrow> real"
+  assumes "\<forall>a b c. a < b \<longrightarrow> f a < c \<longrightarrow> c < f b \<longrightarrow> \<exists>x. a < x \<longrightarrow> x < b \<longrightarrow> f x = c"
+    "\<forall>r. closed {x | x ∈ UNIV \<and> f x = r}"
   shows "continuous_on UNIV f"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
@@ -765,13 +765,13 @@ Suppose $K$ and $F$ are disjoint sets in a metric space $X, K$ is compact, $F$ i
 lean statement:
 theorem exercise_4_21a {X : Type*} [metric_space X]
   (K F : set X) (hK : is_compact K) (hF : is_closed F) (hKF : disjoint K F) :
-  ∃ (δ : ℝ), δ > 0 ∧ ∀ (p q : X), p ∈ K → q ∈ F → dist p q ≥ δ :=
+  \<exists> (δ : ℝ), δ > 0 \<and> \<forall> (p q : X), p ∈ K → q ∈ F → dist p q \<ge> δ :=
 
 codex statement:
 theorem exists_delta_of_disjoint_compact_closed:
   fixes K F::"'a::metric_space set"
   assumes "compact K" "closed F" "K ∩ F = {}"
-  shows "∃δ>0. ∀p∈K. ∀q∈F. dist p q > δ"
+  shows "\<exists>δ>0. \<forall>p∈K. \<forall>q∈F. dist p q > δ"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_4_21a: undefined oops
@@ -784,13 +784,13 @@ Assume that $f$ is a continuous real function defined in $(a, b)$ such that $f\l
 lean statement:
 theorem exercise_4_24 {f : ℝ → ℝ}
   (hf : continuous f) (a b : ℝ) (hab : a < b)
-  (h : ∀ x y : ℝ, a < x → x < b → a < y → y < b → f ((x + y) / 2) ≤ (f x + f y) / 2) :
+  (h : \<forall> x y : ℝ, a < x → x < b → a < y → y < b → f ((x + y) / 2) \<le> (f x + f y) / 2) :
   convex_on ℝ (set.Ioo a b) f :=
 
 codex statement:
 theorem convex_of_continuous_and_ineq:
-  fixes f::"real ⇒ real"
-  assumes "continuous_on {a<..<b} f" "∀x y. x ∈ {a<..<b} ⟶ y ∈ {a<..<b} ⟶ f ((x + y) / 2) ≤ (f x + f y) / 2"
+  fixes f::"real \<Rightarrow> real"
+  assumes "continuous_on {a<..<b} f" "\<forall>x y. x ∈ {a<..<b} \<longrightarrow> y ∈ {a<..<b} \<longrightarrow> f ((x + y) / 2) \<le> (f x + f y) / 2"
   shows "convex_on {a<..<b} f"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
@@ -805,7 +805,7 @@ lean statement:
 
 codex statement:
 theorem uniform_continuous_of_continuous_injective_uniform_continuous_comp:
-  fixes f::"'a::metric_space ⇒ 'b::metric_space" and g::"'b::metric_space ⇒ 'c::metric_space"
+  fixes f::"'a::metric_space \<Rightarrow> 'b::metric_space" and g::"'b::metric_space \<Rightarrow> 'c::metric_space"
   assumes "compact (UNIV::'b set)" "continuous_on UNIV g" "inj g" "uniformly_continuous_on UNIV (g ∘ f)"
   shows "uniformly_continuous_on UNIV f"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
@@ -819,13 +819,13 @@ natural language statement:
 Let $f$ be defined for all real $x$, and suppose that $|f(x)-f(y)| \leq(x-y)^{2}$for all real $x$ and $y$. Prove that $f$ is constant.
 lean statement:
 theorem exercise_5_1
-  {f : ℝ → ℝ} (hf : ∀ x y : ℝ, | (f x - f y) | ≤ (x - y) ^ 2) :
-  ∃ c, f = λ x, c :=
+  {f : ℝ → ℝ} (hf : \<forall> x y : ℝ, | (f x - f y) | \<le> (x - y) ^ 2) :
+  \<exists> c, f = \<lambda> x, c :=
 
 codex statement:
 theorem constant_of_diff_leq_square_diff:
-  fixes f::"real ⇒ real"
-  assumes "∀x y. abs (f x - f y) ≤ (x - y)^2"
+  fixes f::"real \<Rightarrow> real"
+  assumes "\<forall>x y. abs (f x - f y) \<le> (x - y)^2"
   shows "f constant_on UNIV"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
@@ -838,17 +838,17 @@ natural language statement:
 Suppose $f^{\prime}(x)>0$ in $(a, b)$. Prove that $f$ is strictly increasing in $(a, b)$, and let $g$ be its inverse function. Prove that $g$ is differentiable, and that$g^{\prime}(f(x))=\frac{1}{f^{\prime}(x)} \quad(a<x<b)$
 lean statement:
 theorem exercise_5_2 {a b : ℝ}
-  {f g : ℝ → ℝ} (hf : ∀ x ∈ set.Ioo a b, deriv f x > 0)
+  {f g : ℝ → ℝ} (hf : \<forall> x ∈ set.Ioo a b, deriv f x > 0)
   (hg : g = f⁻¹)
   (hg_diff : differentiable_on ℝ g (set.Ioo a b)) :
-  differentiable_on ℝ g (set.Ioo a b) ∧
-  ∀ x ∈ set.Ioo a b, deriv g x = 1 / deriv f x :=
+  differentiable_on ℝ g (set.Ioo a b) \<and>
+  \<forall> x ∈ set.Ioo a b, deriv g x = 1 / deriv f x :=
 
 codex statement:
 theorem derivative_of_inverse_function:
-  fixes f::"real ⇒ real" and g::"real ⇒ real"
-  assumes "a < b" "continuous_on {a..b} f" "∀x∈{a..b}. f differentiable (at x)" "∀x∈{a..b}. 0 < f' x"
-  shows "∀x∈{a..b}. g differentiable (at x)" "∀x∈{a..b}. g' x = 1 / f' (g x)"
+  fixes f::"real \<Rightarrow> real" and g::"real \<Rightarrow> real"
+  assumes "a < b" "continuous_on {a..b} f" "\<forall>x∈{a..b}. f differentiable (at x)" "\<forall>x∈{a..b}. 0 < f' x"
+  shows "\<forall>x∈{a..b}. g differentiable (at x)" "\<forall>x∈{a..b}. g' x = 1 / f' (g x)"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_5_2: undefined oops
@@ -860,14 +860,14 @@ natural language statement:
 Suppose $g$ is a real function on $R^{1}$, with bounded derivative (say $\left|g^{\prime}\right| \leq M$ ). Fix $\varepsilon>0$, and define $f(x)=x+\varepsilon g(x)$. Prove that $f$ is one-to-one if $\varepsilon$ is small enough.
 lean statement:
 theorem exercise_5_3 {g : ℝ → ℝ} (hg : continuous g)
-  (hg' : ∃ M : ℝ, ∀ x : ℝ, | deriv g x | ≤ M) :
-  ∃ N, ∀ ε > 0, ε < N → function.injective (λ x : ℝ, x + ε * g x) :=
+  (hg' : \<exists> M : ℝ, \<forall> x : ℝ, | deriv g x | \<le> M) :
+  \<exists> N, \<forall> ε > 0, ε < N → function.injective (\<lambda> x : ℝ, x + ε * g x) :=
 
 codex statement:
 theorem injective_of_small_epsilon:
-  fixes g::"real ⇒ real"
-  assumes "∀x. abs (g' x) ≤ M"
-  shows "∃ε>0. ∀x y. abs (x - y) < ε ⟶ g x ≠ g y"
+  fixes g::"real \<Rightarrow> real"
+  assumes "\<forall>x. abs (g' x) \<le> M"
+  shows "\<exists>ε>0. \<forall>x y. abs (x - y) < ε \<longrightarrow> g x \<noteq> g y"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_5_3: undefined oops
@@ -880,14 +880,14 @@ If $C_{0}+\frac{C_{1}}{2}+\cdots+\frac{C_{n-1}}{n}+\frac{C_{n}}{n+1}=0,$ where $
 lean statement:
 theorem exercise_5_4 {n : ℕ}
   (C : ℕ → ℝ)
-  (hC : ∑ i in (finset.range (n + 1)), (C i) / (i + 1) = 0) :
-  ∃ x, x ∈ (set.Icc (0 : ℝ) 1) ∧ ∑ i in finset.range (n + 1), (C i) * (x^i) = 0 :=
+  (hC : \<Sum> i in (finset.range (n + 1)), (C i) / (i + 1) = 0) :
+  \<exists> x, x ∈ (set.Icc (0 : ℝ) 1) \<and> \<Sum> i in finset.range (n + 1), (C i) * (x^i) = 0 :=
 
 codex statement:
 theorem exists_real_root_of_polynomial_of_sum_eq_zero:
-  fixes C::"real ⇒ real"
-  assumes "∀n. C n = 0" "∑n. C n / (n+1) = 0"
-  shows "∃x. 0 < x ∧ x < 1 ∧ (∑n. C n * x^n) = 0"
+  fixes C::"real \<Rightarrow> real"
+  assumes "\<forall>n. C n = 0" "\<Sum>n. C n / (n+1) = 0"
+  shows "\<exists>x. 0 < x \<and> x < 1 \<and> (\<Sum>n. C n * x^n) = 0"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_5_4: undefined oops
@@ -902,13 +902,13 @@ theorem exercise_5_5
   {f : ℝ → ℝ}
   (hfd : differentiable ℝ f)
   (hf : tendsto (deriv f) at_top (𝓝 0)) :
-  tendsto (λ x, f (x + 1) - f x) at_top at_top :=
+  tendsto (\<lambda> x, f (x + 1) - f x) at_top at_top :=
 
 codex statement:
 theorem tendsto_zero_of_tendsto_zero_derivative:
-  fixes f::"real ⇒ real"
-  assumes "∀x. 0 < x ⟶ f differentiable (at x)" "((λx. f' x) ---> 0) at_top"
-  shows "((λx. f (x + 1) - f x) ---> 0) at_top"
+  fixes f::"real \<Rightarrow> real"
+  assumes "\<forall>x. 0 < x \<longrightarrow> f differentiable (at x)" "((\<lambda>x. f' x) ---> 0) at_top"
+  shows "((\<lambda>x. f (x + 1) - f x) ---> 0) at_top"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_5_5: undefined oops
@@ -922,16 +922,16 @@ lean statement:
 theorem exercise_5_6
   {f : ℝ → ℝ}
   (hf1 : continuous f)
-  (hf2 : ∀ x, differentiable_at ℝ f x)
+  (hf2 : \<forall> x, differentiable_at ℝ f x)
   (hf3 : f 0 = 0)
   (hf4 : monotone (deriv f)) :
-  monotone_on (λ x, f x / x) (set.Ioi 0) :=
+  monotone_on (\<lambda> x, f x / x) (set.Ioi 0) :=
 
 codex statement:
 theorem monotone_increasing_of_continuous_derivative_monotone_increasing:
-  fixes f::"real ⇒ real"
-  assumes "continuous_on {0..} f" "∀x>0. (f has_real_derivative f' x) (at x)" "f 0 = 0" "mono f'"
-  shows "mono (λx. f x / x)"
+  fixes f::"real \<Rightarrow> real"
+  assumes "continuous_on {0..} f" "\<forall>x>0. (f has_real_derivative f' x) (at x)" "f 0 = 0" "mono f'"
+  shows "mono (\<lambda>x. f x / x)"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_5_6: undefined oops
@@ -946,14 +946,14 @@ theorem exercise_5_7
   {f g : ℝ → ℝ} {x : ℝ}
   (hf' : differentiable_at ℝ f 0)
   (hg' : differentiable_at ℝ g 0)
-  (hg'_ne_0 : deriv g 0 ≠ 0)
+  (hg'_ne_0 : deriv g 0 \<noteq> 0)
   (f0 : f 0 = 0) (g0 : g 0 = 0) :
-  tendsto (λ x, f x / g x) (𝓝 x) (𝓝 (deriv f x / deriv g x)) :=
+  tendsto (\<lambda> x, f x / g x) (𝓝 x) (𝓝 (deriv f x / deriv g x)) :=
 
 codex statement:
 theorem lim_frac_of_derivative_eq_derivative_frac:
-  fixes f g::"real ⇒ real"
-  assumes "f differentiable (at x)" "g differentiable (at x)" "g x ≠ 0" "f x = g x = 0"
+  fixes f g::"real \<Rightarrow> real"
+  assumes "f differentiable (at x)" "g differentiable (at x)" "g x \<noteq> 0" "f x = g x = 0"
   shows "(f has_real_derivative (f' x)) (at x)" "(g has_real_derivative (g' x)) (at x)"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
@@ -971,7 +971,7 @@ theorem exercise_5_15 {f : ℝ → ℝ} (a M0 M1 M2 : ℝ)
   (hM0 : M0 = Sup {(| f x | )| x ∈ (set.Ici a)})
   (hM1 : M1 = Sup {(| deriv f x | )| x ∈ (set.Ici a)})
   (hM2 : M2 = Sup {(| deriv (deriv f) x | )| x ∈ (set.Ici a)}) :
-  (M1 ^ 2) ≤ 4 * M0 * M2 :=
+  (M1 ^ 2) \<le> 4 * M0 * M2 :=
 
 codex statement:
 
@@ -994,13 +994,13 @@ theorem exercise_5_17
   (hf1 : f 0 = 0)
   (hf2 : f 1 = 1)
   (hf3 : deriv f 0 = 0) :
-  ∃ x, x ∈ set.Ioo (-1 : ℝ) 1 ∧ deriv (deriv (deriv f)) x ≥ 3 :=
+  \<exists> x, x ∈ set.Ioo (-1 : ℝ) 1 \<and> deriv (deriv (deriv f)) x \<ge> 3 :=
 
 codex statement:
 theorem exists_x_in_interval_of_three_times_differentiable_function:
-  fixes f::"real ⇒ real"
-  assumes "∀x. f differentiable (at x)" "∀x. f differentiable (at x within {-1..1})" "∀x. f differentiable (at x within {-1..1})" "f (-1) = 0" "f 0 = 0" "f 1 = 1" "f' 0 = 0"
-  shows "∃x∈{-1..1}. f''' x ≥ 3"
+  fixes f::"real \<Rightarrow> real"
+  assumes "\<forall>x. f differentiable (at x)" "\<forall>x. f differentiable (at x within {-1..1})" "\<forall>x. f differentiable (at x within {-1..1})" "f (-1) = 0" "f 0 = 0" "f 1 = 1" "f' 0 = 0"
+  shows "\<exists>x∈{-1..1}. f''' x \<ge> 3"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_5_17: undefined oops
@@ -1014,9 +1014,9 @@ lean statement:
 
 codex statement:
 theorem integral_of_continuous_function_eq_zero:
-  fixes f::"real ⇒ real" and α::"real ⇒ real"
-  assumes "a ≤ x₀" "x₀ ≤ b" "continuous (at x₀) α" "f x₀ = 1" "f x = 0" "∀x. a ≤ x ∧ x ≤ b ⟶ α x ≤ α x₀"
-  shows "f ∈ borel_measurable α" "integral α f = 0"
+  fixes f::"real \<Rightarrow> real" and \<alpha>::"real \<Rightarrow> real"
+  assumes "a \<le> x₀" "x₀ \<le> b" "continuous (at x₀) \<alpha>" "f x₀ = 1" "f x = 0" "\<forall>x. a \<le> x \<and> x \<le> b \<longrightarrow> \<alpha> x \<le> \<alpha> x₀"
+  shows "f ∈ borel_measurable \<alpha>" "integral \<alpha> f = 0"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_6_1: undefined oops
@@ -1030,9 +1030,9 @@ lean statement:
 
 codex statement:
 theorem zero_integral_of_continuous_nonneg_implies_zero_function:
-  fixes f::"real ⇒ real"
-  assumes "continuous_on {a..b} f" "f ≥ 0" "integral {a..b} f = 0"
-  shows "∀x∈{a..b}. f x = 0"
+  fixes f::"real \<Rightarrow> real"
+  assumes "continuous_on {a..b} f" "f \<ge> 0" "integral {a..b} f = 0"
+  shows "\<forall>x∈{a..b}. f x = 0"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_6_2: undefined oops
@@ -1046,9 +1046,9 @@ lean statement:
 
 codex statement:
 theorem not_Riemann_integrable_of_zero_for_irrational_one_for_rational:
-  fixes f::"real ⇒ real"
-  assumes "∀x. irrational x ⟶ f x = 0" "∀x. rational x ⟶ f x = 1"
-  shows "∀a b. a < b ⟶ ¬ (f integrable_on {a..b})"
+  fixes f::"real \<Rightarrow> real"
+  assumes "\<forall>x. irrational x \<longrightarrow> f x = 0" "\<forall>x. rational x \<longrightarrow> f x = 1"
+  shows "\<forall>a b. a < b \<longrightarrow> ¬ (f integrable_on {a..b})"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_6_4: undefined oops
@@ -1062,8 +1062,8 @@ lean statement:
 
 codex statement:
 theorem R_of_bounded_continuous_at_outside_Cantor:
-  fixes f::"real ⇒ real"
-  assumes "bounded (range f)" "∀x∈{0..1} - cantor. continuous (at x) f"
+  fixes f::"real \<Rightarrow> real"
+  assumes "bounded (range f)" "\<forall>x∈{0..1} - cantor. continuous (at x) f"
   shows "f ∈ R {0..1}"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)

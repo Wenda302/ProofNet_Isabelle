@@ -9,13 +9,13 @@ Let $(p_n)$ be a sequence and $f:\mathbb{N}\to\mathbb{N}$ a bijection. The seque
 lean statement:
 theorem exercise_2_12a (f : ℕ → ℕ) (p : ℕ → ℝ) (a : ℝ)
   (hf : injective f) (hp : tendsto p at_top (𝓝 a)) :
-  tendsto (λ n, p (f n)) at_top (𝓝 a) :=
+  tendsto (\<lambda> n, p (f n)) at_top (𝓝 a) :=
 
 codex statement:
 theorem lim_of_rearrangement_of_injective:
-  fixes f::"nat ⇒ nat" and p::"nat ⇒ 'a::real_normed_vector"
+  fixes f::"nat \<Rightarrow> nat" and p::"nat \<Rightarrow> 'a::real_normed_vector"
   assumes "inj f" "convergent p"
-  shows "convergent (λn. p (f n))"
+  shows "convergent (\<lambda>n. p (f n))"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_2_12a: undefined oops
@@ -28,13 +28,13 @@ Let $(p_n)$ be a sequence and $f:\mathbb{N}\to\mathbb{N}$ a bijection. The seque
 lean statement:
 theorem exercise_2_12b (f : ℕ → ℕ) (p : ℕ → ℝ) (a : ℝ)
   (hf : surjective f) (hp : tendsto p at_top (𝓝 a)) :
-  tendsto (λ n, p (f n)) at_top (𝓝 a) :=
+  tendsto (\<lambda> n, p (f n)) at_top (𝓝 a) :=
 
 codex statement:
 theorem lim_of_rearrangement_of_surjection:
-  fixes f::"nat ⇒ nat" and p::"nat ⇒ 'a::real_normed_vector"
-  assumes "bij f" "surj f" "∀n. p n = q (f n)" "convergent p"
-  shows "convergent q ∧ lim p = lim q"
+  fixes f::"nat \<Rightarrow> nat" and p::"nat \<Rightarrow> 'a::real_normed_vector"
+  assumes "bij f" "surj f" "\<forall>n. p n = q (f n)" "convergent p"
+  shows "convergent q \<and> lim p = lim q"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_2_12b: undefined oops
@@ -46,12 +46,12 @@ natural language statement:
 Prove that a set $U \subset M$ is open if and only if none of its points are limits of its complement.
 lean statement:
 theorem exercise_2_26 {M : Type*} [topological_space M]
-  (U : set M) : is_open U ↔ ∀ x ∈ U, ¬ cluster_pt x (𝓟 Uᶜ) :=
+  (U : set M) : is_open U ↔ \<forall> x ∈ U, ¬ cluster_pt x (𝓟 Uᶜ) :=
 
 codex statement:
 theorem open_iff_no_limit_point_of_complement:
   fixes U::"'a::metric_space set"
-  shows "open U ⟷ ∀x∈U. ¬(x islimpt (-U))"
+  shows "open U \<longleftrightarrow> \<forall>x∈U. ¬(x islimpt (-U))"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_2_26: undefined oops
@@ -66,12 +66,12 @@ theorem exercise_2_29 (M : Type* ) [metric_space M]
   (O C : set (set M))
   (hO : O = {s | is_open s})
   (hC : C = {s | is_closed s}) :
-  ∃ f : O → C, bijective f :=
+  \<exists> f : O → C, bijective f :=
 
 codex statement:
 theorem bijection_open_closed:
   fixes M::"'a::metric_space set"
-  shows "bij_betw (λU. closure U) (open_sets M) (closed_sets M)"
+  shows "bij_betw (\<lambda>U. closure U) (open_sets M) (closed_sets M)"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_2_29: undefined oops
@@ -87,7 +87,7 @@ theorem exercise_2_32a (A : set ℕ) : is_clopen A :=
 codex statement:
 theorem clopen_of_subset_nat:
   fixes A::"nat set"
-  shows "closed_in (top_of_set UNIV) A ∧ open_in (top_of_set UNIV) A"
+  shows "closed_in (top_of_set UNIV) A \<and> open_in (top_of_set UNIV) A"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_2_32a: undefined oops
@@ -103,9 +103,9 @@ theorem exercise_2_41 (m : ℕ) {X : Type*} [normed_space ℝ ((fin m) → ℝ)]
 
 codex statement:
 theorem compact_of_norm_leq_one:
-  fixes m::nat and f::"nat ⇒ real"
-  assumes "norm f ≤ 1"
-  shows "compact {x::'a::euclidean_space. ∀i. norm (x$i) ≤ f i}"
+  fixes m::nat and f::"nat \<Rightarrow> real"
+  assumes "norm f \<le> 1"
+  shows "compact {x::'a::euclidean_space. \<forall>i. norm (x$i) \<le> f i}"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_2_41: undefined oops
@@ -118,15 +118,15 @@ Assume that $A, B$ are compact, disjoint, nonempty subsets of $M$. Prove that th
 lean statement:
 theorem exercise_2_46 {M : Type*} [metric_space M]
   {A B : set M} (hA : is_compact A) (hB : is_compact B)
-  (hAB : disjoint A B) (hA₀ : A ≠ ∅) (hB₀ : B ≠ ∅) :
-  ∃ a₀ b₀, a₀ ∈ A ∧ b₀ ∈ B ∧ ∀ (a : M) (b : M),
-  a ∈ A → b ∈ B → dist a₀ b₀ ≤ dist a b :=
+  (hAB : disjoint A B) (hA₀ : A \<noteq> ∅) (hB₀ : B \<noteq> ∅) :
+  \<exists> a₀ b₀, a₀ ∈ A \<and> b₀ ∈ B \<and> \<forall> (a : M) (b : M),
+  a ∈ A → b ∈ B → dist a₀ b₀ \<le> dist a b :=
 
 codex statement:
 theorem exists_min_distance_of_compact_disjoint_nonempty:
   fixes A B::"'a::metric_space set"
   assumes "compact A" "compact B" "A \<inter> B = {}" "A \<noteq> {}" "B \<noteq> {}"
-  shows "∃a b. a∈A ∧ b∈B ∧ (∀a'∈A. ∀b'∈B. dist a b ≤ dist a' b')"
+  shows "\<exists>a b. a∈A \<and> b∈B \<and> (\<forall>a'∈A. \<forall>b'∈B. dist a b \<le> dist a' b')"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_2_46: undefined oops
@@ -140,8 +140,8 @@ lean statement:
 
 codex statement:
 theorem exists_embedding_of_line_as_closed_subset_of_plane:
-  fixes f::"real ⇒ 'a::euclidean_space"
-  assumes "continuous_on UNIV f" "inj_on f UNIV" "f ` UNIV ⊆ (UNIV::'a set)"
+  fixes f::"real \<Rightarrow> 'a::euclidean_space"
+  assumes "continuous_on UNIV f" "inj_on f UNIV" "f ` UNIV \<subseteq> (UNIV::'a set)"
   shows "closedin (subtopology euclidean (UNIV::'a set)) (f ` UNIV)"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
@@ -170,13 +170,13 @@ natural language statement:
 Show that if $S$ is connected, it is not true in general that its interior is connected.
 lean statement:
 theorem exercise_2_57 {X : Type*} [topological_space X]
-  : ∃ (S : set X), is_connected S ∧ ¬ is_connected (interior S) :=
+  : \<exists> (S : set X), is_connected S \<and> ¬ is_connected (interior S) :=
 
 codex statement:
 theorem interior_not_connected_of_connected:
   fixes S::"'a::euclidean_space set"
   assumes "connected S"
-  shows "∃T. open T ∧ connected T ∧ interior T ⊆ S ∧ interior T ≠ ∅ ∧ interior T ≠ S"
+  shows "\<exists>T. open T \<and> connected T \<and> interior T \<subseteq> S \<and> interior T \<noteq> ∅ \<and> interior T \<noteq> S"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_2_57: undefined oops
@@ -209,15 +209,15 @@ Suppose that $M$ is compact and that $\mathcal{U}$ is an open covering of $M$ wh
 lean statement:
 theorem exercise_2_85
   (M : Type* ) [topological_space M] [compact_space M]
-  (U : set (set M)) (hU : ∀ p, ∃ (U₁ U₂ ∈ U), p ∈ U₁ ∧ p ∈ U₂ ∧ U₁ ≠ U₂) :
-  ∃ (V : set (set M)), set.finite V ∧
-  ∀ p, ∃ (V₁ V₂ ∈ V), p ∈ V₁ ∧ p ∈ V₂ ∧ V₁ ≠ V₂ :=
+  (U : set (set M)) (hU : \<forall> p, \<exists> (U₁ U₂ ∈ U), p ∈ U₁ \<and> p ∈ U₂ \<and> U₁ \<noteq> U₂) :
+  \<exists> (V : set (set M)), set.finite V \<and>
+  \<forall> p, \<exists> (V₁ V₂ ∈ V), p ∈ V₁ \<and> p ∈ V₂ \<and> V₁ \<noteq> V₂ :=
 
 codex statement:
 theorem finite_subcovering_of_redundant_open_covering:
   fixes M::"'a::metric_space set" and U::"'a set set"
-  assumes "compact M" "∀p∈M. ∃U₁ U₂. U₁∈U ∧ U₂∈U ∧ p∈U₁ ∧ p∈U₂"
-  shows "∃U'. finite U' ∧ U' ⊆ U ∧ ∀p∈M. ∃U₁ U₂. U₁∈U' ∧ U₂∈U' ∧ p∈U₁ ∧ p∈U₂"
+  assumes "compact M" "\<forall>p∈M. \<exists>U₁ U₂. U₁∈U \<and> U₂∈U \<and> p∈U₁ \<and> p∈U₂"
+  shows "\<exists>U'. finite U' \<and> U' \<subseteq> U \<and> \<forall>p∈M. \<exists>U₁ U₂. U₁∈U' \<and> U₂∈U' \<and> p∈U₁ \<and> p∈U₂"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_2_85: undefined oops
@@ -228,18 +228,18 @@ problem_number:2_92
 natural language statement:
 Give a direct proof that the nested decreasing intersection of nonempty covering compact sets is nonempty.
 lean statement:
-theorem exercise_2_92 {α : Type*} [topological_space α]
-  {s : ℕ → set α}
-  (hs : ∀ i, is_compact (s i))
-  (hs : ∀ i, (s i).nonempty)
-  (hs : ∀ i, (s i) ⊃ (s (i + 1))) :
+theorem exercise_2_92 {\<alpha> : Type*} [topological_space \<alpha>]
+  {s : ℕ → set \<alpha>}
+  (hs : \<forall> i, is_compact (s i))
+  (hs : \<forall> i, (s i).nonempty)
+  (hs : \<forall> i, (s i) ⊃ (s (i + 1))) :
   (⋂ i, s i).nonempty :=
 
 codex statement:
 theorem nonempty_intersection_of_nested_compact_covering_sets:
-  fixes K::"nat ⇒ 'a::metric_space set"
-  assumes "∀n. compact (K n)" "∀n. K n ⊆ K (Suc n)" "∀n. K n ≠ {}"
-  shows "∃x. ∀n. x ∈ K n"
+  fixes K::"nat \<Rightarrow> 'a::metric_space set"
+  assumes "\<forall>n. compact (K n)" "\<forall>n. K n \<subseteq> K (Suc n)" "\<forall>n. K n \<noteq> {}"
+  shows "\<exists>x. \<forall>n. x ∈ K n"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_2_92: undefined oops
@@ -252,13 +252,13 @@ A metric on $M$ is an ultrametric if for all $x, y, z \in M$, $d(x, z) \leq \max
 lean statement:
 theorem exercise_2_109
   {M : Type*} [metric_space M]
-  (h : ∀ x y z : M, dist x z = max (dist x y) (dist y z)) :
+  (h : \<forall> x y z : M, dist x z = max (dist x y) (dist y z)) :
   totally_disconnected_space M :=
 
 codex statement:
 theorem totally_disconnected_of_ultrametric:
   fixes M::"'a::metric_space metric"
-  assumes "∀x y z. dist x z ≤ max (dist x y) (dist y z)"
+  assumes "\<forall>x y z. dist x z \<le> max (dist x y) (dist y z)"
   shows "totally_disconnected (UNIV::'a set)"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
@@ -271,13 +271,13 @@ natural language statement:
 Suppose that $E$ is an uncountable subset of $\mathbb{R}$. Prove that there exists a point $p \in \mathbb{R}$ at which $E$ condenses.
 lean statement:
 theorem exercise_2_126 {E : set ℝ}
-  (hE : ¬ set.countable E) : ∃ (p : ℝ), cluster_pt p (𝓟 E) :=
+  (hE : ¬ set.countable E) : \<exists> (p : ℝ), cluster_pt p (𝓟 E) :=
 
 codex statement:
 theorem exists_condensation_point_of_uncountable_subset:
   fixes E::"real set"
   assumes "uncountable E"
-  shows "∃p. condensation_point E p"
+  shows "\<exists>p. condensation_point E p"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_2_126: undefined oops
@@ -291,14 +291,14 @@ lean statement:
 theorem exercise_2_137
   {M : Type*} [metric_space M] [separable_space M] [complete_space M]
   {P : set M} (hP : is_closed P)
-  (hP' : is_closed P ∧ P = {x | cluster_pt x (𝓟 P)}) :
-  ∀ x ∈ P, ∀ n ∈ (𝓝 x), ¬ set.countable n :=
+  (hP' : is_closed P \<and> P = {x | cluster_pt x (𝓟 P)}) :
+  \<forall> x ∈ P, \<forall> n ∈ (𝓝 x), ¬ set.countable n :=
 
 codex statement:
 theorem condensation_point_of_closed_perfect_subset:
   fixes P::"'a::metric_space set"
   assumes "closed P" "perfect P" "separable (UNIV::'a set)"
-  shows "∀x∈P. condensation_point P x"
+  shows "\<forall>x∈P. condensation_point P x"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_2_137: undefined oops
@@ -314,7 +314,7 @@ codex statement:
 theorem exists_path_disjoint_of_Cantor_space:
   fixes M::"real set" and p q::"real^2" and ε::real
   assumes "Cantor_space M" "p ∈ (UNIV::real^2 set) - M" "q ∈ (UNIV::real^2 set) - M" "ε > 0"
-  shows "∃A. path A ∧ path_image A ⊆ ball p ε ∪ ball q ε ∧ pathstart A = p ∧ pathfinish A = q ∧ path_image A ∩ M = {}"
+  shows "\<exists>A. path A \<and> path_image A \<subseteq> ball p ε ∪ ball q ε \<and> pathstart A = p \<and> pathfinish A = q \<and> path_image A ∩ M = {}"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_2_138: undefined oops
@@ -326,13 +326,13 @@ natural language statement:
 Assume that $f \colon \mathbb{R} \rightarrow \mathbb{R}$ satisfies $|f(t)-f(x)| \leq|t-x|^{2}$ for all $t, x$. Prove that $f$ is constant.
 lean statement:
 theorem exercise_3_1 {f : ℝ → ℝ}
-  (hf : ∀ x y, |f x - f y| ≤ |x - y| ^ 2) :
-  ∃ c, f = λ x, c :=
+  (hf : \<forall> x y, |f x - f y| \<le> |x - y| ^ 2) :
+  \<exists> c, f = \<lambda> x, c :=
 
 codex statement:
 theorem constant_of_abs_diff_leq_square_diff:
-  fixes f::"real ⇒ real"
-  assumes "∀x t. abs (f t - f x) ≤ (abs (t - x))^2"
+  fixes f::"real \<Rightarrow> real"
+  assumes "\<forall>x t. abs (f t - f x) \<le> (abs (t - x))^2"
   shows "f constant_on UNIV"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
@@ -345,11 +345,11 @@ natural language statement:
 Prove that $\sqrt{n+1}-\sqrt{n} \rightarrow 0$ as $n \rightarrow \infty$.
 lean statement:
 theorem exercise_3_4 (n : ℕ) :
-  tendsto (λ n, (sqrt (n + 1) - sqrt n)) at_top (𝓝 0) :=
+  tendsto (\<lambda> n, (sqrt (n + 1) - sqrt n)) at_top (𝓝 0) :=
 
 codex statement:
 theorem sqrt_succ_sub_sqrt_tendsto_zero:
-  shows "(∑i=0..n. 1/(sqrt (real (Suc i)) + sqrt (real i))) ⟶ 0"
+  shows "(\<Sum>i=0..n. 1/(sqrt (real (Suc i)) + sqrt (real i))) \<longrightarrow> 0"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_3_4: undefined oops
@@ -364,13 +364,13 @@ theorem exercise_3_11a
   {f : ℝ → ℝ} {a b x : ℝ}
   (h1 : differentiable_within_at ℝ f (set.Ioo a b) x)
   (h2 : differentiable_within_at ℝ (deriv f) (set.Ioo a b) x) :
-  ∃ l, tendsto (λ h, (f (x - h) - 2 * f x + f (x + h)) / h ^ 2) (𝓝 0) (𝓝 l)
-  ∧ deriv (deriv f) x = l :=
+  \<exists> l, tendsto (\<lambda> h, (f (x - h) - 2 * f x + f (x + h)) / h ^ 2) (𝓝 0) (𝓝 l)
+  \<and> deriv (deriv f) x = l :=
 
 codex statement:
 theorem limit_of_diff_of_diff_eq_diff_of_diff:
-  fixes f::"real ⇒ real"
-  assumes "∀x. (f has_real_derivative f' x) (at x)" "∀x. (f has_real_derivative f'' x) (at x)"
+  fixes f::"real \<Rightarrow> real"
+  assumes "\<forall>x. (f has_real_derivative f' x) (at x)" "\<forall>x. (f has_real_derivative f'' x) (at x)"
   shows "(f'' ---> f'' x) (at x)"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
@@ -387,7 +387,7 @@ codex statement:
 theorem smooth_of_bump_function:
   fixes x::real
   assumes "x∈{-1..1}"
-  shows "∀n. (∂^n) (λx. exp 2 * exp (-x) * exp (x+1)) x = exp 2 * exp (-x) * exp (x+1)"
+  shows "\<forall>n. (∂^n) (\<lambda>x. exp 2 * exp (-x) * exp (x+1)) x = exp 2 * exp (-x) * exp (x+1)"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem "exercise_3_17c-i": undefined oops
@@ -402,7 +402,7 @@ lean statement:
 codex statement:
 theorem bump_function_is_zero_outside_interval:
   fixes x::real
-  shows "x≤-1 ∨ x≥1 ⟶ (λx. exp 2 * exp (-x) * exp (x+1)) x = 0"
+  shows "x\<le>-1 \<or> x\<ge>1 \<longrightarrow> (\<lambda>x. exp 2 * exp (-x) * exp (x+1)) x = 0"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem "exercise_3_17c-ii": undefined oops
@@ -418,7 +418,7 @@ codex statement:
 theorem exists_smooth_function_of_closed_set:
   fixes L::"real set"
   assumes "closed L"
-  shows "∃f. (∀x. f x = 0 ⟷ x∈L) ∧ (∀x. f differentiable (at x))"
+  shows "\<exists>f. (\<forall>x. f x = 0 \<longleftrightarrow> x∈L) \<and> (\<forall>x. f differentiable (at x))"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_3_18: undefined oops
@@ -432,7 +432,7 @@ lean statement:
 
 codex statement:
 theorem riemann_integrable_of_riemann_integrable_comp:
-  fixes f::"real ⇒ real" and ψ::"real ⇒ real"
+  fixes f::"real \<Rightarrow> real" and ψ::"real \<Rightarrow> real"
   assumes "continuous_on {0..1} ψ" "f integrable_on {-1..1}"
   shows "(f ∘ ψ) integrable_on {0..1}"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
@@ -448,9 +448,9 @@ lean statement:
 
 codex statement:
 theorem max_min_integrable:
-  fixes f g::"real ⇒ real"
+  fixes f g::"real \<Rightarrow> real"
   assumes "f integrable_on {a..b}" "g integrable_on {a..b}"
-  shows "(λx. max (f x) (g x)) integrable_on {a..b}" "(λx. min (f x) (g x)) integrable_on {a..b}"
+  shows "(\<lambda>x. max (f x) (g x)) integrable_on {a..b}" "(\<lambda>x. min (f x) (g x)) integrable_on {a..b}"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_3_53: undefined oops
@@ -464,9 +464,9 @@ lean statement:
 
 codex statement:
 theorem convergent_of_convergent_sum_sqrt_div_n:
-  fixes a::"nat ⇒ real"
-  assumes "∀n. 0 ≤ a n" "summable a"
-  shows "summable (λn. sqrt (a n) / n)"
+  fixes a::"nat \<Rightarrow> real"
+  assumes "\<forall>n. 0 \<le> a n" "summable a"
+  shows "summable (\<lambda>n. sqrt (a n) / n)"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_3_59: undefined oops
@@ -478,14 +478,14 @@ natural language statement:
 Prove that $\sum 1/k(\log(k))^p$ converges when $p > 1$ and diverges when $p \leq 1$.
 lean statement:
 theorem exercise_3_63a (p : ℝ) (f : ℕ → ℝ) (hp : p > 1)
-  (h : f = λ k, (1 : ℝ) / (k * (log k) ^ p)) :
-  ∃ l, tendsto f at_top (𝓝 l) :=
+  (h : f = \<lambda> k, (1 : ℝ) / (k * (log k) ^ p)) :
+  \<exists> l, tendsto f at_top (𝓝 l) :=
 
 codex statement:
 theorem sum_of_inverse_log_pow_p_converges_of_p_gt_1:
   fixes p::real
   assumes "p > 1"
-  shows "summable (λn. 1 / (real n * (log (real n)) ^ p))"
+  shows "summable (\<lambda>n. 1 / (real n * (log (real n)) ^ p))"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_3_63: undefined oops
@@ -496,18 +496,18 @@ problem_number:4_15a
 natural language statement:
 A continuous, strictly increasing function $\mu \colon (0, \infty) \rightarrow (0, \infty)$ is a modulus of continuity if $\mu(s) \rightarrow 0$ as $s \rightarrow 0$. A function $f \colon [a, b] \rightarrow \mathbb{R}$ has modulus of continuity $\mu$ if $|f(s) - f(t)| \leq \mu(|s - t|)$ for all $s, t \in [a, b]$. Prove that a function is uniformly continuous if and only if it has a modulus of continuity.
 lean statement:
-theorem exercise_4_15a {α : Type*}
+theorem exercise_4_15a {\<alpha> : Type*}
   (a b : ℝ) (F : set (ℝ → ℝ)) :
-  (∀ (x : ℝ) (ε > 0), ∃ (U ∈ (𝓝 x)),
-  (∀ (y z ∈ U) (f : ℝ → ℝ), f ∈ F → (dist (f y) (f z) < ε)))
+  (\<forall> (x : ℝ) (ε > 0), \<exists> (U ∈ (𝓝 x)),
+  (\<forall> (y z ∈ U) (f : ℝ → ℝ), f ∈ F → (dist (f y) (f z) < ε)))
   ↔
-  ∃ (μ : ℝ → ℝ), ∀ (x : ℝ), (0 : ℝ) ≤ μ x ∧ tendsto μ (𝓝 0) (𝓝 0) ∧
-  (∀ (s t : ℝ) (f : ℝ → ℝ), f ∈ F → |(f s) - (f t)| ≤ μ (|s - t|)) :=
+  \<exists> (μ : ℝ → ℝ), \<forall> (x : ℝ), (0 : ℝ) \<le> μ x \<and> tendsto μ (𝓝 0) (𝓝 0) \<and>
+  (\<forall> (s t : ℝ) (f : ℝ → ℝ), f ∈ F → |(f s) - (f t)| \<le> μ (|s - t|)) :=
 
 codex statement:
 theorem uniform_continuous_iff_has_modulus_of_continuity:
-  fixes f::"'a::metric_space ⇒ 'b::metric_space" and μ::"'a ⇒ 'b"
-  assumes "continuous_on UNIV μ" "strict_mono μ" "μ ⟶ 0 at_top" "∀s t. s ∈ UNIV ⟶ t ∈ UNIV ⟶ dist s t ≤ μ (dist s t)"
+  fixes f::"'a::metric_space \<Rightarrow> 'b::metric_space" and μ::"'a \<Rightarrow> 'b"
+  assumes "continuous_on UNIV μ" "strict_mono μ" "μ \<longrightarrow> 0 at_top" "\<forall>s t. s ∈ UNIV \<longrightarrow> t ∈ UNIV \<longrightarrow> dist s t \<le> μ (dist s t)"
   shows "uniformly_continuous_on UNIV f"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
@@ -522,8 +522,8 @@ lean statement:
 
 codex statement:
 theorem equicontinuous_of_modulus_of_continuity:
-  fixes f::"'a::metric_space ⇒ 'b::metric_space" and g::"'a::metric_space ⇒ 'b::metric_space"
-  assumes "∀x. continuous (at x) f" "∀x. continuous (at x) g" "∀x. continuous (at x within s) f" "∀x. continuous (at x within s) g"
+  fixes f::"'a::metric_space \<Rightarrow> 'b::metric_space" and g::"'a::metric_space \<Rightarrow> 'b::metric_space"
+  assumes "\<forall>x. continuous (at x) f" "\<forall>x. continuous (at x) g" "\<forall>x. continuous (at x within s) f" "\<forall>x. continuous (at x within s) g"
   shows "uniformly_continuous_on s f" "uniformly_continuous_on s g"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
@@ -537,13 +537,13 @@ If $M$ is compact and $A$ is dense in $M$, prove that for each $\delta > 0$ ther
 lean statement:
 theorem exercise_4_19 {M : Type*} [metric_space M]
   [compact_space M] (A : set M) (hA : dense A) (δ : ℝ) (hδ : δ > 0) :
-  ∃ (A_fin : set M), A_fin ⊂ A ∧ set.finite A_fin ∧ ∀ (x : M), ∃ i ∈ A_fin, dist x i < δ :=
+  \<exists> (A_fin : set M), A_fin ⊂ A \<and> set.finite A_fin \<and> \<forall> (x : M), \<exists> i ∈ A_fin, dist x i < δ :=
 
 codex statement:
 theorem exists_finite_delta_dense_of_compact_dense:
   fixes M::"'a::metric_space set" and A::"'a set"
-  assumes "compact M" "A ⊆ M" "dense A"
-  shows "∃A'. finite A' ∧ A' ⊆ A ∧ ∀x∈M. ∃a∈A'. dist x a < δ"
+  assumes "compact M" "A \<subseteq> M" "dense A"
+  shows "\<exists>A'. finite A' \<and> A' \<subseteq> A \<and> \<forall>x∈M. \<exists>a∈A'. dist x a < δ"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_4_19: undefined oops
@@ -557,9 +557,9 @@ lean statement:
 
 codex statement:
 theorem no_solution_escapes_to_infinity_in_finite_time:
-  fixes f::"real ⇒ real"
-  assumes "∀x. abs (f x) ≤ M"
-  shows "∀x0 t. ∃x. x0 + t * f x0 = x"
+  fixes f::"real \<Rightarrow> real"
+  assumes "\<forall>x. abs (f x) \<le> M"
+  shows "\<forall>x0 t. \<exists>x. x0 + t * f x0 = x"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_4_36a: undefined oops
@@ -574,7 +574,7 @@ lean statement:
 codex statement:
 theorem cantor_set_not_union_of_countable_cantor_sets:
   fixes C::"real set"
-  assumes "∀x∈C. ∃a b. x = a + b ∧ a ∈ cantor ∧ b ∈ cantor" "countable C"
+  assumes "\<forall>x∈C. \<exists>a b. x = a + b \<and> a ∈ cantor \<and> b ∈ cantor" "countable C"
   shows "False"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
@@ -608,8 +608,8 @@ lean statement:
 
 codex statement:
 theorem constant_of_differentiable_zero:
-  fixes f::"'a::euclidean_space ⇒ 'b::euclidean_space"
-  assumes "connected U" "open U" "∀x∈U. f differentiable (at x)" "∀x∈U. (D f) x = 0"
+  fixes f::"'a::euclidean_space \<Rightarrow> 'b::euclidean_space"
+  assumes "connected U" "open U" "\<forall>x∈U. f differentiable (at x)" "\<forall>x∈U. (D f) x = 0"
   shows "f constant_on U"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
@@ -624,9 +624,9 @@ lean statement:
 
 codex statement:
 theorem continuous_of_continuous_integral:
-  fixes f::"'a::metric_space ⇒ 'b::metric_space ⇒ 'c::metric_space"
-  assumes "continuous_on (UNIV::'a set) (λy. ∫ {a..b} (f x y) dx)"
-  shows "continuous_on (UNIV::'b set) (λy. ∫ {a..b} (f x y) dx)"
+  fixes f::"'a::metric_space \<Rightarrow> 'b::metric_space \<Rightarrow> 'c::metric_space"
+  assumes "continuous_on (UNIV::'a set) (\<lambda>y. ∫ {a..b} (f x y) dx)"
+  shows "continuous_on (UNIV::'b set) (\<lambda>y. ∫ {a..b} (f x y) dx)"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_5_22: undefined oops
@@ -640,9 +640,9 @@ lean statement:
 
 codex statement:
 theorem exists_delta_of_rank_leq_rank_of_norm_lt_delta:
-  fixes T::"'a::euclidean_space ⇒ 'b::euclidean_space" and S::"'a::euclidean_space ⇒ 'b::euclidean_space"
+  fixes T::"'a::euclidean_space \<Rightarrow> 'b::euclidean_space" and S::"'a::euclidean_space \<Rightarrow> 'b::euclidean_space"
   assumes "linear T" "linear S" "rank T = k"
-  shows "∃δ>0. ∀S. linear S ⟶ (∥S - T∥ < δ ⟶ rank S ≥ k)"
+  shows "\<exists>δ>0. \<forall>S. linear S \<longrightarrow> (∥S - T∥ < δ \<longrightarrow> rank S \<ge> k)"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_5_43a: undefined oops
@@ -656,9 +656,9 @@ lean statement:
 
 codex statement:
 theorem integrable_max_min:
-  fixes f g::"'a::euclidean_space ⇒ 'b::banach"
+  fixes f g::"'a::euclidean_space \<Rightarrow> 'b::banach"
   assumes "integrable M f" "integrable M g"
-  shows "integrable M (λx. max (f x) (g x))" "integrable M (λx. min (f x) (g x))"
+  shows "integrable M (\<lambda>x. max (f x) (g x))" "integrable M (\<lambda>x. min (f x) (g x))"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_6_38: undefined oops
@@ -672,9 +672,9 @@ lean statement:
 
 codex statement:
 theorem integrable_of_integrable_square:
-  fixes f g::"'a::euclidean_space ⇒ real"
+  fixes f g::"'a::euclidean_space \<Rightarrow> real"
   assumes "integrable lborel f" "integrable lborel g"
-  shows "integrable lborel (λx. f x * g x)"
+  shows "integrable lborel (\<lambda>x. f x * g x)"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_6_39: undefined oops
@@ -689,7 +689,7 @@ lean statement:
 codex statement:
 theorem diff_integral_of_exp_sin:
   fixes y::real
-  shows "((λx. exp (-x) * sin (x + y)) has_vector_derivative (exp (-y) * cos y)) (at y)"
+  shows "((\<lambda>x. exp (-x) * sin (x + y)) has_vector_derivative (exp (-y) * cos y)) (at y)"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_6_43: undefined oops
@@ -703,8 +703,8 @@ lean statement:
 
 codex statement:
 theorem lebesgue_measurable_of_preimage_borel_is_lebesgue_measurable:
-  fixes f::"'a::euclidean_space ⇒ 'b::euclidean_space"
-  assumes "∀s. borel_measurable s ⟶ borel_measurable (f -` s)"
+  fixes f::"'a::euclidean_space \<Rightarrow> 'b::euclidean_space"
+  assumes "\<forall>s. borel_measurable s \<longrightarrow> borel_measurable (f -` s)"
   shows "lebesgue_measurable f"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
