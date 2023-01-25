@@ -591,7 +591,7 @@ Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
 theorem exercise_2_7_3:
   defines "R_group \<equiv>  \<lparr>carrier = UNIV-{0}, monoid.mult = (*), one = (1::real)\<rparr>"
   defines "RP_group \<equiv> \<lparr>carrier = {0<..}, monoid.mult = (*), one = (1::real)\<rparr>"
-  shows "FactGroup R_group {1,-1} \<cong> RP_group"
+  shows "R_group Mod {1,-1} \<cong> RP_group"
   oops
 
 

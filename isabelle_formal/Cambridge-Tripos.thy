@@ -1,5 +1,5 @@
 theory "Cambridge-Tripos"
-  imports "HOL-Complex_Analysis.Complex_Analysis"
+  imports "HOL-Complex_Analysis.Complex_Analysis" "HOL-Algebra.Algebra" "HOL-Library.Function_Algebras"
 
 begin
 
@@ -87,7 +87,7 @@ theorem holomorphic_of_uniform_convergent_holomorphic:
   fixes f::"complex \<Rightarrow> complex" and f::"nat \<Rightarrow> complex \<Rightarrow> complex"
   assumes "open U" "connected U" "\<forall>n. holomorphic_on U (f n)" "\<forall>K. compact K \<subseteq> U \<longrightarrow> uniform_limit (f n) f (uniformity_on K)"
   shows "holomorphic_on U f"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: Can't have two variables called f. U is nonempty
  *)
 theorem "exercise_2022_IB_3-II-13G-a-i":
   assumes "open U" "connected U" "U \<noteq> {}" 
@@ -109,7 +109,10 @@ theorem exists_fixed_point_of_f:
   shows "\<exists>x. f x = x"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
-theorem "exercise_2022_IB_3-II-11G-b": undefined oops
+theorem "exercise_2022_IB_3-II-11G-b": 
+  defines "f \<equiv> (\<lambda>(x,y). ((cos x + cos y - 1)/2, cos x - cos y))"
+  shows "\<exists>u. f u = u"
+  oops
 
 
 (*
@@ -123,10 +126,11 @@ theorem removable_singularity_sin_z:
   fixes f::"complex \<Rightarrow> complex"
   assumes "f holomorphic_on {z. z \<noteq> 0}" "f 0 = 0"
   shows "f holomorphic_on UNIV"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: "singularity" (as opposed to pole) is not expressible in Isabelle/HOL; the rest is also wrong
  *)
-theorem "exercise_2022_IB_1-I-3G-i": undefined oops
-
+theorem "exercise_2022_IB_1-I-3G-i": 
+  shows "(\<lambda>z. z / sin z) holomorphic_on UNIV"
+  oops
 
 (*
 problem_number:2022_IB_3-I-1E-ii
@@ -141,7 +145,12 @@ theorem is_ring_of_subring_plus_ideal:
   shows "subring (R + J) S"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
-theorem "exercise_2022_IB_3-I-1E-ii": undefined oops
+no_notation Sum_Type.Plus (infixr "<+>" 65)
+
+theorem (in ring) "exercise_2022_IB_3-I-1E-ii": 
+  assumes "subring R' R" "ideal J R"
+  shows "subring (R' <+> J) S \<and> (R \<lparr> carrier := R' \<rparr>) Quot (R' \<inter> J) \<simeq> (R \<lparr> carrier := (R' <+> J) \<rparr>) Quot J"
+  oops
 
 
 (*
@@ -173,7 +182,11 @@ theorem connected_of_path_connected:
   shows "connected X"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
-theorem "exercise_2021_IIB_3-II-11F-ii": undefined oops
+theorem "exercise_2021_IIB_3-II-11F-ii": 
+  fixes S::"'a::euclidean_space set"
+  assumes "open S" 
+  shows "connected S \<longleftrightarrow> path_connected S"
+  using assms connected_open_path_connected path_connected_imp_connected by blast
 
 
 (*
@@ -203,10 +216,12 @@ theorem exists_normal_subgroup_of_index_divides_factorial:
   fixes G::"('a, 'b) monoid_scheme" (structure) and H::"('a, 'b) monoid_scheme" (structure)
   assumes "group G" "subgroup H G" "finite_index G H"
   shows "\<exists>K. normal_subgroup K G \<and> card (G / K) dvd card (H / (\<one> H)) \<and> card (G / K) \<ge> card (H / (\<one> H))"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: partly OK
  *)
-theorem "exercise_2021_IIB_3-I-1G-i": undefined oops
-
+theorem (in group) "exercise_2021_IIB_3-I-1G-i": 
+  assumes "finite (carrier G)" "subgroup H G" "H \<noteq> carrier G"  "n = card (rcosets H)"
+  shows "\<exists>K. normal K G \<and> order (G Mod K) dvd fact n \<and> order (G Mod K) \<ge> n"
+  oops
 
 (*
 problem_number:2021_IIB_1-II-9G-v
@@ -219,10 +234,12 @@ theorem not_noetherian_of_continuous_functions:
   fixes R::"('a::euclidean_space \<Rightarrow> 'b::euclidean_space) ring"
   assumes "continuous_on UNIV f" "continuous_on UNIV g"
   shows "\<exists>I. ideal I R \<and> \<forall>J. ideal J R \<longrightarrow> J \<subseteq> I \<longrightarrow> J = I"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: wrong
  *)
-theorem "exercise_2021_IIB_1-II-9G-v": undefined oops
-
+theorem "exercise_2021_IIB_1-II-9G-v": 
+    defines "CF \<equiv> \<lparr>carrier = {f::real\<Rightarrow>real. continuous_on UNIV f}, mult = (*), one = 1, ring.zero = 0, add = (+)\<rparr>"
+    shows "\<not> noetherian_ring CF"
+  oops
 
 (*
 problem_number:2018_IA_1-I-3E-b
@@ -235,11 +252,14 @@ theorem tendsto_at_top_of_decreasing_seq:
   fixes f::"real \<Rightarrow> real"
   assumes "decseq f" "\<forall>x. f x > 0"
   shows "(\<Sum>i<n. f i) \<longrightarrow> \<infinity>"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: mostly wrong
  *)
-theorem "exercise_2018_IA_1-I-3E-b": undefined oops
-
-
+theorem (in group) "exercise_2018_IA_1-I-3E-b": 
+  fixes f::"real \<Rightarrow> real"
+  assumes "antimono f" "\<forall>x. f x > 0"
+  defines "s \<equiv> rec_nat 1 (\<lambda>n r. r + f r)"
+  shows "filterlim s at_top sequentially"
+  oops
 
 
 end
