@@ -1,6 +1,9 @@
 theory "Ireland-Rosen"
- imports Main
+ imports "HOL-Number_Theory.Number_Theory"
+
 begin
+
+(* if we really want the Möbius \<mu> function, we could import the AFP entry Dirichlet_Series/Moebius_Mu*)
 
 (*
 problem_number:1_27
@@ -35,7 +38,7 @@ codex statement:
 theorem sum_frac_not_integer:
   fixes n::nat
   shows "\<Sum>i<n. 1 / real i \<noteq> int (\<Sum>i<n. 1 / real i)"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: The right side was nonsense
  *)
 theorem exercise_1_30:
   fixes n::nat
@@ -76,9 +79,14 @@ theorem gcd_of_power_of_two_plus_one_eq_one_or_two:
   fixes a::int
   assumes "a \<noteq> 0" "n > m"
   shows "gcd (a^(2^n) + 1) (a^(2^m) + 1) = 1 \<or> gcd (a^(2^n) + 1) (a^(2^m) + 1) = 2"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: almost correct but overlooked the dependence on the parity of a 
+(which is the opposite of that suggested in the text)
  *)
-theorem exercise_2_4: undefined oops
+theorem exercise_2_4: 
+  fixes a::int
+  assumes "a \<noteq> 0" "n > m"
+  shows "gcd (a^(2^n) + 1) (a^(2^m) + 1) = 1 \<or> gcd (a^(2^n) + 1) (a^(2^m) + 1) = (if odd a then 2 else 1)"
+  oops
 
 
 (*
@@ -128,10 +136,11 @@ theorem exercise_3_1 : infinite {p : primes // p \<equiv> -1 [ZMOD 6]} :=
 codex statement:
 theorem infinite_primes_congruent_minus_one_mod_six:
   shows "infinite {p::nat. prime p \<and> p \<equiv> -1 [MOD 6]}"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement:  not bad but the syntax was wrong and we need the integers
  *)
-theorem exercise_3_1: undefined oops
-
+theorem exercise_3_1: 
+    shows "infinite {p::int. prime p \<and> [p = -1] (mod 6)}"
+  oops
 
 (*
 problem_number:3_4
@@ -145,9 +154,13 @@ theorem no_solution_of_3_x_square_plus_2_eq_y_square:
   fixes x y::int
   assumes "3 * x^2 + 2 = y^2"
   shows "False"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement:  it's correct however the Lean version, with existential quantifiers, may be more natural
  *)
-theorem exercise_3_4: undefined oops
+theorem exercise_3_4: 
+  fixes x y::int
+  assumes "3 * x^2 + 2 = y^2"
+  shows "False"
+  oops
 
 
 (*
@@ -161,9 +174,11 @@ codex statement:
 theorem no_solution_of_eq_7_x_cube_plus_2_eq_y_cube:
   assumes "\<exists>x y. 7 * x^3 + 2 = y^3"
   shows False
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: should have been treated the same as the previous one. This time we use quantifiers.
  *)
-theorem exercise_3_5: undefined oops
+theorem exercise_3_5: 
+  shows "\<nexists>x y::int. 7 * x^3 + 2 = y^3"
+  oops
 
 
 (*
@@ -179,9 +194,13 @@ theorem fact_minus_one_equiv_zero_of_not_prime:
   fixes n::nat
   assumes "n>2" "\<forall>p. prime p \<longrightarrow> p dvd n \<longrightarrow> p = 2 \<or> p = n"
   shows "(fact (n - 1)) mod n = 0"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement:  completely wrong. And the text is wrong to because n needs to be non-zero
  *)
-theorem exercise_3_10: undefined oops
+theorem exercise_3_10: 
+  fixes n::nat
+  assumes "\<not> prime n" "n\<noteq>4" "n\<noteq>0"
+  shows "[fact (n - 1) = 0] (mod n)"
+  oops
 
 
 (*
@@ -199,10 +218,13 @@ theorem congruent_one_of_prime_diff_one_divides_prime_diff_one:
   fixes p q n::nat
   assumes "prime p" "prime q" "p \<noteq> q" "p - 1 dvd q - 1" "coprime n (p * q)"
   shows "n [^] (q - 1) \<equiv> 1 (mod p * q)"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement:  uses group exponentiation rather than numeric exponentiation. The primes do not need to be odd!
  *)
-theorem exercise_3_14: undefined oops
-
+theorem exercise_3_14: 
+  fixes p q n::nat
+  assumes "prime p" "prime q" "p \<noteq> q" "odd p" "odd q" "(p - 1) dvd (q - 1)" "coprime n (p * q)"
+  shows "[n^(q-1) = 1] (mod p * q)"
+  by (metis Carmichael_divides Carmichael_prime assms(1-3) assms(6-7) coprime_common_divisor coprime_commute coprime_cong_mult_nat coprime_mult_right_iff dvd_triv_right fermat_theorem not_prime_unit primes_coprime)
 
 (*
 problem_number:3_18
@@ -215,9 +237,14 @@ theorem number_of_solutions_of_congruence_eq_product_of_number_of_solutions_of_c
   fixes f::"nat \<Rightarrow> nat" and n::nat
   assumes "\<forall>p. prime p \<longrightarrow> \<exists>a. p^a dvd n"
   shows "\<exists>N. \<forall>p. prime p \<longrightarrow> \<exists>a. p^a dvd n \<longrightarrow> (\<exists>Np. \<forall>x. f x \<equiv> 0 [MOD p^a] \<longrightarrow> (\<exists>!x. f x \<equiv> 0 [MOD p^a])) \<longrightarrow> (\<exists>Np. \<forall>x. f x \<equiv> 0 [MOD n] \<longrightarrow> (\<exists>!x. f x \<equiv> 0 [MOD n]))"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement:  Just wrong
  *)
-theorem exercise_3_18: undefined oops
+theorem exercise_3_18: 
+  fixes f::"nat \<Rightarrow> nat" and n::nat
+  defines "N \<equiv> card {x. [f x = 0] (mod n)}"
+  defines "M \<equiv> {k. \<exists>p a. prime p \<and> k = card {x. [f x = 0] (mod p ^ a)}}" (* not quite right: notation needs clarifying*)
+  shows "N = \<Prod>M"
+  oops
 
 
 (*
@@ -231,10 +258,13 @@ theorem number_of_solutions_of_x_square_equiv_1_mod_2_power_b:
   fixes b::nat
   assumes "b\<ge>1"
   shows "card {x::int. x^2 \<equiv> 1 [MOD 2^b]} = 2^(b-1)"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement:  incorrect syntax and the right hand side is scrambled. The assumption b\<ge>1 is necessary and not mentioned in the problem, well done!
  *)
-theorem exercise_3_20: undefined oops
-
+theorem exercise_3_20: 
+  fixes b::nat
+  assumes "b\<ge>1"
+  shows "card {x::int. [x^2 = 1] (mod 2^b)} = (if b=1 then 1 else if b=2 then 2 else 4)"
+ oops
 
 (*
 problem_number:4_4
@@ -250,9 +280,13 @@ theorem primitive_root_of_prime_of_form_4_t_1:
   fixes p::nat and a::int
   assumes "prime p" "p = 4 * t + 1" "coprime a p"
   shows "\<exists>n. a [^] n \<equiv> -1 [mod p]"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: wrong.
  *)
-theorem exercise_4_4: undefined oops
+theorem exercise_4_4: 
+  fixes p::nat and a::nat
+  assumes "prime p" "[p = 1] (mod 4)" 
+  shows "residue_primroot p a \<longleftrightarrow> residue_primroot p (p-a)"   (*not sure this is the right way to do -a*)
+  oops
 
 
 (*
@@ -268,7 +302,11 @@ theorem primitive_root_iff_order_half_minus_a:
   shows "\<exists>b. order b p = (p - 1) div 2 \<longleftrightarrow> primitive_root a p"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
-theorem exercise_4_5: undefined oops
+theorem exercise_4_5: 
+  fixes p::nat and a::nat
+  assumes "prime p" "[p = 3] (mod 4)"
+  shows "residue_primroot p a \<longleftrightarrow> ord p (p-a) = (p-1) div 2"   (*not sure this is the right way to do -a*)
+  oops
 
 
 (*
@@ -282,9 +320,13 @@ theorem primitive_root_of_fermat_prime:
   fixes p::nat
   assumes "prime p" "\<exists>n. p = 2^n + 1"
   shows "\<exists>m. \<forall>k. coprime k p \<longrightarrow> (3::nat) [^] k \<equiv> 1 [^] m [MOD p]"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement:  The conclusion looks completely wrong
  *)
-theorem exercise_4_6: undefined oops
+theorem exercise_4_6: (* this actually fails if p=3 *)
+    fixes p::nat
+  assumes "prime p" "\<exists>n>0. p = 2^n + 1"
+  shows "residue_primroot p 3"
+oops
 
 
 (*
@@ -300,7 +342,11 @@ theorem primitive_root_of_prime_iff_not_cong_one_of_prime_divisor:
   shows "\<forall>q. prime q \<and> q dvd p - 1 \<longrightarrow> a [^] ((p - 1) div q) \<equiv> 1 (mod p) \<longleftrightarrow> \<not> primitive_root p a"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
-theorem exercise_4_8: undefined oops
+theorem exercise_4_8: 
+  fixes p::nat
+  assumes "prime p" "odd p"
+  shows "residue_primroot p a \<longleftrightarrow> (\<forall>q. prime q \<longrightarrow> q dvd (p-1) \<longrightarrow> \<not> [a ^ ((p-1)div q) = 1] (mod p))"
+  oops
 
 
 (*
@@ -314,10 +360,13 @@ theorem prod_primitive_roots_eq_pow_phi_minus_one_mod_p:
   fixes p::nat
   assumes "prime p"
   shows "(\<Prod>x\<in>primitive_roots p. x) \<equiv> (-1) ^ (\<phi> p - 1) [MOD p]"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement:  not bad.
  *)
-theorem exercise_4_9: undefined oops
-
+theorem exercise_4_9: 
+  fixes p::nat
+  assumes "prime p"
+  shows "[\<Prod>{r. residue_primroot p r} = (-1) ^ (totient p - 1)] (mod p)"
+  oops
 
 (*
 problem_number:4_10
@@ -346,9 +395,13 @@ theorem sum_of_powers_cong_zero_mod_p_of_p_minus_one_not_dvd_k:
   fixes p::nat and k::int
   assumes "prime p" "p-1 \<noteq> 0" "p-1 dvd k"
   shows "(\<Sum>i<p-1. i^k) \<equiv> -1 (mod p)"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement:  It never seems to cope with statements involving two cases
  *)
-theorem exercise_4_11: undefined oops
+theorem exercise_4_11: 
+  fixes p::nat 
+  assumes "prime p" "k \<ge> 1"
+  shows "[(\<Sum>i<p. i^k) = (if (p-1) dvd k then -1 else 0)] (mod p)"
+  oops
 
 
 (*
@@ -364,7 +417,11 @@ theorem order_of_one_plus_a_eq_6_of_order_a_eq_3:
   shows "\<forall>n. (1 + a) [^] n mod p \<noteq> 1 \<longrightarrow> n \<ge> 6"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
-theorem exercise_4_22: undefined oops
+theorem exercise_4_22: 
+  fixes a::nat and p::nat
+  assumes "prime p" "ord p a = 3"
+  shows "ord p (Suc a) = 6"
+  oops
 
 
 (*
@@ -378,9 +435,15 @@ theorem number_of_solutions_of_congruence_eq_number_of_solutions_of_congruence_o
   fixes a b c::"int" and m n m' n'::nat
   assumes "prime p" "coprime m (p - 1)" "coprime n (p - 1)" "m' = gcd m (p - 1)" "n' = gcd n (p - 1)"
   shows "card {(x, y). x < p \<and> y < p \<and> a * x ^ m + b * y ^ n \<equiv> c (mod p)} = card {(x, y). x < p \<and> y < p \<and> a * x ^ m' + b * y ^ n' \<equiv> c (mod p)}"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement:  pretty good as regards syntax except that the co-prime assumptions make no sense
  *)
-theorem exercise_4_24: undefined oops
+theorem exercise_4_24: 
+  fixes m n
+  assumes "prime p" 
+  defines "m' \<equiv> gcd m (p-1)"
+  defines "n' \<equiv> gcd n (p-1)"
+  shows "card {(x, y). x < p \<and> y < p \<and> [a * x ^ m + b * y ^ n = c] (mod p)} = card {(x, y). x < p \<and> y < p \<and> [a * x ^ m' + b * y ^ n' = c] (mod p)}" 
+  oops
 
 
 (*
@@ -396,9 +459,13 @@ theorem number_of_solutions_of_congruence_eq_one_plus_a_div_p:
   fixes a p::nat
   assumes "prime p"
   shows "card {x. x^2 \<equiv> a [MOD p]} = 1 + (a div p)"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: Looks good, but doesn't p have to divide a?
  *)
-theorem exercise_5_2: undefined oops
+theorem exercise_5_2: 
+  fixes a p::nat
+  assumes "prime p"
+  shows "card {x. x < p \<and> [x^2 = a] (mod p)} = 1 + (a div p)"
+  oops
 
 
 
