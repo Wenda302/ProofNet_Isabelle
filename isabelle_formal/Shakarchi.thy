@@ -299,7 +299,7 @@ codex statement:
 theorem integral_cos_over_square_plus_a_square_eq_pi_exp_minus_a_over_a:
   fixes a::real
   assumes "a > 0"
-  shows "∫ {-\<infinity>..\<infinity>} (\<lambda>x. cos x / (x^2 + a^2)) = π * exp (-a) / a"
+  shows "∫ {-\<infinity>..\<infinity>} (\<lambda>x. cos x / (x^2 + a^2)) = \<pi> * exp (-a) / a"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_3_3: undefined oops
@@ -318,7 +318,7 @@ codex statement:
 theorem integral_sin_over_square_plus_a_square_eq_pi_exp_minus_a:
   fixes a::real
   assumes "a>0"
-  shows "(∫ x = -\<infinity>..\<infinity>. (x * sin x) / (x^2 + a^2)) = π * exp (-a)"
+  shows "(∫ x = -\<infinity>..\<infinity>. (x * sin x) / (x^2 + a^2)) = \<pi> * exp (-a)"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_3_4: undefined oops
@@ -334,7 +334,7 @@ theorem exercise_3_9 : ∫ x in 0..1, real.log (real.sin (real.pi * x)) = - real
 codex statement:
 theorem integral_log_sin_pi_x_eq_log_2:
   fixes f::"real \<Rightarrow> real"
-  assumes "f integrable_on {0..1}" "f = (\<lambda>x. log (sin (π * x)))"
+  assumes "f integrable_on {0..1}" "f = (\<lambda>x. log (sin (\<pi> * x)))"
   shows "(∫ {0..1} f) = - log 2"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
@@ -389,7 +389,7 @@ codex statement:
 theorem integral_of_polynomial_of_degree_geq_2_with_distinct_roots:
   fixes Q::"complex \<Rightarrow> complex"
   assumes "degree Q \<ge> 2" "\<forall>x. Q x \<noteq> 0" "\<forall>x. \<exists>y. Q x = y^2"
-  shows "∫ {-\<infinity>..\<infinity>} (\<lambda>x. exp (-2 * π * complex_of_real x * ξ) / Q x) dx = 0"
+  shows "∫ {-\<infinity>..\<infinity>} (\<lambda>x. exp (-2 * \<pi> * complex_of_real x * ξ) / Q x) dx = 0"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_4_4a: undefined oops

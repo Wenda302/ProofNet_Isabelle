@@ -103,11 +103,11 @@ natural language statement:
 A map $f: X \rightarrow Y$ is said to be an open map if for every open set $U$ of $X$, the set $f(U)$ is open in $Y$. Show that $\pi_{1}: X \times Y \rightarrow X$ and $\pi_{2}: X \times Y \rightarrow Y$ are open maps.
 lean statement:
 theorem exercise_16_4 {X Y : Type*} [topological_space X] [topological_space Y]
-  (π₁ : X × Y \<rightarrow> X)
-  (π₂ : X × Y \<rightarrow> Y)
-  (h₁ : π₁ = prod.fst)
-  (h₂ : π₂ = prod.snd) :
-  is_open_map π₁ \<and> is_open_map π₂ :=
+  (\<pi>₁ : X × Y \<rightarrow> X)
+  (\<pi>₂ : X × Y \<rightarrow> Y)
+  (h₁ : \<pi>₁ = prod.fst)
+  (h₂ : \<pi>₂ = prod.snd) :
+  is_open_map \<pi>₁ \<and> is_open_map \<pi>₂ :=
 
 codex statement:
 theorem open_map_of_prod_space:
@@ -289,9 +289,9 @@ Let $\mathbf{x}_1, \mathbf{x}_2, \ldots$ be a sequence of the points of the prod
 lean statement:
 theorem exercise_19_6a
   {n : \<nat>}
-  {f : fin n \<rightarrow> Type*} {x : \<nat> \<rightarrow> Πa, f a}
-  (y : Πi, f i)
-  [Πa, topological_space (f a)] :
+  {f : fin n \<rightarrow> Type*} {x : \<nat> \<rightarrow> \<pi>a, f a}
+  (y : \<pi>i, f i)
+  [\<pi>a, topological_space (f a)] :
   tendsto x at_top (𝓝 y) \<longleftrightarrow> \<forall> i, tendsto (\<lambda> j, (x j) i) at_top (𝓝 (y i)) :=
 
 codex statement:
@@ -967,7 +967,7 @@ lean statement:
 theorem exercise_30_10
   {X : \<nat> \<rightarrow> Type*} [\<forall> i, topological_space (X i)]
   (h : \<forall> i, \<exists> (s : set (X i)), countable s \<and> dense s) :
-  \<exists> (s : set (Π i, X i)), countable s \<and> dense s :=
+  \<exists> (s : set (\<pi> i, X i)), countable s \<and> dense s :=
 
 codex statement:
 theorem countable_dense_subset_of_countable_product_of_countable_dense_subset:
@@ -1081,7 +1081,7 @@ Show that if $\prod X_\alpha$ is Hausdorff, or regular, or normal, then so is $X
 lean statement:
 theorem exercise_32_2a
   {\<iota> : Type*} {X : \<iota> \<rightarrow> Type*} [\<forall> i, topological_space (X i)]
-  (h : \<forall> i, nonempty (X i)) (h2 : t2_space (Π i, X i)) :
+  (h : \<forall> i, nonempty (X i)) (h2 : t2_space (\<pi> i, X i)) :
   \<forall> i, t2_space (X i) :=
 
 codex statement:
@@ -1101,7 +1101,7 @@ Show that every locally compact Hausdorff space is regular.
 lean statement:
 theorem exercise_32_2a
   {\<iota> : Type*} {X : \<iota> \<rightarrow> Type*} [\<forall> i, topological_space (X i)]
-  (h : \<forall> i, nonempty (X i)) (h2 : t2_space (Π i, X i)) :
+  (h : \<forall> i, nonempty (X i)) (h2 : t2_space (\<pi> i, X i)) :
   \<forall> i, t2_space (X i) :=
 
 codex statement:

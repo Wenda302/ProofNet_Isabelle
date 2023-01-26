@@ -7,16 +7,20 @@ problem_number:1_27
 natural language statement:
 For all odd $n$ show that $8 \mid n^{2}-1$.
 lean statement:
-theorem exercise_1_27 {n : \<nat>} (hn : odd n) : 8  dvd  (n^2 - 1) :=
+theorem exercise_1_27 {n : \<nat>} (hn : odd n) : 8 dvd (n^2 - 1) :=
 
 codex statement:
 theorem div_8_of_odd_n:
   fixes n::nat
   assumes "odd n"
-  shows "8  dvd  n^2 - 1"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+  shows "8 dvd n^2 - 1"
+Our comment on the codex statement: perfect
  *)
-theorem exercise_1_27: undefined oops
+theorem exercise_1_27:
+  fixes n::nat
+  assumes "odd n"
+  shows "8 dvd n^2 - 1"
+  oops
 
 
 (*
@@ -25,7 +29,7 @@ natural language statement:
 Prove that $\frac{1}{2}+\frac{1}{3}+\cdots+\frac{1}{n}$ is not an integer.
 lean statement:
 theorem exercise_1_30 {n : \<nat>} :
-  ¬ \<exists> a : \<int>, \<Sum> (i : fin n), (1 : \<rat>) / (n+2) = a :=
+  \<not> \<exists> a : \<int>, \<Sum> (i : fin n), (1 : \<rat>) / (n+2) = a :=
 
 codex statement:
 theorem sum_frac_not_integer:
@@ -33,7 +37,11 @@ theorem sum_frac_not_integer:
   shows "\<Sum>i<n. 1 / real i \<noteq> int (\<Sum>i<n. 1 / real i)"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
-theorem exercise_1_30: undefined oops
+theorem exercise_1_30:
+  fixes n::nat
+  assumes "n \<ge> 2"
+  shows "(\<Sum>i=2..n. 1 / real i) \<notin> \<int>"
+  oops
 
 
 (*
@@ -41,7 +49,7 @@ problem_number:1_31
 natural language statement:
 Show that 2 is divisible by $(1+i)^{2}$ in $\mathbb{Z}[i]$.
 lean statement:
-theorem exercise_1_31  : (\<langle>1, 1\<rangle> : gaussian_int) ^ 2  dvd  2 :=
+theorem exercise_1_31  : (\<langle>1, 1\<rangle> : gaussian_int) ^ 2 dvd 2 :=
 
 codex statement:
 theorem divisible_of_power_of_one_plus_i:
@@ -80,7 +88,7 @@ Define $\wedge(n)=\log p$ if $n$ is a power of $p$ and zero otherwise. Prove tha
 lean statement:
 theorem exercise_2_21 {l : \<nat> \<rightarrow> \<real>}
   (hl : \<forall> p n : \<nat>, p.prime \<rightarrow> l (p^n) = log p )
-  (hl1 : \<forall> m : \<nat>, ¬ is_prime_pow m \<rightarrow> l m = 0) :
+  (hl1 : \<forall> m : \<nat>, \<not> is_prime_pow m \<rightarrow> l m = 0) :
   l = \<lambda> n, \<Sum> d : divisors n, moebius (n/d) * log d  :=
 
 codex statement:
@@ -99,7 +107,7 @@ natural language statement:
 Show that $\sum^{\prime} 1 / n$, the sum being over square free integers, diverges.
 lean statement:
 theorem exercise_2_27a :
-  ¬ summable (\<lambda> i : {p : \<int> // squarefree p}, (1 : \<rat>) / i) :=
+  \<not> summable (\<lambda> i : {p : \<int> // squarefree p}, (1 : \<rat>) / i) :=
 
 codex statement:
 theorem diverges_sum_of_inverse_square_free_integers:
@@ -130,7 +138,7 @@ problem_number:3_4
 natural language statement:
 Show that the equation $3 x^{2}+2=y^{2}$ has no solution in integers.
 lean statement:
-theorem exercise_3_4 : ¬ \<exists> x y : \<int>, 3*x^2 + 2 = y^2 :=
+theorem exercise_3_4 : \<not> \<exists> x y : \<int>, 3*x^2 + 2 = y^2 :=
 
 codex statement:
 theorem no_solution_of_3_x_square_plus_2_eq_y_square:
@@ -147,7 +155,7 @@ problem_number:3_5
 natural language statement:
 Show that the equation $7 x^{3}+2=y^{3}$ has no solution in integers.
 lean statement:
-theorem exercise_3_5 : ¬ \<exists> x y : \<int>, 7*x^3 + 2 = y^3 :=
+theorem exercise_3_5 : \<not> \<exists> x y : \<int>, 7*x^3 + 2 = y^3 :=
 
 codex statement:
 theorem no_solution_of_eq_7_x_cube_plus_2_eq_y_cube:
@@ -163,13 +171,13 @@ problem_number:3_10
 natural language statement:
 If $n$ is not a prime, show that $(n-1) ! \equiv 0(n)$, except when $n=4$.
 lean statement:
-theorem exercise_3_10 {n : \<nat>} (hn0 : ¬ n.prime) (hn1 : n \<noteq> 4) :
+theorem exercise_3_10 {n : \<nat>} (hn0 : \<not> n.prime) (hn1 : n \<noteq> 4) :
   factorial (n-1) \<equiv> 0 [MOD n] :=
 
 codex statement:
 theorem fact_minus_one_equiv_zero_of_not_prime:
   fixes n::nat
-  assumes "n>2" "\<forall>p. prime p \<longrightarrow> p  dvd  n \<longrightarrow> p = 2 \<or> p = n"
+  assumes "n>2" "\<forall>p. prime p \<longrightarrow> p dvd n \<longrightarrow> p = 2 \<or> p = n"
   shows "(fact (n - 1)) mod n = 0"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
@@ -182,14 +190,14 @@ natural language statement:
 Let $p$ and $q$ be distinct odd primes such that $p-1$ divides $q-1$. If $(n, p q)=1$, show that $n^{q-1} \equiv 1(p q)$.
 lean statement:
 theorem exercise_3_14 {p q n : \<nat>} (hp0 : p.prime \<and> p > 2)
-  (hq0 : q.prime \<and> q > 2) (hpq0 : p \<noteq> q) (hpq1 : p - 1  dvd  q - 1)
+  (hq0 : q.prime \<and> q > 2) (hpq0 : p \<noteq> q) (hpq1 : p - 1 dvd q - 1)
   (hn : n.gcd (p*q) = 1) :
   n^(q-1) \<equiv> 1 [MOD p*q] :=
 
 codex statement:
 theorem congruent_one_of_prime_diff_one_divides_prime_diff_one:
   fixes p q n::nat
-  assumes "prime p" "prime q" "p \<noteq> q" "p - 1  dvd  q - 1" "coprime n (p * q)"
+  assumes "prime p" "prime q" "p \<noteq> q" "p - 1 dvd q - 1" "coprime n (p * q)"
   shows "n [^] (q - 1) \<equiv> 1 (mod p * q)"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
@@ -205,8 +213,8 @@ lean statement:
 codex statement:
 theorem number_of_solutions_of_congruence_eq_product_of_number_of_solutions_of_congruence_mod_prime_power:
   fixes f::"nat \<Rightarrow> nat" and n::nat
-  assumes "\<forall>p. prime p \<longrightarrow> \<exists>a. p^a  dvd  n"
-  shows "\<exists>N. \<forall>p. prime p \<longrightarrow> \<exists>a. p^a  dvd  n \<longrightarrow> (\<exists>Np. \<forall>x. f x \<equiv> 0 [MOD p^a] \<longrightarrow> (\<exists>!x. f x \<equiv> 0 [MOD p^a])) \<longrightarrow> (\<exists>Np. \<forall>x. f x \<equiv> 0 [MOD n] \<longrightarrow> (\<exists>!x. f x \<equiv> 0 [MOD n]))"
+  assumes "\<forall>p. prime p \<longrightarrow> \<exists>a. p^a dvd n"
+  shows "\<exists>N. \<forall>p. prime p \<longrightarrow> \<exists>a. p^a dvd n \<longrightarrow> (\<exists>Np. \<forall>x. f x \<equiv> 0 [MOD p^a] \<longrightarrow> (\<exists>!x. f x \<equiv> 0 [MOD p^a])) \<longrightarrow> (\<exists>Np. \<forall>x. f x \<equiv> 0 [MOD n] \<longrightarrow> (\<exists>!x. f x \<equiv> 0 [MOD n]))"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_3_18: undefined oops
@@ -289,7 +297,7 @@ codex statement:
 theorem primitive_root_of_prime_iff_not_cong_one_of_prime_divisor:
   fixes p::nat and a::int
   assumes "prime p" "odd p"
-  shows "\<forall>q. prime q \<and> q dvd p - 1 \<longrightarrow> a [^] ((p - 1) div q) \<equiv> 1 (mod p) \<longleftrightarrow> ¬ primitive_root p a"
+  shows "\<forall>q. prime q \<and> q dvd p - 1 \<longrightarrow> a [^] ((p - 1) div q) \<equiv> 1 (mod p) \<longleftrightarrow> \<not> primitive_root p a"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_4_8: undefined oops
@@ -336,7 +344,7 @@ lean statement:
 codex statement:
 theorem sum_of_powers_cong_zero_mod_p_of_p_minus_one_not_dvd_k:
   fixes p::nat and k::int
-  assumes "prime p" "p-1 \<noteq> 0" "p-1  dvd  k"
+  assumes "prime p" "p-1 \<noteq> 0" "p-1 dvd k"
   shows "(\<Sum>i<p-1. i^k) \<equiv> -1 (mod p)"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
@@ -393,13 +401,14 @@ Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
 theorem exercise_5_2: undefined oops
 
 
+
 (*
 problem_number:5_3
 natural language statement:
 Suppose that $p \nmid a$. Show that the number of solutions to $a x^{2}+b x+c \equiv 0(p)$ is given by $1+\left(\left(b^{2}-4 a c\right) / p\right)$.
 lean statement:
 theorem exercise_5_37 {p q : \<nat>} [fact(p.prime)] [fact(q.prime)] {a : \<int>}
-  (ha : a < 0) (h0 : p \<equiv> q [ZMOD 4*a]) (h1 : ¬ ((p : \<int>)  dvd  a)) :
+  (ha : a < 0) (h0 : p \<equiv> q [ZMOD 4*a]) (h1 : \<not> ((p : \<int>) dvd a)) :
   legendre_sym p a = legendre_sym q a :=
 
 codex statement:
@@ -469,7 +478,7 @@ lean statement:
 codex statement:
 theorem number_of_solutions_of_congruence_eq_p_minus_one_if_p_not_dvd_a:
   fixes p::nat and a::int
-  assumes "prime p" "p  dvd  a"
+  assumes "prime p" "p dvd a"
   shows "card {x. x^2 \<equiv> a [MOD p]} = 2*p - 1"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
@@ -482,7 +491,7 @@ natural language statement:
 Show that any prime divisor of $x^{4}-x^{2}+1$ is congruent to 1 modulo 12 .
 lean statement:
 theorem exercise_5_13 {p x: \<int>} (hp : prime p)
-  (hpx : p  dvd  (x^4 - x^2 + 1)) : p \<equiv> 1 [ZMOD 12] :=
+  (hpx : p dvd (x^4 - x^2 + 1)) : p \<equiv> 1 [ZMOD 12] :=
 
 codex statement:
 theorem prime_divisor_of_x_4_minus_x_2_plus_1_cong_1_mod_12:
@@ -534,7 +543,7 @@ natural language statement:
 Show that if $a$ is negative then $p \equiv q(4 a), p \times a$ implies $(a / p)=(a / q)$.
 lean statement:
 theorem exercise_5_37 {p q : \<nat>} [fact(p.prime)] [fact(q.prime)] {a : \<int>}
-  (ha : a < 0) (h0 : p \<equiv> q [ZMOD 4*a]) (h1 : ¬ ((p : \<int>)  dvd  a)) :
+  (ha : a < 0) (h0 : p \<equiv> q [ZMOD 4*a]) (h1 : \<not> ((p : \<int>) dvd a)) :
   legendre_sym p a = legendre_sym q a :=
 
 codex statement:
@@ -545,6 +554,7 @@ theorem eq_of_div_of_eq_div_of_eq_of_mult_eq_zero:
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_5_37: undefined oops
+
 
 
 (*
@@ -603,7 +613,7 @@ theorem exercise_12_12 : is_algebraic \<rat> (sin (real.pi/12)) :=
 
 codex statement:
 theorem algebraic_of_sin_pi_12:
-  shows "algebraic (sin (π / 12))"
+  shows "algebraic (sin (\<pi> / 12))"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_12_12: undefined oops
@@ -662,7 +672,7 @@ problem_number:18_1
 natural language statement:
 Show that $165 x^{2}-21 y^{2}=19$ has no integral solution.
 lean statement:
-theorem exercise_18_1 : ¬ \<exists> x y : \<int>, 165*x^2 - 21*y^2 = 19 :=
+theorem exercise_18_1 : \<not> \<exists> x y : \<int>, 165*x^2 - 21*y^2 = 19 :=
 
 codex statement:
 theorem no_integral_solution_of_165_x_square_minus_21_y_square_eq_19:
@@ -706,7 +716,6 @@ theorem gcd_eq_one_of_square_free_cong_one_or_two_mod_four:
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_18_32: undefined oops
-
 
 
 
