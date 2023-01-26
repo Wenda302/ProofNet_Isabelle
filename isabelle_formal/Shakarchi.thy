@@ -7,21 +7,21 @@ problem_number:1_13a
 natural language statement:
 Suppose that $f$ is holomorphic in an open set $\Omega$. Prove that if $\text{Re}(f)$ is constant, then $f$ is constant.
 lean statement:
-theorem exercise_1_13a {f : ℂ → ℂ} (Ω : set ℂ) (a b : Ω) (h : is_open Ω)
-  (hf : differentiable_on ℂ f Ω) (hc : \<exists> (c : ℝ), \<forall> z ∈ Ω, (f z).re = c) :
+theorem exercise_1_13a {f : \<complex> \<rightarrow> \<complex>} (Ω : set \<complex>) (a b : Ω) (h : is_open Ω)
+  (hf : differentiable_on \<complex> f Ω) (hc : \<exists> (c : \<real>), \<forall> z \<in> Ω, (f z).re = c) :
   f a = f b :=
 
 codex statement:
 theorem holomorphic_const_of_real_const:
   fixes f::"complex \<Rightarrow> complex"
-  assumes "open s" "f holomorphic_on s" "\<forall>x∈s. Re (f x) = c"
-  shows "\<forall>x∈s. f x = c"
+  assumes "open s" "f holomorphic_on s" "\<forall>x\<in>s. Re (f x) = c"
+  shows "\<forall>x\<in>s. f x = c"
 Our comment on the codex statement: f is constant but not necessary equal to c.
  *)
 theorem exercise_1_13a:
   fixes f::"complex \<Rightarrow> complex"
-  assumes "open s" "f holomorphic_on s" "\<forall>x∈s. Re (f x) = c"
-  shows "\<exists> c. \<forall>x∈s. f x = c"
+  assumes "open s" "f holomorphic_on s" "\<forall>x\<in>s. Re (f x) = c"
+  shows "\<exists> c. \<forall>x\<in>s. f x = c"
   oops
 
 
@@ -30,15 +30,15 @@ problem_number:1_13b
 natural language statement:
 Suppose that $f$ is holomorphic in an open set $\Omega$. Prove that if $\text{Im}(f)$ is constant, then $f$ is constant.
 lean statement:
-theorem exercise_1_13b {f : ℂ → ℂ} (Ω : set ℂ) (a b : Ω) (h : is_open Ω)
-  (hf : differentiable_on ℂ f Ω) (hc : \<exists> (c : ℝ), \<forall> z ∈ Ω, (f z).im = c) :
+theorem exercise_1_13b {f : \<complex> \<rightarrow> \<complex>} (Ω : set \<complex>) (a b : Ω) (h : is_open Ω)
+  (hf : differentiable_on \<complex> f Ω) (hc : \<exists> (c : \<real>), \<forall> z \<in> Ω, (f z).im = c) :
   f a = f b :=
 
 codex statement:
 theorem constant_of_holomorphic_constant_imag:
   fixes f::"complex \<Rightarrow> complex"
-  assumes "open s" "f holomorphic_on s" "\<forall>x∈s. Im (f x) = c"
-  shows "\<forall>x∈s. f x = c"
+  assumes "open s" "f holomorphic_on s" "\<forall>x\<in>s. Im (f x) = c"
+  shows "\<forall>x\<in>s. f x = c"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_1_13b: undefined oops
@@ -49,15 +49,15 @@ problem_number:1_13c
 natural language statement:
 Suppose that $f$ is holomorphic in an open set $\Omega$. Prove that if $|f|$ is constant, then $f$ is constant.
 lean statement:
-theorem exercise_1_13c {f : ℂ → ℂ} (Ω : set ℂ) (a b : Ω) (h : is_open Ω)
-  (hf : differentiable_on ℂ f Ω) (hc : \<exists> (c : ℝ), \<forall> z ∈ Ω, abs (f z) = c) :
+theorem exercise_1_13c {f : \<complex> \<rightarrow> \<complex>} (Ω : set \<complex>) (a b : Ω) (h : is_open Ω)
+  (hf : differentiable_on \<complex> f Ω) (hc : \<exists> (c : \<real>), \<forall> z \<in> Ω, abs (f z) = c) :
   f a = f b :=
 
 codex statement:
 theorem holomorphic_constant_of_constant_abs:
   fixes f::"complex \<Rightarrow> complex"
-  assumes "open s" "f holomorphic_on s" "\<forall>x∈s. f x \<noteq> 0" "\<forall>x y. x ∈ s \<longrightarrow> y ∈ s \<longrightarrow> norm (f x) = norm (f y)"
-  shows "\<forall>x y. x ∈ s \<longrightarrow> y ∈ s \<longrightarrow> f x = f y"
+  assumes "open s" "f holomorphic_on s" "\<forall>x\<in>s. f x \<noteq> 0" "\<forall>x y. x \<in> s \<longrightarrow> y \<in> s \<longrightarrow> norm (f x) = norm (f y)"
+  shows "\<forall>x y. x \<in> s \<longrightarrow> y \<in> s \<longrightarrow> f x = f y"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_1_13c: undefined oops
@@ -84,7 +84,7 @@ problem_number:1_19a
 natural language statement:
 Prove that the power series $\sum nz^n$ does not converge on any point of the unit circle.
 lean statement:
-theorem exercise_1_19a (z : ℂ) (hz : abs z = 1) (s : ℕ → ℂ)
+theorem exercise_1_19a (z : \<complex>) (hz : abs z = 1) (s : \<nat> \<rightarrow> \<complex>)
     (h : s = (\<lambda> n, \<Sum> i in (finset.range n), i * z ^ i)) :
     ¬ \<exists> y, tendsto s at_top (𝓝 y) :=
 
@@ -103,7 +103,7 @@ problem_number:1_19b
 natural language statement:
 Prove that the power series $\sum zn/n^2$ converges at every point of the unit circle.
 lean statement:
-theorem exercise_1_19b (z : ℂ) (hz : abs z = 1) (s : ℕ → ℂ)
+theorem exercise_1_19b (z : \<complex>) (hz : abs z = 1) (s : \<nat> \<rightarrow> \<complex>)
     (h : s = (\<lambda> n, \<Sum> i in (finset.range n), i * z / i ^ 2)) :
     \<exists> y, tendsto s at_top (𝓝 y) :=
 
@@ -122,7 +122,7 @@ problem_number:1_19c
 natural language statement:
 Prove that the power series $\sum zn/n$ converges at every point of the unit circle except $z = 1$.
 lean statement:
-theorem exercise_1_19c (z : ℂ) (hz : abs z = 1) (hz2 : z \<noteq> 1) (s : ℕ → ℂ)
+theorem exercise_1_19c (z : \<complex>) (hz : abs z = 1) (hz2 : z \<noteq> 1) (s : \<nat> \<rightarrow> \<complex>)
     (h : s = (\<lambda> n, \<Sum> i in (finset.range n), i * z / i)) :
     \<exists> z, tendsto s at_top (𝓝 z) :=
 
@@ -141,15 +141,15 @@ problem_number:1_22
 natural language statement:
 Let $\mathbb{N} = {1, 2, 3, \ldots}$ denote the set of positive integers. A subset $S \subset \mathbb{N}$ is said to be in arithmetic progression if $S = {a, a + d, a + 2d, a + 3d, \ldots}$ where $a, d \in \mathbb{N}$. Here $d$ is called the step of $S$.  Show that $\mathbb{N}$ cannot be partitioned into a finite number of subsets that are in arithmetic progression with distinct steps (except for the trivial case $a = d = 1$).
 lean statement:
-theorem exercise_1_22 (n : ℕ) (S : fin n → set ℕ) (f : fin n → ℕ × ℕ)
+theorem exercise_1_22 (n : \<nat>) (S : fin n \<rightarrow> set \<nat>) (f : fin n \<rightarrow> \<nat> × \<nat>)
   (h : \<forall> i, S i = set.range (\<lambda> j, (f i).fst + j * (f i).snd)) :
-    ¬ (⋃ i, S i) = (set.univ : set ℕ) :=
+    ¬ (⋃ i, S i) = (set.univ : set \<nat>) :=
 
 codex statement:
 theorem not_finite_partition_of_nat_into_arithmetic_progression:
   fixes S::"nat set"
-  assumes "finite S" "\<forall>s∈S. \<exists>a d. s = {a, a + d, a + 2*d, a + 3*d, a + 4*d, a + 5*d, a + 6*d, a + 7*d, a + 8*d, a + 9*d}"
-  shows "\<exists>s∈S. s = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}"
+  assumes "finite S" "\<forall>s\<in>S. \<exists>a d. s = {a, a + d, a + 2*d, a + 3*d, a + 4*d, a + 5*d, a + 6*d, a + 7*d, a + 8*d, a + 9*d}"
+  shows "\<exists>s\<in>S. s = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_1_22: undefined oops
@@ -161,16 +161,16 @@ natural language statement:
 Suppose $f$ is continuous in a region $\Omega$. Prove that any two primitives of $f$ (if they exist) differ by a constant.
 lean statement:
 theorem exercise_1_26
-  (f F₁ F₂ : ℂ → ℂ) (Ω : set ℂ) (h1 : is_open Ω) (h2 : is_connected Ω)
-  (hF₁ : differentiable_on ℂ F₁ Ω) (hF₂ : differentiable_on ℂ F₂ Ω)
-  (hdF₁ : \<forall> x ∈ Ω, deriv F₁ x = f x) (hdF₂ : \<forall> x ∈ Ω, deriv F₂ x = f x)
-  : \<exists> c : ℂ, \<forall> x, F₁ x = F₂ x + c :=
+  (f F₁ F₂ : \<complex> \<rightarrow> \<complex>) (Ω : set \<complex>) (h1 : is_open Ω) (h2 : is_connected Ω)
+  (hF₁ : differentiable_on \<complex> F₁ Ω) (hF₂ : differentiable_on \<complex> F₂ Ω)
+  (hdF₁ : \<forall> x \<in> Ω, deriv F₁ x = f x) (hdF₂ : \<forall> x \<in> Ω, deriv F₂ x = f x)
+  : \<exists> c : \<complex>, \<forall> x, F₁ x = F₂ x + c :=
 
 codex statement:
 theorem primitives_diff_const:
   fixes f::"'a::euclidean_space \<Rightarrow> 'b::real_normed_vector"
-  assumes "continuous_on Ω f" "\<exists>g. (\<forall>x∈Ω. (f x) = (vector_derivative g (at x) within Ω))" "\<exists>h. (\<forall>x∈Ω. (f x) = (vector_derivative h (at x) within Ω))"
-  shows "\<exists>c. (\<forall>x∈Ω. g x = h x + c)"
+  assumes "continuous_on Ω f" "\<exists>g. (\<forall>x\<in>Ω. (f x) = (vector_derivative g (at x) within Ω))" "\<exists>h. (\<forall>x\<in>Ω. (f x) = (vector_derivative h (at x) within Ω))"
+  shows "\<exists>c. (\<forall>x\<in>Ω. g x = h x + c)"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_1_26: undefined oops
@@ -232,15 +232,15 @@ natural language statement:
 Let $\Omega$ be a bounded open subset of $\mathbb{C}$, and $\varphi: \Omega \rightarrow \Omega$ a holomorphic function. Prove that if there exists a point $z_{0} \in \Omega$ such that $\varphi\left(z_{0}\right)=z_{0} \quad \text { and } \quad \varphi^{\prime}\left(z_{0}\right)=1$ then $\varphi$ is linear.
 lean statement:
 theorem exercise_2_9
-  {f : ℂ → ℂ} (Ω : set ℂ) (b : metric.bounded Ω) (h : is_open Ω)
-  (hf : differentiable_on ℂ f Ω) (z ∈ Ω) (hz : f z = z) (h'z : deriv f z = 1) :
-  \<exists> (f_lin : ℂ →L[ℂ] ℂ), \<forall> x ∈ Ω, f x = f_lin x :=
+  {f : \<complex> \<rightarrow> \<complex>} (Ω : set \<complex>) (b : metric.bounded Ω) (h : is_open Ω)
+  (hf : differentiable_on \<complex> f Ω) (z \<in> Ω) (hz : f z = z) (h'z : deriv f z = 1) :
+  \<exists> (f_lin : \<complex> \<rightarrow>L[\<complex>] \<complex>), \<forall> x \<in> Ω, f x = f_lin x :=
 
 codex statement:
 theorem linear_of_holomorphic_and_derivative_one:
   fixes f::"complex \<Rightarrow> complex"
-  assumes "open s" "bounded s" "f holomorphic_on s" "z∈s" "f z = z" "deriv f z = 1"
-  shows "\<forall>w∈s. f w = w + (z - w)"
+  assumes "open s" "bounded s" "f holomorphic_on s" "z\<in>s" "f z = z" "deriv f z = 1"
+  shows "\<forall>w\<in>s. f w = w + (z - w)"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_2_9: undefined oops
@@ -251,11 +251,11 @@ problem_number:2_13
 natural language statement:
 Suppose $f$ is an analytic function defined everywhere in $\mathbb{C}$ and such that for each $z_0 \in \mathbb{C}$ at least one coefficient in the expansion $f(z) = \sum_{n=0}^\infty c_n(z - z_0)^n$ is equal to 0. Prove that $f$ is a polynomial.
 lean statement:
-theorem exercise_2_13 {f : ℂ → ℂ}
-    (hf : \<forall> z₀ : ℂ, \<exists> (s : set ℂ) (c : ℕ → ℂ), is_open s \<and> z₀ ∈ s \<and>
-      \<forall> z ∈ s, tendsto (\<lambda> n, \<Sum> i in finset.range n, (c i) * (z - z₀)^i) at_top (𝓝 (f z₀))
+theorem exercise_2_13 {f : \<complex> \<rightarrow> \<complex>}
+    (hf : \<forall> z₀ : \<complex>, \<exists> (s : set \<complex>) (c : \<nat> \<rightarrow> \<complex>), is_open s \<and> z₀ \<in> s \<and>
+      \<forall> z \<in> s, tendsto (\<lambda> n, \<Sum> i in finset.range n, (c i) * (z - z₀)^i) at_top (𝓝 (f z₀))
       \<and> \<exists> i, c i = 0) :
-    \<exists> (c : ℕ → ℂ) (n : ℕ), f = \<lambda> z, \<Sum> i in finset.range n, (c i) * z ^ n :=
+    \<exists> (c : \<nat> \<rightarrow> \<complex>) (n : \<nat>), f = \<lambda> z, \<Sum> i in finset.range n, (c i) * z ^ n :=
 
 codex statement:
 theorem is_polynomial_of_analytic_and_coeff_zero:
@@ -272,9 +272,9 @@ problem_number:3_2
 natural language statement:
 Evaluate the integral $\int_{-\infty}^{\infty} \frac{dx}{1 + x^4}$.
 lean statement:
-theorem exercise_3_22 (D : set ℂ) (hD : D = ball 0 1) (f : ℂ → ℂ)
-    (hf : differentiable_on ℂ f D) (hfc : continuous_on f (closure D)) :
-    ¬ \<forall> z ∈ (sphere (0 : ℂ) 1), f z = 1 / z :=
+theorem exercise_3_22 (D : set \<complex>) (hD : D = ball 0 1) (f : \<complex> \<rightarrow> \<complex>)
+    (hf : differentiable_on \<complex> f D) (hfc : continuous_on f (closure D)) :
+    ¬ \<forall> z \<in> (sphere (0 : \<complex>) 1), f z = 1 / z :=
 
 codex statement:
 theorem integral_of_inverse_of_one_plus_x_four:
@@ -291,7 +291,7 @@ problem_number:3_3
 natural language statement:
 Show that $ \int_{-\infty}^{\infty} \frac{\cos x}{x^2 + a^2} dx = \pi \frac{e^{-a}}{a}$ for $a > 0$.
 lean statement:
-theorem exercise_3_3 (a : ℝ) (ha : 0 < a) :
+theorem exercise_3_3 (a : \<real>) (ha : 0 < a) :
     tendsto (\<lambda> y, ∫ x in -y..y, real.cos x / (x ^ 2 + a ^ 2))
       at_top (𝓝 (real.pi * (real.exp (-a) / a))) :=
 
@@ -310,7 +310,7 @@ problem_number:3_4
 natural language statement:
 Show that $ \int_{-\infty}^{\infty} \frac{x \sin x}{x^2 + a^2} dx = \pi e^{-a}$ for $a > 0$.
 lean statement:
-theorem exercise_3_4 (a : ℝ) (ha : 0 < a) :
+theorem exercise_3_4 (a : \<real>) (ha : 0 < a) :
     tendsto (\<lambda> y, ∫ x in -y..y, x * real.sin x / (x ^ 2 + a ^ 2))
       at_top (𝓝 (real.pi * (real.exp (-a)))) :=
 
@@ -346,9 +346,9 @@ problem_number:3_14
 natural language statement:
 Prove that all entire functions that are also injective take the form $f(z) = az + b$, $a, b \in \mathbb{C}$ and $a \neq 0$.
 lean statement:
-theorem exercise_3_14 {f : ℂ → ℂ} (hf : differentiable ℂ f)
+theorem exercise_3_14 {f : \<complex> \<rightarrow> \<complex>} (hf : differentiable \<complex> f)
     (hf_inj : function.injective f) :
-    \<exists> (a b : ℂ), f = (\<lambda> z, a * z + b) \<and> a \<noteq> 0 :=
+    \<exists> (a b : \<complex>), f = (\<lambda> z, a * z + b) \<and> a \<noteq> 0 :=
 
 codex statement:
 theorem entire_injective_eq_linear:
@@ -365,14 +365,14 @@ problem_number:3_22
 natural language statement:
 Show that there is no holomorphic function $f$ in the unit disc $D$ that extends continuously to $\partial D$ such that $f(z) = 1/z$ for $z \in \partial D$.
 lean statement:
-theorem exercise_3_22 (D : set ℂ) (hD : D = ball 0 1) (f : ℂ → ℂ)
-    (hf : differentiable_on ℂ f D) (hfc : continuous_on f (closure D)) :
-    ¬ \<forall> z ∈ (sphere (0 : ℂ) 1), f z = 1 / z :=
+theorem exercise_3_22 (D : set \<complex>) (hD : D = ball 0 1) (f : \<complex> \<rightarrow> \<complex>)
+    (hf : differentiable_on \<complex> f D) (hfc : continuous_on f (closure D)) :
+    ¬ \<forall> z \<in> (sphere (0 : \<complex>) 1), f z = 1 / z :=
 
 codex statement:
 theorem no_holomorphic_function_extends_continuously_to_boundary_of_unit_disc:
   fixes f::"complex \<Rightarrow> complex"
-  assumes "continuous_on (cball 0 1) f" "f holomorphic_on ball 0 1" "\<forall>z∈cball 0 1. z \<noteq> 0 \<longrightarrow> f z = 1/z"
+  assumes "continuous_on (cball 0 1) f" "f holomorphic_on ball 0 1" "\<forall>z\<in>cball 0 1. z \<noteq> 0 \<longrightarrow> f z = 1/z"
   shows False
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
@@ -400,10 +400,10 @@ problem_number:5_1
 natural language statement:
 Prove that if $f$ is holomorphic in the unit disc, bounded and not identically zero, and $z_{1}, z_{2}, \ldots, z_{n}, \ldots$ are its zeros $\left(\left|z_{k}\right|<1\right)$, then $\sum_{n}\left(1-\left|z_{n}\right|\right)<\infty$.
 lean statement:
-theorem exercise_5_1 (f : ℂ → ℂ) (hf : differentiable_on ℂ f (ball 0 1))
-  (hb : bounded (set.range f)) (h0 : f \<noteq> 0) (zeros : ℕ → ℂ) (hz : \<forall> n, f (zeros n) = 0)
-  (hzz : set.range zeros = {z | f z = 0 \<and> z ∈ (ball (0 : ℂ) 1)}) :
-  \<exists> (z : ℂ), tendsto (\<lambda> n, (\<Sum> i in finset.range n, (1 - zeros i))) at_top (𝓝 z) :=
+theorem exercise_5_1 (f : \<complex> \<rightarrow> \<complex>) (hf : differentiable_on \<complex> f (ball 0 1))
+  (hb : bounded (set.range f)) (h0 : f \<noteq> 0) (zeros : \<nat> \<rightarrow> \<complex>) (hz : \<forall> n, f (zeros n) = 0)
+  (hzz : set.range zeros = {z | f z = 0 \<and> z \<in> (ball (0 : \<complex>) 1)}) :
+  \<exists> (z : \<complex>), tendsto (\<lambda> n, (\<Sum> i in finset.range n, (1 - zeros i))) at_top (𝓝 z) :=
 
 codex statement:
 theorem sum_of_one_minus_abs_of_zeros_of_holomorphic_bounded_not_identically_zero_is_finite:

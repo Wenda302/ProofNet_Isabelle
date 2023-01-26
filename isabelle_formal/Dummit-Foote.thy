@@ -7,7 +7,7 @@ problem_number:1_1_2a
 natural language statement:
 Prove the the operation $\star$ on $\mathbb{Z}$ defined by $a\star b=a-b$ is not commutative.
 lean statement:
-theorem exercise_1_1_2a : \<exists> a b : ℤ, a - b \<noteq> b - a :=
+theorem exercise_1_1_2a : \<exists> a b : \<int>, a - b \<noteq> b - a :=
 begin
   use [0, 1]
 end
@@ -26,8 +26,8 @@ problem_number:1_1_3
 natural language statement:
 Prove that the addition of residue classes $\mathbb{Z}/n\mathbb{Z}$ is associative.
 lean statement:
-theorem exercise_1_1_3 (n : ℤ) :
-  \<forall> (a b c : ℤ), (a+b)+c ≡ a+(b+c) [ZMOD n] :=
+theorem exercise_1_1_3 (n : \<int>) :
+  \<forall> (a b c : \<int>), (a+b)+c \<equiv> a+(b+c) [ZMOD n] :=
 begin
   intros a b c,
   ring_nf
@@ -48,8 +48,8 @@ problem_number:1_1_4
 natural language statement:
 Prove that the multiplication of residue class $\mathbb{Z}/n\mathbb{Z}$ is associative.
 lean statement:
-theorem exercise_1_1_4 (n : ℕ) :
-  \<forall> (a b c : ℕ), (a * b) * c ≡ a * (b * c) [ZMOD n] :=
+theorem exercise_1_1_4 (n : \<nat>) :
+  \<forall> (a b c : \<nat>), (a * b) * c \<equiv> a * (b * c) [ZMOD n] :=
 begin
   intros a b c,
   ring_nf,
@@ -70,14 +70,14 @@ problem_number:1_1_5
 natural language statement:
 Prove that for all $n>1$ that $\mathbb{Z}/n\mathbb{Z}$ is not a group under multiplication of residue classes.
 lean statement:
-theorem exercise_1_1_5 (n : ℕ) (hn : 1 < n) :
+theorem exercise_1_1_5 (n : \<nat>) (hn : 1 < n) :
   is_empty (group (zmod n)) :=
 
 codex statement:
 theorem not_group_of_Z_mod_n_mult:
   fixes n::nat
   assumes "n>1"
-  shows "\<forall>x∈carrier (Z_mod_n). \<exists>y∈carrier (Z_mod_n). x * y \<noteq> 𝟙"
+  shows "\<forall>x\<in>carrier (Z_mod_n). \<exists>y\<in>carrier (Z_mod_n). x * y \<noteq> 𝟙"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_1_1_5: undefined oops
@@ -89,7 +89,7 @@ natural language statement:
 Prove that $(a_1a_2\dots a_n)^{-1} = a_n^{-1}a_{n-1}^{-1}\dots a_1^{-1}$ for all $a_1, a_2, \dots, a_n\in G$.
 lean statement:
 theorem exercise_1_1_15 {G : Type*} [group G] (as : list G) :
-  as.prod⁻¹ = (as.reverse.map (\<lambda> x, x⁻¹)).prod :=
+  as.inv prod = (as.reverse.map (\<lambda> x, inv x)).prod :=
 begin
   simp only [list.prod_hom _, list.map_reverse, list.prod_reverse],
   induction as generalizing,
@@ -101,7 +101,7 @@ codex statement:
 theorem inverse_of_prod_eq_prod_inverse:
   fixes G::"('a, 'b) monoid_scheme" (structure)
   assumes "group G"
-  shows "\<forall>v. (∏i∈v. f i)⁻¹ = ∏i∈v. (f i)⁻¹"
+  shows "\<forall>v. (\<Prod>i\<in>v. f i)⁻¹ = \<Prod>i\<in>v. (f i)⁻¹"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_1_1_15: undefined oops
@@ -131,15 +131,15 @@ problem_number:1_1_17
 natural language statement:
 Let $x$ be an element of $G$. Prove that if $|x|=n$ for some positive integer $n$ then $x^{-1}=x^{n-1}$.
 lean statement:
-theorem exercise_1_1_17 {G : Type*} [group G] {x : G} {n : ℕ}
+theorem exercise_1_1_17 {G : Type*} [group G] {x : G} {n : \<nat>}
   (hxn: order_of x = n) :
-  x⁻¹ = x ^ (n-1) :=
+  inv x = x ^ (n-1) :=
 
 codex statement:
 theorem inverse_eq_power_of_order_minus_one:
   fixes G::"('a, 'b) monoid_scheme" (structure)
   assumes "group G" "order x = n" "n>0"
-  shows "x⁻¹ = x [^] (n-1)"
+  shows "inv x = x [^] (n-1)"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_1_1_17: undefined oops
@@ -151,12 +151,12 @@ natural language statement:
 Let $x$ and $y$ be elements of $G$. Prove that $xy=yx$ if and only if $y^{-1}xy=x$ if and only if $x^{-1}y^{-1}xy=1$.
 lean statement:
 theorem exercise_1_1_18 {G : Type*} [group G]
-  (x y : G) : x * y = y * x ↔ y⁻¹ * x * y = x ↔ x⁻¹ * y⁻¹ * x * y = 1 :=
+  (x y : G) : x * y = y * x \<longleftrightarrow> inv y * x * y = x \<longleftrightarrow> inv x * inv y * x * y = 1 :=
 
 codex statement:
 theorem commutative_iff_inverse_commutative_iff_inverse_commutative_inverse:
   fixes x y::"'a::group_add"
-  shows "x * y = y * x \<longleftrightarrow> y⁻¹ * x * y = x \<longleftrightarrow> x⁻¹ * y⁻¹ * x * y = \<one>"
+  shows "x * y = y * x \<longleftrightarrow> inv y * x * y = x \<longleftrightarrow> inv x * inv y * x * y = \<one>"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_1_1_18: undefined oops
@@ -168,13 +168,13 @@ natural language statement:
 For $x$ an element in $G$ show that $x$ and $x^{-1}$ have the same order.
 lean statement:
 theorem exercise_1_1_20 {G : Type*} [group G] {x : G} :
-  order_of x = order_of x⁻¹ :=
+  order_of x = order_of inv x :=
 
 codex statement:
 theorem order_of_inverse_eq_order:
   fixes G::"('a, 'b) monoid_scheme" (structure)
-  assumes "group G" "x ∈ carrier G"
-  shows "order G x = order G (x⁻¹)"
+  assumes "group G" "x \<in> carrier G"
+  shows "order G x = order G (inv x)"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_1_1_20: undefined oops
@@ -186,13 +186,13 @@ natural language statement:
 If $x$ and $g$ are elements of the group $G$, prove that $|x|=\left|g^{-1} x g\right|$.
 lean statement:
 theorem exercise_1_1_22a {G : Type*} [group G] (x g : G) :
-  order_of x = order_of (g⁻¹ * x * g) :=
+  order_of x = order_of (inv g * x * g) :=
 
 codex statement:
 theorem order_of_conjugate_eq_order:
   fixes G::"('a, 'b) monoid_scheme" (structure) and x g::'a
-  assumes "group G" "x ∈ carrier G" "g ∈ carrier G"
-  shows "order G x = order G (g⁻¹ * x * g)"
+  assumes "group G" "x \<in> carrier G" "g \<in> carrier G"
+  shows "order G x = order G (inv g * x * g)"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_1_1_22a: undefined oops
@@ -226,7 +226,7 @@ theorem exercise_1_1_25 {G : Type*} [group G]
 codex statement:
 theorem abelian_of_square_eq_one:
   fixes G::"('a, 'b) monoid_scheme" (structure)
-  assumes "group G" "\<forall>x∈carrier G. x^2 = \<one>"
+  assumes "group G" "\<forall>x\<in>carrier G. x^2 = \<one>"
   shows "abelian G"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
@@ -239,7 +239,7 @@ natural language statement:
 Prove that $A \times B$ is an abelian group if and only if both $A$ and $B$ are abelian.
 lean statement:
 theorem exercise_1_1_29 {A B : Type*} [group A] [group B] :
-  \<forall> x y : A × B, x*y = y*x ↔ (\<forall> x y : A, x*y = y*x) \<and>
+  \<forall> x y : A × B, x*y = y*x \<longleftrightarrow> (\<forall> x y : A, x*y = y*x) \<and>
   (\<forall> x y : B, x*y = y*x) :=
 
 codex statement:
@@ -258,7 +258,7 @@ natural language statement:
 If $x$ is an element of infinite order in $G$, prove that the elements $x^{n}, n \in \mathbb{Z}$ are all distinct.
 lean statement:
 theorem exercise_1_1_34 {G : Type*} [group G] {x : G}
-  (hx_inf : order_of x = 0) (n m : ℤ) :
+  (hx_inf : order_of x = 0) (n m : \<int>) :
   x ^ n \<noteq> x ^ m :=
 
 codex statement:
@@ -276,7 +276,7 @@ problem_number:1_3_8
 natural language statement:
 Prove that if $\Omega=\{1,2,3, \ldots\}$ then $S_{\Omega}$ is an infinite group
 lean statement:
-theorem exercise_1_3_8 : infinite (equiv.perm ℕ) :=
+theorem exercise_1_3_8 : infinite (equiv.perm \<nat>) :=
 
 codex statement:
 theorem infinite_of_permutation_group:
@@ -294,7 +294,7 @@ natural language statement:
 Prove that the multiplicative groups $\mathbb{R}-\{0\}$ and $\mathbb{C}-\{0\}$ are not isomorphic.
 lean statement:
 theorem exercise_1_6_4 :
-  is_empty (multiplicative ℝ ≃* multiplicative ℂ) :=
+  is_empty (multiplicative \<real> \<cong>* multiplicative \<complex>) :=
 
 codex statement:
 theorem not_isomorphic_of_real_complex:
@@ -310,7 +310,7 @@ natural language statement:
 Let $A$ and $B$ be groups. Prove that $A \times B \cong B \times A$.
 lean statement:
 theorem exercise_1_6_11 {A B : Type*} [group A] [group B] :
-  A × B ≃* B × A :=
+  A × B \<cong>* B × A :=
 
 codex statement:
 theorem isomorphic_of_prod_commute:
@@ -327,15 +327,15 @@ problem_number:1_6_17
 natural language statement:
 Let $G$ be any group. Prove that the map from $G$ to itself defined by $g \mapsto g^{-1}$ is a homomorphism if and only if $G$ is abelian.
 lean statement:
-theorem exercise_1_6_17 {G : Type*} [group G] (f : G → G)
-  (hf : f = \<lambda> g, g⁻¹) :
-  \<forall> x y : G, f x * f y = f (x*y) ↔ \<forall> x y : G, x*y = y*x :=
+theorem exercise_1_6_17 {G : Type*} [group G] (f : G \<rightarrow> G)
+  (hf : f = \<lambda> g, inv g) :
+  \<forall> x y : G, f x * f y = f (x*y) \<longleftrightarrow> \<forall> x y : G, x*y = y*x :=
 
 codex statement:
 theorem is_homomorphism_of_inverse_iff_abelian:
   fixes G::"('a, 'b) monoid_scheme" (structure)
   assumes "group G"
-  shows "\<forall>x y. (x * y)⁻¹ = y⁻¹ * x⁻¹ \<longleftrightarrow> comm_group G"
+  shows "\<forall>x y. (x * y)⁻¹ = inv y * inv x \<longleftrightarrow> comm_group G"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_1_6_17: undefined oops
@@ -347,14 +347,14 @@ natural language statement:
 Let $G$ be a finite group which possesses an automorphism $\sigma$ such that $\sigma(g)=g$ if and only if $g=1$. If $\sigma^{2}$ is the identity map from $G$ to $G$, prove that $G$ is abelian.
 lean statement:
 theorem exercise_1_6_23 {G : Type*}
-  [group G] (σ : mul_aut G) (hs : \<forall> g : G, σ g = 1 → g = 1)
+  [group G] (σ : mul_aut G) (hs : \<forall> g : G, σ g = 1 \<rightarrow> g = 1)
   (hs2 : \<forall> g : G, σ (σ g) = g) :
   \<forall> x y : G, x*y = y*x :=
 
 codex statement:
 theorem abelian_of_automorphism_sigma_sigma_square_eq_id:
   fixes G::"('a, 'b) monoid_scheme" (structure)
-  assumes "group G" "finite_group G" "\<exists>σ. automorphism G σ" "\<forall>g. g ∈ carrier G \<longrightarrow> (σ g = g \<longleftrightarrow> g = \<one>)" "\<forall>g. g ∈ carrier G \<longrightarrow> σ (σ g) = g"
+  assumes "group G" "finite_group G" "\<exists>σ. automorphism G σ" "\<forall>g. g \<in> carrier G \<longrightarrow> (σ g = g \<longleftrightarrow> g = \<one>)" "\<forall>g. g \<in> carrier G \<longrightarrow> σ (σ g) = g"
   shows "abelian_group G"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
@@ -417,14 +417,14 @@ problem_number:2_1_13
 natural language statement:
 Let $H$ be a subgroup of the additive group of rational numbers with the property that $1 / x \in H$ for every nonzero element $x$ of $H$. Prove that $H=0$ or $\mathbb{Q}$.
 lean statement:
-theorem exercise_2_1_13 (H : add_subgroup ℚ) {x : ℚ}
-  (hH : x ∈ H → (1 / x) ∈ H):
-  H = ⊥ \<or> H = ⊤ :=
+theorem exercise_2_1_13 (H : add_subgroup \<rat>) {x : \<rat>}
+  (hH : x \<in> H \<rightarrow> (1 / x) \<in> H):
+  H = \<bot> \<or> H = \<top> :=
 
 codex statement:
 theorem subgroup_of_rat_with_inv_is_zero_or_rat:
   fixes H::"rat set"
-  assumes "subgroup H (add_monoid rat)" "\<forall>x∈H. x \<noteq> 0 \<longrightarrow> inverse x ∈ H"
+  assumes "subgroup H (add_monoid rat)" "\<forall>x\<in>H. x \<noteq> 0 \<longrightarrow> inverse x \<in> H"
   shows "H = {0} \<or> H = UNIV"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
@@ -437,7 +437,7 @@ natural language statement:
 Prove that if $H$ is a subgroup of $G$ then $H$ is generated by the set $H-\{1\}$.
 lean statement:
 theorem exercise_2_4_4 {G : Type*} [group G] (H : subgroup G) :
-  subgroup.closure ((H : set G) \ {1}) = ⊤ :=
+  subgroup.closure ((H : set G) \ {1}) = \<top> :=
 
 codex statement:
 theorem subgroup_generated_by_subtract_one:
@@ -459,7 +459,7 @@ codex statement:
 theorem generated_by_inverse_primes:
   fixes p::"nat \<Rightarrow> bool"
   assumes "\<forall>x y. p x \<longrightarrow> p y \<longrightarrow> p (x*y)" "\<forall>x. p x \<longrightarrow> x\<ge>2"
-  shows "subgroup_generated (carrier (multiplicative ℚ)) {inverse (of_nat x) | x. p x} = carrier (multiplicative ℚ)"
+  shows "subgroup_generated (carrier (multiplicative \<rat>)) {inverse (of_nat x) | x. p x} = carrier (multiplicative \<rat>)"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_2_4_13: undefined oops
@@ -471,9 +471,9 @@ natural language statement:
 A subgroup $M$ of a group $G$ is called a maximal subgroup if $M \neq G$ and the only subgroups of $G$ which contain $M$ are $M$ and $G$. Prove that if $H$ is a proper subgroup of the finite group $G$ then there is a maximal subgroup of $G$ containing $H$.
 lean statement:
 theorem exercise_2_4_16a {G : Type*} [group G] {H : subgroup G}
-  (hH : H \<noteq> ⊤) :
-  \<exists> M : subgroup G, M \<noteq> ⊤ \<and>
-  \<forall> K : subgroup G, M \<le> K → K = M \<or> K = ⊤ \<and>
+  (hH : H \<noteq> \<top>) :
+  \<exists> M : subgroup G, M \<noteq> \<top> \<and>
+  \<forall> K : subgroup G, M \<le> K \<rightarrow> K = M \<or> K = \<top> \<and>
   H \<le> M :=
 
 codex statement:
@@ -491,11 +491,11 @@ problem_number:2_4_16b
 natural language statement:
 Show that the subgroup of all rotations in a dihedral group is a maximal subgroup.
 lean statement:
-theorem exercise_2_4_16b {n : ℕ} {hn : n \<noteq> 0}
+theorem exercise_2_4_16b {n : \<nat>} {hn : n \<noteq> 0}
   {R : subgroup (dihedral_group n)}
   (hR : R = subgroup.closure {dihedral_group.r 1}) :
-  R \<noteq> ⊤ \<and>
-  \<forall> K : subgroup (dihedral_group n), R \<le> K → K = R \<or> K = ⊤ :=
+  R \<noteq> \<top> \<and>
+  \<forall> K : subgroup (dihedral_group n), R \<le> K \<rightarrow> K = R \<or> K = \<top> :=
 
 codex statement:
 theorem maximal_of_rotations_in_dihedral:
@@ -512,14 +512,14 @@ problem_number:2_4_16c
 natural language statement:
 Show that if $G=\langle x\rangle$ is a cyclic group of order $n \geq 1$ then a subgroup $H$ is maximal if and only $H=\left\langle x^{p}\right\rangle$ for some prime $p$ dividing $n$.
 lean statement:
-theorem exercise_2_4_16c {n : ℕ} (H : add_subgroup (zmod n)) :
-  \<exists> p : ℕ, nat.prime p \<and> H = add_subgroup.closure {p} ↔
-  H \<noteq> ⊤ \<and> \<forall> K : add_subgroup (zmod n), H \<le> K → K = H \<or> K = ⊤ :=
+theorem exercise_2_4_16c {n : \<nat>} (H : add_subgroup (zmod n)) :
+  \<exists> p : \<nat>, nat.prime p \<and> H = add_subgroup.closure {p} \<longleftrightarrow>
+  H \<noteq> \<top> \<and> \<forall> K : add_subgroup (zmod n), H \<le> K \<rightarrow> K = H \<or> K = \<top> :=
 
 codex statement:
 theorem maximal_subgroup_of_cyclic_group_is_prime_power:
   fixes G::"('a, 'b) monoid_scheme" (structure) and x::'a
-  assumes "group G" "x ∈ carrier G" "order G = n" "n \<ge> 1" "cyclic G" "subgroup H G" "maximal_eq_exists_not_subgroup H G"
+  assumes "group G" "x \<in> carrier G" "order G = n" "n \<ge> 1" "cyclic G" "subgroup H G" "maximal_eq_exists_not_subgroup H G"
   shows "\<exists>p. prime p \<and> p dvd n \<and> H = ⟦{x [^] p}⟧"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
@@ -532,7 +532,7 @@ natural language statement:
 Let $A$ be an abelian group and let $B$ be a subgroup of $A$. Prove that $A / B$ is abelian.
 lean statement:
 theorem exercise_3_1_3a {A : Type*} [comm_group A] (B : subgroup A) :
-  \<forall> a b : A ⧸ B, a*b = b*a :=
+  \<forall> a b : A / B, a*b = b*a :=
 
 codex statement:
 theorem quotient_group_of_abelian_group_is_abelian:
@@ -551,7 +551,7 @@ Prove that if $H$ and $K$ are normal subgroups of a group $G$ then their interse
 lean statement:
 theorem exercise_3_1_22a (G : Type* ) [group G] (H K : subgroup G)
   [subgroup.normal H] [subgroup.normal K] :
-  subgroup.normal (H ⊓ K) :=
+  subgroup.normal (H \<sqinter> K) :=
 
 codex statement:
 theorem normal_subgroup_of_intersection_of_normal_subgroups:
@@ -569,14 +569,14 @@ natural language statement:
 Prove that the intersection of an arbitrary nonempty collection of normal subgroups of a group is a normal subgroup (do not assume the collection is countable).
 lean statement:
 theorem exercise_3_1_22b {G : Type*} [group G] (I : Type* )
-  (H : I → subgroup G) (hH : \<forall> i : I, subgroup.normal (H i)) :
+  (H : I \<rightarrow> subgroup G) (hH : \<forall> i : I, subgroup.normal (H i)) :
   subgroup.normal (⨅ (i : I), H i):=
 
 codex statement:
 theorem normal_subgroup_of_intersection_of_normal_subgroups:
   fixes G::"('a, 'b) monoid_scheme" (structure)
-  assumes "group G" "\<forall>H∈S. normal_subgroup H G" "S \<noteq> {}"
-  shows "normal_subgroup (⋂S) G"
+  assumes "group G" "\<forall>H\<in>S. normal_subgroup H G" "S \<noteq> {}"
+  shows "normal_subgroup (\<Inter>S) G"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_3_1_22b: undefined oops
@@ -590,7 +590,7 @@ lean statement:
 theorem exercise_3_2_8 {G : Type*} [group G] (H K : subgroup G)
   [fintype H] [fintype K]
   (hHK : nat.coprime (fintype.card H) (fintype.card K)) :
-  H ⊓ K = ⊥ :=
+  H \<sqinter> K = \<bot> :=
 
 codex statement:
 theorem finite_subgroups_of_relatively_prime_orders_have_trivial_intersection:
@@ -626,8 +626,8 @@ problem_number:3_2_16
 natural language statement:
 Use Lagrange's Theorem in the multiplicative group $(\mathbb{Z} / p \mathbb{Z})^{\times}$to prove Fermat's Little Theorem: if $p$ is a prime then $a^{p} \equiv a(\bmod p)$ for all $a \in \mathbb{Z}$.
 lean statement:
-theorem exercise_3_2_16 (p : ℕ) (hp : nat.prime p) (a : ℕ) :
-  nat.coprime a p → a ^ p ≡ a [ZMOD p] :=
+theorem exercise_3_2_16 (p : \<nat>) (hp : nat.prime p) (a : \<nat>) :
+  nat.coprime a p \<rightarrow> a ^ p \<equiv> a [ZMOD p] :=
 
 codex statement:
 theorem fermat_little_theorem:
@@ -644,13 +644,13 @@ problem_number:3_2_21a
 natural language statement:
 Prove that $\mathbb{Q}$ has no proper subgroups of finite index.
 lean statement:
-theorem exercise_3_2_21a (H : add_subgroup ℚ) (hH : H \<noteq> ⊤) : H.index = 0 :=
+theorem exercise_3_2_21a (H : add_subgroup \<rat>) (hH : H \<noteq> \<top>) : H.index = 0 :=
 
 codex statement:
 theorem no_proper_subgroup_of_finite_index:
   fixes G::"'a::group_add set"
-  assumes "subgroup G ℚ" "finite_index ℚ G"
-  shows "G = ℚ"
+  assumes "subgroup G \<rat>" "finite_index \<rat> G"
+  shows "G = \<rat>"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_3_2_21a: undefined oops
@@ -663,7 +663,7 @@ Prove that if $H$ is a normal subgroup of $G$ of prime index $p$ then for all $K
 lean statement:
 theorem exercise_3_3_3 {p : primes} {G : Type*} [group G]
   {H : subgroup G} [hH : H.normal] (hH1 : H.index = p) :
-  \<forall> K : subgroup G, K \<le> H \<or> H ⊔ K = ⊤ \<or> (K ⊓ H).relindex K = p :=
+  \<forall> K : subgroup G, K \<le> H \<or> H ⊔ K = \<top> \<or> (K \<sqinter> H).relindex K = p :=
 
 codex statement:
 theorem prime_index_of_normal_subgroup_of_subgroup:
@@ -698,7 +698,7 @@ problem_number:3_4_4
 natural language statement:
 Use Cauchy's Theorem and induction to show that a finite abelian group has a subgroup of order $n$ for each positive divisor $n$ of its order.
 lean statement:
-theorem exercise_3_4_4 {G : Type*} [comm_group G] [fintype G] {n : ℕ}
+theorem exercise_3_4_4 {G : Type*} [comm_group G] [fintype G] {n : \<nat>}
     (hn : n  dvd  (fintype.card G)) :
     \<exists> (H : subgroup G) (H_fin : fintype H), @card H H_fin = n  :=
 
@@ -737,7 +737,7 @@ Prove that quotient groups of a solvable group are solvable.
 lean statement:
 theorem exercise_3_4_5b {G : Type*} [group G] [is_solvable G]
   (H : subgroup G) [subgroup.normal H] :
-  is_solvable (G ⧸ H) :=
+  is_solvable (G / H) :=
 
 codex statement:
 theorem solvable_of_quotient_solvable:
@@ -755,7 +755,7 @@ natural language statement:
 Prove that if $H$ is a nontrivial normal subgroup of the solvable group $G$ then there is a nontrivial subgroup $A$ of $H$ with $A \unlhd G$ and $A$ abelian.
 lean statement:
 theorem exercise_3_4_11 {G : Type*} [group G] [is_solvable G]
-  {H : subgroup G} (hH : H \<noteq> ⊥) [H.normal] :
+  {H : subgroup G} (hH : H \<noteq> \<bot>) [H.normal] :
   \<exists> A \<le> H, A.normal \<and> \<forall> a b : A, a*b = b*a :=
 
 codex statement:
@@ -774,7 +774,7 @@ natural language statement:
 Prove that if $H$ has finite index $n$ then there is a normal subgroup $K$ of $G$ with $K \leq H$ and $|G: K| \leq n!$.
 lean statement:
 theorem exercise_4_2_8 {G : Type*} [group G] {H : subgroup G}
-  {n : ℕ} (hn : n > 0) (hH : H.index = n) :
+  {n : \<nat>} (hn : n > 0) (hH : H.index = n) :
   \<exists> K \<le> H, K.normal \<and> K.index \<le> n.factorial :=
 
 codex statement:
@@ -792,9 +792,9 @@ problem_number:4_2_9a
 natural language statement:
 Prove that if $p$ is a prime and $G$ is a group of order $p^{\alpha}$ for some $\alpha \in \mathbb{Z}^{+}$, then every subgroup of index $p$ is normal in $G$.
 lean statement:
-theorem exercise_4_2_9a {G : Type*} [fintype G] [group G] {p \<alpha> : ℕ}
+theorem exercise_4_2_9a {G : Type*} [fintype G] [group G] {p \<alpha> : \<nat>}
   (hp : p.prime) (ha : \<alpha> > 0) (hG : card G = p ^ \<alpha>) :
-  \<forall> H : subgroup G, H.index = p → H.normal :=
+  \<forall> H : subgroup G, H.index = p \<rightarrow> H.normal :=
 
 codex statement:
 theorem subgroup_of_index_prime_is_normal:
@@ -836,7 +836,7 @@ codex statement:
 theorem conjugacy_class_card_leq_index_center:
   fixes G::"('a, 'b) monoid_scheme" (structure)
   assumes "group G" "finite (carrier G)" "card (center G) = n"
-  shows "\<forall>x∈carrier G. card {y∈carrier G. y = x^g \<and> g∈carrier G} \<le> n"
+  shows "\<forall>x\<in>carrier G. card {y\<in>carrier G. y = x^g \<and> g\<in>carrier G} \<le> n"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_4_3_5: undefined oops
@@ -855,7 +855,7 @@ codex statement:
 theorem exists_permutation_of_transitive_permutation_group:
   fixes G::"('a, 'b) monoid_scheme" (structure)
   assumes "group G" "finite (carrier G)" "transitive_on (carrier G) G" "card (carrier G) > 1"
-  shows "\<exists> σ ∈ carrier G. \<forall> a ∈ carrier G. σ a \<noteq> a"
+  shows "\<exists> σ \<in> carrier G. \<forall> a \<in> carrier G. σ a \<noteq> a"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_4_3_26: undefined oops
@@ -938,7 +938,7 @@ natural language statement:
 If $H$ is the unique subgroup of a given order in a group $G$ prove $H$ is characteristic in $G$.
 lean statement:
 theorem exercise_4_4_7 {G : Type*} [group G] {H : subgroup G} [fintype H]
-  (hH : \<forall> (K : subgroup G) (fK : fintype K), card H = @card K fK → H = K) :
+  (hH : \<forall> (K : subgroup G) (fK : fintype K), card H = @card K fK \<rightarrow> H = K) :
   H.characteristic :=
 
 codex statement:
@@ -975,15 +975,15 @@ problem_number:4_5_1a
 natural language statement:
 Prove that if $P \in \operatorname{Syl}_{p}(G)$ and $H$ is a subgroup of $G$ containing $P$ then $P \in \operatorname{Syl}_{p}(H)$.
 lean statement:
-theorem exercise_4_5_1a {p : ℕ} {G : Type*} [group G]
+theorem exercise_4_5_1a {p : \<nat>} {G : Type*} [group G]
   {P : subgroup G} (hP : is_p_group p P) (H : subgroup G)
   (hH : P \<le> H) : is_p_group p H :=
 
 codex statement:
 theorem sylow_subgroup_of_subgroup:
   fixes p::nat and G::"('a, 'b) monoid_scheme" (structure) and H::"('a, 'b) monoid_scheme" (structure)
-  assumes "group G" "group H" "p  dvd  order G" "p  dvd  order H" "subgroup P G" "subgroup H G" "P ∈ sylow G p"
-  shows "P ∈ sylow H p"
+  assumes "group G" "group H" "p  dvd  order G" "p  dvd  order H" "subgroup P G" "subgroup H G" "P \<in> sylow G p"
+  shows "P \<in> sylow H p"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_4_5_1a: undefined oops
@@ -996,7 +996,7 @@ Prove that a group of order 56 has a normal Sylow $p$-subgroup for some prime $p
 lean statement:
 theorem exercise_4_5_13 {G : Type*} [group G] [fintype G]
   (hG : card G = 56) :
-  \<exists> (p : ℕ) (P : sylow p G), P.normal :=
+  \<exists> (p : \<nat>) (P : sylow p G), P.normal :=
 
 codex statement:
 theorem exists_normal_sylow_of_order_56:
@@ -1015,7 +1015,7 @@ Prove that a group of order 312 has a normal Sylow $p$-subgroup for some prime $
 lean statement:
 theorem exercise_4_5_14 {G : Type*} [group G] [fintype G]
   (hG : card G = 312) :
-  \<exists> (p : ℕ) (P : sylow p G), P.normal :=
+  \<exists> (p : \<nat>) (P : sylow p G), P.normal :=
 
 codex statement:
 theorem exists_normal_sylow_of_order_312:
@@ -1034,7 +1034,7 @@ Prove that a group of order 351 has a normal Sylow $p$-subgroup for some prime $
 lean statement:
 theorem exercise_4_5_15 {G : Type*} [group G] [fintype G]
   (hG : card G = 351) :
-  \<exists> (p : ℕ) (P : sylow p G), P.normal :=
+  \<exists> (p : \<nat>) (P : sylow p G), P.normal :=
 
 codex statement:
 theorem exists_normal_sylow_of_order_351:
@@ -1051,7 +1051,7 @@ problem_number:4_5_16
 natural language statement:
 Let $|G|=p q r$, where $p, q$ and $r$ are primes with $p<q<r$. Prove that $G$ has a normal Sylow subgroup for either $p, q$ or $r$.
 lean statement:
-theorem exercise_4_5_16 {p q r : ℕ} {G : Type*} [group G]
+theorem exercise_4_5_16 {p q r : \<nat>} {G : Type*} [group G]
   [fintype G]  (hpqr : p < q \<and> q < r)
   (hpqr1 : p.prime \<and> q.prime \<and> r.prime)(hG : card G = p*q*r) :
   nonempty (sylow p G) \<or> nonempty(sylow q G) \<or> nonempty(sylow r G) :=
@@ -1218,9 +1218,9 @@ problem_number:4_5_33
 natural language statement:
 Let $P$ be a normal Sylow $p$-subgroup of $G$ and let $H$ be any subgroup of $G$. Prove that $P \cap H$ is the unique Sylow $p$-subgroup of $H$.
 lean statement:
-theorem exercise_4_5_33 {G : Type*} [group G] [fintype G] {p : ℕ}
+theorem exercise_4_5_33 {G : Type*} [group G] [fintype G] {p : \<nat>}
   (P : sylow p G) [hP : P.normal] (H : subgroup G) [fintype H] :
-  \<forall> R : sylow p H, R.to_subgroup = (H ⊓ P.to_subgroup).subgroup_of H \<and>
+  \<forall> R : sylow p H, R.to_subgroup = (H \<sqinter> P.to_subgroup).subgroup_of H \<and>
   nonempty (sylow p H) :=
 
 codex statement:
@@ -1239,7 +1239,7 @@ natural language statement:
 Prove that a subgroup $H$ of $G$ is normal if and only if $[G, H] \leq H$.
 lean statement:
 theorem exercise_5_4_2 {G : Type*} [group G] (H : subgroup G) :
-  H.normal ↔ ⁅(⊤ : subgroup G), H⁆ \<le> H :=
+  H.normal \<longleftrightarrow> ⁅(\<top> : subgroup G), H⁆ \<le> H :=
 
 codex statement:
 theorem normal_iff_commutator_subset:
@@ -1293,12 +1293,12 @@ natural language statement:
 Prove that any subring of a field which contains the identity is an integral domain.
 lean statement:
 theorem exercise_7_1_12 {F : Type*} [field F] {K : subring F}
-  (hK : (1 : F) ∈ K) : is_domain K :=
+  (hK : (1 : F) \<in> K) : is_domain K :=
 
 codex statement:
 theorem subring_of_field_is_integral_domain:
   fixes R::"'a::field ring"
-  assumes "subring R" "1∈carrier R"
+  assumes "subring R" "1\<in>carrier R"
   shows "integral_domain R"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
@@ -1329,7 +1329,7 @@ natural language statement:
 Let $p(x)=a_{n} x^{n}+a_{n-1} x^{n-1}+\cdots+a_{1} x+a_{0}$ be an element of the polynomial ring $R[x]$. Prove that $p(x)$ is a zero divisor in $R[x]$ if and only if there is a nonzero $b \in R$ such that $b p(x)=0$.
 lean statement:
 theorem exercise_7_2_2 {R : Type*} [ring R] (p : polynomial R) :
-  p  dvd  0 ↔ \<exists> b : R, b \<noteq> 0 \<and> b • p = 0 :=
+  p  dvd  0 \<longleftrightarrow> \<exists> b : R, b \<noteq> 0 \<and> b \<bullet> p = 0 :=
 
 codex statement:
 theorem zero_divisor_of_polynomial_iff_exists_nonzero_mult_zero:
@@ -1363,13 +1363,13 @@ natural language statement:
 Let $G=\left\{g_{1}, \ldots, g_{n}\right\}$ be a finite group. Prove that the element $N=g_{1}+g_{2}+\ldots+g_{n}$ is in the center of the group ring $R G$.
 lean statement:
 theorem exercise_7_2_12 {R G : Type*} [ring R] [group G] [fintype G] :
-  \<Sum> g : G, monoid_algebra.of R G g ∈ center (monoid_algebra R G) :=
+  \<Sum> g : G, monoid_algebra.of R G g \<in> center (monoid_algebra R G) :=
 
 codex statement:
 theorem sum_of_elements_in_center_of_group_ring:
   fixes G::"('a, 'b) monoid_scheme" (structure)
   assumes "finite (carrier G)"
-  shows "\<forall>x∈carrier G. (\<Sum>y∈carrier G. y) * x = x * (\<Sum>y∈carrier G. y)"
+  shows "\<forall>x\<in>carrier G. (\<Sum>y\<in>carrier G. y) * x = x * (\<Sum>y\<in>carrier G. y)"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_7_2_12: undefined oops
@@ -1381,14 +1381,14 @@ natural language statement:
 Let $\varphi: R \rightarrow S$ be a surjective homomorphism of rings. Prove that the image of the center of $R$ is contained in the center of $S$.
 lean statement:
 theorem exercise_7_3_16 {R S : Type*} [ring R] [ring S]
-  {φ : R →+* S} (hf : surjective φ) :
-  φ '' (center R) ⊂ center S :=
+  {\<phi> : R \<rightarrow>+* S} (hf : surjective \<phi>) :
+  \<phi> '' (center R) ⊂ center S :=
 
 codex statement:
 theorem center_of_ring_hom_image_subset_center_of_ring_hom_codomain:
-  fixes R S::"'a::comm_ring_1 ring" and φ::"'a \<Rightarrow> 'b::comm_ring_1"
-  assumes "ring R" "ring S" "ring_hom φ R S" "surj φ"
-  shows "φ ` center R \<subseteq> center S"
+  fixes R S::"'a::comm_ring_1 ring" and \<phi>::"'a \<Rightarrow> 'b::comm_ring_1"
+  assumes "ring R" "ring S" "ring_hom \<phi> R S" "surj \<phi>"
+  shows "\<phi> ` center R \<subseteq> center S"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_7_3_16: undefined oops
@@ -1415,9 +1415,9 @@ problem_number:7_3_37
 natural language statement:
 An ideal $N$ is called nilpotent if $N^{n}$ is the zero ideal for some $n \geq 1$. Prove that the ideal $p \mathbb{Z} / p^{m} \mathbb{Z}$ is a nilpotent ideal in the ring $\mathbb{Z} / p^{m} \mathbb{Z}$.
 lean statement:
-theorem exercise_7_3_37 {R : Type*} {p m : ℕ} (hp : p.prime)
+theorem exercise_7_3_37 {R : Type*} {p m : \<nat>} (hp : p.prime)
   (N : ideal $ zmod $ p^m) :
-  is_nilpotent N ↔  is_nilpotent (ideal.span ({p} : set $ zmod $ p^m)) :=
+  is_nilpotent N \<longleftrightarrow>  is_nilpotent (ideal.span ({p} : set $ zmod $ p^m)) :=
 
 codex statement:
 theorem nilpotent_ideal_of_p_Z_mod_p_m_Z:
@@ -1441,8 +1441,8 @@ theorem exercise_7_4_27 {R : Type*} [comm_ring R] (hR : (0 : R) \<noteq> 1)
 codex statement:
 theorem unit_of_nilpotent_of_commutative_ring:
   fixes R::"'a::comm_ring_1"
-  assumes "a∈carrier R" "a [^] n = 0"
-  shows "\<forall>b∈carrier R. (1 - a * b) ∈ Units R"
+  assumes "a\<in>carrier R" "a [^] n = 0"
+  shows "\<forall>b\<in>carrier R. (1 - a * b) \<in> Units R"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_7_4_27: undefined oops
@@ -1453,17 +1453,17 @@ problem_number:8_1_12
 natural language statement:
 Let $N$ be a positive integer. Let $M$ be an integer relatively prime to $N$ and let $d$ be an integer relatively prime to $\varphi(N)$, where $\varphi$ denotes Euler's $\varphi$-function. Prove that if $M_{1} \equiv M^{d} \pmod N$ then $M \equiv M_{1}^{d^{\prime}} \pmod N$ where $d^{\prime}$ is the inverse of $d \bmod \varphi(N)$: $d d^{\prime} \equiv 1 \pmod {\varphi(N)}$.
 lean statement:
-theorem exercise_8_1_12 {N : ℕ} (hN : N > 0) {M M': ℤ} {d : ℕ}
+theorem exercise_8_1_12 {N : \<nat>} (hN : N > 0) {M M': \<int>} {d : \<nat>}
   (hMN : M.gcd N = 1) (hMd : d.gcd N.totient = 1)
-  (hM' : M' ≡ M^d [ZMOD N]) :
-  \<exists> d' : ℕ, d' * d ≡ 1 [ZMOD N.totient] \<and>
-  M ≡ M'^d' [ZMOD N] :=
+  (hM' : M' \<equiv> M^d [ZMOD N]) :
+  \<exists> d' : \<nat>, d' * d \<equiv> 1 [ZMOD N.totient] \<and>
+  M \<equiv> M'^d' [ZMOD N] :=
 
 codex statement:
 theorem congruent_mod_of_congruent_mod_power_of_inverse_mod_phi:
   fixes N::nat and M::int and M1::int and d::int
-  assumes "prime N" "coprime M N" "coprime d (φ N)" "M1 ≡ M^d [MOD N]"
-  shows "M ≡ M1^(inverse_mod (φ N) d) [MOD N]"
+  assumes "prime N" "coprime M N" "coprime d (\<phi> N)" "M1 \<equiv> M^d [MOD N]"
+  shows "M \<equiv> M1^(inverse_mod (\<phi> N) d) [MOD N]"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_8_1_12: undefined oops
@@ -1476,9 +1476,9 @@ Let $R$ be an integral domain. Prove that if the following two conditions hold t
 lean statement:
 theorem exercise_8_2_4 {R : Type*} [ring R][no_zero_divisors R]
   [cancel_comm_monoid_with_zero R] [gcd_monoid R]
-  (h1 : \<forall> a b : R, a \<noteq> 0 → b \<noteq> 0 → \<exists> r s : R, gcd a b = r*a + s*b)
-  (h2 : \<forall> a : ℕ → R, (\<forall> i j : ℕ, i < j → a i  dvd  a j) →
-  \<exists> N : ℕ, \<forall> n \<ge> N, \<exists> u : R, is_unit u \<and> a n = u * a N) :
+  (h1 : \<forall> a b : R, a \<noteq> 0 \<rightarrow> b \<noteq> 0 \<rightarrow> \<exists> r s : R, gcd a b = r*a + s*b)
+  (h2 : \<forall> a : \<nat> \<rightarrow> R, (\<forall> i j : \<nat>, i < j \<rightarrow> a i  dvd  a j) \<rightarrow>
+  \<exists> N : \<nat>, \<forall> n \<ge> N, \<exists> u : R, is_unit u \<and> a n = u * a N) :
   is_principal_ideal_ring R :=
 
 codex statement:
@@ -1496,15 +1496,15 @@ problem_number:8_3_4
 natural language statement:
 Prove that if an integer is the sum of two rational squares, then it is the sum of two integer squares.
 lean statement:
-theorem exercise_8_3_4 {R : Type*} {n : ℤ} {r s : ℚ}
+theorem exercise_8_3_4 {R : Type*} {n : \<int>} {r s : \<rat>}
   (h : r^2 + s^2 = n) :
-  \<exists> a b : ℤ, a^2 + b^2 = n :=
+  \<exists> a b : \<int>, a^2 + b^2 = n :=
 
 codex statement:
 theorem sum_of_two_rational_squares_is_sum_of_two_integer_squares:
   fixes a b::int
-  assumes "\<exists>x y. x∈ℚ \<and> y∈ℚ \<and> a = x^2 + y^2"
-  shows "\<exists>x y. x∈ℤ \<and> y∈ℤ \<and> a = x^2 + y^2"
+  assumes "\<exists>x y. x\<in>\<rat> \<and> y\<in>\<rat> \<and> a = x^2 + y^2"
+  shows "\<exists>x y. x\<in>\<int> \<and> y\<in>\<int> \<and> a = x^2 + y^2"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_8_3_4: undefined oops
@@ -1515,16 +1515,16 @@ problem_number:8_3_5a
 natural language statement:
 Let $R=\mathbb{Z}[\sqrt{-n}]$ where $n$ is a squarefree integer greater than 3. Prove that $2, \sqrt{-n}$ and $1+\sqrt{-n}$ are irreducibles in $R$.
 lean statement:
-theorem exercise_8_3_5a {n : ℤ} (hn0 : n > 3) (hn1 : squarefree n) :
+theorem exercise_8_3_5a {n : \<int>} (hn0 : n > 3) (hn1 : squarefree n) :
   irreducible (2 :zsqrtd $ -n) \<and>
-  irreducible (⟨0, 1⟩ : zsqrtd $ -n) \<and>
-  irreducible (1 + ⟨0, 1⟩ : zsqrtd $ -n) :=
+  irreducible (\<langle>0, 1\<rangle> : zsqrtd $ -n) \<and>
+  irreducible (1 + \<langle>0, 1\<rangle> : zsqrtd $ -n) :=
 
 codex statement:
 theorem irreducible_of_squarefree_int_greater_3:
   fixes n::int
   assumes "n > 3" "\<forall>p. prime p \<longrightarrow> p  dvd  n \<longrightarrow> p dvd 1 \<or> p dvd 2"
-  shows "\<forall>x. x ∈ {2, √ (-n), 1 + √ (-n)} \<longrightarrow> irreducible x"
+  shows "\<forall>x. x \<in> {2, √ (-n), 1 + √ (-n)} \<longrightarrow> irreducible x"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_8_3_5a: undefined oops
@@ -1536,13 +1536,13 @@ natural language statement:
 Prove that the quotient ring $\mathbb{Z}[i] /(1+i)$ is a field of order 2.
 lean statement:
 theorem exercise_8_3_6a {R : Type*} [ring R]
-  (hR : R = (gaussian_int ⧸ ideal.span ({⟨0, 1⟩} : set gaussian_int))) :
+  (hR : R = (gaussian_int / ideal.span ({\<langle>0, 1\<rangle>} : set gaussian_int))) :
   is_field R \<and> \<exists> finR : fintype R, @card R finR = 2 :=
 
 codex statement:
 theorem quotient_ring_is_field_of_order_2:
-  assumes "ideal (1 + I) (ℤ[I])"
-  shows "field (ℤ[I] /⟦1 + I⟧)" "card (carrier (ℤ[I] /⟦1 + I⟧)) = 2"
+  assumes "ideal (1 + I) (\<int>[I])"
+  shows "field (\<int>[I] /⟦1 + I⟧)" "card (carrier (\<int>[I] /⟦1 + I⟧)) = 2"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_8_3_6a: undefined oops
@@ -1553,16 +1553,16 @@ problem_number:8_3_6b
 natural language statement:
 Let $q \in \mathbb{Z}$ be a prime with $q \equiv 3 \bmod 4$. Prove that the quotient ring $\mathbb{Z}[i] /(q)$ is a field with $q^{2}$ elements.
 lean statement:
-theorem exercise_8_3_6b {q : ℕ} (hq0 : q.prime)
-  (hq1 : q ≡ 3 [ZMOD 4]) {R : Type*} [ring R]
-  (hR : R = (gaussian_int ⧸ ideal.span ({q} : set gaussian_int))) :
+theorem exercise_8_3_6b {q : \<nat>} (hq0 : q.prime)
+  (hq1 : q \<equiv> 3 [ZMOD 4]) {R : Type*} [ring R]
+  (hR : R = (gaussian_int / ideal.span ({q} : set gaussian_int))) :
   is_field R \<and> \<exists> finR : fintype R, @card R finR = q^2 :=
 
 codex statement:
 theorem quotient_ring_is_field:
   fixes q::int
-  assumes "prime q" "q ≡ 3 [MOD 4]"
-  shows "field (quotient_ring (ℤ[i]) (ideal_generated ℤ {q}))"
+  assumes "prime q" "q \<equiv> 3 [MOD 4]"
+  shows "field (quotient_ring (\<int>[i]) (ideal_generated \<int> {q}))"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_8_3_6b: undefined oops
@@ -1574,7 +1574,7 @@ natural language statement:
 Prove that $(x, y)$ is not a principal ideal in $\mathbb{Q}[x, y]$.
 lean statement:
 theorem exercise_9_1_6 : ¬ is_principal
-  (ideal.span ({X 0, X 1} : set (mv_polynomial (fin 2) ℚ))) :=
+  (ideal.span ({X 0, X 1} : set (mv_polynomial (fin 2) \<rat>))) :=
 
 codex statement:
 
@@ -1588,9 +1588,9 @@ problem_number:9_1_10
 natural language statement:
 Prove that the ring $\mathbb{Z}\left[x_{1}, x_{2}, x_{3}, \ldots\right] /\left(x_{1} x_{2}, x_{3} x_{4}, x_{5} x_{6}, \ldots\right)$ contains infinitely many minimal prime ideals (cf. exercise.9.1.36 of Section 7.4).
 lean statement:
-theorem exercise_9_1_10 {f : ℕ → mv_polynomial ℕ ℤ}
+theorem exercise_9_1_10 {f : \<nat> \<rightarrow> mv_polynomial \<nat> \<int>}
   (hf : f = \<lambda> i, X i * X (i+1)):
-  infinite (minimal_primes (mv_polynomial ℕ ℤ ⧸ ideal.span (range f))) :=
+  infinite (minimal_primes (mv_polynomial \<nat> \<int> / ideal.span (range f))) :=
 
 codex statement:
 theorem infinite_minimal_prime_ideals_of_quotient_ring:
@@ -1607,15 +1607,15 @@ problem_number:9_3_2
 natural language statement:
 Prove that if $f(x)$ and $g(x)$ are polynomials with rational coefficients whose product $f(x) g(x)$ has integer coefficients, then the product of any coefficient of $g(x)$ with any coefficient of $f(x)$ is an integer.
 lean statement:
-theorem exercise_9_3_2 {f g : polynomial ℚ} (i j : ℕ)
-  (hfg : \<forall> n : ℕ, \<exists> a : ℤ, (f*g).coeff = a) :
-  \<exists> a : ℤ, f.coeff i * g.coeff j = a :=
+theorem exercise_9_3_2 {f g : polynomial \<rat>} (i j : \<nat>)
+  (hfg : \<forall> n : \<nat>, \<exists> a : \<int>, (f*g).coeff = a) :
+  \<exists> a : \<int>, f.coeff i * g.coeff j = a :=
 
 codex statement:
 theorem product_of_coeff_of_poly_with_rational_coeff_is_integer:
   fixes f g::"real \<Rightarrow> real"
-  assumes "polynomial f" "polynomial g" "\<forall>x. (f x * g x) ∈ ℤ"
-  shows "\<forall>x. (coeff f x * coeff g x) ∈ ℤ"
+  assumes "polynomial f" "polynomial g" "\<forall>x. (f x * g x) \<in> \<int>"
+  shows "\<forall>x. (coeff f x * coeff g x) \<in> \<int>"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_9_3_2: undefined oops
@@ -1626,7 +1626,7 @@ problem_number:9_4_2a
 natural language statement:
 Prove that $x^4-4x^3+6$ is irreducible in $\mathbb{Z}[x]$.
 lean statement:
-theorem exercise_9_4_2a : irreducible (X^4 - 4*X^3 + 6 : polynomial ℤ) :=
+theorem exercise_9_4_2a : irreducible (X^4 - 4*X^3 + 6 : polynomial \<int>) :=
 
 codex statement:
 theorem irreducible_of_polynomial_of_degree_4:
@@ -1644,7 +1644,7 @@ natural language statement:
 Prove that $x^6+30x^5-15x^+6x-120$ is irreducible in $\mathbb{Z}[x]$.
 lean statement:
 theorem exercise_9_4_2b : irreducible
-  (X^6 + 30*X^5 - 15*X^3 + 6*X - 120 : polynomial ℤ) :=
+  (X^6 + 30*X^5 - 15*X^3 + 6*X - 120 : polynomial \<int>) :=
 
 codex statement:
 theorem irreducible_polynomial:
@@ -1662,7 +1662,7 @@ natural language statement:
 Prove that $x^4+4x^3+6x^2+2x+1$ is irreducible in $\mathbb{Z}[x]$.
 lean statement:
 theorem exercise_9_4_2c : irreducible
-  (X^4 + 4*X^3 + 6*X^2 + 2*X + 1 : polynomial ℤ) :=
+  (X^4 + 4*X^3 + 6*X^2 + 2*X + 1 : polynomial \<int>) :=
 
 codex statement:
 theorem irreducible_polynomial_of_degree_4:
@@ -1678,10 +1678,10 @@ problem_number:9_4_2d
 natural language statement:
 Prove that $\frac{(x+2)^p-2^p}{x}$, where $p$ is an odd prime, is irreducible in $\mathbb{Z}[x]$.
 lean statement:
-theorem exercise_9_4_2d {p : ℕ} (hp : p.prime \<and> p > 2)
-  {f : polynomial ℤ} (hf : f = (X + 2)^p):
+theorem exercise_9_4_2d {p : \<nat>} (hp : p.prime \<and> p > 2)
+  {f : polynomial \<int>} (hf : f = (X + 2)^p):
   irreducible (\<Sum> n in (f.support - {0}), (f.coeff n) * X ^ (n-1) :
-  polynomial ℤ) :=
+  polynomial \<int>) :=
 
 codex statement:
 theorem irreducible_of_odd_prime:
@@ -1717,7 +1717,7 @@ natural language statement:
 Prove that $x^2+y^2-1$ is irreducible in $\mathbb{Q}[x,y]$.
 lean statement:
 theorem exercise_9_4_11 :
-  irreducible ((X 0)^2 + (X 1)^2 - 1 : mv_polynomial (fin 2) ℚ) :=
+  irreducible ((X 0)^2 + (X 1)^2 - 1 : mv_polynomial (fin 2) \<rat>) :=
 
 codex statement:
 theorem irreducible_of_polynomial_ring:
@@ -1733,14 +1733,14 @@ problem_number:11_1_13
 natural language statement:
 Prove that as vector spaces over $\mathbb{Q}, \mathbb{R}^n \cong \mathbb{R}$, for all $n \in \mathbb{Z}^{+}$.
 lean statement:
-theorem exercise_11_1_13 {ι : Type*} [fintype ι] :
-  (ι → ℝ) ≃ₗ[ℚ] ℝ :=
+theorem exercise_11_1_13 {\<iota> : Type*} [fintype \<iota>] :
+  (\<iota> \<rightarrow> \<real>) \<cong>ₗ[\<rat>] \<real> :=
 
 codex statement:
 theorem isomorphic_of_vector_space_over_Q:
   fixes n::nat
-  shows "vector_space ℚ (UNIV::'a::euclidean_space set)" "vector_space ℚ (UNIV::'b::euclidean_space set)" "n = DIM('a)" "n = DIM('b)"
-  shows "('a::euclidean_space) ≃ₗ[ℚ] ('b::euclidean_space)"
+  shows "vector_space \<rat> (UNIV::'a::euclidean_space set)" "vector_space \<rat> (UNIV::'b::euclidean_space set)" "n = DIM('a)" "n = DIM('b)"
+  shows "('a::euclidean_space) \<cong>ₗ[\<rat>] ('b::euclidean_space)"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_11_1_13: undefined oops

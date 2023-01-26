@@ -8,7 +8,7 @@ natural language statement:
 Show that $\frac{-1 + \sqrt{3}i}{2}$ is a cube root of 1 (meaning that its cube equals 1).
 lean statement:
 theorem exercise_1_2 :
-  (⟨-1/2, real.sqrt 3 / 2⟩ : ℂ) ^ 3 = -1 :=
+  (\<langle>-1/2, real.sqrt 3 / 2\<rangle> : \<complex>) ^ 3 = -1 :=
 
 codex statement:
 theorem entire_function_of_order_one_over_alpha:
@@ -44,7 +44,7 @@ natural language statement:
 Prove that if $a \in \mathbf{F}$, $v \in V$, and $av = 0$, then $a = 0$ or $v = 0$.
 lean statement:
 theorem exercise_1_4 {F V : Type*} [add_comm_group V] [field F]
-  [module F V] (v : V) (a : F): a • v = 0 ↔ a = 0 \<or> v = 0 :=
+  [module F V] (v : V) (a : F): a \<bullet> v = 0 \<longleftrightarrow> a = 0 \<or> v = 0 :=
 
 codex statement:
 theorem entire_of_sum_frac_power_factorial:
@@ -61,11 +61,11 @@ problem_number:1_6
 natural language statement:
 Give an example of a nonempty subset $U$ of $\mathbf{R}^2$ such that $U$ is closed under addition and under taking additive inverses (meaning $-u \in U$ whenever $u \in U$), but $U$ is not a subspace of $\mathbf{R}^2$.
 lean statement:
-theorem exercise_1_6 : \<exists> U : set (ℝ × ℝ),
+theorem exercise_1_6 : \<exists> U : set (\<real> × \<real>),
   (U \<noteq> ∅) \<and>
-  (\<forall> (u v : ℝ × ℝ), u ∈ U \<and> v ∈ U → u + v ∈ U) \<and>
-  (\<forall> (u : ℝ × ℝ), u ∈ U → -u ∈ U) \<and>
-  (\<forall> U' : submodule ℝ (ℝ × ℝ), U \<noteq> ↑U') :=
+  (\<forall> (u v : \<real> × \<real>), u \<in> U \<and> v \<in> U \<rightarrow> u + v \<in> U) \<and>
+  (\<forall> (u : \<real> × \<real>), u \<in> U \<rightarrow> -u \<in> U) \<and>
+  (\<forall> U' : submodule \<real> (\<real> × \<real>), U \<noteq> ↑U') :=
 
 codex statement:
 theorem entire_of_sum_frac_power_factorial:
@@ -82,10 +82,10 @@ problem_number:1_7
 natural language statement:
 Give an example of a nonempty subset $U$ of $\mathbf{R}^2$ such that $U$ is closed under scalar multiplication, but $U$ is not a subspace of $\mathbf{R}^2$.
 lean statement:
-theorem exercise_1_7 : \<exists> U : set (ℝ × ℝ),
+theorem exercise_1_7 : \<exists> U : set (\<real> × \<real>),
   (U \<noteq> ∅) \<and>
-  (\<forall> (c : ℝ) (u : ℝ × ℝ), u ∈ U → c • u ∈ U) \<and>
-  (\<forall> U' : submodule ℝ (ℝ × ℝ), U \<noteq> ↑U') :=
+  (\<forall> (c : \<real>) (u : \<real> × \<real>), u \<in> U \<rightarrow> c \<bullet> u \<in> U) \<and>
+  (\<forall> U' : submodule \<real> (\<real> × \<real>), U \<noteq> ↑U') :=
 
 codex statement:
 theorem entire_of_sum_frac_power_factorial:
@@ -103,8 +103,8 @@ natural language statement:
 Prove that the intersection of any collection of subspaces of $V$ is a subspace of $V$.
 lean statement:
 theorem exercise_1_8 {F V : Type*} [add_comm_group V] [field F]
-  [module F V] {ι : Type*} (u : ι → submodule F V) :
-  \<exists> U : submodule F V, (⋂ (i : ι), (u i).carrier) = ↑U :=
+  [module F V] {\<iota> : Type*} (u : \<iota> \<rightarrow> submodule F V) :
+  \<exists> U : submodule F V, (\<Inter> (i : \<iota>), (u i).carrier) = ↑U :=
 
 codex statement:
 theorem entire_function_of_order_one_over_alpha:
@@ -123,7 +123,7 @@ Prove that the union of two subspaces of $V$ is a subspace of $V$ if and only if
 lean statement:
 theorem exercise_1_9 {F V : Type*} [add_comm_group V] [field F]
   [module F V] (U W : submodule F V):
-  \<exists> U' : submodule F V, U'.carrier = ↑U ∩ ↑W ↔ U \<le> W \<or> W \<le> U :=
+  \<exists> U' : submodule F V, U'.carrier = ↑U ∩ ↑W \<longleftrightarrow> U \<le> W \<or> W \<le> U :=
 
 codex statement:
 theorem entire_function_of_order_one_over_alpha:
@@ -190,8 +190,8 @@ Show that every linear map from a one-dimensional vector space to itself is mult
 lean statement:
 theorem exercise_3_1 {F V : Type*}
   [add_comm_group V] [field F] [module F V] [finite_dimensional F V]
-  (T : V →ₗ[F] V) (hT : finrank F V = 1) :
-  \<exists> c : F, \<forall> v : V, T v = c • v:=
+  (T : V \<rightarrow>ₗ[F] V) (hT : finrank F V = 1) :
+  \<exists> c : F, \<forall> v : V, T v = c \<bullet> v:=
 
 codex statement:
 theorem entire_function_of_order_one_over_alpha:
@@ -210,8 +210,8 @@ Suppose that $V$ is finite dimensional and that $T \in \mathcal{L}(V, W)$. Prove
 lean statement:
 theorem exercise_3_8 {F V W : Type*}  [add_comm_group V]
   [add_comm_group W] [field F] [module F V] [module F W]
-  (L : V →ₗ[F] W) :
-  \<exists> U : submodule F V, U ⊓ L.ker = ⊥ \<and>
+  (L : V \<rightarrow>ₗ[F] W) :
+  \<exists> U : submodule F V, U \<sqinter> L.ker = \<bot> \<and>
   linear_map.range L = range (dom_restrict L U):=
 
 codex statement:
@@ -277,11 +277,11 @@ problem_number:4_4
 natural language statement:
 Suppose $p \in \mathcal{P}(\mathbf{C})$ has degree $m$. Prove that $p$ has $m$ distinct roots if and only if $p$ and its derivative $p^{\prime}$ have no roots in common.
 lean statement:
-theorem exercise_4_4 (p : polynomial ℂ) :
-  p.degree = @card (root_set p ℂ) (polynomial.root_set_fintype p ℂ) ↔
+theorem exercise_4_4 (p : polynomial \<complex>) :
+  p.degree = @card (root_set p \<complex>) (polynomial.root_set_fintype p \<complex>) \<longleftrightarrow>
   disjoint
-  (@card (root_set p.derivative ℂ) (polynomial.root_set_fintype p.derivative ℂ))
-  (@card (root_set p ℂ) (polynomial.root_set_fintype p ℂ)) :=
+  (@card (root_set p.derivative \<complex>) (polynomial.root_set_fintype p.derivative \<complex>))
+  (@card (root_set p \<complex>) (polynomial.root_set_fintype p \<complex>)) :=
 
 codex statement:
 theorem entire_function_of_order_one_over_alpha:
@@ -299,7 +299,7 @@ natural language statement:
 Suppose $T \in \mathcal{L}(V)$. Prove that if $U_{1}, \ldots, U_{m}$ are subspaces of $V$ invariant under $T$, then $U_{1}+\cdots+U_{m}$ is invariant under $T$.
 lean statement:
 theorem exercise_5_1 {F V : Type*} [add_comm_group V] [field F]
-  [module F V] {L : V →ₗ[F] V} {n : ℕ} (U : fin n → submodule F V)
+  [module F V] {L : V \<rightarrow>ₗ[F] V} {n : \<nat>} (U : fin n \<rightarrow> submodule F V)
   (hU : \<forall> i : fin n, map L (U i) = U i) :
   map L (\<Sum> i : fin n, U i : submodule F V) =
   (\<Sum> i : fin n, U i : submodule F V) :=
@@ -320,8 +320,8 @@ natural language statement:
 Suppose that $S, T \in \mathcal{L}(V)$ are such that $S T=T S$. Prove that $\operatorname{null} (T-\lambda I)$ is invariant under $S$ for every $\lambda \in \mathbf{F}$.
 lean statement:
 theorem exercise_5_4 {F V : Type*} [add_comm_group V] [field F]
-  [module F V] (S T : V →ₗ[F] V) (hST : S ∘ T = T ∘ S) (c : F):
-  map S (T - c • id).ker = (T - c • id).ker :=
+  [module F V] (S T : V \<rightarrow>ₗ[F] V) (hST : S ∘ T = T ∘ S) (c : F):
+  map S (T - c \<bullet> id).ker = (T - c \<bullet> id).ker :=
 
 codex statement:
 theorem entire_of_sum_frac_power_factorial:
@@ -359,8 +359,8 @@ Suppose $T \in \mathcal{L}(V)$ is such that every vector in $V$ is an eigenvecto
 lean statement:
 theorem exercise_5_12 {F V : Type*} [add_comm_group V] [field F]
   [module F V] {S : End F V}
-  (hS : \<forall> v : V, \<exists> c : F, v ∈ eigenspace S c) :
-  \<exists> c : F, S = c • id :=
+  (hS : \<forall> v : V, \<exists> c : F, v \<in> eigenspace S c) :
+  \<exists> c : F, S = c \<bullet> id :=
 
 codex statement:
 theorem entire_function_of_order_one_over_alpha:
@@ -379,8 +379,8 @@ Suppose $T \in \mathcal{L}(V)$ is such that every subspace of $V$ with dimension
 lean statement:
 theorem exercise_5_13 {F V : Type*} [add_comm_group V] [field F]
   [module F V] [finite_dimensional F V] {T : End F V}
-  (hS : \<forall> U : submodule F V, finrank F U = finrank F V - 1 →
-  map T U = U) : \<exists> c : F, T = c • id :=
+  (hS : \<forall> U : submodule F V, finrank F U = finrank F V - 1 \<rightarrow>
+  map T U = U) : \<exists> c : F, T = c \<bullet> id :=
 
 codex statement:
 theorem entire_of_sum_frac_power_factorial:
@@ -400,7 +400,7 @@ lean statement:
 theorem exercise_5_20 {F V : Type*} [add_comm_group V] [field F]
   [module F V] [finite_dimensional F V] {S T : End F V}
   (h1 : @card T.eigenvalues (eigenvalues.fintype T) = finrank F V)
-  (h2 : \<forall> v : V, \<exists> c : F, v ∈ eigenspace S c ↔ \<exists> c : F, v ∈ eigenspace T c) :
+  (h2 : \<forall> v : V, \<exists> c : F, v \<in> eigenspace S c \<longleftrightarrow> \<exists> c : F, v \<in> eigenspace T c) :
   S * T = T * S :=
 
 codex statement:
@@ -419,8 +419,8 @@ natural language statement:
 Suppose $V$ is a real vector space and $T \in \mathcal{L}(V)$ has no eigenvalues. Prove that every subspace of $V$ invariant under $T$ has even dimension.
 lean statement:
 theorem exercise_5_24 {V : Type*} [add_comm_group V]
-  [module ℝ V] [finite_dimensional ℝ V] {T : End ℝ V}
-  (hT : \<forall> c : ℝ, eigenspace T c = ⊥) {U : submodule ℝ V}
+  [module \<real> V] [finite_dimensional \<real> V] {T : End \<real> V}
+  (hT : \<forall> c : \<real>, eigenspace T c = \<bot>) {U : submodule \<real> V}
   (hU : map T U = U) : even (finrank U) :=
 
 codex statement:
@@ -438,9 +438,9 @@ problem_number:6_2
 natural language statement:
 Suppose $u, v \in V$. Prove that $\langle u, v\rangle=0$ if and only if $\|u\| \leq\|u+a v\|$ for all $a \in \mathbf{F}$.
 lean statement:
-theorem exercise_6_2 {V : Type*} [add_comm_group V] [module ℂ V]
-  [inner_product_space ℂ V] (u v : V) :
-  ⟪u, v⟫_ℂ = 0 ↔ \<forall> (a : ℂ), ∥u∥ \<le> ∥u + a • v∥ :=
+theorem exercise_6_2 {V : Type*} [add_comm_group V] [module \<complex> V]
+  [inner_product_space \<complex> V] (u v : V) :
+  ⟪u, v⟫_\<complex> = 0 \<longleftrightarrow> \<forall> (a : \<complex>), ∥u∥ \<le> ∥u + a \<bullet> v∥ :=
 
 codex statement:
 theorem entire_function_of_order_one_over_alpha:
@@ -457,7 +457,7 @@ problem_number:6_3
 natural language statement:
 Prove that $\left(\sum_{j=1}^{n} a_{j} b_{j}\right)^{2} \leq\left(\sum_{j=1}^{n} j a_{j}{ }^{2}\right)\left(\sum_{j=1}^{n} \frac{b_{j}{ }^{2}}{j}\right)$ for all real numbers $a_{1}, \ldots, a_{n}$ and $b_{1}, \ldots, b_{n}$.
 lean statement:
-theorem exercise_6_3 {n : ℕ} (a b : fin n → ℝ) :
+theorem exercise_6_3 {n : \<nat>} (a b : fin n \<rightarrow> \<real>) :
   (\<Sum> i, a i * b i) ^ 2 \<le> (\<Sum> i : fin n, i * a i ^ 2) * (\<Sum> i, b i ^ 2 / i) :=
 
 codex statement:
@@ -475,8 +475,8 @@ problem_number:6_7
 natural language statement:
 Prove that if $V$ is a complex inner-product space, then $\langle u, v\rangle=\frac{\|u+v\|^{2}-\|u-v\|^{2}+\|u+i v\|^{2} i-\|u-i v\|^{2} i}{4}$ for all $u, v \in V$.
 lean statement:
-theorem exercise_6_7 {V : Type*} [inner_product_space ℂ V] (u v : V) :
-  ⟪u, v⟫_ℂ = (∥u + v∥^2 - ∥u - v∥^2 + I*∥u + I•v∥^2 - I*∥u-I•v∥^2) / 4 :=
+theorem exercise_6_7 {V : Type*} [inner_product_space \<complex> V] (u v : V) :
+  ⟪u, v⟫_\<complex> = (∥u + v∥^2 - ∥u - v∥^2 + I*∥u + I\<bullet>v∥^2 - I*∥u-I\<bullet>v∥^2) / 4 :=
 
 codex statement:
 theorem entire_function_of_order_one_over_alpha:
@@ -493,9 +493,9 @@ problem_number:6_13
 natural language statement:
 Suppose $\left(e_{1}, \ldots, e_{m}\right)$ is an or thonormal list of vectors in $V$. Let $v \in V$. Prove that $\|v\|^{2}=\left|\left\langle v, e_{1}\right\rangle\right|^{2}+\cdots+\left|\left\langle v, e_{m}\right\rangle\right|^{2}$ if and only if $v \in \operatorname{span}\left(e_{1}, \ldots, e_{m}\right)$.
 lean statement:
-theorem exercise_6_13 {V : Type*} [inner_product_space ℂ V] {n : ℕ}
-  {e : fin n → V} (he : orthonormal ℂ e) (v : V) :
-  ∥v∥^2 = \<Sum> i : fin n, ∥⟪v, e i⟫_ℂ∥^2 ↔ v ∈ span ℂ (e '' univ) :=
+theorem exercise_6_13 {V : Type*} [inner_product_space \<complex> V] {n : \<nat>}
+  {e : fin n \<rightarrow> V} (he : orthonormal \<complex> e) (v : V) :
+  ∥v∥^2 = \<Sum> i : fin n, ∥⟪v, e i⟫_\<complex>∥^2 \<longleftrightarrow> v \<in> span \<complex> (e '' univ) :=
 
 codex statement:
 theorem entire_function_of_order_one_over_alpha:
@@ -514,7 +514,7 @@ Suppose $U$ is a subspace of $V$. Prove that $U^{\perp}=\{0\}$ if and only if $U
 lean statement:
 theorem exercise_6_16 {K V : Type*} [is_R_or_C K] [inner_product_space K V]
   {U : submodule K V} :
-  U.orthogonal = ⊥  ↔ U = ⊤ :=
+  U.orthogonal = \<bot>  \<longleftrightarrow> U = \<top> :=
 
 codex statement:
 theorem entire_function_of_order_one_over_alpha:
@@ -584,7 +584,7 @@ codex statement:
 theorem orthogonal_projection_eq_projection_orthogonal:
   fixes T::"'a::euclidean_space \<Rightarrow> 'a" and U::"'a set"
   assumes "subspace U"
-  shows "(T ` U) \<subseteq> U \<and> (T ` U⊥) \<subseteq> U⊥ \<longleftrightarrow> (T ∘ (projection U)) = (projection U) ∘ T"
+  shows "(T ` U) \<subseteq> U \<and> (T ` U\<bot>) \<subseteq> U\<bot> \<longleftrightarrow> (T ∘ (projection U)) = (projection U) ∘ T"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_6_20: undefined oops
@@ -600,7 +600,7 @@ codex statement:
 theorem invariant_of_adjoint_invariant:
   fixes T::"'a::euclidean_space \<Rightarrow> 'a" and U::"'a set"
   assumes "linear T" "subspace U"
-  shows "U \<subseteq> carrier T \<longleftrightarrow> (U⊥) \<subseteq> carrier (adjoint T)"
+  shows "U \<subseteq> carrier T \<longleftrightarrow> (U\<bot>) \<subseteq> carrier (adjoint T)"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_6_29: undefined oops
@@ -627,9 +627,9 @@ problem_number:7_5
 natural language statement:
 Show that if $\operatorname{dim} V \geq 2$, then the set of normal operators on $V$ is not a subspace of $\mathcal{L}(V)$.
 lean statement:
-theorem exercise_7_5 {V : Type*} [inner_product_space ℂ V]
-  [finite_dimensional ℂ V] (hV : finrank V \<ge> 2) :
-  \<forall> U : submodule ℂ (End ℂ V), U.carrier \<noteq>
+theorem exercise_7_5 {V : Type*} [inner_product_space \<complex> V]
+  [finite_dimensional \<complex> V] (hV : finrank V \<ge> 2) :
+  \<forall> U : submodule \<complex> (End \<complex> V), U.carrier \<noteq>
   {T | T * T.adjoint = T.adjoint * T} :=
 
 codex statement:
@@ -647,8 +647,8 @@ problem_number:7_6
 natural language statement:
 Prove that if $T \in \mathcal{L}(V)$ is normal, then $\operatorname{range} T=\operatorname{range} T^{*}.$
 lean statement:
-theorem exercise_7_6 {V : Type*} [inner_product_space ℂ V]
-  [finite_dimensional ℂ V] (T : End ℂ V)
+theorem exercise_7_6 {V : Type*} [inner_product_space \<complex> V]
+  [finite_dimensional \<complex> V] (T : End \<complex> V)
   (hT : T * T.adjoint = T.adjoint * T) :
   T.range = T.adjoint.range :=
 
@@ -683,16 +683,16 @@ problem_number:7_9
 natural language statement:
 Prove that a normal operator on a complex inner-product space is self-adjoint if and only if all its eigenvalues are real.
 lean statement:
-theorem exercise_7_9 {V : Type*} [inner_product_space ℂ V]
-  [finite_dimensional ℂ V] (T : End ℂ V)
+theorem exercise_7_9 {V : Type*} [inner_product_space \<complex> V]
+  [finite_dimensional \<complex> V] (T : End \<complex> V)
   (hT : T * T.adjoint = T.adjoint * T) :
-  is_self_adjoint T ↔ \<forall> e : T.eigenvalues, (e : ℂ).im = 0 :=
+  is_self_adjoint T \<longleftrightarrow> \<forall> e : T.eigenvalues, (e : \<complex>).im = 0 :=
 
 codex statement:
 theorem normal_operator_is_self_adjoint_iff_eigenvalues_are_real:
   fixes A::"'a::euclidean_space \<Rightarrow> 'a"
   assumes "normal_operator A"
-  shows "self_adjoint A \<longleftrightarrow> (\<forall>x. eigenvalue A x \<longrightarrow> x∈ℝ)"
+  shows "self_adjoint A \<longleftrightarrow> (\<forall>x. eigenvalue A x \<longrightarrow> x\<in>\<real>)"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_7_9: undefined oops
@@ -703,8 +703,8 @@ problem_number:7_10
 natural language statement:
 Suppose $V$ is a complex inner-product space and $T \in \mathcal{L}(V)$ is a normal operator such that $T^{9}=T^{8}$. Prove that $T$ is self-adjoint and $T^{2}=T$.
 lean statement:
-theorem exercise_7_10 {V : Type*} [inner_product_space ℂ V]
-  [finite_dimensional ℂ V] (T : End ℂ V)
+theorem exercise_7_10 {V : Type*} [inner_product_space \<complex> V]
+  [finite_dimensional \<complex> V] (T : End \<complex> V)
   (hT : T * T.adjoint = T.adjoint * T) (hT1 : T^9 = T^8) :
   is_self_adjoint T \<and> T^2 = T :=
 
@@ -723,9 +723,9 @@ problem_number:7_11
 natural language statement:
 Suppose $V$ is a complex inner-product space. Prove that every normal operator on $V$ has a square root. (An operator $S \in \mathcal{L}(V)$ is called a square root of $T \in \mathcal{L}(V)$ if $S^{2}=T$.)
 lean statement:
-theorem exercise_7_11 {V : Type*} [inner_product_space ℂ V]
-  [finite_dimensional ℂ V] {T : End ℂ V} (hT : T*T.adjoint = T.adjoint*T) :
-  \<exists> (S : End ℂ V), S ^ 2 = T :=
+theorem exercise_7_11 {V : Type*} [inner_product_space \<complex> V]
+  [finite_dimensional \<complex> V] {T : End \<complex> V} (hT : T*T.adjoint = T.adjoint*T) :
+  \<exists> (S : End \<complex> V), S ^ 2 = T :=
 
 codex statement:
 theorem exists_sqrt_of_normal_operator:
@@ -745,7 +745,7 @@ lean statement:
 theorem exercise_7_14 {𝕜 V : Type*} [is_R_or_C 𝕜]
   [inner_product_space 𝕜 V] [finite_dimensional 𝕜 V]
   {T : End 𝕜 V} (hT : is_self_adjoint T)
-  {l : 𝕜} {ε : ℝ} (he : ε > 0) : \<exists> v : V, ∥v∥ = 1 \<and> ∥T v - l • v∥ < ε →
+  {l : 𝕜} {ε : \<real>} (he : ε > 0) : \<exists> v : V, ∥v∥ = 1 \<and> ∥T v - l \<bullet> v∥ < ε \<rightarrow>
   \<exists> l' : T.eigenvalues, ∥l - l'∥ < ε :=
 
 codex statement:
@@ -768,7 +768,7 @@ codex statement:
 theorem exists_inner_product_of_eigenvectors_basis:
   fixes T::"'a::euclidean_space \<Rightarrow> 'a"
   assumes "linear T" "\<exists>b. independent b \<and> b \<subseteq> carrier_vec n \<and> span b = carrier_vec n"
-  shows "\<exists>B. inner_product_space B \<and> (\<forall>x∈b. eigenvector B T x)"
+  shows "\<exists>B. inner_product_space B \<and> (\<forall>x\<in>b. eigenvector B T x)"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_7_15: undefined oops
@@ -783,8 +783,8 @@ lean statement:
 codex statement:
 theorem sum_of_positive_operators_is_positive:
   fixes V::"'a::euclidean_space set" and f g::"'a \<Rightarrow> 'a"
-  assumes "linear f" "linear g" "\<forall>x∈V. 0 \<le> f x ⋅ x" "\<forall>x∈V. 0 \<le> g x ⋅ x"
-  shows "\<forall>x∈V. 0 \<le> (f + g) x ⋅ x"
+  assumes "linear f" "linear g" "\<forall>x\<in>V. 0 \<le> f x ⋅ x" "\<forall>x\<in>V. 0 \<le> g x ⋅ x"
+  shows "\<forall>x\<in>V. 0 \<le> (f + g) x ⋅ x"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_7_17: undefined oops

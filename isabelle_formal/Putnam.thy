@@ -12,7 +12,7 @@ codex statement:
 theorem fibonacci_of_product_mod_fibonacci:
   fixes m::nat
   assumes "m>2"
-  shows "fib m  dvd  (∏k=1..fib m - 1. k ^ k)"
+  shows "fib m  dvd  (\<Prod>k=1..fib m - 1. k ^ k)"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_2021_b4: undefined oops
@@ -27,8 +27,8 @@ lean statement:
 codex statement:
 theorem sum_of_four_complex_number_neq_zero:
   fixes z::"complex set"
-  assumes "card z = 4" "\<forall>x∈z. norm x = 1" "\<forall>x∈z. x \<noteq> 1"
-  shows "3 - (\<Sum>x∈z. x) + (∏x∈z. x) \<noteq> 0"
+  assumes "card z = 4" "\<forall>x\<in>z. norm x = 1" "\<forall>x\<in>z. x \<noteq> 1"
+  shows "3 - (\<Sum>x\<in>z. x) + (\<Prod>x\<in>z. x) \<noteq> 0"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_2020_b5: undefined oops
@@ -91,7 +91,7 @@ lean statement:
 codex statement:
 theorem card_set_of_sequences_leq_exp_of_sum_of_terms:
   fixes n::nat and S::"nat set"
-  assumes "card S = 7" "n>0" "\<forall>x∈S. x\<le>n"
+  assumes "card S = 7" "n>0" "\<forall>x\<in>S. x\<le>n"
   shows "card {x. set x \<subseteq> S \<and> length x = n \<and> sum_list x = m} \<le> 2^m * (n/2^nat_ceiling_log2 n)^n"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
@@ -123,8 +123,8 @@ lean statement:
 codex statement:
 theorem exists_odd_order_generator_of_finite_group:
   fixes G::"('a, 'b) monoid_scheme" (structure)
-  assumes "group G" "finite (carrier G)" "order G = n" "\<exists>g. g ∈ carrier G \<and> order g = 2"
-  shows "\<exists>g. g ∈ carrier G \<and> order g = 2"
+  assumes "group G" "finite (carrier G)" "order G = n" "\<exists>g. g \<in> carrier G \<and> order g = 2"
+  shows "\<exists>g. g \<in> carrier G \<and> order g = 2"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_2016_a6: undefined oops

@@ -7,7 +7,7 @@ problem_number:2_12a
 natural language statement:
 Let $(p_n)$ be a sequence and $f:\mathbb{N}\to\mathbb{N}$ a bijection. The sequence $(q_k)_{k\in\mathbb{N}}$ with $q_k=p_{f(k)}$ is called a rearrangement of $(p_n)$. Show that if $f$ is an injection, the limit of a sequence is unaffected by rearrangement.
 lean statement:
-theorem exercise_2_12a (f : ℕ → ℕ) (p : ℕ → ℝ) (a : ℝ)
+theorem exercise_2_12a (f : \<nat> \<rightarrow> \<nat>) (p : \<nat> \<rightarrow> \<real>) (a : \<real>)
   (hf : injective f) (hp : tendsto p at_top (𝓝 a)) :
   tendsto (\<lambda> n, p (f n)) at_top (𝓝 a) :=
 
@@ -26,7 +26,7 @@ problem_number:2_12b
 natural language statement:
 Let $(p_n)$ be a sequence and $f:\mathbb{N}\to\mathbb{N}$ a bijection. The sequence $(q_k)_{k\in\mathbb{N}}$ with $q_k=p_{f(k)}$ is called a rearrangement of $(p_n)$. Show that if $f$ is a surjection, the limit of a sequence is unaffected by rearrangement.
 lean statement:
-theorem exercise_2_12b (f : ℕ → ℕ) (p : ℕ → ℝ) (a : ℝ)
+theorem exercise_2_12b (f : \<nat> \<rightarrow> \<nat>) (p : \<nat> \<rightarrow> \<real>) (a : \<real>)
   (hf : surjective f) (hp : tendsto p at_top (𝓝 a)) :
   tendsto (\<lambda> n, p (f n)) at_top (𝓝 a) :=
 
@@ -46,12 +46,12 @@ natural language statement:
 Prove that a set $U \subset M$ is open if and only if none of its points are limits of its complement.
 lean statement:
 theorem exercise_2_26 {M : Type*} [topological_space M]
-  (U : set M) : is_open U ↔ \<forall> x ∈ U, ¬ cluster_pt x (𝓟 Uᶜ) :=
+  (U : set M) : is_open U \<longleftrightarrow> \<forall> x \<in> U, ¬ cluster_pt x (𝓟 Uᶜ) :=
 
 codex statement:
 theorem open_iff_no_limit_point_of_complement:
   fixes U::"'a::metric_space set"
-  shows "open U \<longleftrightarrow> \<forall>x∈U. ¬(x islimpt (-U))"
+  shows "open U \<longleftrightarrow> \<forall>x\<in>U. ¬(x islimpt (-U))"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_2_26: undefined oops
@@ -66,7 +66,7 @@ theorem exercise_2_29 (M : Type* ) [metric_space M]
   (O C : set (set M))
   (hO : O = {s | is_open s})
   (hC : C = {s | is_closed s}) :
-  \<exists> f : O → C, bijective f :=
+  \<exists> f : O \<rightarrow> C, bijective f :=
 
 codex statement:
 theorem bijection_open_closed:
@@ -82,7 +82,7 @@ problem_number:2_32a
 natural language statement:
 Show that every subset of $\mathbb{N}$ is clopen.
 lean statement:
-theorem exercise_2_32a (A : set ℕ) : is_clopen A :=
+theorem exercise_2_32a (A : set \<nat>) : is_clopen A :=
 
 codex statement:
 theorem clopen_of_subset_nat:
@@ -98,7 +98,7 @@ problem_number:2_41
 natural language statement:
 Let $\|\cdot\|$ be any norm on $\mathbb{R}^{m}$ and let $B=\left\{x \in \mathbb{R}^{m}:\|x\| \leq 1\right\}$. Prove that $B$ is compact.
 lean statement:
-theorem exercise_2_41 (m : ℕ) {X : Type*} [normed_space ℝ ((fin m) → ℝ)] :
+theorem exercise_2_41 (m : \<nat>) {X : Type*} [normed_space \<real> ((fin m) \<rightarrow> \<real>)] :
   is_compact (metric.closed_ball 0 1) :=
 
 codex statement:
@@ -119,14 +119,14 @@ lean statement:
 theorem exercise_2_46 {M : Type*} [metric_space M]
   {A B : set M} (hA : is_compact A) (hB : is_compact B)
   (hAB : disjoint A B) (hA₀ : A \<noteq> ∅) (hB₀ : B \<noteq> ∅) :
-  \<exists> a₀ b₀, a₀ ∈ A \<and> b₀ ∈ B \<and> \<forall> (a : M) (b : M),
-  a ∈ A → b ∈ B → dist a₀ b₀ \<le> dist a b :=
+  \<exists> a₀ b₀, a₀ \<in> A \<and> b₀ \<in> B \<and> \<forall> (a : M) (b : M),
+  a \<in> A \<rightarrow> b \<in> B \<rightarrow> dist a₀ b₀ \<le> dist a b :=
 
 codex statement:
 theorem exists_min_distance_of_compact_disjoint_nonempty:
   fixes A B::"'a::metric_space set"
   assumes "compact A" "compact B" "A \<inter> B = {}" "A \<noteq> {}" "B \<noteq> {}"
-  shows "\<exists>a b. a∈A \<and> b∈B \<and> (\<forall>a'∈A. \<forall>b'∈B. dist a b \<le> dist a' b')"
+  shows "\<exists>a b. a\<in>A \<and> b\<in>B \<and> (\<forall>a'\<in>A. \<forall>b'\<in>B. dist a b \<le> dist a' b')"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_2_46: undefined oops
@@ -209,15 +209,15 @@ Suppose that $M$ is compact and that $\mathcal{U}$ is an open covering of $M$ wh
 lean statement:
 theorem exercise_2_85
   (M : Type* ) [topological_space M] [compact_space M]
-  (U : set (set M)) (hU : \<forall> p, \<exists> (U₁ U₂ ∈ U), p ∈ U₁ \<and> p ∈ U₂ \<and> U₁ \<noteq> U₂) :
+  (U : set (set M)) (hU : \<forall> p, \<exists> (U₁ U₂ \<in> U), p \<in> U₁ \<and> p \<in> U₂ \<and> U₁ \<noteq> U₂) :
   \<exists> (V : set (set M)), set.finite V \<and>
-  \<forall> p, \<exists> (V₁ V₂ ∈ V), p ∈ V₁ \<and> p ∈ V₂ \<and> V₁ \<noteq> V₂ :=
+  \<forall> p, \<exists> (V₁ V₂ \<in> V), p \<in> V₁ \<and> p \<in> V₂ \<and> V₁ \<noteq> V₂ :=
 
 codex statement:
 theorem finite_subcovering_of_redundant_open_covering:
   fixes M::"'a::metric_space set" and U::"'a set set"
-  assumes "compact M" "\<forall>p∈M. \<exists>U₁ U₂. U₁∈U \<and> U₂∈U \<and> p∈U₁ \<and> p∈U₂"
-  shows "\<exists>U'. finite U' \<and> U' \<subseteq> U \<and> \<forall>p∈M. \<exists>U₁ U₂. U₁∈U' \<and> U₂∈U' \<and> p∈U₁ \<and> p∈U₂"
+  assumes "compact M" "\<forall>p\<in>M. \<exists>U₁ U₂. U₁\<in>U \<and> U₂\<in>U \<and> p\<in>U₁ \<and> p\<in>U₂"
+  shows "\<exists>U'. finite U' \<and> U' \<subseteq> U \<and> \<forall>p\<in>M. \<exists>U₁ U₂. U₁\<in>U' \<and> U₂\<in>U' \<and> p\<in>U₁ \<and> p\<in>U₂"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_2_85: undefined oops
@@ -229,17 +229,17 @@ natural language statement:
 Give a direct proof that the nested decreasing intersection of nonempty covering compact sets is nonempty.
 lean statement:
 theorem exercise_2_92 {\<alpha> : Type*} [topological_space \<alpha>]
-  {s : ℕ → set \<alpha>}
+  {s : \<nat> \<rightarrow> set \<alpha>}
   (hs : \<forall> i, is_compact (s i))
   (hs : \<forall> i, (s i).nonempty)
   (hs : \<forall> i, (s i) ⊃ (s (i + 1))) :
-  (⋂ i, s i).nonempty :=
+  (\<Inter> i, s i).nonempty :=
 
 codex statement:
 theorem nonempty_intersection_of_nested_compact_covering_sets:
   fixes K::"nat \<Rightarrow> 'a::metric_space set"
   assumes "\<forall>n. compact (K n)" "\<forall>n. K n \<subseteq> K (Suc n)" "\<forall>n. K n \<noteq> {}"
-  shows "\<exists>x. \<forall>n. x ∈ K n"
+  shows "\<exists>x. \<forall>n. x \<in> K n"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_2_92: undefined oops
@@ -270,8 +270,8 @@ problem_number:2_126
 natural language statement:
 Suppose that $E$ is an uncountable subset of $\mathbb{R}$. Prove that there exists a point $p \in \mathbb{R}$ at which $E$ condenses.
 lean statement:
-theorem exercise_2_126 {E : set ℝ}
-  (hE : ¬ set.countable E) : \<exists> (p : ℝ), cluster_pt p (𝓟 E) :=
+theorem exercise_2_126 {E : set \<real>}
+  (hE : ¬ set.countable E) : \<exists> (p : \<real>), cluster_pt p (𝓟 E) :=
 
 codex statement:
 theorem exists_condensation_point_of_uncountable_subset:
@@ -292,13 +292,13 @@ theorem exercise_2_137
   {M : Type*} [metric_space M] [separable_space M] [complete_space M]
   {P : set M} (hP : is_closed P)
   (hP' : is_closed P \<and> P = {x | cluster_pt x (𝓟 P)}) :
-  \<forall> x ∈ P, \<forall> n ∈ (𝓝 x), ¬ set.countable n :=
+  \<forall> x \<in> P, \<forall> n \<in> (𝓝 x), ¬ set.countable n :=
 
 codex statement:
 theorem condensation_point_of_closed_perfect_subset:
   fixes P::"'a::metric_space set"
   assumes "closed P" "perfect P" "separable (UNIV::'a set)"
-  shows "\<forall>x∈P. condensation_point P x"
+  shows "\<forall>x\<in>P. condensation_point P x"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_2_137: undefined oops
@@ -313,7 +313,7 @@ lean statement:
 codex statement:
 theorem exists_path_disjoint_of_Cantor_space:
   fixes M::"real set" and p q::"real^2" and ε::real
-  assumes "Cantor_space M" "p ∈ (UNIV::real^2 set) - M" "q ∈ (UNIV::real^2 set) - M" "ε > 0"
+  assumes "Cantor_space M" "p \<in> (UNIV::real^2 set) - M" "q \<in> (UNIV::real^2 set) - M" "ε > 0"
   shows "\<exists>A. path A \<and> path_image A \<subseteq> ball p ε ∪ ball q ε \<and> pathstart A = p \<and> pathfinish A = q \<and> path_image A ∩ M = {}"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
@@ -325,7 +325,7 @@ problem_number:3_1
 natural language statement:
 Assume that $f \colon \mathbb{R} \rightarrow \mathbb{R}$ satisfies $|f(t)-f(x)| \leq|t-x|^{2}$ for all $t, x$. Prove that $f$ is constant.
 lean statement:
-theorem exercise_3_1 {f : ℝ → ℝ}
+theorem exercise_3_1 {f : \<real> \<rightarrow> \<real>}
   (hf : \<forall> x y, |f x - f y| \<le> |x - y| ^ 2) :
   \<exists> c, f = \<lambda> x, c :=
 
@@ -344,7 +344,7 @@ problem_number:3_4
 natural language statement:
 Prove that $\sqrt{n+1}-\sqrt{n} \rightarrow 0$ as $n \rightarrow \infty$.
 lean statement:
-theorem exercise_3_4 (n : ℕ) :
+theorem exercise_3_4 (n : \<nat>) :
   tendsto (\<lambda> n, (sqrt (n + 1) - sqrt n)) at_top (𝓝 0) :=
 
 codex statement:
@@ -361,9 +361,9 @@ natural language statement:
 Let $f \colon (a, b) \rightarrow \mathbb{R}$ be given.  If $f''(x)$ exists, prove that \[\lim_{h \rightarrow 0} \frac{f(x - h) - 2f(x) + f(x + h)}{h^2} = f''(x).\]
 lean statement:
 theorem exercise_3_11a
-  {f : ℝ → ℝ} {a b x : ℝ}
-  (h1 : differentiable_within_at ℝ f (set.Ioo a b) x)
-  (h2 : differentiable_within_at ℝ (deriv f) (set.Ioo a b) x) :
+  {f : \<real> \<rightarrow> \<real>} {a b x : \<real>}
+  (h1 : differentiable_within_at \<real> f (set.Ioo a b) x)
+  (h2 : differentiable_within_at \<real> (deriv f) (set.Ioo a b) x) :
   \<exists> l, tendsto (\<lambda> h, (f (x - h) - 2 * f x + f (x + h)) / h ^ 2) (𝓝 0) (𝓝 l)
   \<and> deriv (deriv f) x = l :=
 
@@ -386,7 +386,7 @@ lean statement:
 codex statement:
 theorem smooth_of_bump_function:
   fixes x::real
-  assumes "x∈{-1..1}"
+  assumes "x\<in>{-1..1}"
   shows "\<forall>n. (∂^n) (\<lambda>x. exp 2 * exp (-x) * exp (x+1)) x = exp 2 * exp (-x) * exp (x+1)"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
@@ -418,7 +418,7 @@ codex statement:
 theorem exists_smooth_function_of_closed_set:
   fixes L::"real set"
   assumes "closed L"
-  shows "\<exists>f. (\<forall>x. f x = 0 \<longleftrightarrow> x∈L) \<and> (\<forall>x. f differentiable (at x))"
+  shows "\<exists>f. (\<forall>x. f x = 0 \<longleftrightarrow> x\<in>L) \<and> (\<forall>x. f differentiable (at x))"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_3_18: undefined oops
@@ -477,8 +477,8 @@ problem_number:3_63
 natural language statement:
 Prove that $\sum 1/k(\log(k))^p$ converges when $p > 1$ and diverges when $p \leq 1$.
 lean statement:
-theorem exercise_3_63a (p : ℝ) (f : ℕ → ℝ) (hp : p > 1)
-  (h : f = \<lambda> k, (1 : ℝ) / (k * (log k) ^ p)) :
+theorem exercise_3_63a (p : \<real>) (f : \<nat> \<rightarrow> \<real>) (hp : p > 1)
+  (h : f = \<lambda> k, (1 : \<real>) / (k * (log k) ^ p)) :
   \<exists> l, tendsto f at_top (𝓝 l) :=
 
 codex statement:
@@ -497,17 +497,17 @@ natural language statement:
 A continuous, strictly increasing function $\mu \colon (0, \infty) \rightarrow (0, \infty)$ is a modulus of continuity if $\mu(s) \rightarrow 0$ as $s \rightarrow 0$. A function $f \colon [a, b] \rightarrow \mathbb{R}$ has modulus of continuity $\mu$ if $|f(s) - f(t)| \leq \mu(|s - t|)$ for all $s, t \in [a, b]$. Prove that a function is uniformly continuous if and only if it has a modulus of continuity.
 lean statement:
 theorem exercise_4_15a {\<alpha> : Type*}
-  (a b : ℝ) (F : set (ℝ → ℝ)) :
-  (\<forall> (x : ℝ) (ε > 0), \<exists> (U ∈ (𝓝 x)),
-  (\<forall> (y z ∈ U) (f : ℝ → ℝ), f ∈ F → (dist (f y) (f z) < ε)))
-  ↔
-  \<exists> (μ : ℝ → ℝ), \<forall> (x : ℝ), (0 : ℝ) \<le> μ x \<and> tendsto μ (𝓝 0) (𝓝 0) \<and>
-  (\<forall> (s t : ℝ) (f : ℝ → ℝ), f ∈ F → |(f s) - (f t)| \<le> μ (|s - t|)) :=
+  (a b : \<real>) (F : set (\<real> \<rightarrow> \<real>)) :
+  (\<forall> (x : \<real>) (ε > 0), \<exists> (U \<in> (𝓝 x)),
+  (\<forall> (y z \<in> U) (f : \<real> \<rightarrow> \<real>), f \<in> F \<rightarrow> (dist (f y) (f z) < ε)))
+  \<longleftrightarrow>
+  \<exists> (\<mu> : \<real> \<rightarrow> \<real>), \<forall> (x : \<real>), (0 : \<real>) \<le> \<mu> x \<and> tendsto \<mu> (𝓝 0) (𝓝 0) \<and>
+  (\<forall> (s t : \<real>) (f : \<real> \<rightarrow> \<real>), f \<in> F \<rightarrow> |(f s) - (f t)| \<le> \<mu> (|s - t|)) :=
 
 codex statement:
 theorem uniform_continuous_iff_has_modulus_of_continuity:
-  fixes f::"'a::metric_space \<Rightarrow> 'b::metric_space" and μ::"'a \<Rightarrow> 'b"
-  assumes "continuous_on UNIV μ" "strict_mono μ" "μ \<longrightarrow> 0 at_top" "\<forall>s t. s ∈ UNIV \<longrightarrow> t ∈ UNIV \<longrightarrow> dist s t \<le> μ (dist s t)"
+  fixes f::"'a::metric_space \<Rightarrow> 'b::metric_space" and \<mu>::"'a \<Rightarrow> 'b"
+  assumes "continuous_on UNIV \<mu>" "strict_mono \<mu>" "\<mu> \<longrightarrow> 0 at_top" "\<forall>s t. s \<in> UNIV \<longrightarrow> t \<in> UNIV \<longrightarrow> dist s t \<le> \<mu> (dist s t)"
   shows "uniformly_continuous_on UNIV f"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
@@ -536,14 +536,14 @@ natural language statement:
 If $M$ is compact and $A$ is dense in $M$, prove that for each $\delta > 0$ there is a finite subset $\{a_1, \ldots , a_k\} \subset A$ which is $\delta$-dense in $M$ in the sense that each $x \in M$ lies within distance $\delta$ of at least one of the points $a_1,\ldots, a_k$.
 lean statement:
 theorem exercise_4_19 {M : Type*} [metric_space M]
-  [compact_space M] (A : set M) (hA : dense A) (δ : ℝ) (hδ : δ > 0) :
-  \<exists> (A_fin : set M), A_fin ⊂ A \<and> set.finite A_fin \<and> \<forall> (x : M), \<exists> i ∈ A_fin, dist x i < δ :=
+  [compact_space M] (A : set M) (hA : dense A) (δ : \<real>) (hδ : δ > 0) :
+  \<exists> (A_fin : set M), A_fin ⊂ A \<and> set.finite A_fin \<and> \<forall> (x : M), \<exists> i \<in> A_fin, dist x i < δ :=
 
 codex statement:
 theorem exists_finite_delta_dense_of_compact_dense:
   fixes M::"'a::metric_space set" and A::"'a set"
   assumes "compact M" "A \<subseteq> M" "dense A"
-  shows "\<exists>A'. finite A' \<and> A' \<subseteq> A \<and> \<forall>x∈M. \<exists>a∈A'. dist x a < δ"
+  shows "\<exists>A'. finite A' \<and> A' \<subseteq> A \<and> \<forall>x\<in>M. \<exists>a\<in>A'. dist x a < δ"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_4_19: undefined oops
@@ -574,7 +574,7 @@ lean statement:
 codex statement:
 theorem cantor_set_not_union_of_countable_cantor_sets:
   fixes C::"real set"
-  assumes "\<forall>x∈C. \<exists>a b. x = a + b \<and> a ∈ cantor \<and> b ∈ cantor" "countable C"
+  assumes "\<forall>x\<in>C. \<exists>a b. x = a + b \<and> a \<in> cantor \<and> b \<in> cantor" "countable C"
   shows "False"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
@@ -587,8 +587,8 @@ natural language statement:
 Let $L$ be the vector space of continuous linear transformations from a normed space $V$ to a normed space $W$. Show that the operator norm makes $L$ a normed space.
 lean statement:
 theorem exercise_5_2 {V : Type*} [normed_add_comm_group V]
-  [normed_space ℂ V] {W : Type*} [normed_add_comm_group W] [normed_space ℂ W] :
-  normed_space ℂ (continuous_linear_map (id ℂ) V W) :=
+  [normed_space \<complex> V] {W : Type*} [normed_add_comm_group W] [normed_space \<complex> W] :
+  normed_space \<complex> (continuous_linear_map (id \<complex>) V W) :=
 
 codex statement:
 theorem norm_of_linear_transformation_is_norm:
@@ -609,7 +609,7 @@ lean statement:
 codex statement:
 theorem constant_of_differentiable_zero:
   fixes f::"'a::euclidean_space \<Rightarrow> 'b::euclidean_space"
-  assumes "connected U" "open U" "\<forall>x∈U. f differentiable (at x)" "\<forall>x∈U. (D f) x = 0"
+  assumes "connected U" "open U" "\<forall>x\<in>U. f differentiable (at x)" "\<forall>x\<in>U. (D f) x = 0"
   shows "f constant_on U"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
