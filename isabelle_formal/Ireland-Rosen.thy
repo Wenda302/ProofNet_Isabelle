@@ -1,9 +1,10 @@
-theory "Ireland-Rosen"
- imports "HOL-Number_Theory.Number_Theory"
+theory "Ireland-Rosen"                                         
+  imports "HOL-Number_Theory.Number_Theory" 
+          "Dirichlet_Series.Moebius_Mu" 
+          "Gaussian_Integers.Gaussian_Integers_Everything"
+
 
 begin
-
-(* if we really want the Möbius \<mu> function, we could import the AFP entry Dirichlet_Series/Moebius_Mu*)
 
 (*
 problem_number:1_27
@@ -59,9 +60,10 @@ theorem divisible_of_power_of_one_plus_i:
   fixes z::complex
   assumes "z \<in> {x + y * \<i> |x y. x \<in> UNIV \<and> y \<in> UNIV}"
   shows "\<exists>a. 2 = (1 + \<i>)^2 * a"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: Confused by the notation it assumed the complex numbers
  *)
-theorem exercise_1_31: undefined oops
+theorem exercise_1_31: "(1 + \<i>\<^sub>\<int>)^2 dvd 2"
+  by (simp add: gauss_int_2_eq)
 
 
 (*
@@ -104,9 +106,14 @@ theorem sum_mu_log_divisors_eq_log_prime_power:
   fixes n::nat
   assumes "\<exists>p. prime p \<and> n = p^a"
   shows "(\<Sum>d dvd n. \<mu> (n div d) * log d) = log p"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: right in places but it didn't grasp that a function was being defined
  *)
-theorem exercise_2_21: undefined oops
+theorem exercise_2_21: 
+  fixes p::nat
+  assumes "prime p"
+  defines "L \<equiv> \<lambda>n. if \<exists>k. n = p^k then ln p else 0"
+  shows "(\<Sum>d | d dvd real n. moebius_mu (n div d) * ln d) = L n"
+  oops
 
 
 (*
@@ -121,9 +128,11 @@ codex statement:
 theorem diverges_sum_of_inverse_square_free_integers:
   fixes n::nat
   shows "\<Sum>i=1..n. 1 / (real_of_nat i) = \<infinity>"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: Overlooked of the square-free, for starters
  *)
-theorem exercise_2_27a: undefined oops
+theorem exercise_2_27a: 
+  "\<not> summable (\<lambda>n. if squarefree n then 1 / real n else 0)"
+  oops
 
 
 (*
@@ -139,7 +148,7 @@ theorem infinite_primes_congruent_minus_one_mod_six:
 Our comment on the codex statement:  not bad but the syntax was wrong and we need the integers
  *)
 theorem exercise_3_1: 
-    shows "infinite {p::int. prime p \<and> [p = -1] (mod 6)}"
+  shows "infinite {p::int. prime p \<and> [p = -1] (mod 6)}"
   oops
 
 (*
@@ -300,7 +309,7 @@ theorem primitive_root_iff_order_half_minus_a:
   fixes p::nat and a::int
   assumes "prime p" "p \<equiv> 3 (mod 4)"
   shows "\<exists>b. order b p = (p - 1) div 2 \<longleftrightarrow> primitive_root a p"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement:  something wrong with the quantification
  *)
 theorem exercise_4_5: 
   fixes p::nat and a::nat
@@ -340,7 +349,7 @@ theorem primitive_root_of_prime_iff_not_cong_one_of_prime_divisor:
   fixes p::nat and a::int
   assumes "prime p" "odd p"
   shows "\<forall>q. prime q \<and> q dvd p - 1 \<longrightarrow> a [^] ((p - 1) div q) \<equiv> 1 (mod p) \<longleftrightarrow> \<not> primitive_root p a"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement:  somewhat scrambled
  *)
 theorem exercise_4_8: 
   fixes p::nat
@@ -379,9 +388,13 @@ theorem sum_primitive_roots_eq_mu_p_minus_one:
   fixes p::nat
   assumes "prime p"
   shows "(\<Sum>x\<in>{x. x < p \<and> coprime x p \<and> \<exists>n. x [^] n \<equiv> 1 [MOD p]}. x) \<equiv> \<mu> (p - 1) [MOD p]"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement:  it would be better not to expand the definition of primitive root
  *)
-theorem exercise_4_10: undefined oops
+theorem exercise_4_10: 
+    fixes p::nat
+  assumes "prime p"
+  shows "[\<Sum>{r. residue_primroot p r} = moebius_mu (p - 1)] (mod p)"
+  oops
 
 
 (*
@@ -415,7 +428,7 @@ theorem order_of_one_plus_a_eq_6_of_order_a_eq_3:
   fixes a::nat and p::nat
   assumes "prime p" "a mod p \<noteq> 0" "\<forall>n. a [^] n mod p \<noteq> 1 \<longrightarrow> n \<ge> 3"
   shows "\<forall>n. (1 + a) [^] n mod p \<noteq> 1 \<longrightarrow> n \<ge> 6"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement:  it's scrambled and doesn't know about ord
  *)
 theorem exercise_4_22: 
   fixes a::nat and p::nat
@@ -483,9 +496,13 @@ theorem number_of_solutions_of_quadratic_congruence_eq_1_plus_Legendre_symbol:
   fixes a b c p::nat
   assumes "prime p" "coprime a p"
   shows "card {x. x < p \<and> (a * x^2 + b * x + c) \<equiv> 0 [MOD p]} = 1 + (Legendre_symbol (a * b^2 - 4 * a * c) p)"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: the problem indeed looks incorrect, but is this really a use of the Legendre symbol?
  *)
-theorem exercise_5_3: undefined oops
+theorem exercise_5_3: 
+  fixes p::nat
+  assumes "prime p" "coprime a p"
+  shows "card {x. x < p \<and> [a * x^2 + b * x + c = 0] (mod p)} = 1 + Legendre (b^2 - 4 * a * c) p"
+  oops
 
 
 (*
@@ -499,9 +516,13 @@ theorem sum_of_p_minus_one_eq_zero:
   fixes p::nat
   assumes "prime p"
   shows "(\<Sum>a=1..p-1. a / p) = 0"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: here it did not detect the Legendre symbol
  *)
-theorem exercise_5_4: undefined oops
+theorem exercise_5_4: 
+  fixes p::nat
+  assumes "prime p" 
+  shows "(\<Sum>a=1..p-1. Legendre a p) = 0"
+  oops
 
 
 (*
@@ -515,9 +536,13 @@ theorem sum_of_arithmetic_progression_eq_zero_of_coprime:
   fixes a b p::nat
   assumes "coprime a p"
   shows "(\<Sum>x=0..p-1. (a * x + b) / p) = 0"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: here it did not detect the Legendre symbol
  *)
-theorem exercise_5_5: undefined oops
+theorem exercise_5_5: 
+    fixes p::nat
+  assumes "prime p" "coprime a p"
+  shows "(\<Sum>x<p. Legendre (a * x + b) p) = 0"
+oops
 
 
 (*
@@ -531,9 +556,13 @@ theorem sum_of_solutions_of_congruence_eq_sum_of_legendre_symbol:
   fixes p::nat and a::int
   assumes "prime p"
   shows "card {x. x^2 \<equiv> a [MOD p]} = (\<Sum>y<p. 1 + legendre_symbol (y^2 + a) p)"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: overlooked y and used the wrong syntax for modular equivalence
  *)
-theorem exercise_5_6: undefined oops
+theorem exercise_5_6: 
+  fixes p::nat and a::int
+  assumes "prime p"
+  shows "card {(x,y). [x^2 - y^2 = a] (mod p)} = (\<Sum>y<p. 1 + Legendre (y^2 + a) p)"
+oops
 
 
 (*
@@ -547,9 +576,13 @@ theorem number_of_solutions_of_congruence_eq_p_minus_one_if_p_not_dvd_a:
   fixes p::nat and a::int
   assumes "prime p" "p dvd a"
   shows "card {x. x^2 \<equiv> a [MOD p]} = 2*p - 1"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement:  same as in the previous case
  *)
-theorem exercise_5_7: undefined oops
+theorem exercise_5_7: 
+  fixes p::nat and a::int
+  assumes "prime p"
+  shows "card {(x,y). [x^2 - y^2 = a] (mod p)} = (if p dvd a then 2*p - 1 else p-1)"
+oops
 
 
 (*
@@ -565,9 +598,13 @@ theorem prime_divisor_of_x_4_minus_x_2_plus_1_cong_1_mod_12:
   fixes p::nat
   assumes "prime p" "p dvd (x^4 - x^2 + 1)"
   shows "p \<equiv> 1 (mod 12)"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: wrong syntax for modular equivalence
  *)
-theorem exercise_5_13: undefined oops
+theorem exercise_5_13: 
+  fixes p::nat
+  assumes "prime p" "p dvd x^4 - x^2 + 1"
+  shows "[p=1] (mod 12)"
+  oops
 
 
 (*
@@ -583,7 +620,11 @@ theorem square_eq_minus_one_of_equiv_a_f_p:
   shows "f p \<equiv> a * b / 2 [MOD p]"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
-theorem exercise_5_27: undefined oops
+theorem exercise_5_27:   (* THIS PROBLEM IS NOT CORRECT*)
+  fixes p::nat
+  assumes "prime p" "[b = a*f] (mod p)"
+  shows "[f^2 = -1] (mod p)"
+ oops
 
 
 (*
@@ -601,7 +642,11 @@ theorem exists_solution_of_x_4_eq_2_of_p_1_4:
   shows "\<exists>x. x^4 \<equiv> 2 (mod p)"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
-theorem exercise_5_28: undefined oops
+theorem exercise_5_28: 
+  fixes p::nat
+  assumes "prime p" "[p=1] (mod 4)"
+  shows "(\<exists>x. [x^4 = 2] (mod p)) \<longleftrightarrow> (\<exists>A B. p = A^2 + 64*B^2)"
+  oops
 
 
 (*
@@ -620,7 +665,11 @@ theorem eq_of_div_of_eq_div_of_eq_of_mult_eq_zero:
   shows "a / p = a / q"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
-theorem exercise_5_37: undefined oops
+theorem exercise_5_37: 
+  fixes a p q::int
+  assumes "a < 0" "[p=q] (mod 4*a)" "coprime p a"
+  shows "Legendre a p = Legendre a q"
+  oops
 
 
 
@@ -681,9 +730,11 @@ theorem exercise_12_12 : is_algebraic \<rat> (sin (real.pi/12)) :=
 codex statement:
 theorem algebraic_of_sin_pi_12:
   shows "algebraic (sin (\<pi> / 12))"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: unfortunately \<pi> is only a variable name
  *)
-theorem exercise_12_12: undefined oops
+theorem exercise_12_12: 
+  shows "algebraic (sin (pi / 12))"
+  oops
 
 
 (*
@@ -745,9 +796,11 @@ codex statement:
 theorem no_integral_solution_of_165_x_square_minus_21_y_square_eq_19:
   assumes "\<exists>x y::int. 165 * x^2 - 21 * y^2 = 19"
   shows False
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement:  the conclusion should be a negated existential as opposed to False
  *)
-theorem exercise_18_1: undefined oops
+theorem exercise_18_1: 
+    shows "\<nexists>x y::int. 165 * x^2 - 21 * y^2 = 19"
+oops
 
 
 (*
@@ -764,9 +817,11 @@ theorem smallest_positive_integer_expressible_as_sum_of_two_different_integral_c
   fixes a b c d::nat
   assumes "a^3 + b^3 = c^3 + d^3" "a^3 \<noteq> b^3" "c^3 \<noteq> d^3" "a^3 + b^3 = 1729"
   shows "\<forall>x y z w::nat. x^3 + y^3 = z^3 + w^3 \<longrightarrow> x^3 \<noteq> y^3 \<longrightarrow> z^3 \<noteq> w^3 \<longrightarrow> x^3 + y^3 \<ge> 1729"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement:  there is only one way to write this
  *)
-theorem exercise_18_4: undefined oops
+theorem exercise_18_4: 
+  shows "1729 = Inf {n::nat. \<exists>x y z w. x^3 + y^3 = n \<and> z^3 + w^3 = n \<and> x \<noteq> z \<and> x \<noteq> w \<and> y \<noteq> z \<and> y \<noteq> w}"
+  oops
 
 
 (*
@@ -780,9 +835,13 @@ theorem gcd_eq_one_of_square_free_cong_one_or_two_mod_four:
   fixes d::int and x y::nat
   assumes "square_free d" "d \<equiv> 1 \<or> d \<equiv> 2 [MOD 4]" "y^2 = x^3 - d"
   shows "gcd x (2*d) = 1"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement:  not bad except for the syntax of modular equivalence, and could use coprime.
  *)
-theorem exercise_18_32: undefined oops
+theorem exercise_18_32: 
+  fixes d::int and x y::nat
+  assumes "squarefree d" "[d=1] (mod 4) \<or> [d=2] (mod 4)" "y^2 = x^3 - d"
+  shows "gcd x (2*d) = 1"
+  oops
 
 
 
