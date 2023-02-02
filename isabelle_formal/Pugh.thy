@@ -118,7 +118,7 @@ Assume that $A, B$ are compact, disjoint, nonempty subsets of $M$. Prove that th
 lean statement:
 theorem exercise_2_46 {M : Type*} [metric_space M]
   {A B : set M} (hA : is_compact A) (hB : is_compact B)
-  (hAB : disjoint A B) (hA₀ : A \<noteq> ∅) (hB₀ : B \<noteq> ∅) :
+  (hAB : disjoint A B) (hA₀ : A \<noteq> \<emptyset>) (hB₀ : B \<noteq> \<emptyset>) :
   \<exists> a₀ b₀, a₀ \<in> A \<and> b₀ \<in> B \<and> \<forall> (a : M) (b : M),
   a \<in> A \<rightarrow> b \<in> B \<rightarrow> dist a₀ b₀ \<le> dist a b :=
 
@@ -176,7 +176,7 @@ codex statement:
 theorem interior_not_connected_of_connected:
   fixes S::"'a::euclidean_space set"
   assumes "connected S"
-  shows "\<exists>T. open T \<and> connected T \<and> interior T \<subseteq> S \<and> interior T \<noteq> ∅ \<and> interior T \<noteq> S"
+  shows "\<exists>T. open T \<and> connected T \<and> interior T \<subseteq> S \<and> interior T \<noteq> \<emptyset> \<and> interior T \<noteq> S"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_2_57: undefined oops
@@ -209,15 +209,15 @@ Suppose that $M$ is compact and that $\mathcal{U}$ is an open covering of $M$ wh
 lean statement:
 theorem exercise_2_85
   (M : Type* ) [topological_space M] [compact_space M]
-  (U : set (set M)) (hU : \<forall> p, \<exists> (U₁ U₂ \<in> U), p \<in> U₁ \<and> p \<in> U₂ \<and> U₁ \<noteq> U₂) :
+  (U : set (set M)) (hU : \<forall> p, \<exists> (U_1 U_2 \<in> U), p \<in> U_1 \<and> p \<in> U_2 \<and> U_1 \<noteq> U_2) :
   \<exists> (V : set (set M)), set.finite V \<and>
-  \<forall> p, \<exists> (V₁ V₂ \<in> V), p \<in> V₁ \<and> p \<in> V₂ \<and> V₁ \<noteq> V₂ :=
+  \<forall> p, \<exists> (V_1 V_2 \<in> V), p \<in> V_1 \<and> p \<in> V_2 \<and> V_1 \<noteq> V_2 :=
 
 codex statement:
 theorem finite_subcovering_of_redundant_open_covering:
   fixes M::"'a::metric_space set" and U::"'a set set"
-  assumes "compact M" "\<forall>p\<in>M. \<exists>U₁ U₂. U₁\<in>U \<and> U₂\<in>U \<and> p\<in>U₁ \<and> p\<in>U₂"
-  shows "\<exists>U'. finite U' \<and> U' \<subseteq> U \<and> \<forall>p\<in>M. \<exists>U₁ U₂. U₁\<in>U' \<and> U₂\<in>U' \<and> p\<in>U₁ \<and> p\<in>U₂"
+  assumes "compact M" "\<forall>p\<in>M. \<exists>U_1 U_2. U_1\<in>U \<and> U_2\<in>U \<and> p\<in>U_1 \<and> p\<in>U_2"
+  shows "\<exists>U'. finite U' \<and> U' \<subseteq> U \<and> \<forall>p\<in>M. \<exists>U_1 U_2. U_1\<in>U' \<and> U_2\<in>U' \<and> p\<in>U_1 \<and> p\<in>U_2"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_2_85: undefined oops
@@ -312,9 +312,9 @@ lean statement:
 
 codex statement:
 theorem exists_path_disjoint_of_Cantor_space:
-  fixes M::"real set" and p q::"real^2" and ε::real
-  assumes "Cantor_space M" "p \<in> (UNIV::real^2 set) - M" "q \<in> (UNIV::real^2 set) - M" "ε > 0"
-  shows "\<exists>A. path A \<and> path_image A \<subseteq> ball p ε ∪ ball q ε \<and> pathstart A = p \<and> pathfinish A = q \<and> path_image A ∩ M = {}"
+  fixes M::"real set" and p q::"real^2" and \<epsilon>::real
+  assumes "Cantor_space M" "p \<in> (UNIV::real^2 set) - M" "q \<in> (UNIV::real^2 set) - M" "\<epsilon> > 0"
+  shows "\<exists>A. path A \<and> path_image A \<subseteq> ball p \<epsilon> ∪ ball q \<epsilon> \<and> pathstart A = p \<and> pathfinish A = q \<and> path_image A ∩ M = {}"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_2_138: undefined oops
@@ -498,8 +498,8 @@ A continuous, strictly increasing function $\mu \colon (0, \infty) \rightarrow (
 lean statement:
 theorem exercise_4_15a {\<alpha> : Type*}
   (a b : \<real>) (F : set (\<real> \<rightarrow> \<real>)) :
-  (\<forall> (x : \<real>) (ε > 0), \<exists> (U \<in> (𝓝 x)),
-  (\<forall> (y z \<in> U) (f : \<real> \<rightarrow> \<real>), f \<in> F \<rightarrow> (dist (f y) (f z) < ε)))
+  (\<forall> (x : \<real>) (\<epsilon> > 0), \<exists> (U \<in> (𝓝 x)),
+  (\<forall> (y z \<in> U) (f : \<real> \<rightarrow> \<real>), f \<in> F \<rightarrow> (dist (f y) (f z) < \<epsilon>)))
   \<longleftrightarrow>
   \<exists> (\<mu> : \<real> \<rightarrow> \<real>), \<forall> (x : \<real>), (0 : \<real>) \<le> \<mu> x \<and> tendsto \<mu> (𝓝 0) (𝓝 0) \<and>
   (\<forall> (s t : \<real>) (f : \<real> \<rightarrow> \<real>), f \<in> F \<rightarrow> |(f s) - (f t)| \<le> \<mu> (|s - t|)) :=

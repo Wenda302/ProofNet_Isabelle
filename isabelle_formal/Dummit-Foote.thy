@@ -239,14 +239,14 @@ natural language statement:
 Prove that $A \times B$ is an abelian group if and only if both $A$ and $B$ are abelian.
 lean statement:
 theorem exercise_1_1_29 {A B : Type*} [group A] [group B] :
-  \<forall> x y : A × B, x*y = y*x \<longleftrightarrow> (\<forall> x y : A, x*y = y*x) \<and>
+  \<forall> x y : A \<times> B, x*y = y*x \<longleftrightarrow> (\<forall> x y : A, x*y = y*x) \<and>
   (\<forall> x y : B, x*y = y*x) :=
 
 codex statement:
 theorem abelian_of_prod_abelian:
   fixes A B::"'a::group_add"
   assumes "abelian_group A" "abelian_group B"
-  shows "abelian_group (A × B)"
+  shows "abelian_group (A \<times> B)"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_1_1_29: undefined oops
@@ -310,13 +310,13 @@ natural language statement:
 Let $A$ and $B$ be groups. Prove that $A \times B \cong B \times A$.
 lean statement:
 theorem exercise_1_6_11 {A B : Type*} [group A] [group B] :
-  A × B \<cong>* B × A :=
+  A \<times> B \<cong>* B \<times> A :=
 
 codex statement:
 theorem isomorphic_of_prod_commute:
   fixes A B::"('a, 'b) monoid_scheme"
   assumes "group A" "group B"
-  shows "A × B ≅ B × A"
+  shows "A \<times> B \<cong> B \<times> A"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_1_6_11: undefined oops

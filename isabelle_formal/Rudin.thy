@@ -76,20 +76,20 @@ theorem exercise_1_4
 (s : set \<alpha>)
 (x y : \<alpha>)
 (h₀ : set.nonempty s)
-(h₁ : x \<in> lower_bounds s)
-(h₂ : y \<in> upper_bounds s)
+(h_1 : x \<in> lower_bounds s)
+(h_2 : y \<in> upper_bounds s)
 : x \<le> y :=
 begin
   have h : \<exists> z, z \<in> s := h₀,
   cases h with z,
   have xlez : x \<le> z :=
   begin
-  apply h₁,
+  apply h_1,
   assumption,
   end,
   have zley : z \<le> y :=
   begin
-  apply h₂,
+  apply h_2,
   assumption,
   end,
   exact xlez.trans zley,
@@ -274,7 +274,7 @@ codex statement:
 theorem open_set_union_of_countable_disjoint_segments:
   fixes A::"real set"
   assumes "open A"
-  shows "\<exists>f. countable (f ` (UNIV::nat set)) \<and> pairwise disjoint (f ` (UNIV::nat set)) \<and> (⋃i\<in>UNIV. f i) = A"
+  shows "\<exists>f. countable (f ` (UNIV::nat set)) \<and> pairwise disjoint (f ` (UNIV::nat set)) \<and> (\<Union>i\<in>UNIV. f i) = A"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_1_29: undefined oops
@@ -311,7 +311,7 @@ theorem exercise_2_24 {X : Type*} [metric_space X]
 codex statement:
 theorem separable_of_infinite_subset_has_limit_point:
   fixes X::"'a::metric_space set"
-  assumes "\<forall>A. infinite A \<longrightarrow> \<exists>x\<in>A. \<forall>ε>0. \<exists>y\<in>A. y\<noteq>x \<and> dist x y < ε"
+  assumes "\<forall>A. infinite A \<longrightarrow> \<exists>x\<in>A. \<forall>\<epsilon>>0. \<exists>y\<in>A. y\<noteq>x \<and> dist x y < \<epsilon>"
   shows "separable X"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
@@ -516,15 +516,15 @@ theorem exercise_4_2a
   {\<alpha> : Type} [metric_space \<alpha>]
   {β : Type} [metric_space β]
   (f : \<alpha> \<rightarrow> β)
-  (h₁ : continuous f)
+  (h_1 : continuous f)
   : \<forall> (x : set \<alpha>), f '' (closure x) \<subseteq> closure (f '' x) :=
 begin
-  intros X x h₂ Y h₃,
+  intros X x h_2 Y h₃,
   simp at *,
   cases h₃ with h₃ h₄,
-  cases h₂ with w h₅,
+  cases h_2 with w h₅,
   cases h₅ with h₅ h₆,
-  have h₈ : is_closed (f ⁻¹' Y) := is_closed.preimage h₁ h₃,
+  have h₈ : is_closed (f ⁻¹' Y) := is_closed.preimage h_1 h₃,
   have h₉ : closure X \<subseteq> f ⁻¹' Y := closure_minimal h₄ h₈,
   rw ←h₆,
   exact h₉ h₅,
@@ -575,12 +575,12 @@ theorem exercise_4_4a
   {β : Type} [metric_space β]
   (f : \<alpha> \<rightarrow> β)
   (s : set \<alpha>)
-  (h₁ : continuous f)
-  (h₂ : dense s)
+  (h_1 : continuous f)
+  (h_2 : dense s)
   : f '' set.univ \<subseteq> closure (f '' s) :=
 begin
   simp,
-  exact continuous.range_subset_closure_image_dense h₁ h₂,
+  exact continuous.range_subset_closure_image_dense h_1 h_2,
 end
 
 codex statement:
@@ -601,8 +601,8 @@ lean statement:
 theorem exercise_4_5a
   (f : \<real> \<rightarrow> \<real>)
   (E : set \<real>)
-  (h₁ : is_closed E)
-  (h₂ : continuous_on f E)
+  (h_1 : is_closed E)
+  (h_2 : continuous_on f E)
   : \<exists> (g : \<real> \<rightarrow> \<real>), continuous g \<and> \<forall> x \<in> E, f x = g x :=
 
 codex statement:
@@ -623,9 +623,9 @@ lean statement:
 theorem exercise_4_6
   (f : \<real> \<rightarrow> \<real>)
   (E : set \<real>)
-  (G : set (\<real> × \<real>))
-  (h₁ : is_compact E)
-  (h₂ : G = {(x, f x) | x \<in> E})
+  (G : set (\<real> \<times> \<real>))
+  (h_1 : is_compact E)
+  (h_2 : G = {(x, f x) | x \<in> E})
   : continuous_on f E \<longleftrightarrow> is_compact G :=
 
 codex statement:
@@ -861,13 +861,13 @@ Suppose $g$ is a real function on $R^{1}$, with bounded derivative (say $\left|g
 lean statement:
 theorem exercise_5_3 {g : \<real> \<rightarrow> \<real>} (hg : continuous g)
   (hg' : \<exists> M : \<real>, \<forall> x : \<real>, | deriv g x | \<le> M) :
-  \<exists> N, \<forall> ε > 0, ε < N \<rightarrow> function.injective (\<lambda> x : \<real>, x + ε * g x) :=
+  \<exists> N, \<forall> \<epsilon> > 0, \<epsilon> < N \<rightarrow> function.injective (\<lambda> x : \<real>, x + \<epsilon> * g x) :=
 
 codex statement:
 theorem injective_of_small_epsilon:
   fixes g::"real \<Rightarrow> real"
   assumes "\<forall>x. abs (g' x) \<le> M"
-  shows "\<exists>ε>0. \<forall>x y. abs (x - y) < ε \<longrightarrow> g x \<noteq> g y"
+  shows "\<exists>\<epsilon>>0. \<forall>x y. abs (x - y) < \<epsilon> \<longrightarrow> g x \<noteq> g y"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_5_3: undefined oops

@@ -80,7 +80,7 @@ natural language statement:
 Prove that the center of the product of two groups is the product of their centers.
 lean statement:
 theorem exercise_2_8_6 {G H : Type*} [group G] [group H] :
-  center (G × H) \<cong>* (center G) × (center H) :=
+  center (G \<times> H) \<cong>* (center G) \<times> (center H) :=
 
 codex statement:
 theorem entire_function_of_order_one_over_alpha:
