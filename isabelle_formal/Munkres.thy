@@ -171,9 +171,15 @@ theorem dictionary_order_topology_eq_product_topology:
   shows "dictionary_order_topology = product_topology (discrete_topology::'a::linorder_topology topology) (discrete_topology::'b::linorder_topology topology)"
 Our comment on the codex statement:  wrong, but this was difficult
  *)
+
+definition
+  "dictless x y \<equiv> fst x < fst y \<or> fst x \<le> fst y \<and> snd x < snd y"
+
+definition
+  "dict_basis \<equiv> range (\<lambda>a. {x. dictless x a}) \<union> range (\<lambda>a. {x. dictless a x})"
+
 theorem exercise_16_9: 
-  defines "\<B> \<equiv> range (\<lambda>a. {..<a}) \<union> range (\<lambda>a::real*real. {a<..})"
-  shows "topology_generated_by \<B> = prod_topology (discrete_topology (UNIV::real set)) euclidean"
+  shows "topology_generated_by dict_basis = prod_topology (discrete_topology (UNIV::real set)) euclidean"
   oops
 
 
@@ -212,7 +218,7 @@ Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
 theorem exercise_17_3: 
   assumes "closedin X A" "closedin Y B"
   shows "closedin (prod_topology X Y) (A\<times>B)"
-  by (simp add: assms(1) assms(2) closedin_prod_Times_iff)
+  by (simp add: assms closedin_prod_Times_iff)
 
 
 
@@ -285,7 +291,7 @@ theorem continuous_of_continuous_min:
   fixes f g::"'a::topological_space \<Rightarrow> 'b::order_topology"
   assumes "continuous_on UNIV f" "continuous_on UNIV g"
   shows "continuous_on UNIV (\<lambda>x. min (f x) (g x))"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: type classes
  *)
 theorem exercise_18_8b: 
   fixes A :: "'a::linorder set"
@@ -318,7 +324,14 @@ theorem unique_continuous_extension_of_continuous_on_closure:
   shows "g = f"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
-theorem exercise_18_13: undefined oops
+theorem exercise_18_13: 
+  fixes A :: "'a set" and X :: "'a topology"
+  defines "A' \<equiv> subtopology X (X closure_of A)"
+  assumes "A \<subseteq> topspace X" "Hausdorff_space Y" "continuous_map (subtopology X A) Y f"
+    and "continuous_map A' Y g1" "restrict g1 A = f"
+    and "continuous_map A' Y g2" "restrict g2 A = f"
+  shows "g1 = g2"
+  oops
 
 
 (*
@@ -332,10 +345,12 @@ theorem homeomorphic_of_prod_prod_prod:
   fixes X::"'a::topological_space set" and Y::"'b::topological_space set" and Z::"'c::topological_space set"
   assumes "topological_space X" "topological_space Y" "topological_space Z"
   shows "X \<times> Y \<times> Z \<cong> (X \<times> Y) \<times> Z"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement:  kind of model with kind of muddled with the type class setup
  *)
-theorem exercise_19_4: undefined oops
-
+theorem exercise_19_4:  (*only for n=3: trickery is needed to express the general case, 
+                          cf DirProd_list in Algebra/Weak_Morphisms*)
+  shows "prod_topology (prod_topology X1 X2) X3 homeomorphic_space prod_topology X1 (prod_topology X2 X3)"
+  oops
 
 (*
 problem_number:19_6a
@@ -354,9 +369,11 @@ theorem convergent_of_prod_convergent:
   fixes X::"('a::metric_space) set" and f::"nat \<Rightarrow> 'a"
   assumes "\<forall>n. f n \<in> X" "\<forall>n. (\<forall>x\<in>X. (f n x) = (f (n+1) x)) \<longrightarrow> (f n = f (n+1))"
   shows "convergent f"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: just no.
  *)
-theorem exercise_19_6a: undefined oops
+theorem exercise_19_6a: 
+  "limitin (product_topology X I) x a sequentially  \<longleftrightarrow> (\<forall>i\<in>I. limitin (X i) (x i) (a i) sequentially)"
+  oops
 
 
 (*
@@ -370,9 +387,12 @@ theorem choice_iff_cartesian_product_not_empty:
   fixes J::"'a set" and A::"'a \<Rightarrow> 'b set"
   assumes "J \<noteq> \<emptyset>"
   shows "\<exists>f. \<forall>x\<in>J. f x \<in> A x \<Longleftrightarrow> (\<exists>f. \<forall>x\<in>J. f x \<in> A x)"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: not really
  *)
-theorem exercise_19_9: undefined oops
+theorem exercise_19_9: (* not expressible in full because AC is included in Isabelle/HOL*)
+  assumes "J \<noteq> {}" "\<And>j. j \<in> J \<Longrightarrow> A j \<noteq> {}"
+  shows "Pi J A \<noteq> {}"
+  by (simp add: assms(2))
 
 
 (*
@@ -389,9 +409,12 @@ theorem metrizable_of_dictionary_order_topology:
   fixes X::"real set"
   assumes "X = UNIV"
   shows "metrizable_space (order_topology (dictionary_order X))"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement:  it kind of assumes we have everything
  *)
 theorem exercise_20_2: undefined oops
+  (*
+  shows "topology_generated_by dict_basis = XXX"
+ NOT POSSIBLE until we get an abstract formalisation of metric spaces*)
 
 
 (*
@@ -405,9 +428,9 @@ theorem closure_of_eventually_zero_seq_is_all_seq:
   fixes f::"nat \<Rightarrow> 'a::real_normed_vector"
   assumes "\<forall>n. \<exists>m. \<forall>k. m \<le> k \<longrightarrow> f k = 0"
   shows "closure {f. \<forall>n. \<exists>m. \<forall>k. m \<le> k \<longrightarrow> f k = 0} = UNIV"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement:  nonsense
  *)
-theorem exercise_20_5: undefined oops
+theorem exercise_20_5: undefined oops (* this is a "WHAT-IS" exercise with no actual theorem statement*)
 
 
 (*
@@ -425,9 +448,13 @@ theorem converges_of_power_seq:
   fixes x::real
   assumes "0 \<le> x \<and> x \<le> 1"
   shows "convergent (\<lambda>n. x^n)"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
- *)
-theorem exercise_21_6a: undefined oops
+Our comment on the codex statement:  perfect!
+ *)                                              
+theorem exercise_21_6a: 
+  fixes x::real
+  assumes "0 \<le> x \<and> x \<le> 1"
+  shows "convergent (\<lambda>n. x^n)"
+  using assms convergent_realpow by presburger
 
 
 (*
@@ -444,9 +471,11 @@ codex statement:
 theorem not_uniformly_convergent_of_power_function:
   fixes n::nat
   shows "\<forall>\<epsilon>>0. \<exists>x. \<forall>n. dist (x^n) (x^(n+1)) > \<epsilon>"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement:  Interesting
  *)
-theorem exercise_21_6b: undefined oops
+theorem exercise_21_6b: 
+  shows "\<not> uniformly_convergent_on {0..1} (\<lambda>x n. x^n)" 
+  oops
 
 
 (*
@@ -472,7 +501,7 @@ theorem converges_of_uniformly_converges_and_converges:
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_21_8: undefined oops
-
+(*NOT POSSIBLE until we get an abstract formalisation of metric spaces*)
 
 (*
 problem_number:22_2a
@@ -490,8 +519,12 @@ theorem quotient_map_of_continuous_map_and_continuous_map_comp_id:
   shows "quotient_map p"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
-theorem exercise_22_2a: undefined oops
-
+theorem exercise_22_2a: 
+  assumes "continuous_map X Y p"  "continuous_map Y X f" 
+    and "\<And>y. y \<in> topspace Y \<Longrightarrow> p (f y) = y"
+  shows "quotient_map X Y p"
+  by (smt (verit) assms comp_apply continuous_map_compose continuous_open_imp_quotient_map 
+      homeomorphic_eq_everything_map homeomorphic_map_involution quotient_map_from_composition)
 
 (*
 problem_number:22_2b
@@ -509,7 +542,11 @@ theorem retraction_is_quotient_map:
   shows "quotient_map X (subtopology X A) r"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
-theorem exercise_22_2b: undefined oops
+theorem exercise_22_2b: 
+  assumes "A \<subseteq> topspace X" "continuous_map X (subtopology X A) r"   
+    and "\<And>x. x \<in> A \<Longrightarrow> r x = x"
+  shows "quotient_map X (subtopology X A) r"
+  by (metis assms continuous_map_from_subtopology continuous_map_into_fulltopology exercise_22_2a topspace_subtopology_subset)
 
 
 (*
