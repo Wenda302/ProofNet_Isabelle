@@ -236,7 +236,7 @@ theorem open_of_open_diff_closed:
   fixes U A::"'a::topological_space set"
   assumes "open U" "closed A"
   shows "open (U - A)"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: Not bad but it is the type class version
  *)
 theorem exercise_17_4: 
   assumes "openin X U" "closedin X A"
@@ -322,7 +322,7 @@ theorem unique_continuous_extension_of_continuous_on_closure:
   fixes f::"'a::t1_space \<Rightarrow> 'b::t2_space" and g::"'a::t1_space \<Rightarrow> 'b::t2_space"
   assumes "continuous_on A f" "continuous_on (closure A) g" "g|`A = f"
   shows "g = f"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement:  it went wrong and it is the type class version
  *)
 theorem exercise_18_13: 
   fixes A :: "'a set" and X :: "'a topology"
@@ -517,7 +517,7 @@ theorem quotient_map_of_continuous_map_and_continuous_map_comp_id:
   fixes p::"'a::topological_space \<Rightarrow> 'b::topological_space" and f::"'b::topological_space \<Rightarrow> 'a::topological_space"
   assumes "continuous_on UNIV p" "continuous_on UNIV f" "\<forall>x. p (f x) = x"
   shows "quotient_map p"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement:  it is the type class version and it is scrambled
  *)
 theorem exercise_22_2a: 
   assumes "continuous_map X Y p"  "continuous_map Y X f" 
@@ -540,7 +540,7 @@ theorem retraction_is_quotient_map:
   fixes X::"'a::topological_space topology" and A::"'a set" and r::"'a \<Rightarrow> 'a"
   assumes "continuous_on (carrier X) r" "r ` (carrier X) \<subseteq> A" "\<forall>x\<in>A. r x = x"
   shows "quotient_map X (subtopology X A) r"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement:  partly right
  *)
 theorem exercise_22_2b: 
   assumes "A \<subseteq> topspace X" "continuous_map X (subtopology X A) r"   
@@ -563,9 +563,12 @@ theorem open_map_of_open_subset:
   fixes p::"'a::topological_space \<Rightarrow> 'b::topological_space"
   assumes "open_map p" "openin (top_of_set (UNIV::'a set)) A"
   shows "open_map (p|A)"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement:  type class primitives, and scrambled
  *)
-theorem exercise_22_5: undefined oops
+theorem exercise_22_5: 
+  assumes "open_map X Y p" "openin X A"
+  shows "open_map (subtopology X A) (subtopology Y (p ` A)) (restrict p A)"
+  oops
 
 
 (*
@@ -583,9 +586,12 @@ theorem connected_of_connected_inter_nonempty:
   fixes X::"'a::topological_space set" and A::"nat \<Rightarrow> 'a set"
   assumes "\<forall>n. connected (A n)" "\<forall>n. A n \<inter> A (n+1) \<noteq> {}"
   shows "connected (\<Union>i. A i)"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement:  very good but uses type classes
  *)
-theorem exercise_23_2: undefined oops
+theorem exercise_23_2:
+  assumes "\<And>n. connectedin X (A n)" "\<And>n. A n \<inter> A (Suc n) \<noteq> {}"
+  shows "connectedin X (\<Union>i. A i)"
+  oops
 
 
 (*
@@ -606,9 +612,13 @@ theorem connected_of_connected_inter_nonempty:
   fixes X::"'a::topological_space set" and A::"'a set" and A\<alpha>::"'a set"
   assumes "\<forall>\<alpha>. connected (A\<alpha> \<alpha>)" "connected A" "\<forall>\<alpha>. A \<inter> A\<alpha> \<alpha> \<noteq> {}"
   shows "connected (A \<union> (\<Union>\<alpha>. A\<alpha> \<alpha>))"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: very good but uses type classes
  *)
-theorem exercise_23_3: undefined oops
+theorem exercise_23_3: 
+  assumes "\<And>\<alpha>. connectedin X (\<A> \<alpha>)" "\<And>n. \<A> n \<inter> \<A> (Suc n) \<noteq> {}"
+          "A \<subseteq> topspace X" "connectedin X A"
+  shows "connectedin X (A \<union> (\<Union>i. \<A> i))"
+  oops
 
 
 (*
@@ -624,9 +634,12 @@ theorem connected_of_infinite_set:
   fixes X::"'a set"
   assumes "infinite X"
   shows "connected_space (subtopology (discrete_topology X) X)"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: not about discrete topology; uses type classes
  *)
-theorem exercise_23_4: undefined oops
+theorem exercise_23_4: 
+  assumes "infinite A"
+  shows "connectedin (topology (\<lambda>U. finite (-U))) A"
+  oops
 
 
 (*
@@ -644,9 +657,12 @@ theorem connected_intersect_of_subset_intersect_diff_subset_intersect_boundary:
   fixes A::"'a::topological_space set" and C::"'a set"
   assumes "connected C" "C \<inter> A \<noteq> {}" "C \<inter> (UNIV - A) \<noteq> {}"
   shows "C \<inter> (boundary A) \<noteq> {}"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: very good but uses type classes; it's frontier not boundary
  *)
-theorem exercise_23_6: undefined oops
+theorem exercise_23_6: 
+  assumes "connectedin X C" "C \<inter> A \<noteq> {}" "C \<inter> (-A) \<noteq> {}"
+  shows "C \<inter> (frontier A) \<noteq> {}"  
+  oops
 
 
 (*
@@ -670,9 +686,12 @@ theorem connected_of_connected_times_connected_minus_proper_subset:
   fixes X Y::"'a::topological_space set"
   assumes "connected X" "connected Y" "A \<subset> X" "B \<subset> Y"
   shows "connected ((X \<inter> Y) - (A \<inter> B))"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement:  where did those intersections come from?
  *)
-theorem exercise_23_9: undefined oops
+theorem exercise_23_9: 
+  assumes "connected_space X" "connected_space Y" "A \<subset> topspace X" "B \<subset> topspace Y"
+  shows "connectedin (prod_topology X Y) ((topspace X \<times> topspace Y) - (A \<times> B))"
+oops
 
 
 (*
@@ -690,9 +709,12 @@ theorem connected_of_connected_quotient_map:
   fixes X::"'a topology" and Y::"'b topology"
   assumes "continuous_map X Y p" "\<forall>y\<in>Y. connected (p -` {y})" "connected Y"
   shows "connected X"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: very good but uses type classes
  *)
-theorem exercise_23_11: undefined oops
+theorem exercise_23_11: 
+  assumes "quotient_map X Y p" "\<forall>y \<in> topspace Y. connectedin X (p -` {y})" "connected_space Y"
+  shows "connected_space X"
+oops
 
 
 (*
@@ -706,10 +728,13 @@ theorem connected_of_connected_of_separation:
   fixes X Y::"'a::topological_space set"
   assumes "connected X" "connected Y" "Y \<subseteq> X" "separation_set (X - Y) A B"
   shows "connected (Y \<union> A)" "connected (Y \<union> B)"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: very good but uses type classes
  *)
-theorem exercise_23_12: undefined oops
-
+theorem exercise_23_12: 
+  assumes "connected_space X" "connectedin X Y" 
+  assumes "openin X A" "A \<noteq> {}" "openin X B" "B \<noteq> {}" "A \<inter> B = {}" "A \<union> B = topspace X - Y"
+  shows "connectedin X (Y \<union> A)" "connectedin X (Y \<union> B)" 
+oops
 
 (*
 problem_number:24_2
