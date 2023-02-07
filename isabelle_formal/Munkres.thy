@@ -261,10 +261,12 @@ theorem closed_of_continuous_leq:
   shows "closed {x. f x \<le> g x}"
 Our comment on the codex statement:  perfect except it is for type classes
  *)
+
+definition "order_topology \<equiv> topology_generated_by (range (\<lambda>a. {..<a}) \<union> range (\<lambda>a::'a::linorder. {a<..}))" 
+
 theorem exercise_18_8a: 
   fixes A :: "'a::linorder set"
-  defines "\<B> \<equiv> range (\<lambda>a. {..<a}) \<union> range (\<lambda>a::'a. {a<..})"
-  defines "X \<equiv> topology_generated_by \<B>"
+  defines "X \<equiv> order_topology"
   defines "Y \<equiv> subtopology X A"
   assumes "continuous_map X Y f" "continuous_map X Y g"
   shows "closedin Y {x. f x \<le> g x}"
@@ -295,8 +297,7 @@ Our comment on the codex statement: type classes
  *)
 theorem exercise_18_8b: 
   fixes A :: "'a::linorder set"
-  defines "\<B> \<equiv> range (\<lambda>a. {..<a}) \<union> range (\<lambda>a::'a. {a<..})"
-  defines "X \<equiv> topology_generated_by \<B>"
+  defines "X \<equiv> order_topology"
   defines "Y \<equiv> subtopology X A"
   assumes "continuous_map X Y f" "continuous_map X Y g"
   defines "h \<equiv> \<lambda>x. min (f x) (g x)"
@@ -749,9 +750,17 @@ theorem exists_eq_of_continuous_map:
   fixes f::"complex \<Rightarrow> real"
   assumes "continuous_on (sphere 1) f"
   shows "\<exists>x. f x = f (-x)"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: Uses type classes and overlooks that x must lie on the sphere
  *)
-theorem exercise_24_2: undefined oops
+theorem exercise_24_2: 
+  fixes f::"complex \<Rightarrow> real"
+  assumes "continuous_map (top_of_set (sphere 0 1)) euclidean f"
+  shows "\<exists>x \<in> sphere 0 1. f x = f (-x)"
+proof -
+  have "continuous_on (sphere 0 1) f"
+    using assms continuous_map_iff_continuous by blast
+  then show ?thesis
+  oops
 
 
 (*
@@ -768,9 +777,14 @@ theorem exists_fixed_point_of_continuous_on_closed_interval:
   fixes f::"'a::metric_space \<Rightarrow> 'a"
   assumes "continuous_on {0..1} f"
   shows "\<exists>x. f x = x"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: very good but uses type classes
  *)
-theorem exercise_24_3a: undefined oops
+theorem exercise_24_3a: 
+  fixes f::"real \<Rightarrow> real"
+  defines "X \<equiv> top_of_set {0..1}"
+  assumes "continuous_map X X f"
+  shows "\<exists>x \<in> {0..1}. f x = x"
+oops
 
 
 (*
@@ -786,7 +800,7 @@ theorem connected_of_linear_continuum:
   shows "linear_continuum X"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
-theorem exercise_24_4: undefined oops
+theorem exercise_24_4: undefined oops (* NOT EASILY EXPRESSIBLE using our primitives*)
 
 
 (*
@@ -802,7 +816,7 @@ theorem linear_continuum_of_well_order:
   shows "linear_continuum (X \<times> {0..<1})"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
-theorem exercise_24_6: undefined oops
+theorem exercise_24_6: undefined oops (*NOT EASILY EXPRESSIBLE using our primitives*)
 
 
 (*
@@ -821,7 +835,7 @@ theorem connected_open_is_path_connected:
   shows "path_connected U"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
-theorem exercise_25_4: undefined oops
+theorem exercise_25_4: undefined oops (*NOT EASILY EXPRESSIBLE using our primitives*)
 
 
 (*
@@ -840,7 +854,7 @@ theorem component_of_topological_group_is_normal:
   shows "normal_subgroup (component_of G (\<one> G)) G"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
-theorem exercise_25_9: undefined oops
+theorem exercise_25_9: undefined oops (* no idea what this is about*)
 
 
 (*
@@ -856,7 +870,11 @@ theorem exists_open_subset_of_compact_subset_in_open_set:
   shows "\<exists>U V. open U \<and> open V \<and> A \<times> B \<subseteq> U \<times> V \<and> U \<times> V \<subseteq> N"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
-theorem exercise_26_9: undefined oops
+theorem exercise_26_9: 
+  assumes "A \<subseteq> topspace X" "B \<subseteq> topspace Y" "openin (prod_topology X Y) N" "A \<times> B \<subseteq> N"
+  assumes "compact A" "compact B"
+  shows "\<exists>U V. openin X U \<and> openin Y V \<and> A \<times> B \<subseteq> U \<times> V \<and> U \<times> V \<subseteq> N"
+  oops
 
 
 (*
@@ -875,9 +893,14 @@ theorem connected_of_compact_hausdorff_simply_ordered_closed_connected_subsets:
   fixes X::"'a::t2_space set" and A::"'a set set"
   assumes "compact X" "hausdorff X" "\<forall>A B. A \<in> A \<and> B \<in> A \<longrightarrow> A \<subseteq> B \<or> B \<subseteq> A" "\<forall>A\<in>A. closedin (subtopology X UNIV) A \<and> connected A"
   shows "connected (\<Inter>A\<in>A. A)"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: very good but uses type classes
  *)
-theorem exercise_26_11: undefined oops
+theorem exercise_26_11: 
+  assumes "compact_space X" "Hausdorff_space X" "\<Union>\<A> \<subseteq> topspace X"
+    "\<forall>A\<in>\<A>. closedin X A \<and> connectedin X A"
+    "\<forall>A\<in>\<A>. \<forall>B\<in>\<A>. A \<subseteq> B \<or> B \<subseteq> A"
+  shows "connectedin X (\<Inter>A\<in>A. A)"
+oops
 
 
 (*
@@ -896,7 +919,11 @@ theorem compact_of_perfect_map_compact:
   shows "compact (UNIV::'a set)"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
-theorem exercise_26_12: undefined oops
+theorem exercise_26_12: 
+  assumes "closed_map X Y p" "continuous_map X Y p" "p ` topspace X = topspace Y"
+  assumes "\<forall>y \<in> topspace Y. compactin X (f -` {y})" "compact_space Y" 
+  shows "compact_space X"
+oops
 
 
 (*
@@ -910,9 +937,14 @@ theorem least_upper_bound_of_compact_closed_interval:
   fixes X::"'a::{order_topology, linorder_topology} set"
   assumes "compact {a..b}"
   shows "\<exists>c. is_lub {a..b} c"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement:  many quantification issues
  *)
-theorem exercise_27_1: undefined oops
+theorem exercise_27_1:  (*this version assumes type classes*)
+  fixes A::"'a::linorder_topology set"
+  assumes "\<And>a b. a \<in> A \<Longrightarrow> b \<in> A \<Longrightarrow> compact {a..b}"
+  assumes "A' \<subseteq> A" "bdd_above A'"
+  shows "\<exists>x \<in> A. A' \<subseteq> {..x}"
+  oops
 
 
 (*
@@ -929,9 +961,13 @@ theorem connected_metric_space_of_more_than_one_point_is_uncountable:
   fixes X::"'a::metric_space set"
   assumes "connected X" "card X > 1"
   shows "uncountable X"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement:  perfect, because for this one we have to use type classes ATM
  *)
-theorem exercise_27_4: undefined oops
+theorem exercise_27_4: (*this version assumes type classes*)
+  fixes X::"'a::metric_space set"
+  assumes "connected X" "card X > 1"
+  shows "uncountable X"
+  using assms connected_finite_iff_sing by fastforce
 
 
 (*
