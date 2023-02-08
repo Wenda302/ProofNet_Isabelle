@@ -868,7 +868,7 @@ theorem exists_open_subset_of_compact_subset_in_open_set:
   fixes A B::"'a::euclidean_space set" and N::"'a set \<times> 'a set"
   assumes "compact A" "compact B" "open N" "A \<times> B \<subseteq> N"
   shows "\<exists>U V. open U \<and> open V \<and> A \<times> B \<subseteq> U \<times> V \<and> U \<times> V \<subseteq> N"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: very good but uses type classes
  *)
 theorem exercise_26_9: 
   assumes "A \<subseteq> topspace X" "B \<subseteq> topspace Y" "openin (prod_topology X Y) N" "A \<times> B \<subseteq> N"
@@ -986,7 +986,7 @@ theorem countably_compact_of_limit_point_compact:
   shows "countably_compact X"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
-theorem exercise_28_4: undefined oops
+theorem exercise_28_4: undefined oops (*NOT EASILY EXPRESSIBLE using our primitives*)
 
 
 (*
@@ -1006,7 +1006,7 @@ theorem countably_compact_of_nested_closed_nonempty_has_nonempty_intersection:
   shows "\<exists>x. x\<in>\<Inter>n. C n"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
-theorem exercise_28_5: undefined oops
+theorem exercise_28_5: undefined oops (*NOT EASILY EXPRESSIBLE using our primitives*)
 
 
 (*
@@ -1025,7 +1025,7 @@ theorem isometry_of_compact_is_homeomorphism:
   shows "homeomorphism (UNIV::'a set) (UNIV::'a set) f"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
-theorem exercise_28_6: undefined oops
+theorem exercise_28_6: undefined oops (*NOT EASILY EXPRESSIBLE using our primitives*)
 
 
 (*
@@ -1040,7 +1040,7 @@ theorem not_locally_compact_of_Q:
   shows "\<forall>x\<in>UNIV. \<exists>U. open U \<and> x\<in>U \<and> (\<forall>V. open V \<and> x\<in>V \<longrightarrow> \<exists>y\<in>V. y\<notin>U)"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
-theorem exercise_29_1: undefined oops
+theorem exercise_29_1: undefined oops (*NOT EASILY EXPRESSIBLE using our primitives*)
 
 
 (*
@@ -1058,7 +1058,7 @@ theorem not_locally_compact_of_uniform_topology:
   shows "\<forall>U. openin (uniform_topology (product_topology real UNIV)) U \<longrightarrow> \<exists>V. openin (uniform_topology (product_topology real UNIV)) V \<and> compact V \<and> X \<in> V \<and> V \<subseteq> U"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
-theorem exercise_29_4: undefined oops
+theorem exercise_29_4: undefined oops (*NOT EASILY EXPRESSIBLE using our primitives*)
 
 
 (*
@@ -1074,7 +1074,7 @@ theorem homeomorphism_of_one_point_compactification:
   shows "homeomorphism (one_point_compactification X1) (one_point_compactification X2) (extend_map f)"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
-theorem exercise_29_5: undefined oops
+theorem exercise_29_5: undefined oops (*NOT EASILY EXPRESSIBLE using our primitives*)
 
 
 (*
@@ -1088,7 +1088,7 @@ theorem homeomorphic_of_one_point_compactification_of_real_is_circle:
   shows "one_point_compactification \<real> homeomorphic (sphere (1::real) 0)"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
-theorem exercise_29_6: undefined oops
+theorem exercise_29_6: undefined oops (*NOT EASILY EXPRESSIBLE using our primitives*)
 
 
 (*
@@ -1109,7 +1109,7 @@ theorem exists_compact_subset_of_neighborhood:
   shows "\<exists>V. openin X V \<and> x\<in>V \<and> compact (closure V) \<and> closure V \<subseteq> U"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
-theorem exercise_29_10: undefined oops
+theorem exercise_29_10: undefined oops (*NOT EASILY EXPRESSIBLE using our primitives*)
 
 
 (*
@@ -1127,9 +1127,14 @@ theorem countable_dense_subset_of_countable_product_of_countable_dense_subset:
   fixes X::"'a::{second_countable_topology, t2_space} set"
   assumes "countable X" "\<forall>x\<in>X. \<exists>D. countable D \<and> dense_in (top_of_set X) D"
   shows "\<exists>D. countable D \<and> dense_in (top_of_set X) D"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: plausible
  *)
-theorem exercise_30_10: undefined oops
+theorem exercise_30_10: 
+  fixes Y :: "'a \<Rightarrow> 'b topology"
+  assumes "countable I" "\<forall>i\<in>I. \<exists>D. countable D \<and> D \<subseteq> topspace (Y i) \<and> Y i closure_of D = topspace (Y i)"
+  defines "X \<equiv> product_topology Y I"
+  shows "\<exists>D. countable D \<and> D \<subseteq> topspace X \<and> X closure_of D = topspace X"
+oops
 
 
 (*
@@ -1149,7 +1154,11 @@ theorem countable_of_dense_countable:
   shows "countable X"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
-theorem exercise_30_13: undefined oops
+theorem exercise_30_13: 
+  assumes "countable D" "D \<subseteq> topspace X" "X closure_of D = topspace X"
+    "\<forall>A\<in>\<A>. openin X A" "disjoint \<A>"
+  shows "countable \<A>"
+  oops
 
 
 (*
@@ -1168,7 +1177,7 @@ theorem regular_implies_disjoint_closure_of_neighborhoods:
   shows "\<forall>x y. x \<in> topspace X \<and> y \<in> topspace X \<longrightarrow> \<exists>U V. openin X U \<and> openin X V \<and> x\<in>U \<and> y\<in>V \<and> closure U \<inter> closure V = {}"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
-theorem exercise_31_1: undefined oops
+theorem exercise_31_1: undefined oops (*NOT EASILY EXPRESSIBLE using our primitives*)
 
 
 (*
@@ -1188,7 +1197,7 @@ theorem disjoint_closed_sets_have_disjoint_neighborhoods:
   shows "\<exists>U V. openin X U \<and> openin X V \<and> A \<subseteq> U \<and> B \<subseteq> V \<and> closure U \<inter> closure V = {}"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
-theorem exercise_31_2: undefined oops
+theorem exercise_31_2: undefined oops (*NOT EASILY EXPRESSIBLE using our primitives*)
 
 
 (*
@@ -1205,7 +1214,7 @@ theorem regular_of_order_topology:
   shows "regular_space T"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
-theorem exercise_31_3: undefined oops
+theorem exercise_31_3: undefined oops (*NOT EASILY EXPRESSIBLE using our primitives*)
 
 
 (*
@@ -1224,7 +1233,7 @@ theorem closed_subspace_of_normal_is_normal:
   shows "normal_space Y"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
-theorem exercise_32_1: undefined oops
+theorem exercise_32_1: undefined oops (*NOT EASILY EXPRESSIBLE using our primitives*)
 
 
 (*
@@ -1244,7 +1253,11 @@ theorem prod_topology_of_topology_is_topology:
   shows "\<forall>\<alpha>. openin (prod_topology (\<alpha>::'a) X) {x} \<longrightarrow> openin (X \<alpha>) {x \<alpha>}"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
-theorem exercise_32_2: undefined oops
+theorem exercise_32_2: 
+    fixes X :: "'a \<Rightarrow> 'b topology"
+  assumes "\<forall>i\<in>I. topspace (X i) \<noteq> {}" "Hausdorff_space (product_topology X I)" "i \<in> I"
+  shows "Hausdorff_space (X i)"
+oops
 
 
 (*
@@ -1264,7 +1277,7 @@ theorem regular_of_locally_compact_hausdorff:
   shows "regular_space X"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
-theorem exercise_32_2: undefined oops
+theorem exercise_32_2: undefined oops (*NOT EASILY EXPRESSIBLE using our primitives*)
 
 
 (*
@@ -1285,7 +1298,7 @@ theorem locally_compact_hausdorff_is_completely_regular:
   shows "completely_regular_space T"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
-theorem exercise_33_7: undefined oops
+theorem exercise_33_7: undefined oops (*NOT EASILY EXPRESSIBLE using our primitives*)
 
 
 (*
@@ -1309,7 +1322,7 @@ theorem exists_continuous_function_of_disjoint_compact_closed_sets:
   shows "\<exists>f. continuous_on X f \<and> f ` X \<subseteq> {0..1} \<and> f ` A = {0} \<and> f ` B = {1}"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
-theorem exercise_33_8: undefined oops
+theorem exercise_33_8: undefined oops (*NOT EASILY EXPRESSIBLE using our primitives*)
 
 
 (*
@@ -1330,7 +1343,7 @@ theorem metrizable_of_compact_union_of_metrizable:
   shows "metrizable X"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
-theorem exercise_34_9: undefined oops
+theorem exercise_34_9: undefined oops (*NOT EASILY EXPRESSIBLE using our primitives*)
 
 
 (*
@@ -1346,7 +1359,7 @@ theorem lindelof_iff_countable_intersection_property:
   shows "Lindelöf_space X \<longleftrightarrow> (\<forall>A. (\<forall>a\<in>A. openin X a) \<longrightarrow> (\<exists>b. openin X b \<and> \<forall>a\<in>A. a \<subseteq> b) \<longrightarrow> (\<exists>x. \<forall>a\<in>A. x\<in>a))"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
-theorem exercise_37_2: undefined oops
+theorem exercise_37_2: undefined oops (*NOT EASILY EXPRESSIBLE using our primitives*)
 
 
 (*
@@ -1362,7 +1375,7 @@ theorem exists_continuous_surjective_closed_map_of_compactification:
   shows "\<exists>g. continuous_on (UNIV::'b set) g \<and> g ` (UNIV::'b set) = UNIV \<and> closed_in (subtopology (top_of_set (UNIV::'b set)) (UNIV::'b set)) (g -` (UNIV::'a set)) \<and> g ` (UNIV::'a set) = (UNIV::'a set)"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
-theorem exercise_38_4: undefined oops
+theorem exercise_38_4: undefined oops (*NOT EASILY EXPRESSIBLE using our primitives*)
 
 
 (*
@@ -1383,7 +1396,7 @@ theorem connected_of_completely_regular_iff_connected_beta:
   shows "connected X \<longleftrightarrow> connected (\<beta> X)"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
-theorem exercise_38_6: undefined oops
+theorem exercise_38_6: undefined oops (*NOT EASILY EXPRESSIBLE using our primitives*)
 
 
 (*
@@ -1399,7 +1412,7 @@ theorem countable_of_countably_locally_finite:
   shows "countable A"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
-theorem exercise_39_5: undefined oops
+theorem exercise_39_5: undefined oops (*NOT EASILY EXPRESSIBLE using our primitives*)
 
 
 (*
@@ -1420,7 +1433,7 @@ theorem uniformly_continuous_extends_to_continuous_uniformly_continuous:
   shows "\<exists>g. continuous_on (closure A) g \<and> g|`A = f \<and> uniformly_continuous_on (closure A) g"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
-theorem exercise_43_2: undefined oops
+theorem exercise_43_2: undefined oops (*NOT EASILY EXPRESSIBLE using our primitives*)
 
 
 (*
@@ -1436,7 +1449,7 @@ theorem complete_of_sum_square_converges:
   shows "\<exists>l. (\<forall>n. norm (X n - l) < e) \<longrightarrow> (\<exists>N. \<forall>n\<ge>N. norm (X n - l) < e)"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
-theorem exercise_43_7: undefined oops
+theorem exercise_43_7: undefined oops (*NOT EASILY EXPRESSIBLE using our primitives*)
 
 
 
