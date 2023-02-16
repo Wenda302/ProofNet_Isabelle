@@ -1,5 +1,5 @@
 theory Pugh
- imports Main
+ imports "HOL-Analysis.Analysis"
 begin
 
 (*
@@ -16,9 +16,13 @@ theorem lim_of_rearrangement_of_injective:
   fixes f::"nat \<Rightarrow> nat" and p::"nat \<Rightarrow> 'a::real_normed_vector"
   assumes "inj f" "convergent p"
   shows "convergent (\<lambda>n. p (f n))"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: a start, but the real meaning was not preserved
  *)
-theorem exercise_2_12a: undefined oops
+theorem exercise_2_12a: 
+  fixes f::"nat \<Rightarrow> nat" and p::"nat \<Rightarrow> 'a::real_normed_vector"
+  assumes "inj f"
+  shows "(\<lambda>n. p (f n)) \<longlonglongrightarrow> a  \<longleftrightarrow>  p \<longlonglongrightarrow> a"
+  oops
 
 
 (*
@@ -37,7 +41,11 @@ theorem lim_of_rearrangement_of_surjection:
   shows "convergent q \<and> lim p = lim q"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
-theorem exercise_2_12b: undefined oops
+theorem exercise_2_12b: (*The informal versions of both exercises are ambiguous: is it given that the original sequence converges?*)
+  fixes f::"nat \<Rightarrow> nat" and p::"nat \<Rightarrow> 'a::real_normed_vector"
+  assumes "surj f"
+  shows "(\<lambda>n. p (f n)) \<longlonglongrightarrow> a  \<longleftrightarrow>  p \<longlonglongrightarrow> a"
+  oops
 
 
 (*
@@ -46,15 +54,18 @@ natural language statement:
 Prove that a set $U \subset M$ is open if and only if none of its points are limits of its complement.
 lean statement:
 theorem exercise_2_26 {M : Type*} [topological_space M]
-  (U : set M) : is_open U \<longleftrightarrow> \<forall> x \<in> U, ¬ cluster_pt x (𝓟 Uᶜ) :=
+  (U : set M) : is_open U \<longleftrightarrow> \<forall> x \<in> U, \<not> cluster_pt x (𝓟 Uᶜ) :=
 
 codex statement:
 theorem open_iff_no_limit_point_of_complement:
   fixes U::"'a::metric_space set"
-  shows "open U \<longleftrightarrow> \<forall>x\<in>U. ¬(x islimpt (-U))"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+  shows "open U \<longleftrightarrow> \<forall>x\<in>U. \<not>(x islimpt (-U))"
+Our comment on the codex statement:  Syntactically correct, but with the addition of parentheses, good (type class version)
  *)
-theorem exercise_2_26: undefined oops
+theorem exercise_2_26: 
+  fixes U::"'a::metric_space set"
+  shows "open U \<longleftrightarrow> (\<forall>x\<in>U. \<not>(x islimpt (-U)))"
+  oops
 
 
 (*
@@ -72,9 +83,12 @@ codex statement:
 theorem bijection_open_closed:
   fixes M::"'a::metric_space set"
   shows "bij_betw (\<lambda>U. closure U) (open_sets M) (closed_sets M)"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement:  interesting but clearly wrong guess of the bijection (which must be complementation)
  *)
-theorem exercise_2_29: undefined oops
+theorem exercise_2_29: 
+  fixes M::"'a::metric_space set"
+  shows "\<exists>f. bij_betw f {S. open S} {S. closed S}"
+  oops
 
 
 (*
@@ -88,9 +102,12 @@ codex statement:
 theorem clopen_of_subset_nat:
   fixes A::"nat set"
   shows "closed_in (top_of_set UNIV) A \<and> open_in (top_of_set UNIV) A"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: close, but it didn't know about discrete_topology
  *)
-theorem exercise_2_32a: undefined oops
+theorem exercise_2_32a: 
+  fixes A::"nat set"
+    shows "closedin (discrete_topology UNIV) A \<and> openin (discrete_topology UNIV) A"
+  by simp
 
 
 (*
@@ -106,9 +123,11 @@ theorem compact_of_norm_leq_one:
   fixes m::nat and f::"nat \<Rightarrow> real"
   assumes "norm f \<le> 1"
   shows "compact {x::'a::euclidean_space. \<forall>i. norm (x$i) \<le> f i}"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: seemingly inserted its own definition of norm, and we can't capture "any norm"
  *)
-theorem exercise_2_41: undefined oops
+theorem exercise_2_41: 
+  shows "compact {x. norm x \<le> 1}"
+  oops
 
 
 (*
@@ -127,9 +146,13 @@ theorem exists_min_distance_of_compact_disjoint_nonempty:
   fixes A B::"'a::metric_space set"
   assumes "compact A" "compact B" "A \<inter> B = {}" "A \<noteq> {}" "B \<noteq> {}"
   shows "\<exists>a b. a\<in>A \<and> b\<in>B \<and> (\<forall>a'\<in>A. \<forall>b'\<in>B. dist a b \<le> dist a' b')"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: perfect!
  *)
-theorem exercise_2_46: undefined oops
+theorem exercise_2_46: 
+  fixes A B::"'a::metric_space set"
+  assumes "compact A" "compact B" "A \<inter> B = {}" "A \<noteq> {}" "B \<noteq> {}"
+  shows "\<exists>a0 b0. a0\<in>A \<and> b0\<in>B \<and> (\<forall>a\<in>A. \<forall>b\<in>B. dist a0 b0 \<le> dist a b)"
+  oops
 
 
 (*
@@ -145,7 +168,11 @@ theorem exists_embedding_of_line_as_closed_subset_of_plane:
   shows "closedin (subtopology euclidean (UNIV::'a set)) (f ` UNIV)"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
-theorem exercise_2_48: undefined oops
+theorem exercise_2_48: 
+  shows "\<exists>f::real \<Rightarrow> complex. inj f \<and> closed (range f)"
+        "\<exists>f::real \<Rightarrow> complex. inj f \<and> bounded (range f)"
+        "\<nexists>f::real \<Rightarrow> complex. inj f \<and> closed (range f) \<and> bounded (range f)"
+  oops
 
 
 (*
@@ -161,7 +188,8 @@ theorem sphere_not_homeomorphic_to_plane:
   shows False
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
-theorem exercise_2_56: undefined oops
+theorem exercise_2_56: "\<not> sphere (0::real^3) 1 homeomorphic (UNIV::complex set)"
+  oops
 
 
 (*
@@ -170,7 +198,7 @@ natural language statement:
 Show that if $S$ is connected, it is not true in general that its interior is connected.
 lean statement:
 theorem exercise_2_57 {X : Type*} [topological_space X]
-  : \<exists> (S : set X), is_connected S \<and> ¬ is_connected (interior S) :=
+  : \<exists> (S : set X), is_connected S \<and> \<not> is_connected (interior S) :=
 
 codex statement:
 theorem interior_not_connected_of_connected:
@@ -179,7 +207,9 @@ theorem interior_not_connected_of_connected:
   shows "\<exists>T. open T \<and> connected T \<and> interior T \<subseteq> S \<and> interior T \<noteq> \<emptyset> \<and> interior T \<noteq> S"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
-theorem exercise_2_57: undefined oops
+theorem exercise_2_57: 
+    shows "\<exists>S. connectedin X S \<and> \<not> connectedin X (X interior_of S)"
+oops
 
 
 (*
@@ -197,9 +227,13 @@ theorem path_connected_of_nonempty_compact_locally_path_connected_connected:
   fixes M::"'a::topological_space set"
   assumes "compact M" "nonempty M" "locally path_connected M" "connected M"
   shows "path_connected M"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement:  This version does not need the first two assumptions (why is the second one ever required)
  *)
-theorem exercise_2_79: undefined oops
+theorem exercise_2_79: 
+  fixes M::"'a::topological_space set"
+  assumes "compact M" "M\<noteq>{}" "locally path_connected M" "connected M"
+  shows "path_connected M"
+  by (simp add: assms(3) assms(4) connected_component_eq_self path_component_eq_connected_component_set path_connected_component_set)
 
 
 (*
@@ -218,9 +252,13 @@ theorem finite_subcovering_of_redundant_open_covering:
   fixes M::"'a::metric_space set" and U::"'a set set"
   assumes "compact M" "\<forall>p\<in>M. \<exists>U_1 U_2. U_1\<in>U \<and> U_2\<in>U \<and> p\<in>U_1 \<and> p\<in>U_2"
   shows "\<exists>U'. finite U' \<and> U' \<subseteq> U \<and> \<forall>p\<in>M. \<exists>U_1 U_2. U_1\<in>U' \<and> U_2\<in>U' \<and> p\<in>U_1 \<and> p\<in>U_2"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement:  very good except for missing parentheses
  *)
-theorem exercise_2_85: undefined oops
+theorem exercise_2_85: 
+  fixes M::"'a::metric_space set" and \<U>::"'a set set"
+  assumes "compact M" "\<forall>p\<in>M. \<exists>V W. V\<in>\<U> \<and> W\<in>\<U> \<and> p\<in>V \<and> p\<in>W"
+  shows "\<exists>\<U>'. finite \<U>' \<and> \<U>' \<subseteq> \<U> \<and> (\<forall>p\<in>M. \<exists>V W. V\<in>\<U>' \<and> W\<in>\<U>' \<and> p\<in>V \<and> p\<in>W)"
+  oops
 
 
 (*
@@ -232,7 +270,7 @@ theorem exercise_2_92 {\<alpha> : Type*} [topological_space \<alpha>]
   {s : \<nat> \<rightarrow> set \<alpha>}
   (hs : \<forall> i, is_compact (s i))
   (hs : \<forall> i, (s i).nonempty)
-  (hs : \<forall> i, (s i) ⊃ (s (i + 1))) :
+  (hs : \<forall> i, (s i) \<supset> (s (i + 1))) :
   (\<Inter> i, s i).nonempty :=
 
 codex statement:
@@ -240,9 +278,13 @@ theorem nonempty_intersection_of_nested_compact_covering_sets:
   fixes K::"nat \<Rightarrow> 'a::metric_space set"
   assumes "\<forall>n. compact (K n)" "\<forall>n. K n \<subseteq> K (Suc n)" "\<forall>n. K n \<noteq> {}"
   shows "\<exists>x. \<forall>n. x \<in> K n"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement:  the sunset inclusion was in the wrong direction! (What does "covering" mean here?)
  *)
-theorem exercise_2_92: undefined oops
+theorem exercise_2_92: 
+  fixes K::"nat \<Rightarrow> 'a::metric_space set"
+  assumes "\<forall>n. compact (K n)" "\<forall>n. K (Suc n) \<subseteq> K n" "\<forall>n. K n \<noteq> {}"
+  shows "\<exists>x. \<forall>n. x \<in> K n"
+  oops
 
 
 (*
@@ -271,7 +313,7 @@ natural language statement:
 Suppose that $E$ is an uncountable subset of $\mathbb{R}$. Prove that there exists a point $p \in \mathbb{R}$ at which $E$ condenses.
 lean statement:
 theorem exercise_2_126 {E : set \<real>}
-  (hE : ¬ set.countable E) : \<exists> (p : \<real>), cluster_pt p (𝓟 E) :=
+  (hE : \<not> set.countable E) : \<exists> (p : \<real>), cluster_pt p (𝓟 E) :=
 
 codex statement:
 theorem exists_condensation_point_of_uncountable_subset:
@@ -280,7 +322,11 @@ theorem exists_condensation_point_of_uncountable_subset:
   shows "\<exists>p. condensation_point E p"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
-theorem exercise_2_126: undefined oops
+theorem exercise_2_126: 
+  fixes E::"real set"
+  assumes "uncountable E"
+  shows "\<exists>p. p islimpt E"
+  oops
 
 
 (*
@@ -292,7 +338,7 @@ theorem exercise_2_137
   {M : Type*} [metric_space M] [separable_space M] [complete_space M]
   {P : set M} (hP : is_closed P)
   (hP' : is_closed P \<and> P = {x | cluster_pt x (𝓟 P)}) :
-  \<forall> x \<in> P, \<forall> n \<in> (𝓝 x), ¬ set.countable n :=
+  \<forall> x \<in> P, \<forall> n \<in> (𝓝 x), \<not> set.countable n :=
 
 codex statement:
 theorem condensation_point_of_closed_perfect_subset:
@@ -314,7 +360,7 @@ codex statement:
 theorem exists_path_disjoint_of_Cantor_space:
   fixes M::"real set" and p q::"real^2" and \<epsilon>::real
   assumes "Cantor_space M" "p \<in> (UNIV::real^2 set) - M" "q \<in> (UNIV::real^2 set) - M" "\<epsilon> > 0"
-  shows "\<exists>A. path A \<and> path_image A \<subseteq> ball p \<epsilon> ∪ ball q \<epsilon> \<and> pathstart A = p \<and> pathfinish A = q \<and> path_image A ∩ M = {}"
+  shows "\<exists>A. path A \<and> path_image A \<subseteq> ball p \<epsilon> \<union> ball q \<epsilon> \<and> pathstart A = p \<and> pathfinish A = q \<and> path_image A \<inter> M = {}"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_2_138: undefined oops
@@ -387,7 +433,7 @@ codex statement:
 theorem smooth_of_bump_function:
   fixes x::real
   assumes "x\<in>{-1..1}"
-  shows "\<forall>n. (∂^n) (\<lambda>x. exp 2 * exp (-x) * exp (x+1)) x = exp 2 * exp (-x) * exp (x+1)"
+  shows "\<forall>n. (\<partial>^n) (\<lambda>x. exp 2 * exp (-x) * exp (x+1)) x = exp 2 * exp (-x) * exp (x+1)"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem "exercise_3_17c-i": undefined oops
@@ -432,9 +478,9 @@ lean statement:
 
 codex statement:
 theorem riemann_integrable_of_riemann_integrable_comp:
-  fixes f::"real \<Rightarrow> real" and ψ::"real \<Rightarrow> real"
-  assumes "continuous_on {0..1} ψ" "f integrable_on {-1..1}"
-  shows "(f ∘ ψ) integrable_on {0..1}"
+  fixes f::"real \<Rightarrow> real" and \<psi>::"real \<Rightarrow> real"
+  assumes "continuous_on {0..1} \<psi>" "f integrable_on {-1..1}"
+  shows "(f \<circ> \<psi>) integrable_on {0..1}"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_3_43a: undefined oops
@@ -536,14 +582,14 @@ natural language statement:
 If $M$ is compact and $A$ is dense in $M$, prove that for each $\delta > 0$ there is a finite subset $\{a_1, \ldots , a_k\} \subset A$ which is $\delta$-dense in $M$ in the sense that each $x \in M$ lies within distance $\delta$ of at least one of the points $a_1,\ldots, a_k$.
 lean statement:
 theorem exercise_4_19 {M : Type*} [metric_space M]
-  [compact_space M] (A : set M) (hA : dense A) (δ : \<real>) (hδ : δ > 0) :
-  \<exists> (A_fin : set M), A_fin ⊂ A \<and> set.finite A_fin \<and> \<forall> (x : M), \<exists> i \<in> A_fin, dist x i < δ :=
+  [compact_space M] (A : set M) (hA : dense A) (\<delta> : \<real>) (h\<delta> : \<delta> > 0) :
+  \<exists> (A_fin : set M), A_fin \<subset> A \<and> set.finite A_fin \<and> \<forall> (x : M), \<exists> i \<in> A_fin, dist x i < \<delta> :=
 
 codex statement:
 theorem exists_finite_delta_dense_of_compact_dense:
   fixes M::"'a::metric_space set" and A::"'a set"
   assumes "compact M" "A \<subseteq> M" "dense A"
-  shows "\<exists>A'. finite A' \<and> A' \<subseteq> A \<and> \<forall>x\<in>M. \<exists>a\<in>A'. dist x a < δ"
+  shows "\<exists>A'. finite A' \<and> A' \<subseteq> A \<and> \<forall>x\<in>M. \<exists>a\<in>A'. dist x a < \<delta>"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_4_19: undefined oops
@@ -594,7 +640,7 @@ codex statement:
 theorem norm_of_linear_transformation_is_norm:
   fixes V::"'a::real_normed_vector normed_vector" and W::"'b::real_normed_vector normed_vector"
   assumes "linear f"
-  shows "norm f = ∥f∥"
+  shows "norm f = \<parallel>f\<parallel>"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_5_2: undefined oops
@@ -625,8 +671,8 @@ lean statement:
 codex statement:
 theorem continuous_of_continuous_integral:
   fixes f::"'a::metric_space \<Rightarrow> 'b::metric_space \<Rightarrow> 'c::metric_space"
-  assumes "continuous_on (UNIV::'a set) (\<lambda>y. ∫ {a..b} (f x y) dx)"
-  shows "continuous_on (UNIV::'b set) (\<lambda>y. ∫ {a..b} (f x y) dx)"
+  assumes "continuous_on (UNIV::'a set) (\<lambda>y. \<integral> {a..b} (f x y) dx)"
+  shows "continuous_on (UNIV::'b set) (\<lambda>y. \<integral> {a..b} (f x y) dx)"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_5_22: undefined oops
@@ -642,7 +688,7 @@ codex statement:
 theorem exists_delta_of_rank_leq_rank_of_norm_lt_delta:
   fixes T::"'a::euclidean_space \<Rightarrow> 'b::euclidean_space" and S::"'a::euclidean_space \<Rightarrow> 'b::euclidean_space"
   assumes "linear T" "linear S" "rank T = k"
-  shows "\<exists>δ>0. \<forall>S. linear S \<longrightarrow> (∥S - T∥ < δ \<longrightarrow> rank S \<ge> k)"
+  shows "\<exists>\<delta>>0. \<forall>S. linear S \<longrightarrow> (\<parallel>S - T\<parallel> < \<delta> \<longrightarrow> rank S \<ge> k)"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_5_43a: undefined oops
