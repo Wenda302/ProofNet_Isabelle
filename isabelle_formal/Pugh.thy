@@ -366,6 +366,7 @@ Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
 theorem exercise_2_138: undefined oops
 
 
+
 (*
 problem_number:3_1
 natural language statement:
@@ -382,7 +383,11 @@ theorem constant_of_abs_diff_leq_square_diff:
   shows "f constant_on UNIV"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
-theorem exercise_3_1: undefined oops
+theorem exercise_3_1: 
+  fixes f::"real \<Rightarrow> real"
+  assumes "\<forall>x t. \<bar>f t - f x\<bar> \<le> \<bar>t - x\<bar>^2"
+  shows "f constant_on UNIV"
+  oops
 
 
 (*
@@ -396,9 +401,11 @@ theorem exercise_3_4 (n : \<nat>) :
 codex statement:
 theorem sqrt_succ_sub_sqrt_tendsto_zero:
   shows "(\<Sum>i=0..n. 1/(sqrt (real (Suc i)) + sqrt (real i))) \<longrightarrow> 0"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: This went completely wrong!
  *)
-theorem exercise_3_4: undefined oops
+theorem exercise_3_4: 
+  shows "(\<lambda>n. sqrt (real (Suc n)) - sqrt (real n)) \<longlonglongrightarrow> 0"
+  oops
 
 
 (*
@@ -418,9 +425,15 @@ theorem limit_of_diff_of_diff_eq_diff_of_diff:
   fixes f::"real \<Rightarrow> real"
   assumes "\<forall>x. (f has_real_derivative f' x) (at x)" "\<forall>x. (f has_real_derivative f'' x) (at x)"
   shows "(f'' ---> f'' x) (at x)"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement:  Conclusion completely wrong
  *)
-theorem exercise_3_11a: undefined oops
+theorem exercise_3_11a: 
+  fixes f::"real \<Rightarrow> real"
+  assumes "a < x" "x < b" 
+    and "(f has_derivative f') (at x within {a<..<b})" 
+    and "(f' has_derivative f'') (at x within {a<..<b})"
+  shows "((\<lambda>h. (f (x - h) - 2 * f x + f (x + h)) / h ^ 2) \<longlongrightarrow> f'' x) (at 0)"
+  oops
 
 
 (*
@@ -436,7 +449,7 @@ theorem smooth_of_bump_function:
   shows "\<forall>n. (\<partial>^n) (\<lambda>x. exp 2 * exp (-x) * exp (x+1)) x = exp 2 * exp (-x) * exp (x+1)"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
-theorem "exercise_3_17c-i": undefined oops
+theorem "exercise_3_17c-i": undefined oops (* we have no way to express smoothness*)
 
 
 (*
@@ -451,7 +464,7 @@ theorem bump_function_is_zero_outside_interval:
   shows "x\<le>-1 \<or> x\<ge>1 \<longrightarrow> (\<lambda>x. exp 2 * exp (-x) * exp (x+1)) x = 0"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
-theorem "exercise_3_17c-ii": undefined oops
+theorem "exercise_3_17c-ii": undefined oops (* impossible to interpret this formula, and the conclusion seems to be false*)
 
 
 (*
@@ -467,7 +480,7 @@ theorem exists_smooth_function_of_closed_set:
   shows "\<exists>f. (\<forall>x. f x = 0 \<longleftrightarrow> x\<in>L) \<and> (\<forall>x. f differentiable (at x))"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
-theorem exercise_3_18: undefined oops
+theorem exercise_3_18: undefined oops (* we have no way to express smoothness*)
 
 
 (*
@@ -483,7 +496,7 @@ theorem riemann_integrable_of_riemann_integrable_comp:
   shows "(f \<circ> \<psi>) integrable_on {0..1}"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
-theorem exercise_3_43a: undefined oops
+theorem exercise_3_43a: undefined oops (* we do not have Riemann integrals*)
 
 
 (*
@@ -499,7 +512,7 @@ theorem max_min_integrable:
   shows "(\<lambda>x. max (f x) (g x)) integrable_on {a..b}" "(\<lambda>x. min (f x) (g x)) integrable_on {a..b}"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
-theorem exercise_3_53: undefined oops
+theorem exercise_3_53: undefined oops(* we do not have Riemann integrals*)
 
 
 (*
@@ -513,9 +526,13 @@ theorem convergent_of_convergent_sum_sqrt_div_n:
   fixes a::"nat \<Rightarrow> real"
   assumes "\<forall>n. 0 \<le> a n" "summable a"
   shows "summable (\<lambda>n. sqrt (a n) / n)"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: Perfect!
  *)
-theorem exercise_3_59: undefined oops
+theorem exercise_3_59: 
+  fixes a::"nat \<Rightarrow> real"
+  assumes "\<forall>n. 0 \<le> a n" "summable a"
+  shows "summable (\<lambda>n. sqrt (a n) / n)"
+  oops
 
 
 (*
@@ -532,9 +549,20 @@ theorem sum_of_inverse_log_pow_p_converges_of_p_gt_1:
   fixes p::real
   assumes "p > 1"
   shows "summable (\<lambda>n. 1 / (real n * (log (real n)) ^ p))"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement:  correct except for log (should be ln) and ^ (should be powr)
  *)
-theorem exercise_3_63: undefined oops
+theorem exercise_3_63a: 
+  fixes p::real
+  assumes "p > 1"
+  shows "summable (\<lambda>n. 1 / (real n * (ln (real n) powr p)))"
+  oops
+
+theorem exercise_3_63b: 
+  fixes p::real
+  assumes "p \<le> 1"
+  shows "\<not> summable (\<lambda>n. 1 / (real n * (ln (real n) powr p)))"
+  oops
+
 
 
 (*
@@ -557,7 +585,17 @@ theorem uniform_continuous_iff_has_modulus_of_continuity:
   shows "uniformly_continuous_on UNIV f"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
-theorem exercise_4_15a: undefined oops
+
+definition "is_modulus_continuity 
+  \<equiv> \<lambda> \<mu>. continuous_on {0<..} \<mu> \<and> strict_mono_on {0<..} \<mu> \<and> \<mu> \<in> {0<..} \<rightarrow> {0<..} \<and> (\<mu> \<longlongrightarrow> 0) (at 0 within {0<..})"
+
+definition "has_modulus_continuity 
+  \<equiv> \<lambda> \<mu> f a b. is_modulus_continuity \<mu> \<and> (\<forall>x \<in> {a..b}. \<forall>y \<in> {a..b}. \<bar>f x - f y\<bar> \<le> \<mu>\<bar>x-y\<bar>)"
+
+theorem exercise_4_15a: 
+  fixes f::"real \<Rightarrow> real"
+  shows "uniformly_continuous_on {a..b} f \<longleftrightarrow> (\<exists>\<mu>. has_modulus_continuity \<mu> f a b)"
+  oops
 
 
 (*
@@ -573,7 +611,12 @@ theorem equicontinuous_of_modulus_of_continuity:
   shows "uniformly_continuous_on s f" "uniformly_continuous_on s g"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
-theorem exercise_4_15b: undefined oops
+theorem exercise_4_15b: 
+  fixes \<F>::"(real \<Rightarrow> real) set"
+  assumes "a<b"
+  shows "(\<forall>e>0. \<exists>d>0. \<forall>f \<in> \<F>. \<forall>x \<in> {a..b}. \<forall>x' \<in> {a..b}. \<bar>x'-x\<bar> < d \<longrightarrow> \<bar>f x' - f x\<bar> < e)
+     \<longleftrightarrow> (\<exists>\<mu>. \<forall>f \<in> \<F>. has_modulus_continuity \<mu> f a b)"
+  oops
 
 
 (*
@@ -592,7 +635,11 @@ theorem exists_finite_delta_dense_of_compact_dense:
   shows "\<exists>A'. finite A' \<and> A' \<subseteq> A \<and> \<forall>x\<in>M. \<exists>a\<in>A'. dist x a < \<delta>"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
-theorem exercise_4_19: undefined oops
+theorem exercise_4_19: 
+  fixes M::"'a::metric_space set" and A::"'a set"
+  assumes "compact M" "A \<subseteq> M" "M \<subseteq> closure A" "\<delta> > 0"
+  shows "\<exists>A'. finite A' \<and> A' \<subseteq> A \<and> (\<forall>x\<in>M. \<exists>a\<in>A'. dist x a < \<delta>)"
+  oops
 
 
 (*
@@ -624,7 +671,7 @@ theorem cantor_set_not_union_of_countable_cantor_sets:
   shows "False"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
-theorem exercise_4_42: undefined oops
+theorem exercise_4_42: undefined oops(* we do not have a formalisation of Cantor sets*)
 
 
 (*
@@ -657,9 +704,14 @@ theorem constant_of_differentiable_zero:
   fixes f::"'a::euclidean_space \<Rightarrow> 'b::euclidean_space"
   assumes "connected U" "open U" "\<forall>x\<in>U. f differentiable (at x)" "\<forall>x\<in>U. (D f) x = 0"
   shows "f constant_on U"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement:  not bad, but we have no D!
  *)
-theorem exercise_5_20: undefined oops
+
+theorem exercise_5_20: 
+  fixes f::"'a::euclidean_space \<Rightarrow> 'b::euclidean_space"
+  assumes "connected U" "open U" "\<forall>x\<in>U. (f has_derivative (\<lambda>x. 0)) (at x)" 
+  shows "f constant_on U"
+  by (smt (verit, best) assms constant_on_def has_derivative_zero_unique_connected)
 
 
 (*
@@ -673,9 +725,13 @@ theorem continuous_of_continuous_integral:
   fixes f::"'a::metric_space \<Rightarrow> 'b::metric_space \<Rightarrow> 'c::metric_space"
   assumes "continuous_on (UNIV::'a set) (\<lambda>y. \<integral> {a..b} (f x y) dx)"
   shows "continuous_on (UNIV::'b set) (\<lambda>y. \<integral> {a..b} (f x y) dx)"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement:  Wrong all the way
  *)
-theorem exercise_5_22: undefined oops
+theorem exercise_5_22:   (*Lebesgue integrals seem to be expected here*)
+  fixes f::"real * 'a::metric_space \<Rightarrow> real"
+  assumes "continuous_on UNIV f"
+    shows "\<forall>y\<in>Y. integrable (lebesgue_on {a..b}) (\<lambda>x. f (x,y))" "continuous_on Y (\<lambda>y. integral\<^sup>L (lebesgue_on {a..b}) (\<lambda>x. f (x,y)))"
+  oops
 
 
 (*
@@ -707,8 +763,11 @@ theorem integrable_max_min:
   shows "integrable M (\<lambda>x. max (f x) (g x))" "integrable M (\<lambda>x. min (f x) (g x))"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
-theorem exercise_6_38: undefined oops
-
+theorem exercise_6_38: 
+  fixes f g::"'a::euclidean_space \<Rightarrow> real"
+  assumes "integrable M f" "integrable M g"
+  shows "integrable M (\<lambda>x. max (f x) (g x))" "integrable M (\<lambda>x. min (f x) (g x))"
+  using assms by blast+
 
 (*
 problem_number:6_39
@@ -723,7 +782,14 @@ theorem integrable_of_integrable_square:
   shows "integrable lborel (\<lambda>x. f x * g x)"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
-theorem exercise_6_39: undefined oops
+theorem exercise_6_39: 
+  fixes f g::"'a::euclidean_space \<Rightarrow> real"
+  assumes "f \<in> borel_measurable borel" "integrable lborel (\<lambda>x. f x ^ 2)" 
+  assumes "g \<in> borel_measurable borel" "integrable lborel (\<lambda>x. g x ^ 2)"
+  shows "(\<lambda>x. f x * g x) \<in> borel_measurable borel" "integrable lborel (\<lambda>x. f x * g x)" 
+        "integral\<^sup>L lborel (\<lambda>x. f x * g x) \<le> sqrt (integral\<^sup>L lborel (\<lambda>x. f x ^ 2)) * sqrt (integral\<^sup>L lborel (\<lambda>x. g x ^ 2))"
+   apply (simp add: borel_measurable_times assms)
+  oops
 
 
 (*
@@ -736,9 +802,12 @@ codex statement:
 theorem diff_integral_of_exp_sin:
   fixes y::real
   shows "((\<lambda>x. exp (-x) * sin (x + y)) has_vector_derivative (exp (-y) * cos y)) (at y)"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: Rather scrambled
  *)
-theorem exercise_6_43: undefined oops
+theorem exercise_6_43: 
+  fixes y::real
+  shows "(\<lambda>y::real. integral\<^sup>L (lebesgue_on {0<..}) (\<lambda>x. exp (-x) * sin (x + y))) differentiable_on {0<..}"
+  oops
 
 
 (*
@@ -752,11 +821,11 @@ theorem lebesgue_measurable_of_preimage_borel_is_lebesgue_measurable:
   fixes f::"'a::euclidean_space \<Rightarrow> 'b::euclidean_space"
   assumes "\<forall>s. borel_measurable s \<longrightarrow> borel_measurable (f -` s)"
   shows "lebesgue_measurable f"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement:  not completely wrong
  *)
-theorem exercise_6_49a: undefined oops
-
-
-
+theorem exercise_6_49a:  (*Not sure I have formalised measurable sets and functions correctly*)
+  assumes "\<forall>S. S \<in> fmeasurable borel \<longrightarrow> (f -` S) \<in> fmeasurable borel"
+  shows "f \<in> measurable borel borel"
+  oops
 
 end
