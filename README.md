@@ -60,11 +60,11 @@ PS: we may sometimes need to change the 'imports' part of the target theory file
 - [ ] [Axler.thy](isabelle_formal/Axler.thy)  
 - [x] [Cambridge-Tripos.thy](isabelle_formal/Cambridge-Tripos.thy)  
 - [ ] [Dummit-Foote.thy](isabelle_formal/Dummit-Foote.thy)  
-- [ ] [Herstein.thy](isabelle_formal/Herstein.thy): half-finished by Larry 
+- [x] [Herstein.thy](isabelle_formal/Herstein.thy): half-finished by Larry 
 - [x] [Ireland-Rosen.thy](isabelle_formal/Ireland-Rosen.thy)  
-- [ ] [Munkres.thy](isabelle_formal/Munkres.thy)  
-- [ ] [Pugh.thy](isabelle_formal/Pugh.thy)  
+- [x] [Munkres.thy](isabelle_formal/Munkres.thy)  
+- [x] [Pugh.thy](isabelle_formal/Pugh.thy)  
 - [ ] [Putnam.thy](isabelle_formal/Putnam.thy)  
-- [ ] [Rudin.thy](isabelle_formal/Rudin.thy)  
-- [ ] [Shakarchi.thy](isabelle_formal/Shakarchi.thy): half-finished by Wenda
+- [ ] [Rudin.thy](isabelle_formal/Rudin.thy): in progress by Angeliki
+- [x] [Shakarchi.thy](isabelle_formal/Shakarchi.thy)
 
