@@ -368,10 +368,13 @@ theorem integral_cos_over_square_plus_a_square_eq_pi_exp_minus_a_over_a:
   fixes a::real
   assumes "a > 0"
   shows "∫ {-\<infinity>..\<infinity>} (\<lambda>x. cos x / (x^2 + a^2)) = \<pi> * exp (-a) / a"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: misuse of the integral function and the pi constant.
  *)
-theorem exercise_3_3: undefined oops
-
+theorem exercise_3_3:
+  fixes a::real
+  assumes "a > 0"
+  shows "LBINT x=-\<infinity>..\<infinity>. cos x / (x^2 + a^2) = pi * exp (-a) / a" 
+  oops
 
 (*
 problem_number:3_4
@@ -387,9 +390,13 @@ theorem integral_sin_over_square_plus_a_square_eq_pi_exp_minus_a:
   fixes a::real
   assumes "a>0"
   shows "(∫ x = -\<infinity>..\<infinity>. (x * sin x) / (x^2 + a^2)) = \<pi> * exp (-a)"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: misuse of the integral function and the pi constant.
  *)
-theorem exercise_3_4: undefined oops
+theorem exercise_3_4: 
+  fixes a::real
+  assumes "a > 0"
+  shows "LBINT x=-\<infinity>..\<infinity>. (x * sin x) / (x^2 + a^2) = pi * exp (-a)" 
+  oops 
 
 
 (*
@@ -404,9 +411,12 @@ theorem integral_log_sin_pi_x_eq_log_2:
   fixes f::"real \<Rightarrow> real"
   assumes "f integrable_on {0..1}" "f = (\<lambda>x. log (sin (\<pi> * x)))"
   shows "(∫ {0..1} f) = - log 2"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement:misuse of the integral function and the log function, but the 
+  mistakes are understandable.
  *)
-theorem exercise_3_9: undefined oops
+theorem exercise_3_9: 
+  shows "((\<lambda> x::real. ln (sin (pi * x)) ) has_integral (- ln 2)) {0..1}"
+  oops
 
 
 (*
@@ -423,9 +433,14 @@ theorem entire_injective_eq_linear:
   fixes f::"complex \<Rightarrow> complex"
   assumes "entire f" "inj f"
   shows "\<exists>a b. f = (\<lambda>z. a * z + b)"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: The model fails to align the definition of 'entire'.
  *)
-theorem exercise_3_14: undefined oops
+theorem exercise_3_14: 
+  fixes f::"complex \<Rightarrow> complex"
+  assumes "f holomorphic_on UNIV" "inj f"
+  shows "\<exists>a b. a \<noteq> 0 \<and> f = (\<lambda>z. a * z + b)" 
+  oops
+
 
 
 (*
@@ -442,15 +457,23 @@ theorem no_holomorphic_function_extends_continuously_to_boundary_of_unit_disc:
   fixes f::"complex \<Rightarrow> complex"
   assumes "continuous_on (cball 0 1) f" "f holomorphic_on ball 0 1" "\<forall>z\<in>cball 0 1. z \<noteq> 0 \<longrightarrow> f z = 1/z"
   shows False
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: appears good!
  *)
-theorem exercise_3_22: undefined oops
+theorem exercise_3_22: 
+  fixes f::"complex \<Rightarrow> complex"
+  assumes "continuous_on (cball 0 1) f" "f holomorphic_on ball 0 1" 
+    "\<forall>z\<in>cball 0 1. z \<noteq> 0 \<longrightarrow> f z = 1/z"
+  shows False
+  
+  oops
 
 
 (*
 problem_number:4_4a
 natural language statement:
-Suppose $Q$ is a polynomial of degree $\geq 2$ with distinct roots, none lying on the real axis. Calculate $\int_{-\infty}^\infty \frac{e^{-2 \pi ix \xi}}{Q(x)} dx$, $\xi \in \mathbb{R}$, in terms of the roots of $Q$.
+Suppose $Q$ is a polynomial of degree $\geq 2$ with distinct roots, none lying on the real axis. 
+Calculate $\int_{-\infty}^\infty \frac{e^{-2 \pi ix \xi}}{Q(x)} dx$, $\xi \in \mathbb{R}$, in terms of the roots of $Q$.
+
 lean statement:
 
 codex statement:
@@ -460,7 +483,9 @@ theorem integral_of_polynomial_of_degree_geq_2_with_distinct_roots:
   shows "∫ {-\<infinity>..\<infinity>} (\<lambda>x. exp (-2 * \<pi> * complex_of_real x * ξ) / Q x) dx = 0"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
-theorem exercise_4_4a: undefined oops
+theorem exercise_4_4a: undefined 
+  text \<open>The problem is not that easy -- will come back.\<close>
+  oops
 
 
 (*
@@ -478,10 +503,15 @@ theorem sum_of_one_minus_abs_of_zeros_of_holomorphic_bounded_not_identically_zer
   fixes f::"complex \<Rightarrow> complex"
   assumes "\<forall>z. f holomorphic (at z)" "bounded (range f)" "\<forall>z. f z \<noteq> 0" "\<forall>n. \<exists>z. f z = 0 \<and> norm z < 1"
   shows "finite {z. f z = 0 \<and> norm z < 1}"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: Not quite right, but to prove the number of roots is finite is 
+  really not a bad attempt.
  *)
-theorem exercise_5_1: undefined oops
-
+theorem exercise_5_1: 
+  fixes f::"complex \<Rightarrow> complex" and zeros::"nat \<Rightarrow> complex"
+  assumes "f holomorphic_on (ball 0 1)" "bounded (range f)" "\<exists>z. f z \<noteq> 0" 
+    "range zeros = {z. norm z < 1 \<and> f z = 0}"
+  shows "summable zeros"
+  oops
 
 (*
 problem_number:5_3
@@ -496,7 +526,9 @@ theorem entire_of_sum_frac_power_factorial:
   shows "entire (\<lambda>z. (\<Sum>n. z^n / (fact n)^\<alpha>))"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
-theorem exercise_5_3: undefined oops
+theorem exercise_5_3: undefined 
+  text \<open>The order of an entire function has not been defined yet.\<close>
+  oops
 
 
 
