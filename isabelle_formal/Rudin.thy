@@ -1,5 +1,6 @@
 theory Rudin
- imports Main
+  imports Complex_Main (* comment by Angeliki: switched to Complex_Main and imported Analysis*)
+"HOL-Analysis.Abstract_Euclidean_Space"
 begin
 
 (*
@@ -16,12 +17,18 @@ end
 
 codex statement:
 theorem irrational_of_add_irrational_rational:
-  fixes r::real and x::real
+  fixes r :: real and x::real
   assumes "r \<noteq> 0" "irrational x"
   shows "irrational (r + x)"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
- *)
-theorem exercise_1_1a: undefined oops
+(*Our comment on the codex statement: <wrong: missed one assumption,so what it wants to 
+prove is false. Also used the def.
+ "irrational" which doesn't exist >*)
+*) 
+theorem exercise_1_1a: 
+   fixes r :: rat and x::real
+  assumes "r \<noteq> 0" " x \<notin> Rats"
+  shows " (r + x) \<notin> Rats "
+  oops
 
 
 (*
@@ -44,9 +51,15 @@ theorem irrational_of_rational_times_irrational:
   fixes r::real and x::real
   assumes "r \<noteq> 0" "irrational x" "rational r"
   shows "irrational (r*x)"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: < the mistake here is that it used the def "irrational" which
+doesn't exist in Isabelle>
  *)
-theorem exercise_1_1b: undefined oops
+theorem exercise_1_1b: 
+   fixes r :: rat and x::real
+  assumes "r \<noteq> 0" " x \<notin> Rats"
+  shows " r*x \<notin> Rats "
+  
+  oops
 
 
 (*
@@ -61,15 +74,18 @@ codex statement:
 theorem no_rational_square_eq_12:
   assumes "\<exists>x. x^2 = 12"
   shows "False"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: <it didn't include the rationality assumption; both
+the formalisation is wrong and the claim it presents is not true.>
  *)
-theorem exercise_1_2: undefined oops
+theorem exercise_1_2: assumes "\<exists> x \<in> Rats. x^2 = 12"
+  shows False oops
 
 
 (*
 problem_number:1_4
 natural language statement:
-Let $E$ be a nonempty subset of an ordered set; suppose $\alpha$ is a lower bound of $E$ and $\beta$ is an upper bound of $E$. Prove that $\alpha \leq \beta$.
+Let $E$ be a nonempty subset of an ordered set; suppose $\alpha$ is a lower bound of $E$ and 
+$\beta$ is an upper bound of $E$. Prove that $\alpha \leq \beta$.
 lean statement:
 theorem exercise_1_4
 (\<alpha> : Type* ) [partial_order \<alpha>]
@@ -100,15 +116,21 @@ theorem lower_bound_leq_upper_bound:
   fixes E::"'a::linorder set"
   assumes "E \<noteq> {}" "\<forall>x\<in>E. \<alpha> \<le> x" "\<forall>x\<in>E. x \<le> β"
   shows "\<alpha> \<le> β"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+  
+Our comment on the codex statement: <correct formalisation! I copy-paste it below.>
  *)
-theorem exercise_1_4: undefined oops
 
+theorem exercise_1_4: fixes E::"'a::linorder set"
+  assumes "E \<noteq> {}" "\<forall>x\<in>E. \<alpha> \<le> x" "\<forall>x\<in>E. x \<le> β"
+  shows "\<alpha> \<le> β"
+  oops
 
 (*
+
 problem_number:1_5
 natural language statement:
-Let $A$ be a nonempty set of real numbers which is bounded below. Let $-A$ be the set of all numbers $-x$, where $x \in A$. Prove that $\inf A=-\sup (-A)$.
+Let $A$ be a nonempty set of real numbers which is bounded below. Let $-A$ be the set of all 
+numbers $-x$, where $x \in A$. Prove that $\inf A=-\sup (-A)$.
 lean statement:
 theorem exercise_1_5
   (A minus_A : set \<real>) (hA : A.nonempty) (hA_bdd_below : bdd_below A)
@@ -120,15 +142,23 @@ theorem inf_of_neg_sup_of_neg:
   fixes A::"real set"
   assumes "bdd_below A" "A \<noteq> {}"
   shows "Inf A = - Sup (-A)"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
- *)
-theorem exercise_1_5: undefined oops
+Our comment on the codex statement: <  chosen notation is wrong: -A denotes
+the complement of A  >
+*) 
+
+theorem exercise_1_5:  fixes A::"real set" and minusA::"real set" 
+  assumes "bdd_below A" "A \<noteq> {}" and " minusA = {x. -x \<in> A}"
+  shows "Inf A = - Sup (minusA)"
+
+
+  oops
 
 
 (*
 problem_number:1_8
 natural language statement:
-Prove that no order can be defined in the complex field that turns it into an ordered field. Hint: $-1$ is a square.
+Prove that no order can be defined in the complex field that turns it into an ordered field. 
+Hint: $-1$ is a square.
 lean statement:
 theorem exercise_1_8
   : ¬ \<exists> (r : \<complex> \<rightarrow> \<complex> \<rightarrow> Prop), is_linear_order \<complex> r :=
@@ -136,30 +166,47 @@ theorem exercise_1_8
 codex statement:
 theorem no_order_in_complex_field:
   fixes z::complex
-  assumes "\<forall>x y. x \<le> y \<longrightarrow> x + z \<le> y + z" "\<forall>x y. x \<le> y \<longrightarrow> x * z \<le> y * z" "\<forall>x. x \<le> x" "\<forall>x y. x \<le> y \<longrightarrow> y \<le> x \<longrightarrow> x = y" "\<forall>x y z. x \<le> y \<longrightarrow> x + z \<le> y + z" "\<forall>x y. x \<le> y \<longrightarrow> x * y \<le> y * x" "\<forall>x y z. x \<le> y \<longrightarrow> x * (y + z) \<le> x * y + x * z" "\<exists>x. x < x"
+  assumes "\<forall>x y. x \<le> y \<longrightarrow> x + z \<le> y + z" 
+"\<forall>x y. x \<le> y \<longrightarrow> x * z \<le> y * z" "\<forall>x. x \<le> x" 
+"\<forall>x y. x \<le> y \<longrightarrow> y \<le> x \<longrightarrow> x = y" 
+"\<forall>x y z. x \<le> y \<longrightarrow> x + z \<le> y + z" "\<forall>x y. x \<le> y \<longrightarrow> x * y \<le> y * x" 
+"\<forall>x y z. x \<le> y \<longrightarrow> x * (y + z) \<le> x * y + x * z" "\<exists>x. x < x"
   shows False
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
- *)
-theorem exercise_1_8: undefined oops
+Our comment on the codex statement: < overall wrong>
+
+*)
+
+theorem exercise_1_8:
+  fixes C:: "complex set"
+  shows "\<not> (\<exists> r. linear_order_on C r)" 
+ 
+  oops
 
 
 (*
-problem_number:1_8
+problem_number:1_17
 natural language statement:
-Prove that $|\mathbf{x}+\mathbf{y}|^{2}+|\mathbf{x}-\mathbf{y}|^{2}=2|\mathbf{x}|^{2}+2|\mathbf{y}|^{2}$ if $\mathbf{x} \in R^{k}$ and $\mathbf{y} \in R^{k}$.
+Prove that $|\mathbf{x}+\mathbf{y}|^{2}+|\mathbf{x}-\mathbf{y}|^{2}=2|\mathbf{x}|^{2}+2|\mathbf{y}|^{2}$ 
+if $\mathbf{x} \in R^{k}$ and $\mathbf{y} \in R^{k}$.
 lean statement:
-theorem exercise_1_8
-  : ¬ \<exists> (r : \<complex> \<rightarrow> \<complex> \<rightarrow> Prop), is_linear_order \<complex> r :=
-
+exercise_1_17
+(n : ℕ)
+(x y : euclidean_space ℝ (fin n)) -- R^n
+: ∥x + y∥^2 + ∥x - y∥^2 = 2*∥x∥^2 + 2*∥y∥^2 :
 codex statement:
 theorem sum_add_square_sub_square_eq_sum_square:
+  fixes x y::"'a::euclidean_space" 
+  shows "norm (x+y)^2 + norm (x - y) ^ 2 = 2 * (norm x)^2 + 2* (norm y)^2"
+
+
+Our comment on the codex statement: < correct,I copy-paste it below >
+ *)
+
+theorem exercise_1_17:
   fixes x y::"'a::euclidean_space"
   shows "norm (x+y)^2 + norm (x - y) ^ 2 = 2 * (norm x)^2 + 2* (norm y)^2"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
- *)
-theorem exercise_1_8: undefined oops
 
-
+  oops
 (*
 problem_number:1_14
 natural language statement:
@@ -174,9 +221,16 @@ theorem sum_square_of_sum_sub_of_abs_eq_one:
   fixes z::complex
   assumes "norm z = 1"
   shows "norm (1 + z)^2 + norm (1 - z)^2 = 4"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: <Unsure how to compare: the natural language version says
+"compute" without giving the answer, both the formalised and codex-autoformalised versions
+give the answer and ask for proving what it is. The extra hint "that is, such that $z \bar{z}=1$" did not need to
+be formalised and wasn't autoformalised either. The autoformalisation is correct, I copy-paste it below. >
  *)
-theorem exercise_1_14: undefined oops
+theorem exercise_1_14: 
+ fixes z::complex
+  assumes "norm z = 1"
+  shows "norm (1 + z)^2 + norm (1 - z)^2 = 4"  
+  oops
 
 
 (*
@@ -195,9 +249,15 @@ theorem exists_nonzero_orthogonal_vector:
   fixes x::"'a::euclidean_space"
   assumes "k\<ge>2"
   shows "\<exists>y. y \<noteq> 0 \<and> x ⋅ y = 0"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
- *)
-theorem exercise_1_18a: undefined oops
+Our comment on the codex statement: <  missed the assumption that k is the dimension
+and had wrong inner product symbol>
+ *)                        
+theorem exercise_1_18a:
+  fixes x::"'a::euclidean_space"
+  assumes "2 \<ge> DIM('a::euclidean_space)"
+  shows "\<exists>y. y \<noteq> 0 \<and> inner  x  y = 0" 
+  
+  oops
 
 
 (*
@@ -205,21 +265,34 @@ problem_number:1_25
 natural language statement:
 25: Prove that every compact metric space $K$ has a countable base.
 lean statement:
-
+MISSING
 codex statement:
+
 theorem compact_metric_space_has_countable_base:
   fixes K::"'a::metric_space set"
   assumes "compact K"
   shows "countable (UNIV::'a set)"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
- *)
-theorem exercise_1_25: undefined oops
 
+
+Our comment on the codex statement: <wrong conclusion>
+
+*)
+theorem exercise_1_25:
+ 
+  fixes K::"'a::metric_space set"
+  assumes "compact K" 
+  shows 
+ "\<exists> B. (countable B) \<and> (topological_basis B)
+ \<and> (\<forall> b\<in> B. b \<subseteq> K)"
+  oops
+
+(* TODO CHECK THE ABOVE *)
 
 (*
 problem_number:1_27a
 natural language statement:
-27a: Suppose $E\subset\mathbb{R}^k$ is uncountable, and let $P$ be the set of condensation points of $E$. Prove that $P$ is perfect.
+27a: Suppose $E\subset\mathbb{R}^k$ is uncountable, and let $P$ be the set 
+of condensation points of $E$. Prove that $P$ is perfect.
 lean statement:
 
 codex statement:
@@ -227,58 +300,76 @@ theorem perfect_of_uncountable_condensation_points:
   fixes E::"'a::euclidean_space set"
   assumes "uncountable E" "P = condensation_points E"
   shows "perfect P"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
- *)
-theorem exercise_1_27a: undefined oops
+Our comment on the codex statement: <makes up definitions that don't exist in Isabelle,
+(perfect for perfect set, condensation_points). >
+*)
 
+theorem exercise_1_27a: undefined oops
+(* TODO *)
 
 (*
 problem_number:1_27b
 natural language statement:
-27b: Suppose $E\subset\mathbb{R}^k$ is uncountable, and let $P$ be the set of condensation points of $E$. Prove that at most countably many point of $E$ are not in $P$.
+27b: Suppose $E\subset\mathbb{R}^k$ is uncountable, and let $P$ be the set of condensation points of $E$. 
+Prove that at most countably many point of $E$ are not in $P$.
 lean statement:
-
+MISSING
 codex statement:
 theorem countable_of_uncountable_set_of_condensation_points:
   fixes E::"'a::euclidean_space set"
   assumes "uncountable E"
   shows "countable {x\<in>E. x\<notin>condensation_points E}"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: <  uses nonexistent
+Isabelle definitions (condensation_points) otherwise correct
+>
  *)
 theorem exercise_1_27b: undefined oops
-
+(* TODO *)
 
 (*
 problem_number:1_28
 natural language statement:
-Prove that every closed set in a separable metric space is the union of a (possibly empty) perfect set and a set which is at most countable.
+Prove that every closed set in a separable metric space is the union of a 
+(possibly empty) perfect set and a set which is at most countable.
 lean statement:
-
+MISSING
 codex statement:
 theorem closed_set_union_perfect_set_countable_set:
   fixes X::"'a::metric_space set"
   assumes "separable X" "closed X"
   shows "\<exists>P C. perfect P \<and> countable C \<and> X = P ∪ C"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
- *)
-theorem exercise_1_28: undefined oops
+Our comment on the codex statement: <uses nonexistent Isabelle definitions (perfect for perfect set, separable)
+otherwise correct> *)
 
+theorem exercise_1_28:
+
+  
+  undefined
+  oops
+
+
+
+(* TODO *)
 
 (*
 problem_number:1_29
 natural language statement:
 Prove that every open set in $\mathbb{R}$ is the union of an at most countable collection of disjoint segments.
 lean statement:
-
+MISSING
 codex statement:
 theorem open_set_union_of_countable_disjoint_segments:
   fixes A::"real set"
   assumes "open A"
   shows "\<exists>f. countable (f ` (UNIV::nat set)) \<and> pairwise disjoint (f ` (UNIV::nat set)) \<and> (⋃i\<in>UNIV. f i) = A"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: <the Isabelle definition here should be disjoint instead of
+pairwise disjoint. Also other mistakes wrt the statement  >
  *)
-theorem exercise_1_29: undefined oops
-
+theorem exercise_1_29: 
+  
+  undefined
+  oops
+(* TODO*)
 
 (*
 problem_number:2_19a
@@ -294,15 +385,23 @@ theorem separated_of_disjoint_closed:
   fixes A B::"'a::metric_space set"
   assumes "closed A" "closed B" "A ∩ B = {}"
   shows "separated A B"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
- *)
-theorem exercise_2_19a: undefined oops
+Our comment on the codex statement: < Almost correct: used nonexistent Isabelle definition
+(separated)> *)
+theorem exercise_2_19a:
+  
+   fixes  A B::"'a::metric_space set"
+   assumes "closed A" "closed B" "A ∩ B = {}"  "A ⊆ topspace X"
+   "B ⊆ topspace X"
+  shows "separatedin X A B"
+  
+  oops
 
 
 (*
 problem_number:2_24
 natural language statement:
-Let $X$ be a metric space in which every infinite subset has a limit point. Prove that $X$ is separable. Hint: Fix $\delta>0$, and pick $x_{1} \in X$. Having chosen $x_{1}, \ldots, x_{J} \in X$,
+Let $X$ be a metric space in which every infinite subset has a limit point.
+ Prove that $X$ is separable. Hint: Fix $\delta>0$, and pick $x_{1} \in X$. Having chosen $x_{1}, \ldots, x_{J} \in X$,
 lean statement:
 theorem exercise_2_24 {X : Type*} [metric_space X]
   (hX : \<forall> (A : set X), infinite A \<rightarrow> \<exists> (x : X), x \<in> closure A) :
@@ -313,16 +412,25 @@ theorem separable_of_infinite_subset_has_limit_point:
   fixes X::"'a::metric_space set"
   assumes "\<forall>A. infinite A \<longrightarrow> \<exists>x\<in>A. \<forall>ε>0. \<exists>y\<in>A. y\<noteq>x \<and> dist x y < ε"
   shows "separable X"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: <uses nonexistent Isabelle definition (separable), 
+syntax error due to not including expression in parenthesis, missed  that
+A \<subseteq> X in assumption>
  *)
-theorem exercise_2_24: undefined oops
+theorem exercise_2_24:
+  
+   fixes X::"'a::metric_space set"
+   assumes "\<forall>A \<subseteq> X. infinite A \<longrightarrow>
+( \<exists>x\<in>A. \<forall>ε>0. \<exists>y\<in>A. y\<noteq>x \<and> dist x y < ε)"
+   obtains T where "countable T" "T ⊆ X" "X ⊆ closure T"
+  
+  oops
 
 
 (*
 problem_number:3_1a
 natural language statement:
 Prove that convergence of $\left\{s_{n}\right\}$ implies convergence of $\left\{\left|s_{n}\right|\right\}$.
-lean statement:
+lean statement: 
 theorem exercise_3_1a
   (f : \<nat> \<rightarrow> \<real>)
   (h : \<exists> (a : \<real>), tendsto (\<lambda> (n : \<nat>), f n) at_top (𝓝 a))
@@ -338,15 +446,20 @@ theorem convergent_of_convergent_abs:
   fixes s::"nat \<Rightarrow> 'a::real_normed_vector"
   assumes "convergent s"
   shows "convergent (\<lambda>n. norm (s n))"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: < correct, copy-pasted below>
  *)
-theorem exercise_3_1a: undefined oops
+theorem exercise_3_1a:
+  fixes s::"nat \<Rightarrow> 'a::real_normed_vector"
+  assumes "convergent s"
+  shows "convergent (\<lambda>n. norm (s n))"
+oops
 
 
 (*
 problem_number:3_3
 natural language statement:
-If $s_{1}=\sqrt{2}$, and $s_{n+1}=\sqrt{2+\sqrt{s_{n}}} \quad(n=1,2,3, \ldots),$ prove that $\left\{s_{n}\right\}$ converges, and that $s_{n}<2$ for $n=1,2,3, \ldots$.
+If $s_{1}=\sqrt{2}$, and $s_{n+1}=\sqrt{2+\sqrt{s_{n}}} \quad(n=1,2,3, \ldots),$ 
+prove that $\left\{s_{n}\right\}$ converges, and that $s_{n}<2$ for $n=1,2,3, \ldots$.
 lean statement:
 theorem exercise_3_3
   : \<exists> (x : \<real>), tendsto f at_top (𝓝 x) \<and> \<forall> n, f n < 2 :=
@@ -1057,9 +1170,10 @@ theorem exercise_6_4: undefined oops
 (*
 problem_number:6_6
 natural language statement:
-Let $P$ be the Cantor set. Let $f$ be a bounded real function on $[0,1]$ which is continuous at every point outside $P$. Prove that $f \in \mathcal{R}$ on $[0,1]$.
+Let $P$ be the Cantor set. Let $f$ be a bounded real function on $[0,1]$ 
+which is continuous at every point outside $P$. Prove that $f \in \mathcal{R}$ on $[0,1]$.
 lean statement:
-
+MISSING
 codex statement:
 theorem R_of_bounded_continuous_at_outside_Cantor:
   fixes f::"real \<Rightarrow> real"
