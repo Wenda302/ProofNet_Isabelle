@@ -61,11 +61,11 @@ problem_number:1_6
 natural language statement:
 Give an example of a nonempty subset $U$ of $\mathbf{R}^2$ such that $U$ is closed under addition and under taking additive inverses (meaning $-u \in U$ whenever $u \in U$), but $U$ is not a subspace of $\mathbf{R}^2$.
 lean statement:
-theorem exercise_1_6 : \<exists> U : set (\<real> × \<real>),
-  (U \<noteq> ∅) \<and>
-  (\<forall> (u v : \<real> × \<real>), u \<in> U \<and> v \<in> U \<rightarrow> u + v \<in> U) \<and>
-  (\<forall> (u : \<real> × \<real>), u \<in> U \<rightarrow> -u \<in> U) \<and>
-  (\<forall> U' : submodule \<real> (\<real> × \<real>), U \<noteq> ↑U') :=
+theorem exercise_1_6 : \<exists> U : set (\<real> \<times> \<real>),
+  (U \<noteq> \<emptyset>) \<and>
+  (\<forall> (u v : \<real> \<times> \<real>), u \<in> U \<and> v \<in> U \<rightarrow> u + v \<in> U) \<and>
+  (\<forall> (u : \<real> \<times> \<real>), u \<in> U \<rightarrow> -u \<in> U) \<and>
+  (\<forall> U' : submodule \<real> (\<real> \<times> \<real>), U \<noteq> ↑U') :=
 
 codex statement:
 theorem entire_of_sum_frac_power_factorial:
@@ -82,10 +82,10 @@ problem_number:1_7
 natural language statement:
 Give an example of a nonempty subset $U$ of $\mathbf{R}^2$ such that $U$ is closed under scalar multiplication, but $U$ is not a subspace of $\mathbf{R}^2$.
 lean statement:
-theorem exercise_1_7 : \<exists> U : set (\<real> × \<real>),
-  (U \<noteq> ∅) \<and>
-  (\<forall> (c : \<real>) (u : \<real> × \<real>), u \<in> U \<rightarrow> c \<bullet> u \<in> U) \<and>
-  (\<forall> U' : submodule \<real> (\<real> × \<real>), U \<noteq> ↑U') :=
+theorem exercise_1_7 : \<exists> U : set (\<real> \<times> \<real>),
+  (U \<noteq> \<emptyset>) \<and>
+  (\<forall> (c : \<real>) (u : \<real> \<times> \<real>), u \<in> U \<rightarrow> c \<bullet> u \<in> U) \<and>
+  (\<forall> U' : submodule \<real> (\<real> \<times> \<real>), U \<noteq> ↑U') :=
 
 codex statement:
 theorem entire_of_sum_frac_power_factorial:
@@ -745,14 +745,14 @@ lean statement:
 theorem exercise_7_14 {𝕜 V : Type*} [is_R_or_C 𝕜]
   [inner_product_space 𝕜 V] [finite_dimensional 𝕜 V]
   {T : End 𝕜 V} (hT : is_self_adjoint T)
-  {l : 𝕜} {ε : \<real>} (he : ε > 0) : \<exists> v : V, ∥v∥ = 1 \<and> ∥T v - l \<bullet> v∥ < ε \<rightarrow>
-  \<exists> l' : T.eigenvalues, ∥l - l'∥ < ε :=
+  {l : 𝕜} {\<epsilon> : \<real>} (he : \<epsilon> > 0) : \<exists> v : V, ∥v∥ = 1 \<and> ∥T v - l \<bullet> v∥ < \<epsilon> \<rightarrow>
+  \<exists> l' : T.eigenvalues, ∥l - l'∥ < \<epsilon> :=
 
 codex statement:
 theorem exists_eigenvalue_of_self_adjoint_operator:
   fixes T::"'a::euclidean_space \<Rightarrow> 'a"
-  assumes "self_adjoint T" "\<exists>v. norm v = 1 \<and> norm (T v - \<lambda> v) < ε"
-  shows "\<exists>\<lambda>'. eigenvalue T \<lambda>' \<and> abs (\<lambda> - \<lambda>') < ε"
+  assumes "self_adjoint T" "\<exists>v. norm v = 1 \<and> norm (T v - \<lambda> v) < \<epsilon>"
+  shows "\<exists>\<lambda>'. eigenvalue T \<lambda>' \<and> abs (\<lambda> - \<lambda>') < \<epsilon>"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_7_14: undefined oops
