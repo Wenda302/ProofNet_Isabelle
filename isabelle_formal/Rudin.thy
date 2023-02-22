@@ -472,15 +472,23 @@ theorem sqrt_2_lt_2_of_sqrt_2_plus_sqrt_s_n:
   fixes s::"nat \<Rightarrow> real"
   assumes "s 1 = sqrt 2" "\<forall>n. s (n+1) = sqrt (2 + sqrt (s n))"
   shows "\<forall>n. s n < 2"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: < missed one of the conclusions to be shown, otherwise ok>
  *)
-theorem exercise_3_3: undefined oops
+theorem exercise_3_3:
+  
+   fixes s::"nat \<Rightarrow> real"
+  assumes "s 1 = sqrt 2" "\<forall>n. s (n+1) = sqrt (2 + sqrt (s n))"
+  shows "eventually (λn. s n > 0) sequentially" and  "\<forall>n. s n < 2"
+  oops
 
 
 (*
 problem_number:3_5
 natural language statement:
-For any two real sequences $\left\{a_{n}\right\},\left\{b_{n}\right\}$, prove that $\limsup _{n \rightarrow \infty}\left(a_{n}+b_{n}\right) \leq \limsup _{n \rightarrow \infty} a_{n}+\limsup _{n \rightarrow \infty} b_{n},$ provided the sum on the right is not of the form $\infty-\infty$.
+For any two real sequences $\left\{a_{n}\right\},\left\{b_{n}\right\}$, 
+prove that $\limsup _{n \rightarrow \infty}\left(a_{n}+b_{n}\right) \leq 
+\limsup _{n \rightarrow \infty} a_{n}+\limsup _{n \rightarrow \infty} b_{n},$ 
+provided the sum on the right is not of the form $\infty-\infty$.
 lean statement:
 theorem exercise_3_5 -- TODO fix
   (a b : \<nat> \<rightarrow> \<real>)
@@ -492,10 +500,10 @@ theorem limsup_sum_leq_sum_limsup:
   fixes a b::"nat \<Rightarrow> real"
   assumes "\<forall>n. a n \<le> b n"
   shows "limsup (\<lambda>n. a n + b n) \<le> limsup a + limsup b"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: < YOU CAN LEAVE YOUR COMMENT HERE >
  *)
-theorem exercise_3_5: undefined oops
-
+theorem exercise_3_5: 
+undefined oops 
 
 (*
 problem_number:3_7
@@ -607,7 +615,9 @@ theorem exercise_3_21: undefined oops
 (*
 problem_number:3_22
 natural language statement:
-Suppose $X$ is a nonempty complete metric space, and $\left\{G_{n}\right\}$ is a sequence of dense open sets of $X$. Prove Baire's theorem, namely, that $\bigcap_{1}^{\infty} G_{n}$ is not empty.
+Suppose $X$ is a nonempty complete metric space, 
+and $\left\{G_{n}\right\}$ is a sequence of dense open sets of $X$. 
+Prove Baire's theorem, namely, that $\bigcap_{1}^{\infty} G_{n}$ is not empty.
 lean statement:
 theorem exercise_3_22 (X : Type* ) [metric_space X] [complete_space X]
   (G : \<nat> \<rightarrow> set X) (hG : \<forall> n, is_open (G n) \<and> dense (G n)) :
@@ -618,15 +628,16 @@ theorem baire_theorem:
   fixes X::"'a::metric_space set" and G::"'a set set"
   assumes "complete_space X" "\<forall>n. openin (subtopology X UNIV) (G n)" "\<forall>n. dense_in (subtopology X UNIV) (G n)"
   shows "\<exists>x. \<forall>n. x\<in>G n"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE >
  *)
-theorem exercise_3_22: undefined oops
-
+theorem exercise_3_22: 
+ undefined oops
 
 (*
 problem_number:4_2a
 natural language statement:
-If $f$ is a continuous mapping of a metric space $X$ into a metric space $Y$, prove that $f(\overline{E}) \subset \overline{f(E)}$ for every set $E \subset X$. ($\overline{E}$ denotes the closure of $E$).
+If $f$ is a continuous mapping of a metric space $X$ into a metric space $Y$, prove that 
+$f(\overline{E}) \subset \overline{f(E)}$ for every set $E \subset X$. ($\overline{E}$ denotes the closure of $E$).
 lean statement:
 theorem exercise_4_2a
   {\<alpha> : Type} [metric_space \<alpha>]
@@ -651,15 +662,21 @@ theorem closure_of_continuous_image_subset_continuous_image_closure:
   fixes f::"'a::metric_space \<Rightarrow> 'b::metric_space" and E::"'a set"
   assumes "continuous_on UNIV f"
   shows "closure (f ` E) \<subseteq> f ` closure E"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: <shows the opposite (wrong) inclusion. >
  *)
-theorem exercise_4_2a: undefined oops
+theorem exercise_4_2a:
+  
+  fixes f::"'a::metric_space \<Rightarrow> 'b::metric_space" and E::"'a set"
+  assumes "continuous_on UNIV f"
+  shows " f ` ( closure E) \<subseteq>  closure (f ` E)"  
+  oops
 
 
 (*
 problem_number:4_3
 natural language statement:
-Let $f$ be a continuous real function on a metric space $X$. Let $Z(f)$ (the zero set of $f$ ) be the set of all $p \in X$ at which $f(p)=0$. Prove that $Z(f)$ is closed.
+Let $f$ be a continuous real function on a metric space $X$. Let $Z(f)$ (the zero set of $f$ ) 
+be the set of all $p \in X$ at which $f(p)=0$. Prove that $Z(f)$ is closed.
 lean statement:
 theorem exercise_4_3
   {\<alpha> : Type} [metric_space \<alpha>]
