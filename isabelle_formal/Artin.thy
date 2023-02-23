@@ -18,7 +18,11 @@ theorem entire_function_of_order_one_over_alpha:
   shows "entire_function (\<lambda>z. (\<Sum>n. z^n / (fact n)^\<alpha>))"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
-theorem exercise_2_2_9: undefined oops
+theorem (in group) exercise_2_2_9: 
+  assumes "a \<in> carrier G" "b \<in> carrier G" "a\<noteq>b"
+  defines "H \<equiv> generate G {a,b}"
+    shows "comm_group (G\<lparr>carrier := H\<rparr>)"
+oops
 
 
 (*
@@ -34,7 +38,11 @@ theorem entire_function_of_order_one_over_alpha:
   shows "entire_function (\<lambda>z. (\<Sum>n. z^n / (fact n)^\<alpha>))"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
-theorem exercise_2_3_1: undefined oops
+theorem exercise_2_3_1: 
+  defines "RA_group \<equiv> \<lparr>carrier = UNIV, monoid.mult = (+), one = (0::real)\<rparr>"
+  defines "RM_group \<equiv> \<lparr>carrier = {0<..}, monoid.mult = (*), one = (1::real)\<rparr>"
+  shows "RA_group \<cong> RM_group"
+oops
 
 
 (*
@@ -52,7 +60,10 @@ theorem entire_function_of_order_one_over_alpha:
   shows "entire_function (\<lambda>z. (\<Sum>n. z^n / (fact n)^\<alpha>))"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
-theorem exercise_2_3_2: undefined oops
+theorem (in group) exercise_2_3_2: 
+    assumes "a \<in> carrier G" "b \<in> carrier G" 
+    shows "\<exists>x \<in> carrier G. a \<otimes> b = inv x \<otimes> b \<otimes> a \<otimes> x"
+  using assms by force
 
 
 (*
@@ -71,6 +82,9 @@ theorem entire_function_of_order_one_over_alpha:
   shows "entire_function (\<lambda>z. (\<Sum>n. z^n / (fact n)^\<alpha>))"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
+
+definition (in group) "centre \<equiv> {z \<in> carrier G. \<forall>x \<in> carrier G. z \<otimes> x = x \<otimes> z}"
+
 theorem exercise_2_4_19: undefined oops
 
 
