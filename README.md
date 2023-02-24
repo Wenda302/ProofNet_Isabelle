@@ -64,7 +64,7 @@ PS: we may sometimes need to change the 'imports' part of the target theory file
 - [x] [Ireland-Rosen.thy](isabelle_formal/Ireland-Rosen.thy)  
 - [x] [Munkres.thy](isabelle_formal/Munkres.thy)  
 - [x] [Pugh.thy](isabelle_formal/Pugh.thy)  
-- [ ] [Putnam.thy](isabelle_formal/Putnam.thy) in progress by Wenda 
+- [x] [Putnam.thy](isabelle_formal/Putnam.thy)
 - [ ] [Rudin.thy](isabelle_formal/Rudin.thy): in progress by Angeliki
 - [x] [Shakarchi.thy](isabelle_formal/Shakarchi.thy)
 
