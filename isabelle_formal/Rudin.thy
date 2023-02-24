@@ -1,5 +1,5 @@
 theory Rudin
-  imports Complex_Main (* comment by Angeliki: switched to Complex_Main and imported Analysis*)
+  imports Complex_Main (* comment by Angeliki: switched to Complex_Main and imported some Analysis*)
 "HOL-Analysis.Abstract_Euclidean_Space"
 begin
 
@@ -478,7 +478,7 @@ theorem exercise_3_3:
   
    fixes s::"nat \<Rightarrow> real"
   assumes "s 1 = sqrt 2" "\<forall>n. s (n+1) = sqrt (2 + sqrt (s n))"
-  shows "eventually (λn. s n > 0) sequentially" and  "\<forall>n. s n < 2"
+  shows "convergent s " and  "\<forall>n. s n < 2"
   oops
 
 
@@ -520,15 +520,21 @@ theorem sum_sqrt_div_n_converges_of_sum_converges:
   fixes a::"nat \<Rightarrow> real"
   assumes "summable a" "\<forall>n. a n \<ge> 0"
   shows "summable (\<lambda>n. sqrt (a n) / n)"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: <correct, I copy-paste it below>
  *)
-theorem exercise_3_7: undefined oops
+theorem exercise_3_7: 
+  
+  fixes a::"nat \<Rightarrow> real"
+  assumes "summable a" "\<forall>n. a n \<ge> 0"
+  shows "summable (\<lambda>n. sqrt (a n) / n)" 
+  oops
 
 
 (*
 problem_number:3_8
 natural language statement:
-If $\Sigma a_{n}$ converges, and if $\left\{b_{n}\right\}$ is monotonic and bounded, prove that $\Sigma a_{n} b_{n}$ converges.
+If $\Sigma a_{n}$ converges, and if $\left\{b_{n}\right\}$ 
+is monotonic and bounded, prove that $\Sigma a_{n} b_{n}$ converges.
 lean statement:
 theorem exercise_3_8
   (a b : \<nat> \<rightarrow> \<real>)
@@ -542,16 +548,20 @@ theorem convergent_of_convergent_and_monotonic_bounded:
   fixes a::"nat \<Rightarrow> real" and b::"nat \<Rightarrow> real"
   assumes "convergent a" "bounded (range b)" "mono b"
   shows "convergent (\<lambda>n. a n * b n)"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: <correct formalisation, I copy-paste it below.>
  *)
-theorem exercise_3_8: undefined oops
+theorem exercise_3_8: 
+   fixes a::"nat \<Rightarrow> real" and b::"nat \<Rightarrow> real"
+  assumes "convergent a" "bounded (range b)" "mono b"
+  shows "convergent (\<lambda>n. a n * b n)"
+  oops
 
 
 (*
 problem_number:3_13
 natural language statement:
 Prove that the Cauchy product of two absolutely convergent series converges absolutely.
-lean statement:
+lean statement: 
 theorem exercise_3_13
   (a b : \<nat> \<rightarrow> \<real>)
   (ha : \<exists> y, (tendsto (\<lambda> n, (\<Sum> i in (finset.range n), |a i|)) at_top (𝓝 y)))
@@ -564,15 +574,23 @@ theorem abs_convergent_of_cauchy_product:
   fixes f g::"nat \<Rightarrow> 'a::real_normed_algebra_1"
   assumes "summable (\<lambda>n. abs (f n))" "summable (\<lambda>n. abs (g n))"
   shows "summable (\<lambda>n. abs (\<Sum>i<n. f i * g (n - i)))"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
- *)
-theorem exercise_3_13: undefined oops
+Our comment on the codex statement: < mistake in type: should be real instead of real_normed_algebra_1.
+Otherwise impressive> *)
+
+theorem exercise_3_13:
+   fixes f g::"nat \<Rightarrow> real"
+  assumes "summable (\<lambda>n. abs (f n))" "summable (\<lambda>n. abs (g n))"
+  shows "summable (\<lambda>n. abs (\<Sum>i<n. f i * g (n - i)))"
+
+  oops
 
 
 (*
 problem_number:3_20
 natural language statement:
-Suppose $\left\{p_{n}\right\}$ is a Cauchy sequence in a metric space $X$, and some sequence $\left\{p_{n l}\right\}$ converges to a point $p \in X$. Prove that the full sequence $\left\{p_{n}\right\}$ converges to $p$.
+Suppose $\left\{p_{n}\right\}$ is a Cauchy sequence in a metric space $X$, 
+and some sequence $\left\{p_{n l}\right\}$ converges to a point $p \in X$.
+ Prove that the full sequence $\left\{p_{n}\right\}$ converges to $p$.
 lean statement:
 theorem exercise_3_20 {X : Type*} [metric_space X]
   (p : \<nat> \<rightarrow> X) (l : \<nat>) (r : X)
@@ -585,15 +603,24 @@ theorem convergent_of_subseq_convergent:
   fixes X::"'a::metric_space" and p::"'a" and pn::"nat \<Rightarrow> 'a"
   assumes "Cauchy pn" "convergent (\<lambda>n. pn (n l))" "\<forall>n. pn (n l) \<longrightarrow> p"
   shows "pn \<longrightarrow> p"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: < close but wrong>
  *)
-theorem exercise_3_20: undefined oops
+
+theorem exercise_3_20:
+  fixes X::"'a::metric_space" and p::"'a" and pn::"nat \<Rightarrow> 'a"
+  assumes "Cauchy pn" and " ((λl. pn(n l)) ⤏ p) sequentially"
+shows " ((λn. pn(n )) ⤏ p) sequentially"
+  
+  oops
 
 
 (*
 problem_number:3_21
 natural language statement:
-If $\left\{E_{n}\right\}$ is a sequence of closed nonempty and bounded sets in a complete metric space $X$, if $E_{n} \supset E_{n+1}$, and if $\lim _{n \rightarrow \infty} \operatorname{diam} E_{n}=0,$ then $\bigcap_{1}^{\infty} E_{n}$ consists of exactly one point.
+If $\left\{E_{n}\right\}$ is a sequence of closed nonempty and bounded sets in a complete metric 
+space $X$, if $E_{n} \supset E_{n+1}$, 
+and if $\lim _{n \rightarrow \infty} \operatorname{diam} E_{n}=0,$ 
+then $\bigcap_{1}^{\infty} E_{n}$ consists of exactly one point.
 lean statement:
 theorem exercise_3_21
   {X : Type*} [metric_space X] [complete_space X]
@@ -605,11 +632,23 @@ theorem exercise_3_21
 codex statement:
 theorem singleton_of_closed_nonempty_bounded_diam_zero:
   fixes X::"'a::metric_space set"
-  assumes "\<forall>n. closed (E n)" "\<forall>n. E n \<noteq> {}" "\<forall>n. bounded (E n)" "\<forall>n. E n \<subseteq> E (n+1)" "diameter (E n) \<longrightarrow> 0"
+  assumes "\<forall>n. closed (E n)" "\<forall>n. E n \<noteq> {}" "\<forall>n. bounded (E n)" 
+"\<forall>n. E n \<subseteq> E (n+1)" "diameter (E n) \<longrightarrow> 0"
   shows "\<exists>x. (∩n. E n) = {x}"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: <several mistakes: symbols, misses assumptions, uses
+subset instead of superset>
  *)
-theorem exercise_3_21: undefined oops
+theorem exercise_3_21:
+
+fixes X::"'a::metric_space set" and E:: " nat \<Rightarrow> 'a set"
+
+assumes "\<forall>n. closed (E n)"  "complete X" "\<forall>n. E n \<noteq> {}" 
+"\<forall>n. bounded (E n)" 
+"\<forall>n. E n \<supseteq> E (n+1)" "((λn. diameter (E n)) ⤏ p) sequentially"
+shows  (* notation for infinite set intersection? *)
+
+ undefined (* TODO*)
+  oops
 
 
 (*
@@ -626,7 +665,8 @@ theorem exercise_3_22 (X : Type* ) [metric_space X] [complete_space X]
 codex statement:
 theorem baire_theorem:
   fixes X::"'a::metric_space set" and G::"'a set set"
-  assumes "complete_space X" "\<forall>n. openin (subtopology X UNIV) (G n)" "\<forall>n. dense_in (subtopology X UNIV) (G n)"
+  assumes "complete_space X" "\<forall>n. openin (subtopology X UNIV) (G n)" "
+\<forall>n. dense_in (subtopology X UNIV) (G n)"
   shows "\<exists>x. \<forall>n. x\<in>G n"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE >
  *)
@@ -693,15 +733,22 @@ theorem zero_set_of_continuous_is_closed:
   fixes f::"'a::metric_space \<Rightarrow> real"
   assumes "continuous_on UNIV f"
   shows "closed {x\<in>UNIV. f x = 0}"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: <correct, I copy-paste it below>
  *)
-theorem exercise_4_3: undefined oops
+theorem exercise_4_3:
+  
+  fixes f::"'a::metric_space \<Rightarrow> real"
+  assumes "continuous_on UNIV f"
+  shows "closed {x\<in>UNIV. f x = 0}"
+  
+  oops
 
 
 (*
 problem_number:4_4a
 natural language statement:
-Let $f$ and $g$ be continuous mappings of a metric space $X$ into a metric space $Y$, and let $E$ be a dense subset of $X$. Prove that $f(E)$ is dense in $f(X)$.
+Let $f$ and $g$ be continuous mappings of a metric space $X$ into a metric space $Y$, 
+and let $E$ be a dense subset of $X$. Prove that $f(E)$ is dense in $f(X)$.
 lean statement:
 theorem exercise_4_4a
   {\<alpha> : Type} [metric_space \<alpha>]
@@ -718,18 +765,29 @@ end
 
 codex statement:
 theorem dense_of_continuous_dense:
-  fixes f::"'a::metric_space \<Rightarrow> 'b::metric_space" and g::"'a::metric_space \<Rightarrow> 'b::metric_space"
+  fixes f::"'a::metric_space \<Rightarrow> 'b::metric_space" and 
+g::"'a::metric_space \<Rightarrow> 'b::metric_space"
   assumes "continuous_on UNIV f" "continuous_on UNIV g" "dense (f ` UNIV)" "dense (g ` UNIV)"
   shows "dense ((f ∘ g) ` UNIV)"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: <wrong: missing assumptions, wrong statement to show,
+uses nonexistent definition>
  *)
-theorem exercise_4_4a: undefined oops
+theorem exercise_4_4a: 
+  
+  fixes f::"'a::metric_space \<Rightarrow> 'b::metric_space" 
+and g::"'a::metric_space \<Rightarrow> 'b::metric_space" and E::"'a set"
+assumes " closure E = UNIV"
+"continuous_on UNIV f" "continuous_on UNIV g"
+shows "closure( f ` E) = ( f ` UNIV)  "
+  
+  oops
 
 
 (*
 problem_number:4_5a
 natural language statement:
-If $f$ is a real continuous function defined on a closed set $E \subset R^{1}$, prove that there exist continuous real functions $g$ on $R^{1}$ such that $g(x)=f(x)$ for all $x \in E$.
+If $f$ is a real continuous function defined on a closed set $E \subset R^{1}$, 
+prove that there exist continuous real functions $g$ on $R^{1}$ such that $g(x)=f(x)$ for all $x \in E$.
 lean statement:
 theorem exercise_4_5a
   (f : \<real> \<rightarrow> \<real>)
@@ -743,15 +801,22 @@ theorem exists_continuous_extension:
   fixes f::"real \<Rightarrow> real" and E::"real set"
   assumes "continuous_on E f" "closed E"
   shows "\<exists>g. continuous_on UNIV g \<and> (\<forall>x\<in>E. g x = f x)"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: <correct, I copy-paste it below>
  *)
-theorem exercise_4_5a: undefined oops
+theorem exercise_4_5a:
+  fixes f::"real \<Rightarrow> real" and E::"real set"
+  assumes "continuous_on E f" "closed E"
+  shows "\<exists>g. continuous_on UNIV g \<and> (\<forall>x\<in>E. g x = f x)"
+  oops
 
 
 (*
 problem_number:4_6
 natural language statement:
-If $f$ is defined on $E$, the graph of $f$ is the set of points $(x, f(x))$, for $x \in E$. In particular, if $E$ is a set of real numbers, and $f$ is real-valued, the graph of $f$ is a subset of the plane. Suppose $E$ is compact, and prove that $f$ is continuous on $E$ if and only if its graph is compact.
+If $f$ is defined on $E$, the graph of $f$ is the set of points $(x, f(x))$, 
+for $x \in E$. In particular, if $E$ is a set of real numbers, and $f$ is real-valued, 
+the graph of $f$ is a subset of the plane. Suppose $E$ is compact, and prove that $f$ is 
+continuous on $E$ if and only if its graph is compact.
 lean statement:
 theorem exercise_4_6
   (f : \<real> \<rightarrow> \<real>)
@@ -785,15 +850,23 @@ theorem bounded_of_uniformly_continuous_on_bounded:
   fixes f::"'a::metric_space \<Rightarrow> 'b::real_normed_vector"
   assumes "bounded (UNIV::'a set)" "uniformly_continuous_on UNIV f"
   shows "bounded (range f)"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: < wrong (didn't refer to set E, wrong types) but quite close >
  *)
-theorem exercise_4_8a: undefined oops
+theorem exercise_4_8a: 
+  
+   fixes f::"real \<Rightarrow> real" and E::" real set"
+  assumes "bounded E" "uniformly_continuous_on E f"
+  shows "bounded (range f)"
+  
+  oops
 
 
 (*
 problem_number:4_11a
 natural language statement:
-Suppose $f$ is a uniformly continuous mapping of a metric space $X$ into a metric space $Y$ and prove that $\left\{f\left(x_{n}\right)\right\}$ is a Cauchy sequence in
+Suppose $f$ is a uniformly continuous mapping of a metric 
+space $X$ into a metric space $Y$ and prove that $\left\{f\left(x_{n}\right)\right\}$ 
+is a Cauchy sequence in
 lean statement:
 theorem exercise_4_11a
   {X : Type*} [metric_space X]
@@ -807,10 +880,14 @@ theorem cauchy_of_uniform_continuous:
   fixes f::"'a::metric_space \<Rightarrow> 'b::metric_space"
   assumes "uniformly_continuous_on UNIV f" "cauchy (f ∘ g)"
   shows "cauchy g"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: <overall wrong, and it's
+strange that it makes a function g appear out of nowhere. Also uses
+cauchy instead of Cauchy (the former doesn't exist>
  *)
-theorem exercise_4_11a: undefined oops
 
+theorem exercise_4_11a:
+undefined
+  oops
 
 (*
 problem_number:4_12
@@ -828,9 +905,14 @@ theorem uniform_continuous_of_uniform_continuous_comp:
   fixes f::"'a::metric_space \<Rightarrow> 'b::metric_space" and g::"'b::metric_space \<Rightarrow> 'c::metric_space"
   assumes "uniformly_continuous_on UNIV f" "uniformly_continuous_on UNIV g"
   shows "uniformly_continuous_on UNIV (g ∘ f)"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: <correct, I copy-paste it below>
  *)
-theorem exercise_4_12: undefined oops
+theorem exercise_4_12:
+  fixes f::"'a::metric_space \<Rightarrow> 'b::metric_space" and 
+g::"'b::metric_space \<Rightarrow> 'c::metric_space"
+  assumes "uniformly_continuous_on UNIV f" "uniformly_continuous_on UNIV g"
+  shows "uniformly_continuous_on UNIV (g ∘ f)"
+    oops
 
 
 (*
@@ -1158,7 +1240,8 @@ theorem exercise_6_1: undefined oops
 (*
 problem_number:6_2
 natural language statement:
-Suppose $f \geq 0, f$ is continuous on $[a, b]$, and $\int_{a}^{b} f(x) d x=0$. Prove that $f(x)=0$ for all $x \in[a, b]$.
+Suppose $f \geq 0, f$ is continuous on $[a, b]$, and $\int_{a}^{b} f(x) d x=0$. 
+Prove that $f(x)=0$ for all $x \in[a, b]$.
 lean statement:
 
 codex statement:
@@ -1168,13 +1251,16 @@ theorem zero_integral_of_continuous_nonneg_implies_zero_function:
   shows "\<forall>x\<in>{a..b}. f x = 0"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
-theorem exercise_6_2: undefined oops
+theorem exercise_6_2: 
+  undefined
+  oops
 
 
 (*
 problem_number:6_4
 natural language statement:
-If $f(x)=0$ for all irrational $x, f(x)=1$ for all rational $x$, prove that $f \notin \mathcal{R}$ on $[a, b]$ for any $a<b$.
+If $f(x)=0$ for all irrational $x, f(x)=1$ for all rational $x$, 
+prove that $f \notin \mathcal{R}$ on $[a, b]$ for any $a<b$.
 lean statement:
 
 codex statement:
