@@ -1,5 +1,5 @@
 theory Artin
- imports "HOL-Algebra.Algebra"
+ imports "HOL-Algebra.Algebra" "HOL-Examples.Gauss_Numbers"
 begin
 
 (*
@@ -20,9 +20,8 @@ Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem (in group) exercise_2_2_9: 
   assumes "a \<in> carrier G" "b \<in> carrier G" "a\<noteq>b"
-  defines "H \<equiv> generate G {a,b}"
-    shows "comm_group (G\<lparr>carrier := H\<rparr>)"
-oops
+  shows "comm_group (subgroup_generated G {a,b})"
+  oops
 
 
 (*
@@ -61,8 +60,8 @@ theorem entire_function_of_order_one_over_alpha:
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem (in group) exercise_2_3_2: 
-    assumes "a \<in> carrier G" "b \<in> carrier G" 
-    shows "\<exists>x \<in> carrier G. a \<otimes> b = inv x \<otimes> b \<otimes> a \<otimes> x"
+  assumes "a \<in> carrier G" "b \<in> carrier G" 
+  shows "\<exists>x \<in> carrier G. a \<otimes> b = inv x \<otimes> b \<otimes> a \<otimes> x"
   using assms by force
 
 
@@ -85,7 +84,10 @@ Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
 
 definition (in group) "centre \<equiv> {z \<in> carrier G. \<forall>x \<in> carrier G. z \<otimes> x = x \<otimes> z}"
 
-theorem exercise_2_4_19: undefined oops
+theorem (in group) exercise_2_4_19: 
+  assumes "a \<in> carrier G" "ord a = 2" "\<forall>x \<in> carrier G. ord x = 2 \<longrightarrow> x=a"
+  shows "a \<in> centre"
+  oops
 
 
 (*
@@ -103,7 +105,10 @@ theorem entire_function_of_order_one_over_alpha:
   shows "entire_function (\<lambda>z. (\<Sum>n. z^n / (fact n)^\<alpha>))"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
-theorem exercise_2_8_6: undefined oops
+theorem exercise_2_8_6: 
+  assumes "group G" "group H"
+  shows "group.centre (G \<times>\<times> H) = group.centre G \<times> group.centre H"
+  oops
 
 
 (*
@@ -119,7 +124,10 @@ theorem entire_function_of_order_one_over_alpha:
   shows "entire_function (\<lambda>z. (\<Sum>n. z^n / (fact n)^\<alpha>))"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
-theorem exercise_2_10_11: undefined oops
+theorem exercise_2_10_11: 
+  defines "RP_group \<equiv> \<lparr>carrier = UNIV, monoid.mult = (+), one = (0::real)\<rparr>"
+  shows "RP_group Mod \<int> \<cong> RP_group Mod (range(\<lambda>z. 2 * pi * of_int z))"  
+  oops
 
 
 (*
@@ -137,7 +145,10 @@ theorem entire_function_of_order_one_over_alpha:
   shows "entire_function (\<lambda>z. (\<Sum>n. z^n / (fact n)^\<alpha>))"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
-theorem exercise_2_11_3: undefined oops
+theorem (in group) exercise_2_11_3: 
+  assumes "even (order G)"
+  shows "\<exists>x \<in> carrier G. ord x = 2"
+  oops
 
 
 (*
@@ -155,7 +166,10 @@ theorem entire_of_sum_frac_power_factorial:
   shows "entire_function (\<lambda>z. (\<Sum>n. z^n / (fact n)^\<alpha>))"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
-theorem exercise_3_2_7: undefined oops
+theorem exercise_3_2_7: 
+  assumes "h \<in> ring_hom R S" and "field R" and "field S" shows "inj_on h (carrier R)"
+  by (metis assms non_trivial_field_hom_is_inj)
+
 
 
 (*
@@ -213,7 +227,10 @@ theorem entire_of_sum_frac_z_n_n_fact_alpha:
   shows "entire_function (\<lambda>z. (\<Sum>n. z^n / (fact n)^\<alpha>))"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
-theorem exercise_6_1_14: undefined oops
+theorem (in group) exercise_6_1_14: 
+  assumes "cyclic_group (G Mod centre)"
+  shows "comm_group G" "carrier G = centre"
+  oops
 
 
 (*
@@ -232,7 +249,15 @@ theorem entire_of_sum_frac_power_factorial:
   shows "entire (\<lambda>z. (\<Sum>n. z^n / (fact n)^\<alpha>))"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
-theorem exercise_6_4_2: undefined oops
+
+locale simple_group = group +
+  assumes order_gt_one: "order G > 1"
+  assumes no_real_normal_subgroup: "\<And>H. H \<lhd> G \<Longrightarrow> (H = carrier G \<or> H = {\<one>})"
+
+theorem (in group) exercise_6_4_2: 
+  assumes "order G = p*q" "Factorial_Ring.prime p" "Factorial_Ring.prime q" 
+  shows "\<not> simple_group G"
+  oops
 
 
 (*
@@ -251,7 +276,10 @@ theorem entire_of_sum_frac_z_n_over_n_fact_alpha:
   shows "entire (\<lambda>z. (\<Sum>n. z^n / (fact n)^\<alpha>))"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
-theorem exercise_6_4_3: undefined oops
+theorem (in group) exercise_6_4_3: 
+  assumes "order G = p^2 * q" "Factorial_Ring.prime p" "Factorial_Ring.prime q" 
+  shows "\<not> simple_group G"
+  oops
 
 
 (*
@@ -270,7 +298,10 @@ theorem entire_function_of_order_one_over_alpha:
   shows "entire_function (\<lambda>z. (\<Sum>n. z^n / (fact n)^\<alpha>))"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
-theorem exercise_6_4_12: undefined oops
+theorem exercise_6_4_12: 
+  assumes "order G = 224" 
+  shows "\<not> simple_group G"
+  oops
 
 
 (*
@@ -288,7 +319,10 @@ theorem entire_of_sum_frac_power_factorial:
   shows "entire (\<lambda>z. (\<Sum>n. z^n / (fact n)^\<alpha>))"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
-theorem exercise_6_8_1: undefined oops
+theorem (in group) exercise_6_8_1: 
+  assumes "a \<in> carrier G" "b \<in> carrier G"
+    shows "generate G {a,b} = generate G {b\<otimes>a\<otimes>b[^]2, b\<otimes>a\<otimes>b[^]3}"
+  oops
 
 
 (*
@@ -325,8 +359,13 @@ theorem entire_of_sum_frac_z_n_over_n_fact_alpha:
   shows "entire_function (\<lambda>z. (\<Sum>n. z^n / (fact n)^\<alpha>))"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
-theorem exercise_6_8_6: undefined oops
 
+(*The text is ambiguous. The two elements must be distinct, because a cyclic group is one that 
+can be generated from one element.*)
+theorem (in group) exercise_6_8_6: 
+  assumes "normal N G" "cyclic_group G" "cyclic_group (G Mod N)"
+  shows "\<exists>x \<in> carrier G. \<exists>y \<in> carrier G. x\<noteq>y \<and> carrier G = generate G {x,y}"
+  sorry
 
 (*
 problem_number:10_1_13
@@ -343,7 +382,10 @@ theorem entire_of_sum_frac_power_factorial:
   shows "entire (\<lambda>z. (\<Sum>n. z^n / (fact n)^\<alpha>))"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
-theorem exercise_10_1_13: undefined oops
+theorem (in ring) exercise_10_1_13: 
+  assumes "x \<in> carrier R" "x[^]n = \<zero>"
+  shows "x \<in> carrier (units_of R)"
+  oops
 
 
 (*
@@ -380,7 +422,11 @@ theorem entire_of_sum_frac_power_factorial:
   shows "entire_function (\<lambda>z. (\<Sum>n. z^n / (fact n)^\<alpha>))"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
-theorem exercise_10_6_7: undefined oops
+theorem exercise_10_6_7: 
+  defines "GI \<equiv>  \<lparr>carrier = UNIV, monoid.mult = (*), one = 1, ring.zero = (0::gauss), add = (+)\<rparr>"
+  assumes "ideal I GI" "I \<noteq> {0}"
+  shows "\<exists>x\<in>I. Im x = 0 \<and> x \<noteq> 0"
+  oops
 
 
 (*
@@ -412,7 +458,9 @@ theorem entire_of_sum_frac_z_n_over_n_fact_alpha:
   shows "entire_function (\<lambda>z. (\<Sum>n. z^n / (fact n)^\<alpha>))"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
-theorem exercise_10_3_24a: undefined oops
+theorem exercise_10_3_24a: 
+  shows "\<exists>R I J. ring R \<and> ideal I R \<and> ideal J R \<and> \<not> ideal (I \<union> J) R"
+  oops
 
 
 (*
@@ -525,7 +573,10 @@ theorem entire_function_of_order_one_over_alpha:
   shows "entire_function (\<lambda>z. (\<Sum>n. z^n / (fact n)^\<alpha>))"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
-theorem exercise_11_2_13: undefined oops
+theorem exercise_11_2_13: 
+  assumes "Gauss a 0 dvd Gauss b 0"
+  shows "a dvd b"
+  oops
 
 
 (*
@@ -734,7 +785,9 @@ theorem entire_function_of_order_one_over_alpha:
   shows "entire_function (\<lambda>z. (\<Sum>n. z^n / (fact n)^\<alpha>))"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
-theorem exercise_11_13_3: undefined oops
+theorem exercise_11_13_3: 
+  shows "\<exists>p \<ge> N. Factorial_Ring.prime p \<and> 4 dvd (Suc p)"
+  oops
 
 
 (*
@@ -801,7 +854,10 @@ theorem entire_of_sum_frac_power_factorial:
   shows "entire_function (\<lambda>z. (\<Sum>n. z^n / (fact n)^\<alpha>))"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
-theorem exercise_13_4_10: undefined oops
+theorem exercise_13_4_10: 
+  assumes "Factorial_Ring.prime p" "p = Suc (2^r)"
+  shows "\<exists>k. p = Suc (2^2^k)"
+  oops
 
 
 (*

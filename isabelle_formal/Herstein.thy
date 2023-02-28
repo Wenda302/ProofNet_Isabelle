@@ -19,7 +19,7 @@ theorem exists_inv_eq_of_even_order:
 Our comment on the codex statement: pretty good but needs a locale context, like most of the others
  *)
 theorem (in group) exercise_2_1_18:
-  assumes "finite (carrier G)" "order G mod 2 = 0"
+  assumes "finite (carrier G)" "even (order G)"
   shows "\<exists>a\<in>carrier G. a \<noteq> \<one> \<and> a = inv a"
   oops
 
