@@ -1,6 +1,8 @@
 theory Rudin
   imports Complex_Main (* comment by Angeliki: switched to Complex_Main and imported some Analysis*)
 "HOL-Analysis.Abstract_Euclidean_Space"
+"HOL-Analysis.Derivative"
+(*"HOL-Hahn_Banach.Function_Order"*)
 begin
 
 (*
@@ -301,7 +303,7 @@ theorem perfect_of_uncountable_condensation_points:
   assumes "uncountable E" "P = condensation_points E"
   shows "perfect P"
 Our comment on the codex statement: <makes up definitions that don't exist in Isabelle,
-(perfect for perfect set, condensation_points). >
+(perfect which doesn't work for perfect set, condensation_points). >
 *)
 
 theorem exercise_1_27a: undefined oops
@@ -338,7 +340,8 @@ theorem closed_set_union_perfect_set_countable_set:
   fixes X::"'a::metric_space set"
   assumes "separable X" "closed X"
   shows "\<exists>P C. perfect P \<and> countable C \<and> X = P ∪ C"
-Our comment on the codex statement: <uses nonexistent Isabelle definitions (perfect for perfect set, separable)
+Our comment on the codex statement: <uses nonexistent Isabelle definitions (perfect which
+doesn't work for perfect set, separable)
 otherwise correct> *)
 
 theorem exercise_1_28:
@@ -500,7 +503,8 @@ theorem limsup_sum_leq_sum_limsup:
   fixes a b::"nat \<Rightarrow> real"
   assumes "\<forall>n. a n \<le> b n"
   shows "limsup (\<lambda>n. a n + b n) \<le> limsup a + limsup b"
-Our comment on the codex statement: < YOU CAN LEAVE YOUR COMMENT HERE >
+Our comment on the codex statement: < not sure about the natural language statement here,
+but the codex statement is wrong > (* TODO *)
  *)
 theorem exercise_3_5: 
 undefined oops 
@@ -520,7 +524,8 @@ theorem sum_sqrt_div_n_converges_of_sum_converges:
   fixes a::"nat \<Rightarrow> real"
   assumes "summable a" "\<forall>n. a n \<ge> 0"
   shows "summable (\<lambda>n. sqrt (a n) / n)"
-Our comment on the codex statement: <correct, I copy-paste it below>
+Our comment on the codex statement: <correct, I copy-paste it below. Note that the natural
+language statement features both \Sigma and \sum.>
  *)
 theorem exercise_3_7: 
   
@@ -548,12 +553,13 @@ theorem convergent_of_convergent_and_monotonic_bounded:
   fixes a::"nat \<Rightarrow> real" and b::"nat \<Rightarrow> real"
   assumes "convergent a" "bounded (range b)" "mono b"
   shows "convergent (\<lambda>n. a n * b n)"
-Our comment on the codex statement: <correct formalisation, I copy-paste it below.>
+Our comment on the codex statement: < the mistake is that here it is meant summable by \Sigma, 
+so it should not be translated as convergent>
  *)
 theorem exercise_3_8: 
    fixes a::"nat \<Rightarrow> real" and b::"nat \<Rightarrow> real"
-  assumes "convergent a" "bounded (range b)" "mono b"
-  shows "convergent (\<lambda>n. a n * b n)"
+  assumes "summable a " "bounded (range b)" "mono b"
+  shows "summable (\<lambda>n. a n * b n)"
   oops
 
 
@@ -644,10 +650,12 @@ fixes X::"'a::metric_space set" and E:: " nat \<Rightarrow> 'a set"
 
 assumes "\<forall>n. closed (E n)"  "complete X" "\<forall>n. E n \<noteq> {}" 
 "\<forall>n. bounded (E n)" 
-"\<forall>n. E n \<supseteq> E (n+1)" "((λn. diameter (E n)) ⤏ p) sequentially"
-shows  (* notation for infinite set intersection? *)
+"\<forall>n. E n \<supseteq> E (n+1)" "((λn. diameter (E n)) ⤏ 0) sequentially"
+shows(* TODO must fix*)
 
- undefined (* TODO*)
+ (* notation for infinite set intersection? *)
+
+ undefined 
   oops
 
 
@@ -670,8 +678,13 @@ theorem baire_theorem:
   shows "\<exists>x. \<forall>n. x\<in>G n"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE >
  *)
+
+
 theorem exercise_3_22: 
- undefined oops
+ 
+   undefined
+  
+  oops
 
 (*
 problem_number:4_2a
@@ -831,15 +844,18 @@ theorem compact_of_continuous_graph:
   fixes f::"'a::metric_space \<Rightarrow> 'b::metric_space" and E::"'a::metric_space set"
   assumes "compact E" "continuous_on E f"
   shows "compact {(x, f x) | x. x \<in> E}"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: <wrong, missed iff but quite close>
  *)
-theorem exercise_4_6: undefined oops
-
+theorem exercise_4_6: fixes f::"'a::metric_space \<Rightarrow> 'b::metric_space" 
+and E::"'a::metric_space set" 
+assumes "compact E"
+shows "continuous_on E f \<longleftrightarrow> compact  {(x, f x) | x. x \<in> E} " oops
 
 (*
 problem_number:4_8a
 natural language statement:
-Let $f$ be a real uniformly continuous function on the bounded set $E$ in $R^{1}$. Prove that $f$ is bounded on $E$.
+Let $f$ be a real uniformly continuous function on the bounded set $E$ in $R^{1}$. 
+Prove that $f$ is bounded on $E$.
 lean statement:
 theorem exercise_4_8a
   (E : set \<real>) (f : \<real> \<rightarrow> \<real>) (hf : uniform_continuous_on f E)
@@ -885,8 +901,8 @@ strange that it makes a function g appear out of nowhere. Also uses
 cauchy instead of Cauchy (the former doesn't exist>
  *)
 
-theorem exercise_4_11a:
-undefined
+(*TODO something wrong with natural language statement? *)
+theorem exercise_4_11a: undefined
   oops
 
 (*
@@ -918,7 +934,8 @@ g::"'b::metric_space \<Rightarrow> 'c::metric_space"
 (*
 problem_number:4_14
 natural language statement:
-Let $I=[0,1]$ be the closed unit interval. Suppose $f$ is a continuous mapping of $I$ into $I$. Prove that $f(x)=x$ for at least one $x \in I$.
+Let $I=[0,1]$ be the closed unit interval. 
+Suppose $f$ is a continuous mapping of $I$ into $I$. Prove that $f(x)=x$ for at least one $x \in I$.
 lean statement:
 theorem exercise_4_14 [topological_space I]
   [linear_order I] (f : I \<rightarrow> I) (hf : continuous f) :
@@ -929,9 +946,14 @@ theorem exists_fixed_point_of_continuous_on_closed_interval:
   fixes f::"real \<Rightarrow> real"
   assumes "continuous_on {0..1} f"
   shows "\<exists>x. x\<in>{0..1} \<and> f x = x"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: <almost correct, forgot range>
  *)
-theorem exercise_4_14: undefined oops
+theorem exercise_4_14: 
+   fixes f::"real \<Rightarrow> real"
+  assumes "continuous_on {0..1} f" and "range f = {0..1}"
+  shows "\<exists>x. x\<in>{0..1} \<and> f x = x"
+  
+  oops
 
 
 (*
@@ -948,15 +970,22 @@ theorem monotonic_of_continuous_open_mapping:
   fixes f::"real \<Rightarrow> real"
   assumes "continuous_on UNIV f" "open_mapping f"
   shows "mono f"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: <used the definition open_mapping which doesn't exist>
  *)
-theorem exercise_4_15: undefined oops
+theorem exercise_4_15:
+   fixes f::"real \<Rightarrow> real"
+  assumes "continuous_on UNIV f"  "open (f ` UNIV) "
+  shows "mono f"
+  
+  oops
 
 
 (*
 problem_number:4_19
 natural language statement:
-Suppose $f$ is a real function with domain $R^{1}$ which has the intermediate value property. If $f(a)<c<f(b)$, then $f(x)=c$ for some $x$ between $a$ and $b$. Suppose also, for every rational $r$, that the set of all $x$ with $f(x)=r$ is closed. Prove that $f$ is continuous.
+Suppose $f$ is a real function with domain $R^{1}$ which has the intermediate value property. 
+If $f(a)<c<f(b)$, then $f(x)=c$ for some $x$ between $a$ and $b$. Suppose also, for every rational 
+$r$, that the set of all $x$ with $f(x)=r$ is closed. Prove that $f$ is continuous.
 lean statement:
 theorem exercise_4_19
   {f : \<real> \<rightarrow> \<real>} (hf : \<forall> a b c, a < b \<rightarrow> f a < c \<rightarrow> c < f b \<rightarrow> \<exists> x, a < x \<and> x < b \<and> f x = c)
@@ -965,18 +994,26 @@ theorem exercise_4_19
 codex statement:
 theorem continuous_of_intermediate_value_property_and_closed_set_of_rational_value:
   fixes f::"real \<Rightarrow> real"
-  assumes "\<forall>a b c. a < b \<longrightarrow> f a < c \<longrightarrow> c < f b \<longrightarrow> \<exists>x. a < x \<longrightarrow> x < b \<longrightarrow> f x = c"
+  assumes "\<forall>a b c. a < b \<longrightarrow> f a < c \<longrightarrow> c < f b \<longrightarrow> 
+\<exists>x. a < x \<longrightarrow> x < b \<longrightarrow> f x = c"
     "\<forall>r. closed {x | x \<in> UNIV \<and> f x = r}"
   shows "continuous_on UNIV f"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: <wrong >
  *)
-theorem exercise_4_19: undefined oops
+theorem exercise_4_19: 
+  fixes f::"real \<Rightarrow> real"
+  assumes " \<forall> a b c. ( (f a < c \<and> c < f b )  \<longrightarrow>
+(\<exists> x::real. (f x) =c \<and> ((x \<le> a \<and> x \<ge> b) \<or>(x \<le> b \<and> x \<ge> a))   ) )"
+ and  "\<forall>r::rat. (closed {x. x \<in> UNIV \<and> f x = r})"
+   shows "continuous_on UNIV f"
+  oops
 
 
 (*
 problem_number:4_21a
 natural language statement:
-Suppose $K$ and $F$ are disjoint sets in a metric space $X, K$ is compact, $F$ is closed. Prove that there exists $\delta>0$ such that $d(p, q)>\delta$ if $p \in K, q \in F$.
+Suppose $K$ and $F$ are disjoint sets in a metric space $X, K$ is compact, $F$ is closed. 
+Prove that there exists $\delta>0$ such that $d(p, q)>\delta$ if $p \in K, q \in F$.
 lean statement:
 theorem exercise_4_21a {X : Type*} [metric_space X]
   (K F : set X) (hK : is_compact K) (hF : is_closed F) (hKF : disjoint K F) :
@@ -987,15 +1024,22 @@ theorem exists_delta_of_disjoint_compact_closed:
   fixes K F::"'a::metric_space set"
   assumes "compact K" "closed F" "K ∩ F = {}"
   shows "\<exists>δ>0. \<forall>p\<in>K. \<forall>q\<in>F. dist p q > δ"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: <correct formalisation, my formulation slightly differs>
  *)
-theorem exercise_4_21a: undefined oops
+theorem exercise_4_21a: 
+  
+  fixes X::"'a::metric_space set" 
+  assumes "K \<subseteq> X"  "F \<subseteq> X" "compact K" "closed F" "K ∩ F = {}" 
+  shows "\<exists>δ>0. \<forall>p\<in>K. \<forall>q\<in>F. dist p q > δ" 
+  oops
 
 
 (*
 problem_number:4_24
 natural language statement:
-Assume that $f$ is a continuous real function defined in $(a, b)$ such that $f\left(\frac{x+y}{2}\right) \leq \frac{f(x)+f(y)}{2}$ for all $x, y \in(a, b)$. Prove that $f$ is convex.
+Assume that $f$ is a continuous real function defined in $(a, b)$ 
+such that $f\left(\frac{x+y}{2}\right) \leq \frac{f(x)+f(y)}{2}$ for all $x, y \in(a, b)$. 
+Prove that $f$ is convex.
 lean statement:
 theorem exercise_4_24 {f : \<real> \<rightarrow> \<real>}
   (hf : continuous f) (a b : \<real>) (hab : a < b)
@@ -1007,15 +1051,27 @@ theorem convex_of_continuous_and_ineq:
   fixes f::"real \<Rightarrow> real"
   assumes "continuous_on {a<..<b} f" "\<forall>x y. x \<in> {a<..<b} \<longrightarrow> y \<in> {a<..<b} \<longrightarrow> f ((x + y) / 2) \<le> (f x + f y) / 2"
   shows "convex_on {a<..<b} f"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: <close but not correct. Missed the absolute value.>
  *)
-theorem exercise_4_24: undefined oops
+theorem exercise_4_24:
+   fixes f::"real \<Rightarrow> real"
+   assumes
+
+ "continuous_on {a<..<b} f"
+"\<forall>x y. (x  \<in> {a<..<b} \<and> y \<in> {a<..<b} 
+\<longrightarrow>  f (abs((x + y) / 2)) \<le> (f x + f y) / 2)"
+  shows "convex_on {a<..<b} f"
+  
+  oops
 
 
 (*
 problem_number:4_26a
 natural language statement:
-Suppose $X, Y, Z$ are metric spaces, and $Y$ is compact. Let $f$ map $X$ into $Y$, let $g$ be a continuous one-to-one mapping of $Y$ into $Z$, and put $h(x)=g(f(x))$ for $x \in X$. Prove that $f$ is uniformly continuous if $h$ is uniformly continuous.
+Suppose $X, Y, Z$ are metric spaces, and $Y$ is compact. 
+Let $f$ map $X$ into $Y$, let $g$ be a continuous one-to-one mapping of $Y$ into $Z$, 
+and put $h(x)=g(f(x))$ for $x \in X$. 
+Prove that $f$ is uniformly continuous if $h$ is uniformly continuous.
 lean statement:
 
 codex statement:
@@ -1023,15 +1079,25 @@ theorem uniform_continuous_of_continuous_injective_uniform_continuous_comp:
   fixes f::"'a::metric_space \<Rightarrow> 'b::metric_space" and g::"'b::metric_space \<Rightarrow> 'c::metric_space"
   assumes "compact (UNIV::'b set)" "continuous_on UNIV g" "inj g" "uniformly_continuous_on UNIV (g ∘ f)"
   shows "uniformly_continuous_on UNIV f"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: <correct, I copy-paste it below>
  *)
-theorem exercise_4_26a: undefined oops
+theorem exercise_4_26a: 
+  
+  fixes f::"'a::metric_space \<Rightarrow> 'b::metric_space" 
+and g::"'b::metric_space \<Rightarrow> 'c::metric_space"
+assumes "compact (UNIV::'b set)" "continuous_on UNIV g"  "inj g"
+
+"uniformly_continuous_on UNIV (g ∘ f)"
+  shows "uniformly_continuous_on UNIV f"
+  
+  oops
 
 
 (*
 problem_number:5_1
 natural language statement:
-Let $f$ be defined for all real $x$, and suppose that $|f(x)-f(y)| \leq(x-y)^{2}$for all real $x$ and $y$. Prove that $f$ is constant.
+Let $f$ be defined for all real $x$, and suppose that $|f(x)-f(y)| 
+\leq(x-y)^{2}$for all real $x$ and $y$. Prove that $f$ is constant.
 lean statement:
 theorem exercise_5_1
   {f : \<real> \<rightarrow> \<real>} (hf : \<forall> x y : \<real>, | (f x - f y) | \<le> (x - y) ^ 2) :
@@ -1042,15 +1108,21 @@ theorem constant_of_diff_leq_square_diff:
   fixes f::"real \<Rightarrow> real"
   assumes "\<forall>x y. abs (f x - f y) \<le> (x - y)^2"
   shows "f constant_on UNIV"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: <correct, I copy-paste it below>
  *)
-theorem exercise_5_1: undefined oops
+theorem exercise_5_1:
+   fixes f::"real \<Rightarrow> real"
+  assumes "\<forall>x y. abs (f x - f y) \<le> (x - y)^2"
+  shows "f constant_on UNIV"
+  oops
 
 
 (*
 problem_number:5_2
 natural language statement:
-Suppose $f^{\prime}(x)>0$ in $(a, b)$. Prove that $f$ is strictly increasing in $(a, b)$, and let $g$ be its inverse function. Prove that $g$ is differentiable, and that$g^{\prime}(f(x))=\frac{1}{f^{\prime}(x)} \quad(a<x<b)$
+Suppose $f^{\prime}(x)>0$ in $(a, b)$. Prove that $f$ is strictly 
+increasing in $(a, b)$, and let $g$ be its inverse function. 
+Prove that $g$ is differentiable, and that$g^{\prime}(f(x))=\frac{1}{f^{\prime}(x)} \quad(a<x<b)$
 lean statement:
 theorem exercise_5_2 {a b : \<real>}
   {f g : \<real> \<rightarrow> \<real>} (hf : \<forall> x \<in> set.Ioo a b, deriv f x > 0)
@@ -1062,17 +1134,28 @@ theorem exercise_5_2 {a b : \<real>}
 codex statement:
 theorem derivative_of_inverse_function:
   fixes f::"real \<Rightarrow> real" and g::"real \<Rightarrow> real"
-  assumes "a < b" "continuous_on {a..b} f" "\<forall>x\<in>{a..b}. f differentiable (at x)" "\<forall>x\<in>{a..b}. 0 < f' x"
+  assumes "a < b" "continuous_on {a..b} f" "\<forall>x\<in>{a..b}. f differentiable (at x)" 
+"\<forall>x\<in>{a..b}. 0 < f' x"
   shows "\<forall>x\<in>{a..b}. g differentiable (at x)" "\<forall>x\<in>{a..b}. g' x = 1 / f' (g x)"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
- *)
-theorem exercise_5_2: undefined oops
+Our comment on the codex statement: <quite close but wrong deriv  notation, misses one assumption
+and one concl. >*)
 
+theorem exercise_5_2: 
+   fixes f::"real \<Rightarrow> real"  and g::"real \<Rightarrow> real"
+   assumes "\<forall>x\<in>{a..b}. f differentiable (at x)" 
+"\<forall>x\<in>{a..b}. 0 < deriv f x"  and "g x = 1/ f x"
+
+shows "mono f" "\<forall>x\<in>{a..b}. g differentiable (at x)" 
+"\<forall>x\<in>{a..b}. deriv g ( f x) = 1 / deriv f x"
+  oops
+                                                                                   
 
 (*
 problem_number:5_3
 natural language statement:
-Suppose $g$ is a real function on $R^{1}$, with bounded derivative (say $\left|g^{\prime}\right| \leq M$ ). Fix $\varepsilon>0$, and define $f(x)=x+\varepsilon g(x)$. Prove that $f$ is one-to-one if $\varepsilon$ is small enough.
+Suppose $g$ is a real function on $R^{1}$, with bounded derivative 
+(say $\left|g^{\prime}\right| \leq M$ ). Fix $\varepsilon>0$, and define $f(x)=x+\varepsilon g(x)$. 
+Prove that $f$ is one-to-one if $\varepsilon$ is small enough.
 lean statement:
 theorem exercise_5_3 {g : \<real> \<rightarrow> \<real>} (hg : continuous g)
   (hg' : \<exists> M : \<real>, \<forall> x : \<real>, | deriv g x | \<le> M) :
@@ -1083,15 +1166,23 @@ theorem injective_of_small_epsilon:
   fixes g::"real \<Rightarrow> real"
   assumes "\<forall>x. abs (g' x) \<le> M"
   shows "\<exists>\<epsilon>>0. \<forall>x y. abs (x - y) < \<epsilon> \<longrightarrow> g x \<noteq> g y"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: <wrong statement>
  *)
-theorem exercise_5_3: undefined oops
+theorem exercise_5_3: 
+  
+  fixes g::"real \<Rightarrow> real" and \<epsilon> M:: real and f::"real \<Rightarrow> real"
+  assumes "\<forall>x. abs (deriv g x) \<le> M" and " \<forall> x. f x =x + \<epsilon> *( g x )"
+  shows "\<exists> K. ( \<epsilon> < K \<longrightarrow>  inj f) "
+
+  oops
 
 
 (*
 problem_number:5_4
 natural language statement:
-If $C_{0}+\frac{C_{1}}{2}+\cdots+\frac{C_{n-1}}{n}+\frac{C_{n}}{n+1}=0,$ where $C_{0}, \ldots, C_{n}$ are real constants, prove that the equation $C_{0}+C_{1} x+\cdots+C_{n-1} x^{n-1}+C_{n} x^{n}=0$ has at least one real root between 0 and 1 .
+If $C_{0}+\frac{C_{1}}{2}+\cdots+\frac{C_{n-1}}{n}+\frac{C_{n}}{n+1}=0,$ where $C_{0}, \ldots, 
+C_{n}$ are real constants, prove that the equation $C_{0}+C_{1} x+\cdots+C_{n-1} x^{n-1}+C_{n} x^{n}=0$ 
+has at least one real root between 0 and 1 .
 lean statement:
 theorem exercise_5_4 {n : \<nat>}
   (C : \<nat> \<rightarrow> \<real>)
@@ -1111,7 +1202,9 @@ theorem exercise_5_4: undefined oops
 (*
 problem_number:5_5
 natural language statement:
-Suppose $f$ is defined and differentiable for every $x>0$, and $f^{\prime}(x) \rightarrow 0$ as $x \rightarrow+\infty$. Put $g(x)=f(x+1)-f(x)$. Prove that $g(x) \rightarrow 0$ as $x \rightarrow+\infty$.
+Suppose $f$ is defined and differentiable for every $x>0$,
+ and $f^{\prime}(x) \rightarrow 0$ as $x \rightarrow+\infty$. Put $g(x)=f(x+1)-f(x)$. 
+Prove that $g(x) \rightarrow 0$ as $x \rightarrow+\infty$.
 lean statement:
 theorem exercise_5_5
   {f : \<real> \<rightarrow> \<real>}
@@ -1124,15 +1217,21 @@ theorem tendsto_zero_of_tendsto_zero_derivative:
   fixes f::"real \<Rightarrow> real"
   assumes "\<forall>x. 0 < x \<longrightarrow> f differentiable (at x)" "((\<lambda>x. f' x) ---> 0) at_top"
   shows "((\<lambda>x. f (x + 1) - f x) ---> 0) at_top"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: <wrong symbols>
  *)
-theorem exercise_5_5: undefined oops
-
+theorem exercise_5_5:  
+ fixes f::"real \<Rightarrow> real"  and g::"real \<Rightarrow> real"
+ assumes "\<forall>x >0. f differentiable (at x)" "\<forall> x. g(x)=f(x+1)-f(x)"
+" ((λx. deriv f(x )) ⤏ 0) at_top"
+  shows " ((λx. deriv g(x )) ⤏ 0) at_top"
 
 (*
 problem_number:5_6
 natural language statement:
-Suppose (a) $f$ is continuous for $x \geq 0$, (b) $f^{\prime}(x)$ exists for $x>0$, (c) $f(0)=0$, (d) $f^{\prime}$ is monotonically increasing. Put $g(x)=\frac{f(x)}{x} \quad(x>0)$ and prove that $g$ is monotonically increasing.
+Suppose (a) $f$ is continuous for $x \geq 0$, 
+(b) $f^{\prime}(x)$ exists for $x>0$, (c) $f(0)=0$, 
+(d) $f^{\prime}$ is monotonically increasing. Put $g(x)=\frac{f(x)}{x} \quad(x>0)$ 
+and prove that $g$ is monotonically increasing.
 lean statement:
 theorem exercise_5_6
   {f : \<real> \<rightarrow> \<real>}
@@ -1224,7 +1323,9 @@ theorem exercise_5_17: undefined oops
 (*
 problem_number:6_1
 natural language statement:
-Suppose $\alpha$ increases on $[a, b], a \leq x_{0} \leq b, \alpha$ is continuous at $x_{0}, f\left(x_{0}\right)=1$, and $f(x)=0$ if $x \neq x_{0}$. Prove that $f \in \mathcal{R}(\alpha)$ and that $\int f d \alpha=0$.
+Suppose $\alpha$ increases on $[a, b], 
+a \leq x_{0} \leq b, \alpha$ is continuous at $x_{0}, f\left(x_{0}\right)=1$, 
+and $f(x)=0$ if $x \neq x_{0}$. Prove that $f \in \mathcal{R}(\alpha)$ and that $\int f d \alpha=0$.
 lean statement:
 
 codex statement:
