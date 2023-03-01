@@ -2,6 +2,8 @@ theory Rudin
   imports Complex_Main (* comment by Angeliki: switched to Complex_Main and imported some Analysis*)
 "HOL-Analysis.Abstract_Euclidean_Space"
 "HOL-Analysis.Derivative"
+"HOL-Analysis.Interval_Integral"
+"HOL-Analysis.Elementary_Topology"
 (*"HOL-Hahn_Banach.Function_Order"*)
 begin
 
@@ -76,8 +78,8 @@ codex statement:
 theorem no_rational_square_eq_12:
   assumes "\<exists>x. x^2 = 12"
   shows "False"
-Our comment on the codex statement: <it didn't include the rationality assumption; both
-the formalisation is wrong and the claim it presents is not true.>
+Our comment on the codex statement: <it didn't include the rationality assumption; 
+the formalisation is wrong, plus the claim it presents is not true.>
  *)
 theorem exercise_1_2: assumes "\<exists> x \<in> Rats. x^2 = 12"
   shows False oops
@@ -123,8 +125,8 @@ Our comment on the codex statement: <correct formalisation! I copy-paste it belo
  *)
 
 theorem exercise_1_4: fixes E::"'a::linorder set"
-  assumes "E \<noteq> {}" "\<forall>x\<in>E. \<alpha> \<le> x" "\<forall>x\<in>E. x \<le> β"
-  shows "\<alpha> \<le> β"
+  assumes "E \<noteq> {}" "\<forall>x\<in>E. \<alpha> \<le> x" "\<forall>x\<in>E. x \<le> \<beta>"
+  shows "\<alpha> \<le> \<beta>"
   oops
 
 (*
@@ -238,7 +240,8 @@ theorem exercise_1_14:
 (*
 problem_number:1_18a
 natural language statement:
-If $k \geq 2$ and $\mathbf{x} \in R^{k}$, prove that there exists $\mathbf{y} \in R^{k}$ such that $\mathbf{y} \neq 0$ but $\mathbf{x} \cdot \mathbf{y}=0$
+If $k \geq 2$ and $\mathbf{x} \in R^{k}$, prove that 
+there exists $\mathbf{y} \in R^{k}$ such that $\mathbf{y} \neq 0$ but $\mathbf{x} \cdot \mathbf{y}=0$
 lean statement:
 theorem exercise_1_18a
   (n : \<nat>)
@@ -256,7 +259,7 @@ and had wrong inner product symbol>
  *)                        
 theorem exercise_1_18a:
   fixes x::"'a::euclidean_space"
-  assumes "2 \<ge> DIM('a::euclidean_space)"
+  assumes " DIM('a::euclidean_space) \<ge> 2"
   shows "\<exists>y. y \<noteq> 0 \<and> inner  x  y = 0" 
   
   oops
@@ -306,8 +309,12 @@ Our comment on the codex statement: <makes up definitions that don't exist in Is
 (perfect which doesn't work for perfect set, condensation_points). >
 *)
 
-theorem exercise_1_27a: undefined oops
-(* TODO *)
+theorem exercise_1_27a:
+undefined 
+
+(*shows " P= {x.  x islimpt P}"*) 
+  oops (* TODO  note the def:  If every neighbourhood of x contains uncountably many points of 
+S, then x is a type of limit point called a condensation point of S. *)
 
 (*
 problem_number:1_27b
@@ -325,8 +332,9 @@ Our comment on the codex statement: <  uses nonexistent
 Isabelle definitions (condensation_points) otherwise correct
 >
  *)
-theorem exercise_1_27b: undefined oops
-(* TODO *)
+theorem exercise_1_27b: 
+  undefined oops
+
 
 (*
 problem_number:1_28
@@ -341,18 +349,19 @@ theorem closed_set_union_perfect_set_countable_set:
   assumes "separable X" "closed X"
   shows "\<exists>P C. perfect P \<and> countable C \<and> X = P ∪ C"
 Our comment on the codex statement: <uses nonexistent Isabelle definitions (perfect which
-doesn't work for perfect set, separable)
-otherwise correct> *)
+doesn't work for perfect set, separable)> *)
 
 theorem exercise_1_28:
 
-  
-  undefined
+   fixes X::"'a::metric_space set" 
+   assumes "\<exists> T ⊆ X . countable T \<and> X ⊆ closure T"  "closed S" and "S \<subseteq> X"
+   shows "\<exists> P C. countable C \<and> P = {x \<in> P. x islimpt P} \<and> S = P ∪ C  "
+
   oops
 
 
 
-(* TODO *)
+
 
 (*
 problem_number:1_29
@@ -367,15 +376,12 @@ theorem open_set_union_of_countable_disjoint_segments:
 
   shows "\<exists>f. countable (f ` (UNIV::nat set)) \<and> pairwise disjoint (f ` (UNIV::nat set)) 
 \<and> (\<Union>i\<in>UNIV. f i) = A"
-Our comment on the codex statement: <the Isabelle definition here should be disjoint instead of
-pairwise disjoint. Also other mistakes wrt the statement  >
+Our comment on the codex statement: <wrong >
 
  *)
 theorem exercise_1_29: 
-  
-  undefined
-  oops
-(* TODO*)
+  undefined oops
+
 
 (*
 problem_number:2_19a
@@ -407,7 +413,8 @@ theorem exercise_2_19a:
 problem_number:2_24
 natural language statement:
 Let $X$ be a metric space in which every infinite subset has a limit point.
- Prove that $X$ is separable. Hint: Fix $\delta>0$, and pick $x_{1} \in X$. Having chosen $x_{1}, \ldots, x_{J} \in X$,
+ Prove that $X$ is separable. Hint: Fix $\delta>0$, and pick $x_{1} \in X$. 
+Having chosen $x_{1}, \ldots, x_{J} \in X$,
 lean statement:
 theorem exercise_2_24 {X : Type*} [metric_space X]
   (hX : \<forall> (A : set X), infinite A \<rightarrow> \<exists> (x : X), x \<in> closure A) :
@@ -416,17 +423,19 @@ theorem exercise_2_24 {X : Type*} [metric_space X]
 codex statement:
 theorem separable_of_infinite_subset_has_limit_point:
   fixes X::"'a::metric_space set"
-  assumes "\<forall>A. infinite A \<longrightarrow> \<exists>x\<in>A. \<forall>\<epsilon>>0. \<exists>y\<in>A. y\<noteq>x \<and> dist x y < \<epsilon>"
+  assumes 
+"\<forall>A. infinite A \<longrightarrow> 
+\<exists>x\<in>A. \<forall>\<epsilon>>0. \<exists>y\<in>A. y\<noteq>x \<and> dist x y < \<epsilon>"
   shows "separable X"
 Our comment on the codex statement: <uses nonexistent Isabelle definition (separable), 
 syntax error due to not including expression in parenthesis, missed  that
-A \<subseteq> X in assumption>
+A \<subseteq> X in assumption, missed the Isabelle limit point definition>
  *)
 theorem exercise_2_24:
   
    fixes X::"'a::metric_space set"
    assumes "\<forall>A \<subseteq> X. infinite A \<longrightarrow>
-( \<exists>x\<in>A. \<forall>ε>0. \<exists>y\<in>A. y\<noteq>x \<and> dist x y < ε)"
+( \<exists>x\<in>A. x islimpt A )"
    obtains T where "countable T" "T ⊆ X" "X ⊆ closure T"
   
   oops
@@ -503,11 +512,14 @@ theorem limsup_sum_leq_sum_limsup:
   fixes a b::"nat \<Rightarrow> real"
   assumes "\<forall>n. a n \<le> b n"
   shows "limsup (\<lambda>n. a n + b n) \<le> limsup a + limsup b"
-Our comment on the codex statement: < not sure about the natural language statement here,
-but the codex statement is wrong > (* TODO *)
+Our comment on the codex statement: < not sure about the natural language statement here 
+(* TODO check *)
+codex is wrong as it's adding nonexistent \<le> assumption > 
  *)
 theorem exercise_3_5: 
-undefined oops 
+  fixes a b::"nat \<Rightarrow> real"
+  assumes  "convergent a" and "convergent b "
+  shows "limsup (\<lambda>n. ¦ a n + b n¦) \<le> limsup a + limsup b"  oops 
 
 (*
 problem_number:3_7
@@ -613,6 +625,7 @@ Our comment on the codex statement: < close but wrong>
  *)
 
 theorem exercise_3_20:
+
   fixes X::"'a::metric_space" and p::"'a" and pn::"nat \<Rightarrow> 'a"
   assumes "Cauchy pn" and " ((λl. pn(n l)) ⤏ p) sequentially"
 shows " ((λn. pn(n )) ⤏ p) sequentially"
@@ -650,12 +663,11 @@ fixes X::"'a::metric_space set" and E:: " nat \<Rightarrow> 'a set"
 
 assumes "\<forall>n. closed (E n)"  "complete X" "\<forall>n. E n \<noteq> {}" 
 "\<forall>n. bounded (E n)" 
-"\<forall>n. E n \<supseteq> E (n+1)" "((λn. diameter (E n)) ⤏ 0) sequentially"
-shows(* TODO must fix*)
-
- (* notation for infinite set intersection? *)
-
- undefined 
+"\<forall>n. E n \<supset> E (n+1)" "((λn. diameter (E n)) ⤏ 0) sequentially"
+shows
+ " \<exists> x. ((\<Inter>n\<in> \<nat>. E n) ={x})"
+ 
+ 
   oops
 
 
@@ -715,7 +727,7 @@ theorem closure_of_continuous_image_subset_continuous_image_closure:
   fixes f::"'a::metric_space \<Rightarrow> 'b::metric_space" and E::"'a set"
   assumes "continuous_on UNIV f"
   shows "closure (f ` E) \<subseteq> f ` closure E"
-Our comment on the codex statement: <shows the opposite (wrong) inclusion. >
+Our comment on the codex statement: <shows the opposite (wrong) inclusion >
  *)
 theorem exercise_4_2a:
   
@@ -795,6 +807,7 @@ shows "closure( f ` E) = ( f ` UNIV)  "
   
   oops
 
+(* TODO In the natural language statement above, why is g introduced? something to check?*)
 
 (*
 problem_number:4_5a
@@ -844,7 +857,7 @@ theorem compact_of_continuous_graph:
   fixes f::"'a::metric_space \<Rightarrow> 'b::metric_space" and E::"'a::metric_space set"
   assumes "compact E" "continuous_on E f"
   shows "compact {(x, f x) | x. x \<in> E}"
-Our comment on the codex statement: <wrong, missed iff but quite close>
+Our comment on the codex statement: < missed the double implication but otherwise correct>
  *)
 theorem exercise_4_6: fixes f::"'a::metric_space \<Rightarrow> 'b::metric_space" 
 and E::"'a::metric_space set" 
@@ -970,12 +983,14 @@ theorem monotonic_of_continuous_open_mapping:
   fixes f::"real \<Rightarrow> real"
   assumes "continuous_on UNIV f" "open_mapping f"
   shows "mono f"
-Our comment on the codex statement: <used the definition open_mapping which doesn't exist>
+Our comment on the codex statement: < wrong: used the definition open_mapping which doesn't exist.
+Also, mono in Isabelle means monotone increasing, while it can either be monotone increasing
+or monotone decreasing>
  *)
 theorem exercise_4_15:
    fixes f::"real \<Rightarrow> real"
   assumes "continuous_on UNIV f"  "open (f ` UNIV) "
-  shows "mono f"
+  shows "mono f \<or> antimono f "
   
   oops
 
@@ -1030,7 +1045,7 @@ theorem exercise_4_21a:
   
   fixes X::"'a::metric_space set" 
   assumes "K \<subseteq> X"  "F \<subseteq> X" "compact K" "closed F" "K ∩ F = {}" 
-  shows "\<exists>δ>0. \<forall>p\<in>K. \<forall>q\<in>F. dist p q > δ" 
+  shows "\<exists> \<delta>>0. \<forall>p\<in>K. \<forall>q\<in>F. dist p q > \<delta>" 
   oops
 
 
@@ -1143,7 +1158,7 @@ and one concl. >*)
 theorem exercise_5_2: 
    fixes f::"real \<Rightarrow> real"  and g::"real \<Rightarrow> real"
    assumes "\<forall>x\<in>{a..b}. f differentiable (at x)" 
-"\<forall>x\<in>{a..b}. 0 < deriv f x"  and "g x = 1/ f x"
+"\<forall>x\<in>{a..b}. 0 < deriv f x"  and "\<forall> x\<in>{a..b} . g x = 1/ f x"
 
 shows "mono f" "\<forall>x\<in>{a..b}. g differentiable (at x)" 
 "\<forall>x\<in>{a..b}. deriv g ( f x) = 1 / deriv f x"
@@ -1159,20 +1174,20 @@ Prove that $f$ is one-to-one if $\varepsilon$ is small enough.
 lean statement:
 theorem exercise_5_3 {g : \<real> \<rightarrow> \<real>} (hg : continuous g)
   (hg' : \<exists> M : \<real>, \<forall> x : \<real>, | deriv g x | \<le> M) :
-  \<exists> N, \<forall> \<epsilon> > 0, \<epsilon> < N \<rightarrow> function.injective (\<lambda> x : \<real>, x + \<epsilon> * g x) :=
+  \<exists> N, \<forall> \<epsilon> > 0, \<epsilon> < N \<rightarrow> 
+function.injective (\<lambda> x : \<real>, x + \<epsilon> * g x) :=
 
 codex statement:
 theorem injective_of_small_epsilon:
   fixes g::"real \<Rightarrow> real"
   assumes "\<forall>x. abs (g' x) \<le> M"
   shows "\<exists>\<epsilon>>0. \<forall>x y. abs (x - y) < \<epsilon> \<longrightarrow> g x \<noteq> g y"
-Our comment on the codex statement: <wrong statement>
+Our comment on the codex statement: <wrong >
  *)
 theorem exercise_5_3: 
-  
-  fixes g::"real \<Rightarrow> real" and \<epsilon> M:: real and f::"real \<Rightarrow> real"
+  fixes g::"real \<Rightarrow> real" and \<epsilon> K  M:: real and f::"real \<Rightarrow> real"
   assumes "\<forall>x. abs (deriv g x) \<le> M" and " \<forall> x. f x =x + \<epsilon> *( g x )"
-  shows "\<exists> K. ( \<epsilon> < K \<longrightarrow>  inj f) "
+  shows " \<epsilon> < K \<longrightarrow> inj f"
 
   oops
 
@@ -1196,7 +1211,9 @@ theorem exists_real_root_of_polynomial_of_sum_eq_zero:
   shows "\<exists>x. 0 < x \<and> x < 1 \<and> (\<Sum>n. C n * x^n) = 0"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
-theorem exercise_5_4: undefined oops
+theorem exercise_5_4: 
+  undefined
+  oops
 
 
 (*
@@ -1217,14 +1234,14 @@ theorem tendsto_zero_of_tendsto_zero_derivative:
   fixes f::"real \<Rightarrow> real"
   assumes "\<forall>x. 0 < x \<longrightarrow> f differentiable (at x)" "((\<lambda>x. f' x) ---> 0) at_top"
   shows "((\<lambda>x. f (x + 1) - f x) ---> 0) at_top"
-Our comment on the codex statement: <wrong symbols>
+Our comment on the codex statement: <several wrong symbols>
  *)
 theorem exercise_5_5:  
  fixes f::"real \<Rightarrow> real"  and g::"real \<Rightarrow> real"
  assumes "\<forall>x >0. f differentiable (at x)" "\<forall> x. g(x)=f(x+1)-f(x)"
-" ((λx. deriv f(x )) ⤏ 0) at_top"
-  shows " ((λx. deriv g(x )) ⤏ 0) at_top"
-
+"eventually ((λx. deriv f(x )) ⤏ 0) at_top"
+  shows "eventually ((λx. deriv g(x )) ⤏ 0) at_top"
+  oops
 (*
 problem_number:5_6
 natural language statement:
@@ -1246,15 +1263,22 @@ theorem monotone_increasing_of_continuous_derivative_monotone_increasing:
   fixes f::"real \<Rightarrow> real"
   assumes "continuous_on {0..} f" "\<forall>x>0. (f has_real_derivative f' x) (at x)" "f 0 = 0" "mono f'"
   shows "mono (\<lambda>x. f x / x)"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: <correct, copy-pasted with slight change>
  *)
-theorem exercise_5_6: undefined oops
+theorem exercise_5_6: fixes f::"real \<Rightarrow> real"
+   assumes "continuous_on {0..} f" 
+"\<forall>x>0. (f has_real_derivative f' x) (at x)" "f 0 = 0" "mono f'"
+"\<forall> x>0. g x = f x / x"
+  shows "mono g"
+  
+  oops
 
 
 (*
 problem_number:5_7
 natural language statement:
-Suppose $f^{\prime}(x), g^{\prime}(x)$ exist, $g^{\prime}(x) \neq 0$, and $f(x)=g(x)=0$. Prove that $\lim _{t \rightarrow x} \frac{f(t)}{g(t)}=\frac{f^{\prime}(x)}{g^{\prime}(x)}.$
+Suppose $f^{\prime}(x), g^{\prime}(x)$ exist, $g^{\prime}(x) \neq 0$, 
+and $f(x)=g(x)=0$. Prove that $\lim _{t \rightarrow x} \frac{f(t)}{g(t)}=\frac{f^{\prime}(x)}{g^{\prime}(x)}.$
 lean statement:
 theorem exercise_5_7
   {f g : \<real> \<rightarrow> \<real>} {x : \<real>}
@@ -1269,15 +1293,23 @@ theorem lim_frac_of_derivative_eq_derivative_frac:
   fixes f g::"real \<Rightarrow> real"
   assumes "f differentiable (at x)" "g differentiable (at x)" "g x \<noteq> 0" "f x = g x = 0"
   shows "(f has_real_derivative (f' x)) (at x)" "(g has_real_derivative (g' x)) (at x)"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: <codex gives wrong assumptions and conclusions>
  *)
-theorem exercise_5_7: undefined oops
-
+theorem exercise_5_7:
+ (*  fixes f g::"real \<Rightarrow> real" assumes
+  " (f has_real_derivative f' x) (at x)"
+   " (g has_real_derivative g' x) (at x)"
+ "g' x \<noteq> 0" " f x = g x" "f x = 0"
+*)
+undefined oops
 
 (*
 problem_number:5_15
 natural language statement:
-Suppose $a \in R^{1}, f$ is a twice-differentiable real function on $(a, \infty)$, and $M_{0}, M_{1}, M_{2}$ are the least upper bounds of $|f(x)|,\left|f^{\prime}(x)\right|,\left|f^{\prime \prime}(x)\right|$, respectively, on $(a, \infty)$. Prove that $M_{1}^{2} \leq 4 M_{0} M_{2} .$
+Suppose $a \in R^{1}, f$ is a twice-differentiable real function 
+on $(a, \infty)$, and $M_{0}, M_{1}, M_{2}$ are the least upper 
+bounds of $|f(x)|,\left|f^{\prime}(x)\right|,\left|f^{\prime \prime}(x)\right|$, 
+respectively, on $(a, \infty)$. Prove that $M_{1}^{2} \leq 4 M_{0} M_{2} .$
 lean statement:
 theorem exercise_5_15 {f : \<real> \<rightarrow> \<real>} (a M0 M1 M2 : \<real>)
   (hf' : differentiable_on \<real> f (set.Ici a))
@@ -1287,7 +1319,7 @@ theorem exercise_5_15 {f : \<real> \<rightarrow> \<real>} (a M0 M1 M2 : \<real>)
   (hM2 : M2 = Sup {(| deriv (deriv f) x | )| x \<in> (set.Ici a)}) :
   (M1 ^ 2) \<le> 4 * M0 * M2 :=
 
-codex statement:
+codex statement: (* TODO MISSING*)
 
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
@@ -1297,7 +1329,9 @@ theorem exercise_5_15: undefined oops
 (*
 problem_number:5_17
 natural language statement:
-Suppose $f$ is a real, three times differentiable function on $[-1,1]$, such that $f(-1)=0, \quad f(0)=0, \quad f(1)=1, \quad f^{\prime}(0)=0 .$ Prove that $f^{(3)}(x) \geq 3$ for some $x \in(-1,1)$.
+Suppose $f$ is a real, three times differentiable function on $[-1,1]$, 
+such that $f(-1)=0, \quad f(0)=0, \quad f(1)=1, \quad f^{\prime}(0)=0 .$ 
+Prove that $f^{(3)}(x) \geq 3$ for some $x \in(-1,1)$.
 lean statement:
 theorem exercise_5_17
   {f : \<real> \<rightarrow> \<real>}
@@ -1331,11 +1365,13 @@ lean statement:
 codex statement:
 theorem integral_of_continuous_function_eq_zero:
   fixes f::"real \<Rightarrow> real" and \<alpha>::"real \<Rightarrow> real"
-  assumes "a \<le> x₀" "x₀ \<le> b" "continuous (at x₀) \<alpha>" "f x₀ = 1" "f x = 0" "\<forall>x. a \<le> x \<and> x \<le> b \<longrightarrow> \<alpha> x \<le> \<alpha> x₀"
+  assumes "a \<le> x₀" "x₀ \<le> b" "continuous (at x₀) \<alpha>" "f x₀ = 1" 
+"f x = 0" "\<forall>x. a \<le> x \<and> x \<le> b \<longrightarrow> \<alpha> x \<le> \<alpha> x₀"
   shows "f \<in> borel_measurable \<alpha>" "integral \<alpha> f = 0"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_6_1: undefined oops
+(*TODO: note there are different kinds of integration, do we need Riemann here? *)
 
 
 (*
@@ -1350,10 +1386,14 @@ theorem zero_integral_of_continuous_nonneg_implies_zero_function:
   fixes f::"real \<Rightarrow> real"
   assumes "continuous_on {a..b} f" "f \<ge> 0" "integral {a..b} f = 0"
   shows "\<forall>x\<in>{a..b}. f x = 0"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: <almost correct, but syntactical error in one of the assumptions.
+ By the way: TODO  it is not 
+actually clear which kind of integral is required from the nat lang. statement. >
  *)
 theorem exercise_6_2: 
-  undefined
+  fixes f::"real \<Rightarrow> real"
+  assumes "continuous_on {a..b} f"  "\<forall> x \<in> UNIV. f x \<ge> 0" "integral {a..b} f = 0"
+  shows  "\<forall>x\<in>{a..b}. f x = 0"
   oops
 
 
@@ -1369,10 +1409,15 @@ theorem not_Riemann_integrable_of_zero_for_irrational_one_for_rational:
   fixes f::"real \<Rightarrow> real"
   assumes "\<forall>x. irrational x \<longrightarrow> f x = 0" "\<forall>x. rational x \<longrightarrow> f x = 1"
   shows "\<forall>a b. a < b \<longrightarrow> ¬ (f integrable_on {a..b})"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: <uses nonexistent Isabelle defs like rational, irrational>
  *)
-theorem exercise_6_4: undefined oops
-
+theorem exercise_6_4: 
+   fixes f::"real \<Rightarrow> real"
+   assumes "\<forall>x. x \<notin> Rats \<longrightarrow> f x = 0" 
+"\<forall>x \<in> Rats.  f x = 1"
+  shows "\<forall>a b. a < b \<longrightarrow> ¬ (f integrable_on {a..b})"
+  oops
+(*TODO: again note there are different kinds of integration, don't we need Riemann here? *)
 
 (*
 problem_number:6_6
@@ -1388,7 +1433,9 @@ theorem R_of_bounded_continuous_at_outside_Cantor:
   shows "f \<in> R {0..1}"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
-theorem exercise_6_6: undefined oops
+theorem exercise_6_6:
+ 
+ undefined oops
 
 
 
