@@ -12,10 +12,10 @@ theorem exercise_2_2_9 {G : Type*} [group G] {a b : G}
   \<forall> x y : closure {x | x = a \<or> x = b}, x*y = y*x :=
 
 codex statement:
-theorem entire_function_of_order_one_over_alpha:
-  fixes \<alpha>::real
-  assumes "\<alpha> > 0"
-  shows "entire_function (\<lambda>z. (\<Sum>n. z^n / (fact n)^\<alpha>))"
+theorem abelian_of_commutative_generator:
+  fixes G::"('a, 'b) monoid_scheme" (structure) and a b::'a
+  assumes "group G" "a\<in>carrier G" "b\<in>carrier G" "a * b = b * a"
+  shows "abelian (subgroup_generated G {a, b})"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem (in group) exercise_2_2_9: 
@@ -31,10 +31,9 @@ Prove that the additive group $\mathbb{R}^{+}$ of real numbers is isomorphic to 
 lean statement:
 
 codex statement:
-theorem entire_function_of_order_one_over_alpha:
-  fixes \<alpha>::real
-  assumes "\<alpha> > 0"
-  shows "entire_function (\<lambda>z. (\<Sum>n. z^n / (fact n)^\<alpha>))"
+theorem isomorphic_additive_group_of_real_to_multiplicative_group_of_positive_real:
+  shows "add_group_hom (\<lambda>x. exp x) (\<lambda>x. ln x) (UNIV::real set)"
+
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_2_3_1: 
@@ -53,10 +52,11 @@ theorem exercise_2_3_2 {G : Type*} [group G] (a b : G) :
   \<exists> g : G, b* a = g * a * b * inv g :=
 
 codex statement:
-theorem entire_function_of_order_one_over_alpha:
-  fixes \<alpha>::real
-  assumes "\<alpha> > 0"
-  shows "entire_function (\<lambda>z. (\<Sum>n. z^n / (fact n)^\<alpha>))"
+theorem conjugate_of_product_of_conjugate:
+  fixes G::"('a, 'b) monoid_scheme" (structure)
+  assumes "group G"
+  shows "\<forall>a b. a * b = b * a"
+
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem (in group) exercise_2_3_2: 
@@ -75,10 +75,11 @@ theorem exercise_2_4_19 {G : Type*} [group G] {x : G}
   x \<in> center G :=
 
 codex statement:
-theorem entire_function_of_order_one_over_alpha:
-  fixes \<alpha>::real
-  assumes "\<alpha> > 0"
-  shows "entire_function (\<lambda>z. (\<Sum>n. z^n / (fact n)^\<alpha>))"
+theorem center_of_group_contains_only_one_element_of_order_2:
+  fixes G::"('a, 'b) monoid_scheme" (structure)
+  assumes "group G" "\<exists>x. order x = 2" "\<forall>x. order x = 2 \<longrightarrow> x = y"
+  shows "y \<in> center G"
+
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 
@@ -99,10 +100,11 @@ theorem exercise_2_8_6 {G H : Type*} [group G] [group H] :
   center (G \<times> H) \<cong>* (center G) \<times> (center H) :=
 
 codex statement:
-theorem entire_function_of_order_one_over_alpha:
-  fixes \<alpha>::real and z::complex
-  assumes "\<alpha> > 0"
-  shows "entire_function (\<lambda>z. (\<Sum>n. z^n / (fact n)^\<alpha>))"
+theorem center_of_prod_eq_prod_of_center:
+  fixes G H::"('a, 'b) monoid_scheme" (structure)
+  assumes "group G" "group H"
+  shows "center (G \<times> H) = center G \<times> center H"
+
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_2_8_6: 
@@ -118,10 +120,9 @@ Prove that the groups $\mathbb{R}^{+} / \mathbb{Z}^{+}$and $\mathbb{R}^{+} / 2 \
 lean statement:
 
 codex statement:
-theorem entire_function_of_order_one_over_alpha:
-  fixes \<alpha>::real
-  assumes "\<alpha> > 0"
-  shows "entire_function (\<lambda>z. (\<Sum>n. z^n / (fact n)^\<alpha>))"
+theorem isomorphic_of_R_plus_Z_plus_and_R_plus_two_pi_Z_plus:
+  shows "isomorphic_group (R_plus / Z_plus) (R_plus / two_pi_Z_plus)"
+
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_2_10_11: 
@@ -139,10 +140,11 @@ theorem exercise_2_11_3 {G : Type*} [group G] [fintype G]
   (hG : even (card G)) : \<exists> x : G, order_of x = 2 :=
 
 codex statement:
-theorem entire_function_of_order_one_over_alpha:
-  fixes \<alpha>::real
-  assumes "\<alpha> > 0"
-  shows "entire_function (\<lambda>z. (\<Sum>n. z^n / (fact n)^\<alpha>))"
+theorem injective_of_homomorphism_of_fields:
+  fixes f::"'a::field \<Rightarrow> 'b::field"
+  assumes "homomorphism f"
+  shows "inj f"
+
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem (in group) exercise_2_11_3: 
@@ -160,10 +162,11 @@ theorem exercise_3_2_7 {F : Type*} [field F] {G : Type*} [field G]
   (\<phi> : F \<rightarrow>+* G) : injective \<phi> :=
 
 codex statement:
-theorem entire_of_sum_frac_power_factorial:
-  fixes \<alpha>::real
-  assumes "\<alpha> > 0"
-  shows "entire_function (\<lambda>z. (\<Sum>n. z^n / (fact n)^\<alpha>))"
+theorem injective_of_homomorphism_of_fields:
+  fixes f::"'a::field \<Rightarrow> 'b::field"
+  assumes "homomorphism f"
+  shows "inj f"
+
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_3_2_7: 
@@ -183,10 +186,11 @@ theorem exercise_3_5_6 {K V : Type*} [field K] [add_comm_group V]
   (hR : linear_independent K R) : countable \<iota> :=
 
 codex statement:
-theorem entire_of_sum_frac_power_factorial:
-  fixes \<alpha>::real and z::complex
-  assumes "\<alpha> > 0"
-  shows "entire_function (\<lambda>z. (\<Sum>n. z^n / (fact n)^\<alpha>))"
+theorem independent_of_countable_span_is_finite_or_countable:
+  fixes v::"'a::euclidean_space set"
+  assumes "independent v" "countable (span v)"
+  shows "finite v \<or> countable v"
+
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_3_5_6: undefined oops
@@ -202,10 +206,11 @@ theorem exercise_3_7_2 {K V : Type*} [field K] [add_comm_group V]
   (\<Inter> (i : \<iota>), (\<nu> i : set V)) \<noteq> \<top> :=
 
 codex statement:
-theorem entire_of_sum_frac_z_n_over_n_fact_alpha:
-  fixes \<alpha>::real
-  assumes "\<alpha> > 0"
-  shows "entire_function (\<lambda>z. (\<Sum>n. z^n / (fact n)^\<alpha>))"
+theorem not_union_of_finite_proper_subspaces:
+  fixes V::"'a::{field, infinite} set"
+  assumes "finite S" "S \<subseteq> Pow V" "\<forall>W\<in>S. W \<subset> V" "\<forall>W\<in>S. W \<noteq> V"
+  shows "\<Union>S \<noteq> V"
+
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_3_7_2: undefined oops
@@ -221,10 +226,11 @@ theorem exercise_6_1_14 (G : Type* ) [group G]
   center G = \<top>  :=
 
 codex statement:
-theorem entire_of_sum_frac_z_n_n_fact_alpha:
-  fixes \<alpha>::real
-  assumes "\<alpha> > 0"
-  shows "entire_function (\<lambda>z. (\<Sum>n. z^n / (fact n)^\<alpha>))"
+theorem center_of_cyclic_quotient_is_abelian:
+  fixes G::"('a, 'b) monoid_scheme" (structure)
+  assumes "group G" "cyclic (G / Z)"
+  shows "abelian G"
+
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem (in group) exercise_6_1_14: 
@@ -243,10 +249,11 @@ theorem exercise_6_4_2 {G : Type*} [group G] [fintype G] {p q : \<nat>}
   is_simple_group G \<rightarrow> false :=
 
 codex statement:
-theorem entire_of_sum_frac_power_factorial:
-  fixes \<alpha>::real
-  assumes "\<alpha> > 0"
-  shows "entire (\<lambda>z. (\<Sum>n. z^n / (fact n)^\<alpha>))"
+theorem no_simple_group_of_order_pq:
+  fixes p q::nat
+  assumes "prime p" "prime q" "p \<noteq> q" "group G" "order G = p * q"
+  shows "\<exists>H. subgroup H G \<and> H \<noteq> {\<one>} \<and> H \<noteq> carrier G"
+
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 
@@ -270,10 +277,11 @@ theorem exercise_6_4_3 {G : Type*} [group G] [fintype G] {p q : \<nat>}
   is_simple_group G \<rightarrow> false :=
 
 codex statement:
-theorem entire_of_sum_frac_z_n_over_n_fact_alpha:
-  fixes \<alpha>::real
-  assumes "\<alpha> > 0"
-  shows "entire (\<lambda>z. (\<Sum>n. z^n / (fact n)^\<alpha>))"
+theorem not_simple_of_order_p_square_q:
+  fixes p q::nat
+  assumes "prime p" "prime q" "p \<noteq> q" "group G" "order G = p^2 * q"
+  shows "\<exists>H. subgroup H G \<and> H \<noteq> {\<one>} \<and> H \<noteq> carrier G"
+
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem (in group) exercise_6_4_3: 
@@ -292,10 +300,11 @@ theorem exercise_6_4_12 {G : Type*} [group G] [fintype G]
   is_simple_group G \<rightarrow> false :=
 
 codex statement:
-theorem entire_function_of_order_one_over_alpha:
-  fixes \<alpha>::real
-  assumes "\<alpha> > 0"
-  shows "entire_function (\<lambda>z. (\<Sum>n. z^n / (fact n)^\<alpha>))"
+theorem no_simple_group_of_order_224:
+  fixes G::"('a, 'b) monoid_scheme" (structure)
+  assumes "group G" "order G = 224"
+  shows "\<exists>H. subgroup H G \<and> H \<noteq> (carrier G) \<and> H \<noteq> {\<one>}"
+
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_6_4_12: 
@@ -313,10 +322,11 @@ theorem exercise_6_8_1 {G : Type*} [group G]
   (a b : G) : closure ({a, b} : set G) = closure {b*a*b^2, b*a*b^3} :=
 
 codex statement:
-theorem entire_of_sum_frac_power_factorial:
-  fixes \<alpha>::real
-  assumes "\<alpha> > 0"
-  shows "entire (\<lambda>z. (\<Sum>n. z^n / (fact n)^\<alpha>))"
+theorem subgroup_generated_by_two_elements_eq_subgroup_generated_by_two_elements:
+  fixes G::"('a, 'b) monoid_scheme" (structure)
+  assumes "group G"
+  shows "subgroup_generated G {a, b} = subgroup_generated G {b * a * b^2, b * a * b^3}"
+
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem (in group) exercise_6_8_1: 
@@ -334,10 +344,11 @@ theorem exercise_6_8_4 {\<alpha> : Type*} [group \<alpha>] [free_group \<alpha>]
   closure ({x,y,z} : set \<alpha>) :=
 
 codex statement:
-theorem entire_of_sum_frac_power_factorial:
-  fixes \<alpha>::real
-  assumes "\<alpha> > 0"
-  shows "entire_function (\<lambda>z. (\<Sum>n. z^n / (fact n)^\<alpha>))"
+theorem free_group_of_generators_and_relation:
+  fixes x y z::"'a::group_add"
+  assumes "y + x + y + - z - z = 0"
+  shows "\<exists>G. free_group G \<and> {x, y, z} \<subseteq> carrier G"
+
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_6_8_4: undefined oops
@@ -353,10 +364,11 @@ theorem exercise_6_8_6 {G : Type*} [group G] (N : subgroup G)
   \<exists> (g h : G), closure ({g,h} : set G) = \<top> :=
 
 codex statement:
-theorem entire_of_sum_frac_z_n_over_n_fact_alpha:
-  fixes \<alpha>::real
-  assumes "\<alpha> > 0"
-  shows "entire_function (\<lambda>z. (\<Sum>n. z^n / (fact n)^\<alpha>))"
+theorem exists_two_generators_of_cyclic_quotient_and_cyclic_group:
+  fixes G::"('a, 'b) monoid_scheme" (structure)
+  assumes "group G" "cyclic G" "normal_subgroup N G" "cyclic (G / N)"
+  shows "\<exists>x y. x \<in> carrier G \<and> y \<in> carrier G \<and> G = \<lbrakk>x, y\<rbrakk>"
+
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 
@@ -376,10 +388,11 @@ theorem exercise_10_1_13 {R : Type*} [ring R] {x : R}
   (hx : is_nilpotent x) : is_unit (1 + x) :=
 
 codex statement:
-theorem entire_of_sum_frac_power_factorial:
-  fixes \<alpha>::real
-  assumes "\<alpha> > 0"
-  shows "entire (\<lambda>z. (\<Sum>n. z^n / (fact n)^\<alpha>))"
+theorem one_plus_nilpotent_is_unit:
+  fixes R::"'a::ring_1"
+  assumes "\<exists>n. x^n = 0"
+  shows "\<exists>y. y * (1 + x) = 1"
+
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem (in ring) exercise_10_1_13: 
@@ -398,10 +411,11 @@ theorem exercise_10_2_4 :
   span ({2 * X} : set $ polynomial \<int>) :=
 
 codex statement:
-theorem entire_of_sum_frac_power_factorial:
-  fixes \<alpha>::real
-  assumes "\<alpha> > 0"
-  shows "entire (\<lambda>z. (\<Sum>n. z^n / (fact n)^\<alpha>))"
+theorem int_poly_ideal_inter_ideal_eq_ideal_mul:
+  fixes p::"int poly"
+  assumes "p \<in> ideal_of_int_poly (2::int)" "p \<in> ideal_of_int_poly [:2:]"
+  shows "p \<in> ideal_of_int_poly [:2*2:]"
+
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_10_2_4: undefined oops
@@ -416,10 +430,11 @@ theorem exercise_10_6_7 {I : ideal gaussian_int}
   (hI : I \<noteq> \<bot>) : \<exists> (z : I), z \<noteq> 0 \<and> (z : gaussian_int).im = 0 :=
 
 codex statement:
-theorem entire_of_sum_frac_power_factorial:
-  fixes \<alpha>::real
-  assumes "\<alpha> > 0"
-  shows "entire_function (\<lambda>z. (\<Sum>n. z^n / (fact n)^\<alpha>))"
+theorem exists_nonzero_int_of_nonzero_ideal:
+  fixes I::"int set"
+  assumes "I \<noteq> {0}"
+  shows "\<exists>x\<in>I. x\<noteq>0"
+
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_10_6_7: 
@@ -436,10 +451,11 @@ Prove that a polynomial $f(x)=\sum a_i x^i$ can be expanded in powers of $x-a$ :
 lean statement:
 
 codex statement:
-theorem entire_of_sum_frac_z_n_n_fact_alpha:
-  fixes \<alpha>::real
-  assumes "\<alpha> > 0"
-  shows "entire_function (\<lambda>z. (\<Sum>n. z^n / (fact n)^\<alpha>))"
+theorem polynomial_expansion_of_polynomial:
+  fixes f::"real \<Rightarrow> real" and a::real
+  assumes "polynomial f"
+  shows "\<exists>c. (\<forall>x. f x = (\<Sum>i. c i (x - a)^i)) \<and> (\<forall>i. polynomial (c i)) \<and> (\<forall>i. \<forall>j. coeff (c i) j \<in> \<int>)"
+
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_10_6_16: undefined oops
@@ -452,10 +468,11 @@ Let $I, J$ be ideals of a ring $R$. Show by example that $I \cup J$ need not be 
 lean statement:
 
 codex statement:
-theorem entire_of_sum_frac_z_n_over_n_fact_alpha:
-  fixes \<alpha>::real
-  assumes "\<alpha> > 0"
-  shows "entire_function (\<lambda>z. (\<Sum>n. z^n / (fact n)^\<alpha>))"
+theorem union_of_ideals_is_not_ideal:
+  fixes R::"'a::comm_ring_1 ring" and I J::"'a set"
+  assumes "ideal I R" "ideal J R"
+  shows "\<exists>x y. x\<in>I \<and> y\<in>J \<and> x+y\<notin>I \<union> J"
+
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_10_3_24a: 
@@ -473,10 +490,11 @@ theorem exercise_10_4_6 {R : Type*} [comm_ring R]
   is_nilpotent ((ideal.quotient.mk (I*J)) x) :=
 
 codex statement:
-theorem entire_of_sum_frac_z_n_n_fact_alpha:
-  fixes \<alpha>::real
-  assumes "\<alpha> > 0"
-  shows "entire (\<lambda>z. (\<Sum>n. z^n / (fact n)^\<alpha>))"
+theorem residue_of_inter_ideal_is_nilpotent:
+  fixes R::"'a::comm_ring_1" and I J::"'a set"
+  assumes "ideal I R" "ideal J R"
+  shows "\<forall>x\<in>I\<inter>J. \<exists>n. (x + I J)^n = 0"
+
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_10_4_6: undefined oops
@@ -491,10 +509,11 @@ theorem exercise_10_4_7a {R : Type*} [comm_ring R] [no_zero_divisors R]
   (I J : ideal R) (hIJ : I + J = \<top>) : I * J = I \<sqinter> J :=
 
 codex statement:
-theorem entire_of_sum_frac_power_factorial:
-  fixes \<alpha>::real
-  assumes "\<alpha> > 0"
-  shows "entire (\<lambda>z. (\<Sum>n. z^n / (fact n)^\<alpha>))"
+theorem ideal_intersection_eq_product_of_ideals_of_sum_eq_ring:
+  fixes R::"'a::comm_ring_1 ring" and I J::"'a set"
+  assumes "ideal I R" "ideal J R" "I + J = carrier R"
+  shows "I \<inter> J = I * J"
+
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_10_4_7a: undefined oops
@@ -511,10 +530,11 @@ theorem exercise_10_5_16 {F : Type*} [fintype F] [field F] :
   ring_char F \<noteq> 2 :=
 
 codex statement:
-theorem entire_function_of_order_one_over_alpha:
-  fixes \<alpha>::real
-  assumes "\<alpha> > 0"
-  shows "entire_function (\<lambda>z. (\<Sum>n. z^n / (fact n)^\<alpha>))"
+theorem isomorphic_of_char_two:
+  fixes F::"'a::field"
+  assumes "char F = 2"
+  shows "F[x] /\<langle>x^2\<rangle> \<cong> F[x] /\<langle>x^2 - 1\<rangle>"
+
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_10_5_16: undefined oops
@@ -530,10 +550,11 @@ theorem exercise_10_7_6 {F : Type*} [fintype F] [field F]
   field $ (polynomial F) / ideal.span ({X^2 + X + 1} : set (polynomial F)) :=
 
 codex statement:
-theorem entire_of_sum_frac_power_factorial:
-  fixes \<alpha>::real
-  assumes "\<alpha> > 0"
-  shows "entire_function (\<lambda>z. (\<Sum>n. z^n / (fact n)^\<alpha>))"
+theorem quotient_ring_is_field:
+  fixes R::"('a::comm_ring_1) ring"
+  assumes "\<forall>x. x^2 + x + 1 = 0 \<longrightarrow> x = 0"
+  shows "field (R/(x^2 + x + 1))"
+
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_10_7_6: undefined oops
@@ -549,10 +570,11 @@ theorem exercise_10_7_10 {R : Type*} [ring R]
   is_maximal M \<and> \<forall> (N : ideal R), is_maximal N \<rightarrow> N = M :=
 
 codex statement:
-theorem entire_of_sum_frac_power_factorial:
-  fixes \<alpha>::real
-  assumes "\<alpha> > 0"
-  shows "entire (\<lambda>z. (\<Sum>n. z^n / (fact n)^\<alpha>))"
+theorem ideal_of_ring_is_maximal_of_every_non_member_is_unit:
+  fixes R::"'a::comm_ring_1 ring" and M::"'a set"
+  assumes "ideal M R" "\<forall>x\<in>carrier R. x\<notin>M \<longrightarrow> is_unit R x"
+  shows "maximal_ideal M R"
+
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_10_7_10: undefined oops
@@ -567,10 +589,11 @@ theorem exercise_11_2_13 (a b : \<int>) :
   (of_int a : gaussian_int)  dvd  of_int b \<rightarrow> a  dvd  b :=
 
 codex statement:
-theorem entire_function_of_order_one_over_alpha:
-  fixes \<alpha>::real
-  assumes "\<alpha> > 0"
-  shows "entire_function (\<lambda>z. (\<Sum>n. z^n / (fact n)^\<alpha>))"
+theorem divides_of_Gauss_divides:
+  fixes a b::int
+  assumes "a dvd b" "a\<in>{x. \<exists>y. x = y*y}"
+  shows "a dvd b"
+
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_11_2_13: 
@@ -588,10 +611,11 @@ theorem exercise_11_3_1 {F : Type*} [field F] (a b : F) (ha : a \<noteq> 0) (p :
   irreducible p \<longleftrightarrow> irreducible (\<Sum> n in p.support, p.coeff n \<bullet> (a \<bullet> X + b \<bullet> 1)^n : polynomial F) :=
 
 codex statement:
-theorem entire_function_of_order_one_over_alpha:
-  fixes \<alpha>::real
-  assumes "\<alpha> > 0"
-  shows "entire_function (\<lambda>z. (\<Sum>n. z^n / (fact n)^\<alpha>))"
+theorem irreducible_of_irreducible_of_linear_transform:
+  fixes a b::"'a::field" and f::"'a poly"
+  assumes "a \<noteq> 0" "irreducible f"
+  shows "irreducible (map_poly (\<lambda>x. a*x + b) f)"
+
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_11_3_1: undefined oops
@@ -604,10 +628,11 @@ Let $F=\mathbb{C}(x)$, and let $f, g \in \mathbb{C}[x, y]$. Prove that if $f$ an
 lean statement:
 
 codex statement:
-theorem entire_of_sum_frac_power_factorial:
-  fixes \<alpha>::real
-  assumes "\<alpha> > 0"
-  shows "entire_function (\<lambda>z. (\<Sum>n. z^n / (fact n)^\<alpha>))"
+theorem exists_common_factor_of_common_factor_in_poly_ring:
+  fixes f g::"complex poly"
+  assumes "\<exists>h. h dvd f \<and> h dvd g \<and> h \<in> F[y]"
+  shows "\<exists>h. h dvd f \<and> h dvd g"
+
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_11_3_2: undefined oops
@@ -621,10 +646,11 @@ lean statement:
 theorem exercise_11_3_4 : irreducible (X^3 + 6*X + 12 : polynomial \<rat>) :=
 
 codex statement:
-theorem entire_of_sum_frac_power_factorial:
-  fixes \<alpha>::real
-  assumes "\<alpha> > 0"
-  shows "entire (\<lambda>z. (\<Sum>n. z^n / (fact n)^\<alpha>))"
+theorem relatively_prime_of_ideal_contains_int:
+  fixes f g::"int poly"
+  assumes "\<exists>a. a\<in>ideal_generated_by f g"
+  shows "relatively_prime f g"
+
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_11_3_4: undefined oops
@@ -639,10 +665,11 @@ theorem exercise_11_4_1b {F : Type*} [field F] [fintype F] (hF : card F = 2) :
   irreducible (12 + 6 * X + X ^ 3 : polynomial F) :=
 
 codex statement:
-theorem entire_of_sum_frac_power_factorial:
-  fixes \<alpha>::real
-  assumes "\<alpha> > 0"
-  shows "entire_function (\<lambda>z. (\<Sum>n. z^n / (fact n)^\<alpha>))"
+theorem irreducible_of_polynomial_of_degree_3:
+  fixes x::"real poly"
+  assumes "degree x = 3" "\<forall>x. x^3 + 6*x + 12 = (x+2)*x^2"
+  shows "irreducible x"
+
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_11_4_1b: undefined oops
@@ -657,10 +684,11 @@ theorem exercise_11_4_6a {F : Type*} [field F] [fintype F] (hF : card F = 7) :
   irreducible (X ^ 2 + 1 : polynomial F) :=
 
 codex statement:
-theorem entire_of_sum_frac_power_factorial:
-  fixes \<alpha>::real
-  assumes "\<alpha> > 0"
-  shows "entire_function (\<lambda>z. (\<Sum>n. z^n / (fact n)^\<alpha>))"
+theorem irreducible_of_poly_over_finite_field:
+  fixes x::"'a::{field_char_0,finite}"
+  assumes "char_poly x = [:1,1,1:]"
+  shows "irreducible (char_poly x)"
+
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_11_4_6a: undefined oops
@@ -675,10 +703,11 @@ theorem exercise_11_4_6b {F : Type*} [field F] [fintype F] (hF : card F = 31) :
   irreducible (X ^ 3 - 9 : polynomial F) :=
 
 codex statement:
-theorem entire_function_of_order_one_over_alpha:
-  fixes \<alpha>::real and z::complex
-  assumes "\<alpha> > 0"
-  shows "entire_function (\<lambda>z. (\<Sum>n. z^n / (fact n)^\<alpha>))"
+theorem irreducible_of_x_square_plus_one:
+  fixes x::"'a::{field, comm_ring_1}"
+  assumes "char_0 (UNIV::'a set)"
+  shows "irreducible (x^2 + 1)"
+
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_11_4_6b: undefined oops
@@ -692,10 +721,10 @@ lean statement:
 theorem exercise_11_4_6c : irreducible (X^3 - 9 : polynomial (zmod 31)) :=
 
 codex statement:
-theorem entire_function_of_order_one_over_alpha:
-  fixes \<alpha>::real and z::complex
-  assumes "\<alpha> > 0"
-  shows "entire_function (\<lambda>z. (\<Sum>n. z^n / (fact n)^\<alpha>))"
+theorem irreducible_of_x_cube_minus_nine:
+  assumes "prime p" "p > 3"
+  shows "irreducible (poly_of_list [1, 0, 0, -9] :: 'a mod_ring poly)"
+
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_11_4_6c: undefined oops
@@ -710,10 +739,11 @@ theorem exercise_11_4_8 {p : \<nat>} (hp : prime p) (n : \<nat>) :
   irreducible (X ^ n - p : polynomial \<rat>) :=
 
 codex statement:
-theorem entire_function_of_order_one_over_alpha:
-  fixes \<alpha>::real
-  assumes "\<alpha> > 0"
-  shows "entire_function (\<lambda>z. (\<Sum>n. z^n / (fact n)^\<alpha>))"
+theorem irreducible_of_prime_power:
+  fixes p::nat and n::nat
+  assumes "prime p"
+  shows "irreducible (poly_of_nat p ^ n - 1)"
+
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_11_4_8: undefined oops
@@ -726,10 +756,11 @@ Let $p$ be a prime integer, and let $f \in \mathbb{Z}[x]$ be a polynomial of deg
 lean statement:
 
 codex statement:
-theorem entire_of_sum_power_factorial:
-  fixes \<alpha>::real
-  assumes "\<alpha> > 0"
-  shows "entire_function (\<lambda>z. (\<Sum>n. z^n / (fact n)^\<alpha>))"
+theorem irreducible_of_degree_odd_and_coeff_mod_p_eq_zero:
+  fixes p::nat and f::"int poly"
+  assumes "prime p" "degree f = 2*n+1" "coeff f (2*n+1) mod p \<noteq> 0" "\<forall>i\<le>n. coeff f i mod p^2 = 0" "\<forall>i. n < i \<and> i \<le> 2*n \<longrightarrow> coeff f i mod p = 0" "coeff f 0 mod p^3 \<noteq> 0"
+  shows "irreducible f"
+
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_11_4_10: undefined oops
@@ -742,10 +773,11 @@ Let $p$ be a prime which splits in $R$, say $(p)=P \bar{P}$, and let $\alpha \in
 lean statement:
 
 codex statement:
-theorem entire_function_of_order_one_over_alpha:
-  fixes \<alpha>::real
-  assumes "\<alpha> > 0"
-  shows "entire_function (\<lambda>z. (\<Sum>n. z^n / (fact n)^\<alpha>))"
+theorem ideal_generated_by_prime_and_non_divisible_element:
+  fixes R::"'a::comm_ring_1" and p::"'a"
+  assumes "prime p" "p ∣ (\<Prod>i\<in>I. f i)" "\<forall>i\<in>I. p ∣ f i \<longrightarrow> p ∣ g i" "\<forall>i\<in>I. p ∣ g i \<longrightarrow> p ∣ f i"
+  shows "p ∣ (\<Prod>i\<in>I. g i)"
+
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_11_9_4: undefined oops
@@ -761,10 +793,11 @@ theorem exercise_11_12_3 (p : \<nat>) (hp : nat.prime p) {a : zmod p}
     \<exists> (x y : \<int>), x ^ 2 + 5 * y ^ 2 = p \<or> 2 * x ^ 2 + 2 * x * y + 3 * y ^ 2 = p :=
 
 codex statement:
-theorem entire_function_of_order_one_over_alpha:
-  fixes \<alpha>::real
-  assumes "\<alpha> > 0"
-  shows "entire_function (\<lambda>z. (\<Sum>n. z^n / (fact n)^\<alpha>))"
+theorem exists_integer_point_of_ellipse_of_congruence_mod_p:
+  fixes p::nat
+  assumes "\<exists>x. x^2 \<equiv> -5 (mod p)"
+  shows "\<exists>x y. x^2 + 5 * y^2 = p \<or> 2 * x^2 + 2 * x * y + 3 * y^2 = p"
+
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_11_12_3: undefined oops
@@ -779,10 +812,9 @@ theorem exercise_11_13_3 (N : \<nat>):
   \<exists> p \<ge> N, nat.prime p \<and> p + 1 \<equiv> 0 [MOD 4] :=
 
 codex statement:
-theorem entire_function_of_order_one_over_alpha:
-  fixes \<alpha>::real
-  assumes "\<alpha> > 0"
-  shows "entire_function (\<lambda>z. (\<Sum>n. z^n / (fact n)^\<alpha>))"
+theorem exists_infinite_primes_congruent_minus_one_mod_four:
+  shows "\<exists>p. prime p \<and> p \<equiv> -1 [MOD 4]"
+
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_11_13_3: 
@@ -797,10 +829,11 @@ Let $R$ be an integral domain containing a field $F$ as subring and which is fin
 lean statement:
 
 codex statement:
-theorem entire_function_of_order_one_over_alpha:
-  fixes \<alpha>::real
-  assumes "\<alpha> > 0"
-  shows "entire_function (\<lambda>z. (\<Sum>n. z^n / (fact n)^\<alpha>))"
+theorem field_of_integral_domain_finite_dim_over_field:
+  fixes R::"'a::field ring" and F::"'a ring"
+  assumes "ring R" "ring F" "subring F R" "finite_dimensional F R"
+  shows "field R"
+
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_13_1_3: undefined oops
@@ -813,10 +846,11 @@ Let $F$ be a field, and let $\alpha$ be an element which generates a field exten
 lean statement:
 
 codex statement:
-theorem entire_of_sum_frac_power_factorial:
-  fixes \<alpha>::real
-  assumes "\<alpha> > 0"
-  shows "entire_function (\<lambda>z. (\<Sum>n. z^n / (fact n)^\<alpha>))"
+theorem exists_eq_of_degree_eq_of_generator:
+  fixes F::"'a::field" and \<alpha>::"'a"
+  assumes "degree F \<alpha> = 5"
+  shows "\<exists>\<beta>. degree F \<beta> = 5 \<and> F \<subseteq> F[\<beta>]"
+
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_13_3_1: undefined oops
@@ -829,10 +863,11 @@ Let $K$ be a field generated over $F$ by two elements $\alpha, \beta$ of relativ
 lean statement:
 
 codex statement:
-theorem entire_of_sum_frac_power_factorial:
-  fixes \<alpha>::real
-  assumes "\<alpha> > 0"
-  shows "entire (\<lambda>z. (\<Sum>n. z^n / (fact n)^\<alpha>))"
+theorem degree_of_field_generated_by_two_elements_of_relatively_prime_degrees:
+  fixes F::"'a::field_char_0" and \<alpha> \<beta>::"'a"
+  assumes "degree \<alpha> m" "degree \<beta> n" "coprime m n"
+  shows "degree F (\<alpha>, \<beta>) (m * n)"
+
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_13_3_8: undefined oops
@@ -848,10 +883,11 @@ theorem exercise_13_4_10
     \<exists> (k : \<nat>), p = 2 ^ (2 ^ k) + 1 :=
 
 codex statement:
-theorem entire_of_sum_frac_power_factorial:
-  fixes \<alpha>::real
-  assumes "\<alpha> > 0"
-  shows "entire_function (\<lambda>z. (\<Sum>n. z^n / (fact n)^\<alpha>))"
+theorem prime_of_form_2_pow_r_add_1_is_2_pow_2_pow_k_add_1:
+  fixes p::nat
+  assumes "prime p" "\<exists>r. p = 2^r + 1"
+  shows "\<exists>k. p = 2^(2^k) + 1"
+
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_13_4_10: 
@@ -869,10 +905,11 @@ theorem exercise_13_6_10 {K : Type*} [field K] [fintype K x] :
   \<Prod> (x : K x), x = -1 :=
 
 codex statement:
-theorem entire_of_sum_frac_power_factorial:
-  fixes \<alpha>::real
-  assumes "\<alpha> > 0"
-  shows "entire (\<lambda>z. (\<Sum>n. z^n / (fact n)^\<alpha>))"
+theorem product_nonzero_eq_minus_one:
+  fixes K::"'a::field_char_0"
+  assumes "finite K" "card K > 1"
+  shows "(\<Prod>x\<in>K. if x=0 then 1 else x) = -1"
+
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_13_6_10: undefined oops
