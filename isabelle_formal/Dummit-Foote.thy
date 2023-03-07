@@ -1,5 +1,5 @@
 theory "Dummit-Foote"
- imports Main
+ imports "HOL-Number_Theory.Number_Theory" "HOL-Algebra.Algebra"
 begin
 
 (*
@@ -15,10 +15,11 @@ end
 codex statement:
 theorem not_commutative_of_star_on_int:
   fixes a b::int
-  shows "a ∗ b \<noteq> b ∗ a"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+  shows "a \<^emph> b \<noteq> b \<^emph> a"
+Our comment on the codex statement: It missed the point that an operator is being defined
  *)
-theorem exercise_1_1_2a: undefined oops
+theorem exercise_1_1_2a: "\<exists>a b::int. a-b \<noteq> b-a"
+  by presburger 
 
 
 (*
@@ -38,10 +39,15 @@ theorem add_assoc_of_residue_classes:
   fixes n::nat
   assumes "n>0"
   shows "\<forall>x y z. (x + y) mod n + z mod n = (x + y + z) mod n"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: close but not exactly right, and the Lean one is also wrong
  *)
-theorem exercise_1_1_3: undefined oops
-
+theorem exercise_1_1_3: 
+  fixes n::nat
+  assumes "n>0" "x \<in> carrier (residue_ring n)" "y \<in> carrier (residue_ring n)" "z \<in> carrier (residue_ring n)"
+  shows "add (residue_ring n) (add (residue_ring n) x y) z = add (residue_ring n) x (add (residue_ring n) y z)"
+  using assms
+  by (simp add: residue_ring_def; presburger)
+  
 
 (*
 problem_number:1_1_4
@@ -60,9 +66,15 @@ theorem mult_assoc_of_residue_class:
   fixes n::nat
   assumes "n>0"
   shows "\<forall>x y z. (x::int) mod n * (y mod n) * (z mod n) = (x * y * z) mod n"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement:  same comment as before
  *)
-theorem exercise_1_1_4: undefined oops
+theorem exercise_1_1_4: 
+  fixes n::nat
+  assumes "n>0" "x \<in> carrier (residue_ring n)" "y \<in> carrier (residue_ring n)" "z \<in> carrier (residue_ring n)"
+  shows "mult (residue_ring n) (mult (residue_ring n) x y) z = mult (residue_ring n) x (mult (residue_ring n) y z)"
+  using assms
+  by (simp add: residue_ring_def mod_mult_left_eq mod_mult_right_eq mult.assoc)
+
 
 
 (*
@@ -78,9 +90,19 @@ theorem not_group_of_Z_mod_n_mult:
   fixes n::nat
   assumes "n>1"
   shows "\<forall>x\<in>carrier (Z_mod_n). \<exists>y\<in>carrier (Z_mod_n). x * y \<noteq> 𝟙"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement:  the statement doesn't even mention groups
  *)
-theorem exercise_1_1_5: undefined oops
+theorem exercise_1_1_5: 
+  assumes "n>1"
+  shows "\<not> group (residue_ring n)"
+proof -
+  have "0 \<notin> Units (residue_ring n)"
+    using assms by (auto simp: Units_def residue_ring_def)
+  then show ?thesis
+    using assms
+    by (auto simp: group_def group_axioms_def residue_ring_def subsetD)
+qed
+
 
 
 (*
@@ -102,9 +124,31 @@ theorem inverse_of_prod_eq_prod_inverse:
   fixes G::"('a, 'b) monoid_scheme" (structure)
   assumes "group G"
   shows "\<forall>v. (\<Prod>i\<in>v. f i)⁻¹ = \<Prod>i\<in>v. (f i)⁻¹"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement:  correct in  spirit
  *)
-theorem exercise_1_1_15: undefined oops
+lemma (in group) foldr_carrier:
+  assumes "set xs \<subseteq> carrier G"
+  shows "foldr (\<otimes>) xs \<one> \<in> carrier G"
+  using assms by (induction xs) auto
+
+lemma (in group) foldr_mult_mult: "\<lbrakk>a \<in> carrier G; set xs \<subseteq> carrier G\<rbrakk> \<Longrightarrow> foldr (\<otimes>) xs \<one> \<otimes> a = foldr (\<otimes>) xs a"
+  by (induction xs) (auto simp: group.foldr_carrier m_assoc)
+
+theorem (in group) exercise_1_1_15: 
+  assumes "set xs \<subseteq> carrier G"
+  shows "inv (foldr (mult G) xs \<one>) = foldr (mult G) (map (m_inv G) (rev xs)) \<one>"
+  using assms
+proof (induction xs)
+  case Nil
+  then show ?case
+    by auto
+next
+  case (Cons a xs)
+  have "set (map (m_inv G) (rev xs)) \<subseteq> carrier G"
+    using Cons.prems by (induction xs) auto
+  with Cons show ?case
+    by (simp add: inv_mult_group foldr_carrier foldr_mult_mult)
+qed
 
 
 (*
@@ -121,9 +165,13 @@ theorem order_eq_one_or_two_of_square_eq_one:
   fixes G::"('a, 'b) monoid_scheme" (structure)
   assumes "group G" "x^2 = \<one>"
   shows "order x = 1 \<or> order x = 2"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: It overlooked the if and only if
  *)
-theorem exercise_1_1_16: undefined oops
+theorem (in group) exercise_1_1_16: 
+  assumes "x \<in> carrier G"
+  shows "x [^] (2::nat) = \<one> \<longleftrightarrow> ord x = 1 \<or> ord x = 2"
+  using assms apply (auto simp add: pow_eq_id)
+  by (metis Suc_1 Suc_diff_1 diff_is_0_eq dvd_def dvd_imp_le le_SucE nat_0_less_mult_iff zero_less_Suc)
 
 
 (*
@@ -140,9 +188,17 @@ theorem inverse_eq_power_of_order_minus_one:
   fixes G::"('a, 'b) monoid_scheme" (structure)
   assumes "group G" "order x = n" "n>0"
   shows "inv x = x [^] (n-1)"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement:  pretty good, but it confused ord with order (versus order of a group)
  *)
-theorem exercise_1_1_17: undefined oops
+theorem (in group) exercise_1_1_17: 
+  assumes "x \<in> carrier G" "ord x = n" "n>0"
+  shows "inv x = x [^] (n-1)"
+proof -
+  have "x \<otimes> (x [^] (n-1)) = \<one>"
+    by (metis Suc_diff_1 assms nat_pow_Suc2 pow_ord_eq_1)
+  then show ?thesis
+    using assms(1) group_commutes_pow inv_char nat_pow_closed by presburger
+qed
 
 
 (*
@@ -157,9 +213,12 @@ codex statement:
 theorem commutative_iff_inverse_commutative_iff_inverse_commutative_inverse:
   fixes x y::"'a::group_add"
   shows "x * y = y * x \<longleftrightarrow> inv y * x * y = x \<longleftrightarrow> inv x * inv y * x * y = \<one>"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement:  the wrong multiplication operator, and IFF is not transitive for us!
  *)
-theorem exercise_1_1_18: undefined oops
+theorem (in group) exercise_1_1_18: 
+  assumes "x \<in> carrier G" "y \<in> carrier G"
+  shows "x \<otimes> y = y \<otimes> x \<longleftrightarrow> inv y \<otimes> x \<otimes> y = x" "x \<otimes> y = y \<otimes> x \<longleftrightarrow> inv x \<otimes> inv y \<otimes> x \<otimes> y = \<one>"
+  by (simp_all add: assms group.inv_solve_left' m_assoc  units_of_mult)
 
 
 (*
@@ -175,9 +234,12 @@ theorem order_of_inverse_eq_order:
   fixes G::"('a, 'b) monoid_scheme" (structure)
   assumes "group G" "x \<in> carrier G"
   shows "order G x = order G (inv x)"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: Correct except for ord vs order (and the need for the locale)
  *)
-theorem exercise_1_1_20: undefined oops
+theorem (in group) exercise_1_1_20: 
+  assumes "x \<in> carrier G"
+  shows "ord x = ord (inv x)"
+  using assms ord_inv by presburger
 
 
 (*
@@ -193,9 +255,13 @@ theorem order_of_conjugate_eq_order:
   fixes G::"('a, 'b) monoid_scheme" (structure) and x g::'a
   assumes "group G" "x \<in> carrier G" "g \<in> carrier G"
   shows "order G x = order G (inv g * x * g)"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement:  Same comment as for the previous one
  *)
-theorem exercise_1_1_22a: undefined oops
+theorem (in group) exercise_1_1_22a: 
+  assumes "x \<in> carrier G" "g \<in> carrier G"
+  shows "ord x = ord (inv g \<otimes> x \<otimes> g)"
+  sorry
+
 
 
 (*
@@ -210,9 +276,12 @@ codex statement:
 theorem abs_mult_eq_abs_mult:
   fixes a b::"'a::{comm_ring_1,ring_char_0}"
   shows "abs (a * b) = abs (b * a)"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement:  it went quite wrong. No absolute values here!
  *)
-theorem exercise_1_1_22b: undefined oops
+theorem (in group) exercise_1_1_22b: 
+  assumes "x \<in> carrier G" "y \<in> carrier G"
+  shows "ord (x \<otimes> y) = ord (y \<otimes> x)"
+  by (metis assms exercise_1_1_22a inv_solve_left' m_closed)
 
 
 (*
@@ -228,9 +297,13 @@ theorem abelian_of_square_eq_one:
   fixes G::"('a, 'b) monoid_scheme" (structure)
   assumes "group G" "\<forall>x\<in>carrier G. x^2 = \<one>"
   shows "abelian G"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement:  the syntax for power in a group and the name of the abelian property
  *)
-theorem exercise_1_1_25: undefined oops
+theorem (in group) exercise_1_1_25:
+  assumes "\<forall>x\<in>carrier G. x[^] (2::nat) = \<one>"
+  shows "comm_group G"
+  by (smt (verit, ccfv_SIG) One_nat_def assms diff_Suc_1 exercise_1_1_16 exercise_1_1_17 group_comm_groupI inv_mult_group l_cancel_one l_inv_ex m_closed nat_pow_eone numeral_2_eq_2 ord_eq_1 pos2)
+
 
 
 (*
@@ -247,10 +320,17 @@ theorem abelian_of_prod_abelian:
   fixes A B::"'a::group_add"
   assumes "abelian_group A" "abelian_group B"
   shows "abelian_group (A \<times> B)"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement:  It overlooked the if and only if
  *)
-theorem exercise_1_1_29: undefined oops
 
+theorem exercise_1_1_29_lemma: 
+  assumes "monoid (G \<times>\<times> H)"
+  shows "monoid G" "monoid H"
+  using assms
+  unfolding comm_monoid_def comm_monoid_axioms_def monoid_def DirProd_def by auto
+
+theorem exercise_1_1_29: "comm_group (G \<times>\<times> H) \<longleftrightarrow> comm_group G \<and> comm_group H"
+  oops
 
 (*
 problem_number:1_1_34
@@ -266,9 +346,12 @@ theorem distinct_powers_of_infinite_order_element:
   fixes G::"('a, 'b) monoid_scheme" (structure)
   assumes "group G" "\<forall>n ::nat. x [^] n \<noteq> \<one>"
   shows "\<forall> m n :: int. m \<noteq> n \<longrightarrow> x [^] m \<noteq> x [^] n"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement:  it's actually pretty good!
  *)
-theorem exercise_1_1_34: undefined oops
+theorem (in group) exercise_1_1_34: 
+  assumes "x \<in> carrier G" "ord x = 0"
+  shows "inj (\<lambda>n::nat. x [^] n)"
+  oops
 
 
 (*
@@ -280,12 +363,16 @@ theorem exercise_1_3_8 : infinite (equiv.perm \<nat>) :=
 
 codex statement:
 theorem infinite_of_permutation_group:
-  fixes Ω::"nat set"
-  assumes "finite Ω"
-  shows "infinite (permutation_group Ω)"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+  fixes \<Omega>::"nat set"
+  assumes "finite \<Omega>"
+  shows "infinite (permutation_group \<Omega>)"
+Our comment on the codex statement:  the point of the exercise is that it is a group. Trivially, it's infinite
  *)
-theorem exercise_1_3_8: undefined oops
+theorem exercise_1_3_8: 
+  "group\<lparr> carrier = { p. p permutes {1::nat..} }, mult = (\<circ>), one = id \<rparr>"
+  apply unfold_locales
+  using permutes_inv permutes_inv_o
+  by (fastforce simp: Units_def permutes_compose)+
 
 
 (*
@@ -347,14 +434,14 @@ natural language statement:
 Let $G$ be a finite group which possesses an automorphism $\sigma$ such that $\sigma(g)=g$ if and only if $g=1$. If $\sigma^{2}$ is the identity map from $G$ to $G$, prove that $G$ is abelian.
 lean statement:
 theorem exercise_1_6_23 {G : Type*}
-  [group G] (σ : mul_aut G) (hs : \<forall> g : G, σ g = 1 \<rightarrow> g = 1)
-  (hs2 : \<forall> g : G, σ (σ g) = g) :
+  [group G] (\<sigma> : mul_aut G) (hs : \<forall> g : G, \<sigma> g = 1 \<rightarrow> g = 1)
+  (hs2 : \<forall> g : G, \<sigma> (\<sigma> g) = g) :
   \<forall> x y : G, x*y = y*x :=
 
 codex statement:
 theorem abelian_of_automorphism_sigma_sigma_square_eq_id:
   fixes G::"('a, 'b) monoid_scheme" (structure)
-  assumes "group G" "finite_group G" "\<exists>σ. automorphism G σ" "\<forall>g. g \<in> carrier G \<longrightarrow> (σ g = g \<longleftrightarrow> g = \<one>)" "\<forall>g. g \<in> carrier G \<longrightarrow> σ (σ g) = g"
+  assumes "group G" "finite_group G" "\<exists>\<sigma>. automorphism G \<sigma>" "\<forall>g. g \<in> carrier G \<longrightarrow> (\<sigma> g = g \<longleftrightarrow> g = \<one>)" "\<forall>g. g \<in> carrier G \<longrightarrow> \<sigma> (\<sigma> g) = g"
   shows "abelian_group G"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
@@ -443,7 +530,7 @@ codex statement:
 theorem subgroup_generated_by_subtract_one:
   fixes G::"('a, 'b) monoid_scheme" (structure) and H::"('a, 'b) monoid_scheme" (structure)
   assumes "group G" "subgroup H G"
-  shows "H = ⟦H - {\<one> G}⟧"
+  shows "H = \<lbrakk>H - {\<one> G}\<rbrakk>"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_2_4_4: undefined oops
@@ -501,7 +588,7 @@ codex statement:
 theorem maximal_of_rotations_in_dihedral:
   fixes G::"('a, 'b) monoid_scheme" (structure)
   assumes "group G" "\<exists>n. order G = 2*n"
-  shows "\<exists>H. subgroup H G \<and> \<forall>H'. subgroup H' G \<longrightarrow> H = H' \<or> H ∩ H' = {\<one>}"
+  shows "\<exists>H. subgroup H G \<and> \<forall>H'. subgroup H' G \<longrightarrow> H = H' \<or> H \<inter> H' = {\<one>}"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_2_4_16b: undefined oops
@@ -520,7 +607,7 @@ codex statement:
 theorem maximal_subgroup_of_cyclic_group_is_prime_power:
   fixes G::"('a, 'b) monoid_scheme" (structure) and x::'a
   assumes "group G" "x \<in> carrier G" "order G = n" "n \<ge> 1" "cyclic G" "subgroup H G" "maximal_eq_exists_not_subgroup H G"
-  shows "\<exists>p. prime p \<and> p dvd n \<and> H = ⟦{x [^] p}⟧"
+  shows "\<exists>p. prime p \<and> p dvd n \<and> H = \<lbrakk>{x [^] p}\<rbrakk>"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_2_4_16c: undefined oops
@@ -557,7 +644,7 @@ codex statement:
 theorem normal_subgroup_of_intersection_of_normal_subgroups:
   fixes G::"('a, 'b) monoid_scheme" (structure) and H K::"'a set"
   assumes "group G" "normal_subgroup H G" "normal_subgroup K G"
-  shows "normal_subgroup (H ∩ K) G"
+  shows "normal_subgroup (H \<inter> K) G"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_3_1_22a: undefined oops
@@ -570,7 +657,7 @@ Prove that the intersection of an arbitrary nonempty collection of normal subgro
 lean statement:
 theorem exercise_3_1_22b {G : Type*} [group G] (I : Type* )
   (H : I \<rightarrow> subgroup G) (hH : \<forall> i : I, subgroup.normal (H i)) :
-  subgroup.normal (⨅ (i : I), H i):=
+  subgroup.normal (\<Sqinter> (i : I), H i):=
 
 codex statement:
 theorem normal_subgroup_of_intersection_of_normal_subgroups:
@@ -596,7 +683,7 @@ codex statement:
 theorem finite_subgroups_of_relatively_prime_orders_have_trivial_intersection:
   fixes H K::"('a, 'b) monoid_scheme" (structure)
   assumes "group G" "finite_group H" "finite_group K" "subgroup H G" "subgroup K G" "coprime (order H) (order K)"
-  shows "H ∩ K = {\<one>}"
+  shows "H \<inter> K = {\<one>}"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_3_2_8: undefined oops
@@ -663,13 +750,13 @@ Prove that if $H$ is a normal subgroup of $G$ of prime index $p$ then for all $K
 lean statement:
 theorem exercise_3_3_3 {p : primes} {G : Type*} [group G]
   {H : subgroup G} [hH : H.normal] (hH1 : H.index = p) :
-  \<forall> K : subgroup G, K \<le> H \<or> H ⊔ K = \<top> \<or> (K \<sqinter> H).relindex K = p :=
+  \<forall> K : subgroup G, K \<le> H \<or> H \<squnion> K = \<top> \<or> (K \<sqinter> H).relindex K = p :=
 
 codex statement:
 theorem prime_index_of_normal_subgroup_of_subgroup:
   fixes G::"('a, 'b) monoid_scheme" (structure) and H::"('a, 'b) monoid_scheme" (structure)
   assumes "group G" "group H" "normal_subgroup H G" "prime (card (G / H))" "subgroup K G"
-  shows "K \<le> H \<or> (G = H * K \<and> card (K / (K ∩ H)) = card (G / H))"
+  shows "K \<le> H \<or> (G = H * K \<and> card (K / (K \<inter> H)) = card (G / H))"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_3_3_3: undefined oops
@@ -812,15 +899,15 @@ natural language statement:
 Let $G$ be a finite group of composite order $n$ with the property that $G$ has a subgroup of order $k$ for each positive integer $k$ dividing $n$. Prove that $G$ is not simple.
 lean statement:
 theorem exercise_4_2_14 {G : Type*} [fintype G] [group G]
-  (hG : ¬ (card G).prime) (hG1 : \<forall> k  dvd  card G,
+  (hG : \<not> (card G).prime) (hG1 : \<forall> k  dvd  card G,
   \<exists> (H : subgroup G) (fH : fintype H), @card H fH = k) :
-  ¬ is_simple_group G :=
+  \<not> is_simple_group G :=
 
 codex statement:
 theorem not_simple_of_composite_order_and_subgroup_of_each_divisor:
   fixes G::"('a, 'b) monoid_scheme" (structure)
   assumes "finite_group G" "composite_group G" "\<forall>k. k dvd order G \<longrightarrow> \<exists>H. subgroup H G \<and> card H = k"
-  shows "¬simple_group G"
+  shows "\<not>simple_group G"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_4_2_14: undefined oops
@@ -848,14 +935,14 @@ natural language statement:
 Let $G$ be a transitive permutation group on the finite set $A$ with $|A|>1$. Show that there is some $\sigma \in G$ such that $\sigma(a) \neq a$ for all $a \in A$.
 lean statement:
 theorem exercise_4_3_26 {\<alpha> : Type*} [fintype \<alpha>] (ha : fintype.card \<alpha> > 1)
-  (h_tran : \<forall> a b: \<alpha>, \<exists> σ : equiv.perm \<alpha>, σ a = b) :
-  \<exists> σ : equiv.perm \<alpha>, \<forall> a : \<alpha>, σ a \<noteq> a :=
+  (h_tran : \<forall> a b: \<alpha>, \<exists> \<sigma> : equiv.perm \<alpha>, \<sigma> a = b) :
+  \<exists> \<sigma> : equiv.perm \<alpha>, \<forall> a : \<alpha>, \<sigma> a \<noteq> a :=
 
 codex statement:
 theorem exists_permutation_of_transitive_permutation_group:
   fixes G::"('a, 'b) monoid_scheme" (structure)
   assumes "group G" "finite (carrier G)" "transitive_on (carrier G) G" "card (carrier G) > 1"
-  shows "\<exists> σ \<in> carrier G. \<forall> a \<in> carrier G. σ a \<noteq> a"
+  shows "\<exists> \<sigma> \<in> carrier G. \<forall> a \<in> carrier G. \<sigma> a \<noteq> a"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_4_3_26: undefined oops
@@ -870,7 +957,7 @@ lean statement:
 codex statement:
 theorem abelian_of_pairwise_commute:
   fixes G::"('a, 'b) monoid_scheme" (structure)
-  assumes "finite_group G" "\<forall>i j. i \<noteq> j \<longrightarrow> g i ∘ g j = g j ∘ g i"
+  assumes "finite_group G" "\<forall>i j. i \<noteq> j \<longrightarrow> g i \<circ> g j = g j \<circ> g i"
   shows "abelian_group G"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
@@ -920,13 +1007,13 @@ natural language statement:
 Prove that there exists a normal subgroup that is not characteristic.
 lean statement:
 theorem exercise_4_4_6b {G : Type*} [group G] :
-  \<exists> H : subgroup G, H.characteristic \<and> ¬ H.normal :=
+  \<exists> H : subgroup G, H.characteristic \<and> \<not> H.normal :=
 
 codex statement:
 theorem exists_normal_not_characteristic:
   fixes G::"('a, 'b) monoid_scheme" (structure)
   assumes "group G"
-  shows "\<exists>H. normal_subgroup H G \<and> ¬characteristic_subgroup H G"
+  shows "\<exists>H. normal_subgroup H G \<and> \<not>characteristic_subgroup H G"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_4_4_6b: undefined oops
@@ -1110,7 +1197,7 @@ natural language statement:
 Prove that if $|G|=6545$ then $G$ is not simple.
 lean statement:
 theorem exercise_4_5_19 {G : Type*} [fintype G] [group G]
-  (hG : card G = 6545) : ¬ is_simple_group G :=
+  (hG : card G = 6545) : \<not> is_simple_group G :=
 
 codex statement:
 theorem not_simple_of_order_eq_6545:
@@ -1128,7 +1215,7 @@ natural language statement:
 Prove that if $|G|=1365$ then $G$ is not simple.
 lean statement:
 theorem exercise_4_5_20 {G : Type*} [fintype G] [group G]
-  (hG : card G = 1365) : ¬ is_simple_group G :=
+  (hG : card G = 1365) : \<not> is_simple_group G :=
 
 codex statement:
 theorem not_simple_of_order_1365:
@@ -1146,7 +1233,7 @@ natural language statement:
 Prove that if $|G|=2907$ then $G$ is not simple.
 lean statement:
 theorem exercise_4_5_21 {G : Type*} [fintype G] [group G]
-  (hG : card G = 2907) : ¬ is_simple_group G :=
+  (hG : card G = 2907) : \<not> is_simple_group G :=
 
 codex statement:
 theorem not_simple_of_order_2907:
@@ -1164,7 +1251,7 @@ natural language statement:
 Prove that if $|G|=132$ then $G$ is not simple.
 lean statement:
 theorem exercise_4_5_22 {G : Type*} [fintype G] [group G]
-  (hG : card G = 132) : ¬ is_simple_group G :=
+  (hG : card G = 132) : \<not> is_simple_group G :=
 
 codex statement:
 theorem not_simple_of_order_eq_132:
@@ -1182,7 +1269,7 @@ natural language statement:
 Prove that if $|G|=462$ then $G$ is not simple.
 lean statement:
 theorem exercise_4_5_23 {G : Type*} [fintype G] [group G]
-  (hG : card G = 462) : ¬ is_simple_group G :=
+  (hG : card G = 462) : \<not> is_simple_group G :=
 
 codex statement:
 theorem not_simple_of_order_462:
@@ -1227,7 +1314,7 @@ codex statement:
 theorem unique_sylow_of_normal_sylow_intersect_subgroup:
   fixes p::nat and G::"('a, 'b) monoid_scheme" (structure) and H::"('a, 'b) monoid_scheme" (structure)
   assumes "normalization_semidom_class.prime p" "group G" "group H" "Sylow p G P" "P \<subseteq> H"
-  shows "Sylow p H (P ∩ H)"
+  shows "Sylow p H (P \<inter> H)"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_4_5_33: undefined oops
@@ -1382,7 +1469,7 @@ Let $\varphi: R \rightarrow S$ be a surjective homomorphism of rings. Prove that
 lean statement:
 theorem exercise_7_3_16 {R S : Type*} [ring R] [ring S]
   {\<phi> : R \<rightarrow>+* S} (hf : surjective \<phi>) :
-  \<phi> '' (center R) ⊂ center S :=
+  \<phi> '' (center R) \<subset> center S :=
 
 codex statement:
 theorem center_of_ring_hom_image_subset_center_of_ring_hom_codomain:
@@ -1423,7 +1510,7 @@ codex statement:
 theorem nilpotent_ideal_of_p_Z_mod_p_m_Z:
   fixes p::nat and m::nat
   assumes "prime p"
-  shows "\<exists>n. (p^n) *⇩R (p^m) = 0"
+  shows "\<exists>n. (p^n) *\<^sub>R (p^m) = 0"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_7_3_37: undefined oops
@@ -1524,7 +1611,7 @@ codex statement:
 theorem irreducible_of_squarefree_int_greater_3:
   fixes n::int
   assumes "n > 3" "\<forall>p. prime p \<longrightarrow> p  dvd  n \<longrightarrow> p dvd 1 \<or> p dvd 2"
-  shows "\<forall>x. x \<in> {2, √ (-n), 1 + √ (-n)} \<longrightarrow> irreducible x"
+  shows "\<forall>x. x \<in> {2, \<surd> (-n), 1 + \<surd> (-n)} \<longrightarrow> irreducible x"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_8_3_5a: undefined oops
@@ -1542,7 +1629,7 @@ theorem exercise_8_3_6a {R : Type*} [ring R]
 codex statement:
 theorem quotient_ring_is_field_of_order_2:
   assumes "ideal (1 + I) (\<int>[I])"
-  shows "field (\<int>[I] /⟦1 + I⟧)" "card (carrier (\<int>[I] /⟦1 + I⟧)) = 2"
+  shows "field (\<int>[I] /\<lbrakk>1 + I\<rbrakk>)" "card (carrier (\<int>[I] /\<lbrakk>1 + I\<rbrakk>)) = 2"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_8_3_6a: undefined oops
@@ -1573,7 +1660,7 @@ problem_number:9_1_6
 natural language statement:
 Prove that $(x, y)$ is not a principal ideal in $\mathbb{Q}[x, y]$.
 lean statement:
-theorem exercise_9_1_6 : ¬ is_principal
+theorem exercise_9_1_6 : \<not> is_principal
   (ideal.span ({X 0, X 1} : set (mv_polynomial (fin 2) \<rat>))) :=
 
 codex statement:
@@ -1595,8 +1682,8 @@ theorem exercise_9_1_10 {f : \<nat> \<rightarrow> mv_polynomial \<nat> \<int>}
 codex statement:
 theorem infinite_minimal_prime_ideals_of_quotient_ring:
   fixes R::"('a::comm_ring_1) ring"
-  assumes "\<forall>i. prime (p i)" "\<forall>i. ideal R (p i)" "\<forall>i. p (2*i) ∩ p (2*i+1) = {0}"
-  shows "infinite {P. prime_ideal R P \<and> \<forall>Q. prime_ideal R Q \<longrightarrow> Q \<le> P ⟹ Q = P}"
+  assumes "\<forall>i. prime (p i)" "\<forall>i. ideal R (p i)" "\<forall>i. p (2*i) \<inter> p (2*i+1) = {0}"
+  shows "infinite {P. prime_ideal R P \<and> \<forall>Q. prime_ideal R Q \<longrightarrow> Q \<le> P \<Longrightarrow> Q = P}"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_9_1_10: undefined oops
@@ -1756,7 +1843,7 @@ codex statement:
 theorem Ann_sum_eq_inter_Ann:
   fixes V::"'a::euclidean_space set" and W1 W2::"'a set"
   assumes "subspace W1" "subspace W2"
-  shows "Ann (W1 + W2) = Ann W1 ∩ Ann W2"
+  shows "Ann (W1 + W2) = Ann W1 \<inter> Ann W2"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_11_3_3bi: undefined oops
@@ -1772,7 +1859,7 @@ codex statement:
 theorem Ann_inter_eq_Ann_sum:
   fixes V::"'a::euclidean_space set" and W1 W2::"'a set"
   assumes "subspace W1" "subspace W2"
-  shows "Ann (W1 ∩ W2) = Ann W1 + Ann W2"
+  shows "Ann (W1 \<inter> W2) = Ann W1 + Ann W2"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_11_3_3bii: undefined oops
