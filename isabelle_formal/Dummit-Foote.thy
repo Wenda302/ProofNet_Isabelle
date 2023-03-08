@@ -388,7 +388,11 @@ theorem not_isomorphic_of_real_complex:
   shows "\<forall>f::real \<Rightarrow> complex. (\<forall>x y. f (x * y) = f x * f y) \<longrightarrow> (\<exists>x. f x = 0)"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
-theorem exercise_1_6_4: undefined oops
+theorem exercise_1_6_4: 
+  defines "R_group \<equiv>  \<lparr>carrier = UNIV-{0}, monoid.mult = (*), one = (1::real)\<rparr>"
+  defines "C_group \<equiv> \<lparr>carrier = UNIV-{0}, monoid.mult = (*), one = (1::complex)\<rparr>"
+  shows "\<not> R_group \<cong> C_group"
+  oops
 
 
 (*
@@ -406,7 +410,10 @@ theorem isomorphic_of_prod_commute:
   shows "A \<times> B \<cong> B \<times> A"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
-theorem exercise_1_6_11: undefined oops
+theorem exercise_1_6_11: 
+  assumes "group A" "group B"
+  shows "A \<times>\<times> B \<cong> B \<times>\<times> A"
+  by (simp add: assms DirProd_commute_iso)
 
 
 (*
@@ -423,9 +430,14 @@ theorem is_homomorphism_of_inverse_iff_abelian:
   fixes G::"('a, 'b) monoid_scheme" (structure)
   assumes "group G"
   shows "\<forall>x y. (x * y)⁻¹ = inv y * inv x \<longleftrightarrow> comm_group G"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: it doesn't seem to know about group_hom
  *)
-theorem exercise_1_6_17: undefined oops
+theorem (in group) exercise_1_6_17: 
+  shows "group_hom G G (\<lambda>x. inv x) \<longleftrightarrow> comm_group G"
+  apply (auto simp: )
+   apply unfold_locales
+   apply (smt (verit, best) group_hom.hom_mult inv_closed inv_inv inv_mult_group)
+  by (simp add: comm_group.inv_mult homI)
 
 
 (*
@@ -443,9 +455,13 @@ theorem abelian_of_automorphism_sigma_sigma_square_eq_id:
   fixes G::"('a, 'b) monoid_scheme" (structure)
   assumes "group G" "finite_group G" "\<exists>\<sigma>. automorphism G \<sigma>" "\<forall>g. g \<in> carrier G \<longrightarrow> (\<sigma> g = g \<longleftrightarrow> g = \<one>)" "\<forall>g. g \<in> carrier G \<longrightarrow> \<sigma> (\<sigma> g) = g"
   shows "abelian_group G"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: good except that there is no symbol "automorphism"
  *)
-theorem exercise_1_6_23: undefined oops
+theorem (in group) exercise_1_6_23: 
+  assumes "finite (carrier G)" "\<sigma> \<in> iso G G"
+    and "\<forall>g \<in> carrier G. \<sigma> g = g \<longleftrightarrow> g = \<one>" "\<forall>g \<in> carrier G. \<sigma> (\<sigma> g) = g"
+  shows "comm_group G"
+oops
 
 
 (*
@@ -461,7 +477,7 @@ theorem kernel_of_action_eq_kernel_of_permutation_representation:
   shows "kernel (\<lambda>x. permutation_of_list (action G x A)) = kernel (\<lambda>x. action G x A)"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
-theorem exercise_1_7_5: undefined oops
+theorem (in group) exercise_1_7_5: undefined oops
 
 
 (*
@@ -477,7 +493,7 @@ theorem faithful_action_iff_kernel_eq_singleton:
   shows "faithful_action G A \<longleftrightarrow> kernel G A = {\<one>}"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
-theorem exercise_1_7_6: undefined oops
+theorem (in group) exercise_1_7_6: undefined oops
 
 
 (*
@@ -494,9 +510,12 @@ theorem no_subgroup_of_order_n_minus_one:
   fixes G::"('a, 'b) monoid_scheme" (structure)
   assumes "group G" "order G > 2"
   shows "\<forall>H. subgroup H G \<longrightarrow> order H \<noteq> order G - 1"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: very good!
  *)
-theorem exercise_2_1_5: undefined oops
+theorem (in group) exercise_2_1_5: 
+  assumes "order G > 2" "subgroup H G"
+  shows "card H \<noteq> order G - 1"
+oops
 
 
 (*
@@ -515,7 +534,11 @@ theorem subgroup_of_rat_with_inv_is_zero_or_rat:
   shows "H = {0} \<or> H = UNIV"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
-theorem exercise_2_1_13: undefined oops
+theorem exercise_2_1_13: 
+  defines "Q_group \<equiv>  \<lparr>carrier = UNIV, monoid.mult = (+), one = (0::rat)\<rparr>"
+  assumes "subgroup H Q_group" "\<forall>x\<in>H. x \<noteq> 0 \<longrightarrow> inverse x \<in> H"
+  shows "H={} \<or> H=UNIV"
+  oops
 
 
 (*
@@ -533,7 +556,10 @@ theorem subgroup_generated_by_subtract_one:
   shows "H = \<lbrakk>H - {\<one> G}\<rbrakk>"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
-theorem exercise_2_4_4: undefined oops
+theorem (in group) exercise_2_4_4:
+  assumes "subgroup H G"
+  shows "H = generate G (H - {\<one>})"
+oops
 
 
 (*
@@ -547,9 +573,12 @@ theorem generated_by_inverse_primes:
   fixes p::"nat \<Rightarrow> bool"
   assumes "\<forall>x y. p x \<longrightarrow> p y \<longrightarrow> p (x*y)" "\<forall>x. p x \<longrightarrow> x\<ge>2"
   shows "subgroup_generated (carrier (multiplicative \<rat>)) {inverse (of_nat x) | x. p x} = carrier (multiplicative \<rat>)"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: whoops!
  *)
-theorem exercise_2_4_13: undefined oops
+theorem exercise_2_4_13: 
+  defines "RP_group \<equiv> \<lparr>carrier = {0<..}, monoid.mult = (*), one = (1::real)\<rparr>"
+  shows "carrier (RP_group) = generate RP_group {1 / real p | p::nat. Factorial_Ring.prime p}"
+  oops
 
 
 (*
@@ -568,9 +597,17 @@ theorem exists_maximal_subgroup_of_finite_group_containing_proper_subgroup:
   fixes G::"('a, 'b) monoid_scheme" (structure) and H::"('a, 'b) monoid_scheme" (structure)
   assumes "group G" "finite_group G" "subgroup H G" "H \<noteq> G"
   shows "\<exists>M. maximal_subgroup M G \<and> subgroup H M"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: pretty good
  *)
-theorem exercise_2_4_16a: undefined oops
+
+definition 
+  "maximal_subgroup M G \<equiv> subgroup M G \<and> M \<noteq> carrier G \<and>
+             (\<forall>N. subgroup N G \<and> M \<subset> N \<longrightarrow> N = carrier G)"
+
+theorem (in group) exercise_2_4_16a: 
+  assumes "subgroup H G" "H \<noteq> carrier G" "finite (carrier G)" 
+  shows "\<exists>M. maximal_subgroup M G \<and> H \<subseteq> M"
+  oops
 
 
 (*
@@ -608,9 +645,12 @@ theorem maximal_subgroup_of_cyclic_group_is_prime_power:
   fixes G::"('a, 'b) monoid_scheme" (structure) and x::'a
   assumes "group G" "x \<in> carrier G" "order G = n" "n \<ge> 1" "cyclic G" "subgroup H G" "maximal_eq_exists_not_subgroup H G"
   shows "\<exists>p. prime p \<and> p dvd n \<and> H = \<lbrakk>{x [^] p}\<rbrakk>"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: assumptions OK but the conclusion overlooked the IFF again
  *)
-theorem exercise_2_4_16c: undefined oops
+theorem  (in group) exercise_2_4_16c: 
+  assumes "carrier G = generate G {x}" "x \<in> carrier G" "order G = n" "n \<ge> 1" "subgroup H G"
+  shows "maximal_subgroup H G \<longleftrightarrow> (\<exists>p. Factorial_Ring.prime p \<and> p dvd n \<and> H = generate G {x [^] p})"
+  oops
 
 
 (*
@@ -626,9 +666,12 @@ theorem quotient_group_of_abelian_group_is_abelian:
   fixes A::"('a, 'b) monoid_scheme" (structure) and B::"('a, 'b) monoid_scheme" (structure)
   assumes "group A" "group B" "subgroup B A" "abelian_group A"
   shows "abelian_group (quotient_group A B)"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: the right idea
  *)
-theorem exercise_3_1_3a: undefined oops
+theorem (in comm_group) exercise_3_1_3a: 
+  assumes "subgroup H G"
+  shows "comm_group (G Mod H)"
+  by (metis assms abelian_FactGroup)
 
 
 (*
@@ -645,9 +688,12 @@ theorem normal_subgroup_of_intersection_of_normal_subgroups:
   fixes G::"('a, 'b) monoid_scheme" (structure) and H K::"'a set"
   assumes "group G" "normal_subgroup H G" "normal_subgroup K G"
   shows "normal_subgroup (H \<inter> K) G"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: pretty good
  *)
-theorem exercise_3_1_22a: undefined oops
+theorem (in group) exercise_3_1_22a: 
+  assumes "H  \<lhd>  G" "K \<lhd> G"
+  shows "(H \<inter> K) \<lhd>  G"
+  using assms normal_inv_iff subgroups_Inter_pair by auto
 
 
 (*
@@ -664,9 +710,12 @@ theorem normal_subgroup_of_intersection_of_normal_subgroups:
   fixes G::"('a, 'b) monoid_scheme" (structure)
   assumes "group G" "\<forall>H\<in>S. normal_subgroup H G" "S \<noteq> {}"
   shows "normal_subgroup (\<Inter>S) G"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: good except for "normal_subgroup" (and locale)
  *)
-theorem exercise_3_1_22b: undefined oops
+theorem (in group) exercise_3_1_22b:
+  assumes "\<forall>H\<in>\<S>. H \<lhd> G" "S \<noteq> {}"
+  shows "(\<Inter>\<S>) \<lhd> G"
+  oops
 
 
 (*
@@ -684,9 +733,12 @@ theorem finite_subgroups_of_relatively_prime_orders_have_trivial_intersection:
   fixes H K::"('a, 'b) monoid_scheme" (structure)
   assumes "group G" "finite_group H" "finite_group K" "subgroup H G" "subgroup K G" "coprime (order H) (order K)"
   shows "H \<inter> K = {\<one>}"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: not bad, but we don't have "finite_group"
  *)
-theorem exercise_3_2_8: undefined oops
+theorem (in group) exercise_3_2_8: 
+  assumes "subgroup H G" "subgroup K G" "finite H" "finite K" "coprime (card H) (card K)"
+  shows "H \<inter> K = {\<one>}"
+  oops
 
 
 (*
@@ -703,9 +755,14 @@ theorem index_of_subgroup_mul_index_of_subgroup_of_subgroup:
   fixes G H K::"'a::group_mult"
   assumes "subgroup H G" "subgroup K G" "subgroup H K"
   shows "index G H = index G K * index K H"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: we don't have index and subgroups are just sets
  *)
-theorem exercise_3_2_11: undefined oops
+theorem (in group) exercise_3_2_11: 
+  fixes K
+  defines "KG \<equiv> G\<lparr>carrier:=K\<rparr>"
+  assumes  "subgroup H KG" "subgroup K G"
+  shows "card (rcosets\<^bsub>G\<^esub> H) = card (rcosets\<^bsub>G\<^esub> K) * card (rcosets\<^bsub>KG\<^esub> H)"  
+  oops
 
 
 (*
@@ -721,9 +778,15 @@ theorem fermat_little_theorem:
   fixes p::nat and a::int
   assumes "prime p"
   shows "a mod p = a mod p"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: it's nonsense
  *)
-theorem exercise_3_2_16: undefined oops
+
+theorem exercise_3_2_16: 
+  fixes a::int
+  assumes "Factorial_Ring.prime p"
+  shows "[a^p = a] (mod p)"
+  using group.lagrange
+  oops
 
 
 (*
@@ -738,9 +801,13 @@ theorem no_proper_subgroup_of_finite_index:
   fixes G::"'a::group_add set"
   assumes "subgroup G \<rat>" "finite_index \<rat> G"
   shows "G = \<rat>"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: not bad!
  *)
-theorem exercise_3_2_21a: undefined oops
+theorem exercise_3_2_21a: 
+  defines "Q_group \<equiv>  \<lparr>carrier = UNIV, monoid.mult = (+), one = (0::rat)\<rparr>"
+  assumes "subgroup H Q_group" "H \<noteq> UNIV"
+  shows "infinite (rcosets\<^bsub>Q_group\<^esub> H)"
+  oops
 
 
 (*
