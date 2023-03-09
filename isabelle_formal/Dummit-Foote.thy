@@ -977,9 +977,12 @@ theorem subgroup_of_index_prime_is_normal:
   fixes p::nat and G::"('a, 'b) monoid_scheme" (structure)
   assumes "prime p" "order G = p^a" "subgroup H G" "card (G / H) = p"
   shows "normal H G"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: very good
  *)
-theorem exercise_4_2_9a: undefined oops
+theorem (in group) exercise_4_2_9a: 
+  assumes "Factorial_Ring.prime p" "order G = p^\<alpha>" "\<alpha>>0" "subgroup H G" "order (G Mod H) = p"
+  shows "H \<lhd> G"
+  oops
 
 
 (*
@@ -997,10 +1000,13 @@ theorem not_simple_of_composite_order_and_subgroup_of_each_divisor:
   fixes G::"('a, 'b) monoid_scheme" (structure)
   assumes "finite_group G" "composite_group G" "\<forall>k. k dvd order G \<longrightarrow> \<exists>H. subgroup H G \<and> card H = k"
   shows "\<not>simple_group G"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: very good
  *)
-theorem exercise_4_2_14: undefined oops
-
+theorem (in group) exercise_4_2_14: (*NB simple_group is not available in Isabelle2022 but is forthcoming*)
+  assumes "finite (carrier G)" "\<not> Factorial_Ring.prime (order G)"
+    and "\<forall>k. k dvd order G \<longrightarrow> (\<exists>H. subgroup H G \<and> card H = k)"
+  shows "\<not> simple_group G"
+  oops
 
 (*
 problem_number:4_3_5
@@ -1069,7 +1075,10 @@ theorem cyclic_of_abelian_of_order_pq:
   shows "cyclic G"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
-theorem exercise_4_4_2: undefined oops
+theorem (in group) exercise_4_4_2: 
+  assumes "comm_group G" "order G = p * q" "Factorial_Ring.prime p" "Factorial_Ring.prime q" "p \<noteq> q"
+  shows "cyclic_group G"
+oops
 
 
 (*
@@ -1293,9 +1302,12 @@ theorem not_simple_of_order_eq_6545:
   fixes G::"('a, 'b) monoid_scheme" (structure)
   assumes "group G" "order G = 6545"
   shows "\<exists>H. subgroup H G \<and> H \<noteq> (\<one>::'a set)"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: needs simple_group
  *)
-theorem exercise_4_5_19: undefined oops
+theorem (in group) exercise_4_5_19: (*NB simple_group is not available in Isabelle2022 but is forthcoming*)
+  assumes "order G = 6545"
+  shows "\<not> simple_group G"
+  oops
 
 
 (*
@@ -1311,9 +1323,12 @@ theorem not_simple_of_order_1365:
   fixes G::"('a, 'b) monoid_scheme" (structure)
   assumes "group G" "order G = 1365"
   shows "\<exists>H. subgroup H G \<and> H \<noteq> (\<one>::'a set)"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: needs simple_group
  *)
-theorem exercise_4_5_20: undefined oops
+theorem (in group) exercise_4_5_20: (*NB simple_group is not available in Isabelle2022 but is forthcoming*)
+  assumes "order G = 1365"
+  shows "\<not> simple_group G"
+oops
 
 
 (*
@@ -1329,9 +1344,12 @@ theorem not_simple_of_order_2907:
   fixes G::"('a, 'b) monoid_scheme" (structure)
   assumes "group G" "order G = 2907"
   shows "\<exists>H. subgroup H G \<and> H \<noteq> {\<one>} \<and> H \<noteq> carrier G"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: needs simple_group
  *)
-theorem exercise_4_5_21: undefined oops
+theorem (in group) exercise_4_5_21:(*NB simple_group is not available in Isabelle2022 but is forthcoming*)
+  assumes "order G = 2907"
+  shows "\<not> simple_group G"
+oops
 
 
 (*
@@ -1347,9 +1365,12 @@ theorem not_simple_of_order_eq_132:
   fixes G::"('a, 'b) monoid_scheme" (structure)
   assumes "group G" "order G = 132"
   shows "\<exists>H. subgroup H G \<and> H \<noteq> (\<one>::'a set)"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: needs simple_group
  *)
-theorem exercise_4_5_22: undefined oops
+theorem (in group) exercise_4_5_22: (*NB simple_group is not available in Isabelle2022 but is forthcoming*)
+  assumes "order G = 132"
+  shows "\<not> simple_group G"
+oops
 
 
 (*
@@ -1365,9 +1386,12 @@ theorem not_simple_of_order_462:
   fixes G::"('a, 'b) monoid_scheme" (structure)
   assumes "group G" "order G = 462"
   shows "\<exists>H. subgroup H G \<and> H \<noteq> (\<one>::'a set)"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: needs simple_group
  *)
-theorem exercise_4_5_23: undefined oops
+theorem (in group) exercise_4_5_23: (*NB simple_group is not available in Isabelle2022 but is forthcoming*)
+  assumes "order G = 452"
+  shows "\<not> simple_group G"
+oops
 
 
 (*
@@ -1681,9 +1705,13 @@ theorem sum_of_two_rational_squares_is_sum_of_two_integer_squares:
   fixes a b::int
   assumes "\<exists>x y. x\<in>\<rat> \<and> y\<in>\<rat> \<and> a = x^2 + y^2"
   shows "\<exists>x y. x\<in>\<int> \<and> y\<in>\<int> \<and> a = x^2 + y^2"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement:  it should use types instead of sets I believe
  *)
-theorem exercise_8_3_4: undefined oops
+theorem exercise_8_3_4: 
+  fixes a::int and r::rat and s::rat
+  assumes "of_int a = r^2 + s^2"
+  shows "\<exists>x y::int. a = x^2 + y^2"
+oops
 
 
 (*
