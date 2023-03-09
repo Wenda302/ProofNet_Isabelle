@@ -691,8 +691,8 @@ theorem normal_subgroup_of_intersection_of_normal_subgroups:
 Our comment on the codex statement: pretty good
  *)
 theorem (in group) exercise_3_1_22a: 
-  assumes "H  \<lhd>  G" "K \<lhd> G"
-  shows "(H \<inter> K) \<lhd>  G"
+  assumes "H \<lhd> G" "K \<lhd> G"
+  shows "(H \<inter> K) \<lhd> G"
   using assms normal_inv_iff subgroups_Inter_pair by auto
 
 
@@ -761,7 +761,7 @@ theorem (in group) exercise_3_2_11:
   fixes K
   defines "KG \<equiv> G\<lparr>carrier:=K\<rparr>"
   assumes  "subgroup H KG" "subgroup K G"
-  shows "card (rcosets\<^bsub>G\<^esub> H) = card (rcosets\<^bsub>G\<^esub> K) * card (rcosets\<^bsub>KG\<^esub> H)"  
+  shows "order (G Mod H) = order (G Mod K) * order (KG Mod H)"  
   oops
 
 
@@ -806,7 +806,7 @@ Our comment on the codex statement: not bad!
 theorem exercise_3_2_21a: 
   defines "Q_group \<equiv>  \<lparr>carrier = UNIV, monoid.mult = (+), one = (0::rat)\<rparr>"
   assumes "subgroup H Q_group" "H \<noteq> UNIV"
-  shows "infinite (rcosets\<^bsub>Q_group\<^esub> H)"
+  shows "infinite (carrier (Q_group Mod H))"
   oops
 
 
@@ -826,7 +826,11 @@ theorem prime_index_of_normal_subgroup_of_subgroup:
   shows "K \<le> H \<or> (G = H * K \<and> card (K / (K \<inter> H)) = card (G / H))"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
-theorem exercise_3_3_3: undefined oops
+theorem (in group) exercise_3_3_3: 
+  assumes "H \<lhd> G" "order (G Mod H) = p" "Factorial_Ring.prime p" "subgroup K G"
+  defines "KG \<equiv> G\<lparr>carrier:=K\<rparr>"
+  shows "K \<subseteq> H \<or> (carrier G = H <#> K \<and> order (KG Mod (K \<inter> H)) = p)"
+  oops
 
 
 (*
@@ -842,9 +846,12 @@ theorem abelian_simple_group_is_cyclic_group:
   fixes G::"('a, 'b) monoid_scheme" (structure)
   assumes "group G" "simple_group G" "abelian_group G"
   shows "\<exists>p::nat. \<exists>(f::'a \<Rightarrow> 'a). \<forall>x y. f (x * y) = f x * f y \<and> f (x * y) = f x * f y \<and> \<forall>x. f x \<noteq> \<one> \<and> \<forall>x. f (f x) = \<one>"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement:  it would be great if it already knew about integer_mod_group
  *)
-theorem exercise_3_4_1: undefined oops
+theorem (in group) exercise_3_4_1:  (*NB simple_group is not available in Isabelle2022 but is forthcoming*)
+  assumes "simple_group G" "comm_group G"
+  shows "\<exists>p::nat. Factorial_Ring.prime p \<and> G \<cong> integer_mod_group p"
+  oops
 
 
 (*
@@ -861,9 +868,12 @@ theorem exists_subgroup_of_order_divisor:
   fixes G::"('a, 'b) monoid_scheme" (structure)
   assumes "group G" "finite (carrier G)" "abelian G" "n dvd order G" "n > 0"
   shows "\<exists>H. subgroup H G \<and> order H = n"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement:  very good
  *)
-theorem exercise_3_4_4: undefined oops
+theorem (in group) exercise_3_4_4: 
+  assumes "comm_group G" "finite (carrier G)" "n dvd order G" "n > 0"
+  shows "\<exists>H. subgroup H G \<and> card H = n"
+  oops
 
 
 (*
@@ -879,9 +889,12 @@ theorem subgroup_of_solvable_is_solvable:
   fixes G::"('a, 'b) monoid_scheme" (structure)
   assumes "group G" "solvable G"
   shows "\<forall>H. subgroup H G \<longrightarrow> solvable H"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement:  pretty good apart from stylistic issues
  *)
-theorem exercise_3_4_5a: undefined oops
+theorem (in group) exercise_3_4_5a: 
+  assumes "solvable G" "subgroup H G"
+  shows "solvable (G\<lparr>carrier:=H\<rparr>)"
+  oops
 
 
 (*
@@ -898,9 +911,12 @@ theorem solvable_of_quotient_solvable:
   fixes G::"('a, 'b) monoid_scheme" (structure)
   assumes "group G" "solvable G"
   shows "\<forall>H. subgroup H G \<longrightarrow> solvable (G/H)"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement:  apart from the syntax of the quotient group
  *)
-theorem exercise_3_4_5b: undefined oops
+theorem (in group) exercise_3_4_5b: 
+  assumes "solvable G" "subgroup H G"
+  shows "solvable (G Mod H)"
+  oops
 
 
 (*
@@ -917,9 +933,12 @@ theorem exists_abelian_normal_subgroup_of_nontrivial_normal_subgroup:
   fixes G::"('a, 'b) monoid_scheme" (structure)
   assumes "solvable_group G" "normal_subgroup H G" "H \<noteq> {\<one>}"
   shows "\<exists>A. normal_subgroup A G \<and> A \<noteq> {\<one>} \<and> abelian_group A"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement:  not at all bad!
  *)
-theorem exercise_3_4_11: undefined oops
+theorem (in group) exercise_3_4_11: (* not 100% sure about this translation*)
+  assumes "solvable G" "H \<lhd> G" "H \<noteq> {\<one>}"
+  shows "\<exists>A. A \<lhd> G \<and> A \<noteq> {\<one>} \<and> comm_group(G\<lparr>carrier:=A\<rparr>) \<and> A \<subseteq> H"
+  oops
 
 
 (*
@@ -936,9 +955,12 @@ theorem exists_normal_subgroup_of_finite_index_leq_factorial:
   fixes G::"('a, 'b) monoid_scheme" (structure) and H::"('a, 'b) monoid_scheme" (structure)
   assumes "group G" "group H" "H \<le> G" "finite_index G H"
   shows "\<exists>K. normal_subgroup K G \<and> K \<le> H \<and> finite_index G K \<and> card (quotient_group.quotient G K) \<le> fact (card (quotient_group.quotient G H))"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement:  I'm impressed with how well it infers necessary conditions
  *)
-theorem exercise_4_2_8: undefined oops
+theorem (in group) exercise_4_2_8: 
+  assumes "subgroup H G" "finite (carrier (G Mod H))" "n = order (G Mod H)"
+  shows "\<exists>K. K \<lhd> G \<and> K \<subseteq> H \<and> finite (carrier (G Mod K)) \<and> order (G Mod K) \<le> fact n"
+  oops
 
 
 (*
