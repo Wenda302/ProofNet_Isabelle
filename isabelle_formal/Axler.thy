@@ -1,5 +1,7 @@
 theory Axler
- imports Complex_Main
+  imports Complex_Main
+"HOL-Analysis.Inner_Product"
+"HOL-Analysis.Abstract_Euclidean_Space"
 begin
 
 (*
@@ -14,9 +16,9 @@ codex statement:
 theorem cube_root_of_1:
   shows "(-1 + sqrt 3 * \<i>)^3 = 1"
 
-Our comment on the codex statement: entire_function is not relavent here.
+Our comment on the codex statement: wrong function, missed the denominator.
  *)
-theorem exercise_1_2: "(-1/2 + sqrt 3 * 𝗂 /2)^3 = -1" oops
+theorem exercise_1_2: shows "((-1 + sqrt 3 * \<i>)/2)^3 = 1 " oops
 
 
 (*
@@ -32,9 +34,11 @@ theorem neg_neg_eq_self:
   fixes v::"'a::ab_group_add"
   shows "-(-v) = v"
 
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: < the statement is in principle correct, though the type is not
+specified in the natural language statement. By the choice of notation I assume it's a vector instead.   >
  *)
-theorem exercise_1_3: undefined oops
+theorem exercise_1_3:  fixes v :: "'a :: real_vector"
+  shows "-(-v) = v" oops
 
 
 (*
@@ -51,15 +55,23 @@ theorem zero_of_scalar_times_vector_eq_zero:
   assumes "a *\<^sub>R v = 0"
   shows "a = 0 ∨ v = 0"
 
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: <can work if we the field is the reals typewise here. Can
+we generalise? >
  *)
-theorem exercise_1_4: undefined oops
+(*TODO *)
+theorem exercise_1_4: 
+   fixes a::real and v::"'b::real_vector"
+  assumes "scaleR a v = 0"
+  shows "a = 0 ∨ v = 0"
+  oops
 
 
 (*
 problem_number:1_6
 natural language statement:
-Give an example of a nonempty subset $U$ of $\mathbf{R}^2$ such that $U$ is closed under addition and under taking additive inverses (meaning $-u \in U$ whenever $u \in U$), but $U$ is not a subspace of $\mathbf{R}^2$.
+Give an example of a nonempty subset $U$ of $\mathbf{R}^2$ such that $U$ is closed under addition 
+and under taking additive inverses (meaning $-u \in U$ whenever $u \in U$), 
+but $U$ is not a subspace of $\mathbf{R}^2$.
 lean statement:
 theorem exercise_1_6 : \<exists> U : set (\<real> \<times> \<real>),
   (U \<noteq> \<emptyset>) \<and>
@@ -73,7 +85,9 @@ theorem exists_nonempty_subset_of_R2_closed_under_add_and_inv_not_subspace:
 
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
-theorem exercise_1_6: undefined oops
+theorem exercise_1_6:
+ undefined
+  oops
 
 
 (*
@@ -120,7 +134,8 @@ theorem exercise_1_8: undefined oops
 (*
 problem_number:1_9
 natural language statement:
-Prove that the union of two subspaces of $V$ is a subspace of $V$ if and only if one of the subspaces is contained in the other.
+Prove that the union of two subspaces of $V$ is a subspace of $V$ if and only 
+if one of the subspaces is contained in the other.
 lean statement:
 theorem exercise_1_9 {F V : Type*} [add_comm_group V] [field F]
   [module F V] (U W : submodule F V):
@@ -140,7 +155,9 @@ theorem exercise_1_9: undefined oops
 (*
 problem_number:2_1
 natural language statement:
-Prove that if $\left(v_{1}, \ldots, v_{n}\right)$ spans $V$, then so does the list $\left(v_{1}-v_{2}, v_{2}-v_{3}, \ldots, v_{n-1}-v_{n}, v_{n}\right)$ obtained by subtracting from each vector (except the last one) the following vector.
+Prove that if $\left(v_{1}, \ldots, v_{n}\right)$ spans $V$, then so does 
+the list $\left(v_{1}-v_{2}, v_{2}-v_{3}, \ldots, v_{n-1}-v_{n}, v_{n}\right)$ 
+obtained by subtracting from each vector (except the last one) the following vector.
 lean statement:
 
 codex statement:
@@ -473,7 +490,9 @@ theorem exercise_6_2: undefined oops
 (*
 problem_number:6_3
 natural language statement:
-Prove that $\left(\sum_{j=1}^{n} a_{j} b_{j}\right)^{2} \leq\left(\sum_{j=1}^{n} j a_{j}{ }^{2}\right)\left(\sum_{j=1}^{n} \frac{b_{j}{ }^{2}}{j}\right)$ for all real numbers $a_{1}, \ldots, a_{n}$ and $b_{1}, \ldots, b_{n}$.
+Prove that $\left(\sum_{j=1}^{n} a_{j} b_{j}\right)^{2} \leq\left(\sum_{j=1}^{n} 
+j a_{j}{ }^{2}\right)\left(\sum_{j=1}^{n} \frac{b_{j}{ }^{2}}{j}\right)$ 
+for all real numbers $a_{1}, \ldots, a_{n}$ and $b_{1}, \ldots, b_{n}$.
 lean statement:
 theorem exercise_6_3 {n : \<nat>} (a b : fin n \<rightarrow> \<real>) :
   (\<Sum> i, a i * b i) ^ 2 \<le> (\<Sum> i : fin n, i * a i ^ 2) * (\<Sum> i, b i ^ 2 / i) :=
@@ -492,7 +511,9 @@ theorem exercise_6_3: undefined oops
 (*
 problem_number:6_7
 natural language statement:
-Prove that if $V$ is a complex inner-product space, then $\langle u, v\rangle=\frac{\|u+v\|^{2}-\|u-v\|^{2}+\|u+i v\|^{2} i-\|u-i v\|^{2} i}{4}$ for all $u, v \in V$.
+Prove that if $V$ is a complex inner-product space, 
+then $\langle u, v\rangle=\frac{\|u+v\|^{2}-\|u-v\|^{2}+\|u+i v\|^{2} i-\|u-i v\|^{2} i}{4}$ 
+for all $u, v \in V$.
 lean statement:
 theorem exercise_6_7 {V : Type*} [inner_product_space \<complex> V] (u v : V) :
   ⟪u, v⟫_\<complex> = (∥u + v∥^2 - ∥u - v∥^2 + I*∥u + I\<bullet>v∥^2 - I*∥u-I\<bullet>v∥^2) / 4 :=
@@ -502,15 +523,25 @@ theorem inner_product_eq_sum_square_sub_square_sum_square_sub_square:
   fixes u v::"'a::euclidean_space"
   shows "inner_product u v = (norm (u+v)^2 - norm (u-v)^2 + norm (u+ii*v)^2 - norm (u-ii*v)^2)/4"
 
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: <wrong: missed
+factors  𝗂 in the expression, uses wrong type, nonexistent definition inner_product>
  *)
-theorem exercise_6_7: undefined oops
+theorem exercise_6_7:
+ fixes u v::"complex"
+  shows "inner u v = (norm (u+v)^2 - norm (u-v)^2 + (norm (u+ 𝗂 * v)^2) * 𝗂 - (norm (u- 𝗂  * v)^2)* 𝗂)/4"
+
+ oops
 
 
 (*
 problem_number:6_13
 natural language statement:
-Suppose $\left(e_{1}, \ldots, e_{m}\right)$ is an or thonormal list of vectors in $V$. Let $v \in V$. Prove that $\|v\|^{2}=\left|\left\langle v, e_{1}\right\rangle\right|^{2}+\cdots+\left|\left\langle v, e_{m}\right\rangle\right|^{2}$ if and only if $v \in \operatorname{span}\left(e_{1}, \ldots, e_{m}\right)$.
+Suppose $\left(e_{1}, \ldots, e_{m}\right)$ is an orthonormal list of vectors in $V$. 
+Let $v \in V$. 
+Prove that 
+$\|v\|^{2}=\left|\left\langle v, e_{1}\right\rangle\right|^{2}+\cdots+\left|\left\langle v, 
+e_{m}\right\rangle\right|^{2}$ 
+if and only if $v \in \operatorname{span}\left(e_{1}, \ldots, e_{m}\right)$.
 lean statement:
 theorem exercise_6_13 {V : Type*} [inner_product_space \<complex> V] {n : \<nat>}
   {e : fin n \<rightarrow> V} (he : orthonormal \<complex> e) (v : V) :
@@ -550,7 +581,9 @@ theorem exercise_6_16: undefined oops
 (*
 problem_number:6_17
 natural language statement:
-Prove that if $P \in \mathcal{L}(V)$ is such that $P^{2}=P$ and every vector in $\operatorname{null} P$ is orthogonal to every vector in $\operatorname{range} P$, then $P$ is an orthogonal projection.
+Prove that if $P \in \mathcal{L}(V)$ is such that $P^{2}=P$ and every vector
+ in $\operatorname{null} P$ is orthogonal to every vector in $\operatorname{range} P$, 
+then $P$ is an orthogonal projection.
 lean statement:
 
 codex statement:
@@ -567,7 +600,8 @@ theorem exercise_6_17: undefined oops
 (*
 problem_number:6_18
 natural language statement:
-Prove that if $P \in \mathcal{L}(V)$ is such that $P^{2}=P$ and $\|P v\| \leq\|v\|$ for every $v \in V$, then $P$ is an orthogonal projection.
+Prove that if $P \in \mathcal{L}(V)$ is 
+such that $P^{2}=P$ and $\|P v\| \leq\|v\|$ for every $v \in V$, then $P$ is an orthogonal projection.
 lean statement:
 
 codex statement:
@@ -584,7 +618,8 @@ theorem exercise_6_18: undefined oops
 (*
 problem_number:6_19
 natural language statement:
-Suppose $T \in \mathcal{L}(V)$ and $U$ is a subspace of $V$. Prove that $U$ is invariant under $T$ if and only if $P_{U} T P_{U}=T P_{U}$.
+Suppose $T \in \mathcal{L}(V)$ and $U$ is a subspace of $V$. Prove that $U$ is invariant under $T$ 
+if and only if $P_{U} T P_{U}=T P_{U}$.
 lean statement:
 
 codex statement:
@@ -601,7 +636,8 @@ theorem exercise_6_19: undefined oops
 (*
 problem_number:6_20
 natural language statement:
-Suppose $T \in \mathcal{L}(V)$ and $U$ is a subspace of $V$. Prove that $U$ and $U^{\perp}$ are both invariant under $T$ if and only if $P_{U} T=T P_{U}$.
+Suppose $T \in \mathcal{L}(V)$ and $U$ is a subspace of $V$. 
+Prove that $U$ and $U^{\perp}$ are both invariant under $T$ if and only if $P_{U} T=T P_{U}$.
 lean statement:
 
 codex statement:
@@ -618,7 +654,8 @@ theorem exercise_6_20: undefined oops
 (*
 problem_number:6_29
 natural language statement:
-Suppose $T \in \mathcal{L}(V)$ and $U$ is a subspace of $V$. Prove that $U$ is invariant under $T$ if and only if $U^{\perp}$ is invariant under $T^{*}$.
+Suppose $T \in \mathcal{L}(V)$ and $U$ is a subspace of $V$. Prove that $U$ 
+is invariant under $T$ if and only if $U^{\perp}$ is invariant under $T^{*}$.
 lean statement:
 
 codex statement:
@@ -635,7 +672,8 @@ theorem exercise_6_29: undefined oops
 (*
 problem_number:7_4
 natural language statement:
-Suppose $P \in \mathcal{L}(V)$ is such that $P^{2}=P$. Prove that $P$ is an orthogonal projection if and only if $P$ is self-adjoint.
+Suppose $P \in \mathcal{L}(V)$ is such that $P^{2}=P$. 
+Prove that $P$ is an orthogonal projection if and only if $P$ is self-adjoint.
 lean statement:
 
 codex statement:
@@ -652,7 +690,8 @@ theorem exercise_7_4: undefined oops
 (*
 problem_number:7_5
 natural language statement:
-Show that if $\operatorname{dim} V \geq 2$, then the set of normal operators on $V$ is not a subspace of $\mathcal{L}(V)$.
+Show that if $\operatorname{dim} V \geq 2$, then the set of normal 
+operators on $V$ is not a subspace of $\mathcal{L}(V)$.
 lean statement:
 theorem exercise_7_5 {V : Type*} [inner_product_space \<complex> V]
   [finite_dimensional \<complex> V] (hV : finrank V \<ge> 2) :
@@ -693,7 +732,8 @@ theorem exercise_7_6: undefined oops
 (*
 problem_number:7_8
 natural language statement:
-Prove that there does not exist a self-adjoint operator $T \in \mathcal{L}\left(\mathbf{R}^{3}\right)$ such that $T(1,2,3)=(0,0,0)$ and $T(2,5,7)=(2,5,7)$.
+Prove that there does not exist a self-adjoint operator 
+$T \in \mathcal{L}\left(\mathbf{R}^{3}\right)$ such that $T(1,2,3)=(0,0,0)$ and $T(2,5,7)=(2,5,7)$.
 lean statement:
 
 codex statement:
@@ -709,7 +749,8 @@ theorem exercise_7_8: undefined oops
 (*
 problem_number:7_9
 natural language statement:
-Prove that a normal operator on a complex inner-product space is self-adjoint if and only if all its eigenvalues are real.
+Prove that a normal operator on a complex inner-product space is self-adjoint if and 
+only if all its eigenvalues are real.
 lean statement:
 theorem exercise_7_9 {V : Type*} [inner_product_space \<complex> V]
   [finite_dimensional \<complex> V] (T : End \<complex> V)
@@ -729,7 +770,8 @@ theorem exercise_7_9: undefined oops
 (*
 problem_number:7_10
 natural language statement:
-Suppose $V$ is a complex inner-product space and $T \in \mathcal{L}(V)$ is a normal operator such that $T^{9}=T^{8}$. Prove that $T$ is self-adjoint and $T^{2}=T$.
+Suppose $V$ is a complex inner-product space and $T \in \mathcal{L}(V)$ is a normal 
+operator such that $T^{9}=T^{8}$. Prove that $T$ is self-adjoint and $T^{2}=T$.
 lean statement:
 theorem exercise_7_10 {V : Type*} [inner_product_space \<complex> V]
   [finite_dimensional \<complex> V] (T : End \<complex> V)
@@ -749,7 +791,9 @@ theorem exercise_7_10: undefined oops
 (*
 problem_number:7_11
 natural language statement:
-Suppose $V$ is a complex inner-product space. Prove that every normal operator on $V$ has a square root. (An operator $S \in \mathcal{L}(V)$ is called a square root of $T \in \mathcal{L}(V)$ if $S^{2}=T$.)
+Suppose $V$ is a complex inner-product space. Prove that every normal 
+operator on $V$ has a square root. (
+An operator $S \in \mathcal{L}(V)$ is called a square root of $T \in \mathcal{L}(V)$ if $S^{2}=T$.)
 lean statement:
 theorem exercise_7_11 {V : Type*} [inner_product_space \<complex> V]
   [finite_dimensional \<complex> V] {T : End \<complex> V} (hT : T*T.adjoint = T.adjoint*T) :
@@ -789,7 +833,9 @@ theorem exercise_7_14: undefined oops
 (*
 problem_number:7_15
 natural language statement:
-Suppose $U$ is a finite-dimensional real vector space and $T \in$ $\mathcal{L}(U)$. Prove that $U$ has a basis consisting of eigenvectors of $T$ if and only if there is an inner product on $U$ that makes $T$ into a self-adjoint operator.
+Suppose $U$ is a finite-dimensional real vector space and $T \in$ $\mathcal{L}(U)$. 
+Prove that $U$ has a basis consisting of eigenvectors of $T$ if and only if there is an 
+inner product on $U$ that makes $T$ into a self-adjoint operator.
 lean statement:
 
 codex statement:
@@ -813,9 +859,11 @@ theorem sum_of_positive_operators_is_positive:
   fixes V::"'a::euclidean_space set" and f g::"'a \<Rightarrow> 'a"
   assumes "linear f" "linear g" "\<forall>x\<in>V. 0 \<le> f x ⋅ x" "\<forall>x\<in>V. 0 \<le> g x ⋅ x"
   shows "\<forall>x\<in>V. 0 \<le> (f + g) x ⋅ x"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: <wrong assumptions and conclusion>
  *)
-theorem exercise_7_17: undefined oops
+theorem exercise_7_17: 
+  undefined
+  oops
 
 
 (*
