@@ -55,7 +55,7 @@ theorem zero_of_scalar_times_vector_eq_zero:
   assumes "a *\<^sub>R v = 0"
   shows "a = 0 ∨ v = 0"
 
-Our comment on the codex statement: <can work if we the field is the reals typewise here. Can
+Our comment on the codex statement: <can work if  the field is the reals  here. Can
 we generalise? >
  *)
 (*TODO *)
@@ -86,7 +86,8 @@ theorem exists_nonempty_subset_of_R2_closed_under_add_and_inv_not_subspace:
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_1_6:
- undefined
+ shows "∃U. U ≠ {} ∧ (∀x∈U. -x∈U) ∧ (∀x y∈U. x+y∈U) ∧ ¬(subspace U (UNIV::(real, real) vec set))"
+
   oops
 
 
@@ -191,7 +192,8 @@ theorem exercise_2_2: undefined oops
 (*
 problem_number:2_6
 natural language statement:
-Prove that the real vector space consisting of all continuous realvalued functions on the interval $[0,1]$ is infinite dimensional.
+Prove that the real vector space consisting of all continuous realvalued functions 
+on the interval $[0,1]$ is infinite dimensional.
 lean statement:
 
 codex statement:
@@ -200,9 +202,12 @@ theorem infinite_dim_of_continuous_real_valued_functions:
   assumes "continuous_on {0..1} f"
   shows "∃g. continuous_on {0..1} g ∧ g ≠ f"
 
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: <wrong statement>
  *)
-theorem exercise_2_6: undefined oops
+theorem exercise_2_6: 
+  undefined
+  
+  oops
 
 
 (*
