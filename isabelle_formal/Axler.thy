@@ -83,10 +83,12 @@ codex statement:
 theorem exists_nonempty_subset_of_R2_closed_under_add_and_inv_not_subspace:
   shows "∃U. U ≠ {} ∧ (∀x∈U. -x∈U) ∧ (∀x y∈U. x+y∈U) ∧ ¬(subspace U (UNIV::(real, real) vec set))"
 
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: <quite close but syntactic and type problems>
  *)
 theorem exercise_1_6:
- shows "∃U. U ≠ {} ∧ (∀x∈U. -x∈U) ∧ (∀x y∈U. x+y∈U) ∧ ¬(subspace U (UNIV::(real, real) vec set))"
+  obtains  U::"'a::euclidean_space set" where
+" DIM('a::euclidean_space) = 2 \<and> U ≠ {} ∧ (\<forall> x \<in> U. -x \<in> U) ∧ (\<forall>x\<in>U
+. \<forall> y \<in>U. x+y\<in> U) ∧ ¬(subspace U )"
 
   oops
 
@@ -94,7 +96,8 @@ theorem exercise_1_6:
 (*
 problem_number:1_7
 natural language statement:
-Give an example of a nonempty subset $U$ of $\mathbf{R}^2$ such that $U$ is closed under scalar multiplication, but $U$ is not a subspace of $\mathbf{R}^2$.
+Give an example of a nonempty subset $U$ of $\mathbf{R}^2$ such that $U$ is closed under scalar multiplication,
+ but $U$ is not a subspace of $\mathbf{R}^2$.
 lean statement:
 theorem exercise_1_7 : \<exists> U : set (\<real> \<times> \<real>),
   (U \<noteq> \<emptyset>) \<and>
@@ -107,9 +110,15 @@ theorem exists_nonempty_subset_closed_under_scalar_multiplication_not_subspace:
   assumes "∃U. U ≠ {} ∧ (∀x∈U. ∀c. c∈UNIV ⟶ c • x ∈ U)"
   shows "∃U. U ≠ {} ∧ (∀x∈U. ∀c. c∈UNIV ⟶ c • x ∈ U) ∧ ¬(subspace U)"
 
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: <logically wrong: fixes U and then assumes \exists U, also 
+wrong notation for scalar multiplication>
  *)
-theorem exercise_1_7: undefined oops
+
+theorem exercise_1_7:  obtains  U::"'a::euclidean_space set" where
+" DIM('a::euclidean_space) = 2 \<and> U ≠ {} ∧ (\<forall> x \<in> U. \<forall> a::real. scaleR a x
+\<in> U) ∧ ¬(subspace U )"
+ 
+  oops
 
 
 (*
@@ -127,9 +136,16 @@ theorem subspace_of_intersection_of_subspaces:
   assumes "∀S∈S. subspace S"
   shows "subspace (⋂S∈S. S)"
 
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: <The natural language statement does not give the type of V,
+but from the notation chosen we may infer that it is a vector space. 
+The codex formalisation is wrong:  introduces V and then only uses S.>
  *)
-theorem exercise_1_8: undefined oops
+theorem exercise_1_8: 
+  fixes V::"'a::real_vector set"
+  and C:: "'a::real_vector set set"
+  assumes "C= {S. subspace S \<and> S\<subset> V}"
+  shows "subspace (⋂S∈C. S)"
+  oops
 
 
 (*
@@ -148,9 +164,15 @@ theorem union_of_subspaces_is_subspace_iff_one_subset_of_other:
   assumes "subspace V" "subspace U" "subspace W"
   shows "subspace (U ∪ W) ⟷ U ⊆ W ∨ W ⊆ U"
 
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: < introduces V without using it.>
  *)
-theorem exercise_1_9: undefined oops
+theorem exercise_1_9: 
+  
+  fixes U::"'a::real_vector set"
+  fixes W::"'a::real_vector set"
+  assumes "subspace U" "subspace W"
+  shows "subspace (U ∪ W) ⟷ U ⊆ W ∨ W ⊆ U"
+  oops
 
 
 (*
