@@ -37,7 +37,13 @@ theorem neg_neg_eq_self:
 Our comment on the codex statement: < the statement is in principle correct, though the type is not
 specified in the natural language statement. By the choice of notation I assume it's a vector instead.   >
  *)
-theorem exercise_1_3:  fixes v :: "'a :: real_vector"
+theorem exercise_1_3:
+  
+   fixes v::"'a::ab_group_add"and V::"'a::ab_group_add set"
+  shows "\<forall> v \<in> V. -(-v) = v"
+  oops
+
+theorem exercise_1_3_alternative:  fixes v :: "'a :: real_vector"
   shows "-(-v) = v" oops
 
 
@@ -55,7 +61,8 @@ theorem zero_of_scalar_times_vector_eq_zero:
   assumes "a *\<^sub>R v = 0"
   shows "a = 0 ∨ v = 0"
 
-Our comment on the codex statement: <can work if  the field is the reals  here. Can
+Our comment on the codex statement: <wrong symbol for multiplication.
+Can work if  the field is the reals here in particular. Can
 we generalise? >
  *)
 (*TODO *)
@@ -86,8 +93,9 @@ theorem exists_nonempty_subset_of_R2_closed_under_add_and_inv_not_subspace:
 Our comment on the codex statement: <quite close but syntactic and type problems>
  *)
 theorem exercise_1_6:
+  fixes V::"'a::euclidean_space set" assumes" DIM('a::euclidean_space) = 2"
   obtains  U::"'a::euclidean_space set" where
-" DIM('a::euclidean_space) = 2 \<and> U ≠ {} ∧ (\<forall> x \<in> U. -x \<in> U) ∧ (\<forall>x\<in>U
+"U \<subseteq> V \<and> U ≠ {} ∧ (\<forall> x \<in> U. -x \<in> U) ∧ (\<forall>x\<in>U
 . \<forall> y \<in>U. x+y\<in> U) ∧ ¬(subspace U )"
 
   oops
@@ -114,8 +122,10 @@ Our comment on the codex statement: <logically wrong: fixes U and then assumes \
 wrong notation for scalar multiplication>
  *)
 
-theorem exercise_1_7:  obtains  U::"'a::euclidean_space set" where
-" DIM('a::euclidean_space) = 2 \<and> U ≠ {} ∧ (\<forall> x \<in> U. \<forall> a::real. scaleR a x
+theorem exercise_1_7:
+   fixes V::"'a::euclidean_space set" assumes" DIM('a::euclidean_space) = 2"
+  obtains  U::"'a::euclidean_space set" where
+"U \<subseteq> V  \<and> U ≠ {} ∧ (\<forall> x \<in> U. \<forall> a::real. scaleR a x
 \<in> U) ∧ ¬(subspace U )"
  
   oops
@@ -189,15 +199,20 @@ theorem span_of_subtract_succ_of_span:
   assumes "span v = UNIV"
   shows "span (λn. v (Suc n) - v n) = UNIV"
 
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: <wrong, mainly problem with types/indices>
  *)
-theorem exercise_2_1: undefined oops
+
+theorem exercise_2_1: 
+  undefined
+  oops
 
 
 (*
 problem_number:2_2
 natural language statement:
-Prove that if $\left(v_{1}, \ldots, v_{n}\right)$ is linearly independent in $V$, then so is the list $\left(v_{1}-v_{2}, v_{2}-v_{3}, \ldots, v_{n-1}-v_{n}, v_{n}\right)$ obtained by subtracting from each vector (except the last one) the following vector.
+Prove that if $\left(v_{1}, \ldots, v_{n}\right)$ is linearly independent in $V$, 
+then so is the list $\left(v_{1}-v_{2}, v_{2}-v_{3}, \ldots, v_{n-1}-v_{n}, v_{n}\right)$ 
+obtained by subtracting from each vector (except the last one) the following vector.
 lean statement:
 
 codex statement:
@@ -206,15 +221,17 @@ theorem linear_independent_of_linear_independent_sub:
   assumes "independent v"
 
   shows "independent (λi. (v (Suc i)) - (v i))"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: <wrong, again mainly problem with types/indices >
  *)
-theorem exercise_2_2: undefined oops
+theorem exercise_2_2: 
+  undefined
+  oops
 
 
 (*
 problem_number:2_6
 natural language statement:
-Prove that the real vector space consisting of all continuous realvalued functions 
+Prove that the real vector space consisting of all continuous real valued functions 
 on the interval $[0,1]$ is infinite dimensional.
 lean statement:
 
@@ -224,18 +241,21 @@ theorem infinite_dim_of_continuous_real_valued_functions:
   assumes "continuous_on {0..1} f"
   shows "∃g. continuous_on {0..1} g ∧ g ≠ f"
 
-Our comment on the codex statement: <wrong statement>
+Our comment on the codex statement: <completely wrong statement. syntax ok, but it talks about
+a completely different statement>
  *)
 theorem exercise_2_6: 
-  undefined
-  
+ undefined
   oops
 
 
 (*
 problem_number:3_1
 natural language statement:
-Show that every linear map from a one-dimensional vector space to itself is multiplication by some scalar. More precisely, prove that if $\operatorname{dim} V=1$ and $T \in \mathcal{L}(V, V)$, then there exists $a \in \mathbf{F}$ such that $T v=a v$ for all $v \in V$.
+Show that every linear map from a one-dimensional vector space to itself is multiplication 
+by some scalar. More precisely, prove that if $\operatorname{dim} V=1$ 
+and $T \in \mathcal{L}(V, V)$, then there 
+exists $a \in \mathbf{F}$ such that $T v=a v$ for all $v \in V$.
 lean statement:
 theorem exercise_3_1 {F V : Type*}
   [add_comm_group V] [field F] [module F V] [finite_dimensional F V]
@@ -250,13 +270,18 @@ theorem linear_map_of_dim_one_is_scalar_mult:
 
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
-theorem exercise_3_1: undefined oops
+
+theorem exercise_3_1:
+undefined
+  oops
 
 
 (*
 problem_number:3_8
 natural language statement:
-Suppose that $V$ is finite dimensional and that $T \in \mathcal{L}(V, W)$. Prove that there exists a subspace $U$ of $V$ such that $U \cap \operatorname{null} T=\{0\}$ and range $T=\{T u: u \in U\}$.
+Suppose that $V$ is finite dimensional and that $T \in \mathcal{L}(V, W)$. 
+Prove that there exists a subspace $U$ of $V$ such that $U \cap \operatorname{null} T=\{0\}$ 
+and range $T=\{T u: u \in U\}$.
 lean statement:
 theorem exercise_3_8 {F V W : Type*}  [add_comm_group V]
   [add_comm_group W] [field F] [module F V] [module F W]
@@ -272,13 +297,18 @@ theorem exists_subspace_of_range_eq_image_of_subspace:
 
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
-theorem exercise_3_8: undefined oops
+theorem exercise_3_8: 
+ undefined
+  
+  oops
 
 
 (*
 problem_number:3_9
 natural language statement:
-Prove that if $T$ is a linear map from $\mathbf{F}^{4}$ to $\mathbf{F}^{2}$ such that $\operatorname{null} T=\left\{\left(x_{1}, x_{2}, x_{3}, x_{4}\right) \in \mathbf{F}^{4}: x_{1}=5 x_{2}\right.$ and $\left.x_{3}=7 x_{4}\right\}$, then $T$ is surjective.
+Prove that if $T$ is a linear map from $\mathbf{F}^{4}$ to $\mathbf{F}^{2}$ 
+such that $\operatorname{null} T=\left\{\left(x_{1}, x_{2}, x_{3}, x_{4}\right) \in \mathbf{F}^{4}: 
+x_{1}=5 x_{2}\right.$ and $\left.x_{3}=7 x_{4}\right\}$, then $T$ is surjective.
 lean statement:
 
 codex statement:
@@ -287,8 +317,8 @@ theorem surjective_of_null_space:
   assumes "null_space T = {x. x$1 = 5 * x$2 ∧ x$3 = 7 * x$4}"
   shows "surj T"
 
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
- *)
+Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>*)
+
 theorem exercise_3_9: undefined oops
 
 
