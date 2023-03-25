@@ -2,6 +2,15 @@ theory Axler
   imports Complex_Main
 "HOL-Analysis.Inner_Product"
 "HOL-Analysis.Abstract_Euclidean_Space"
+"HOL.Vector_Spaces"
+"Rank_Nullity_Theorem.Fundamental_Subspaces"
+(*"HOL-Analysis.Weierstrass_Theorems"*)
+"HOL-Computational_Algebra.Polynomial"
+
+(* Note by Angeliki:
+some types chosen are too general, some others too specific e.g. *real* vector etc. 
+Note to perhaps readjust with appropriate use of locales *)
+
 begin
 
 (*
@@ -203,8 +212,9 @@ Our comment on the codex statement: <wrong, mainly problem with types/indices>
  *)
 
 theorem exercise_2_1: 
-  undefined
-  oops
+
+undefined oops
+ 
 
 
 (*
@@ -224,7 +234,7 @@ theorem linear_independent_of_linear_independent_sub:
 Our comment on the codex statement: <wrong, again mainly problem with types/indices >
  *)
 theorem exercise_2_2: 
-  undefined
+undefined
   oops
 
 
@@ -244,10 +254,12 @@ theorem infinite_dim_of_continuous_real_valued_functions:
 Our comment on the codex statement: <completely wrong statement. syntax ok, but it talks about
 a completely different statement>
  *)
-theorem exercise_2_6: 
- undefined
-  oops
 
+theorem exercise_2_6:
+
+  assumes " V= {f::real \<Rightarrow> real. continuous_on {0..1} f}"  
+  shows "infinite V"
+  oops
 
 (*
 problem_number:3_1
@@ -268,12 +280,16 @@ theorem linear_map_of_dim_one_is_scalar_mult:
   assumes "linear T" "DIM('a) = 1"
   shows "∃a. ∀x. T x = a * x"
 
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: <various type issues and multiplication symbol>
  *)
 
 theorem exercise_3_1:
-undefined
-  oops
+ 
+fixes  T::" 'a:: real_vector ⇒ 'a:: real_vector "
+ (* assumes "linear T" *) (* TODO: how to incorporate assumptions without type issue?   *)
+  shows "∃a \<in> \<real>. ∀x. T x = scaleR a x"
+
+ oops (* TODO again I restrict it to real ..*)
 
 
 (*
@@ -295,12 +311,22 @@ theorem exists_subspace_of_range_eq_image_of_subspace:
   assumes "finite_dimensional V" "finite_dimensional W" "linear T"
   shows "∃U. subspace U ∧ U ∩ null_space T = {0} ∧ range T = T ` U"
 
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: < the codex formalisation is incorrect wrt assumptions,
+conclusions, also it makes up nonexistent Isabelle definitions such as finite_dimensional   >
  *)
 theorem exercise_3_8: 
- undefined
-  
+undefined 
+
+(* TODO*)
+
+(* note that null_space refers to matrices *)
+
+ (*
+  obtains U where " subspace U \<and> U \<subseteq> V ∧ U ∩ null_space T = {0} ∧ range T = T ` U"
+*)
+
   oops
+
 
 
 (*
@@ -317,15 +343,19 @@ theorem surjective_of_null_space:
   assumes "null_space T = {x. x$1 = 5 * x$2 ∧ x$3 = 7 * x$4}"
   shows "surj T"
 
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>*)
+Our comment on the codex statement: <various type issues >*)
 
-theorem exercise_3_9: undefined oops
+theorem exercise_3_9:
+undefined (* TODO *)
+  oops
 
 
 (*
 problem_number:3_10
 natural language statement:
-Prove that there does not exist a linear map from $\mathbf{F}^{5}$ to $\mathbf{F}^{2}$ whose null space equals $\left\{\left(x_{1}, x_{2}, x_{3}, x_{4}, x_{5}\right) \in \mathbf{F}^{5}: x_{1}=3 x_{2} \text { and } x_{3}=x_{4}=x_{5}\right\} .$
+Prove that there does not exist a linear map from $\mathbf{F}^{5}$ to $\mathbf{F}^{2}$ 
+whose null space equals $\left\{\left(x_{1}, x_{2}, x_{3}, x_{4}, x_{5}\right) 
+\in \mathbf{F}^{5}: x_{1}=3 x_{2} \text { and } x_{3}=x_{4}=x_{5}\right\} .$
 lean statement:
 
 codex statement:
@@ -334,15 +364,19 @@ theorem not_exists_linear_map_of_null_space_eq_set:
   assumes "linear f" "null_space f = {x | x. x$1 = 3 * x$2 ∧ x$3 = x$4 ∧ x$4 = x$5}"
   shows False
 
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: <wrong, various type issues>
  *)
-theorem exercise_3_10: undefined oops
+theorem exercise_3_10:
+undefined (*TODO *)
+  
+  oops
 
 
 (*
 problem_number:3_11
 natural language statement:
-Prove that if there exists a linear map on $V$ whose null space and range are both finite dimensional, then $V$ is finite dimensional.
+Prove that if there exists a linear map on $V$ whose null space and range are both finite dimensional, 
+then $V$ is finite dimensional.
 lean statement:
 
 codex statement:
@@ -351,15 +385,24 @@ theorem finite_dim_of_linear_map_finite_dim_null_space_range:
   assumes "linear f" "finite_dimensional (null_space f)" "finite_dimensional (range f)"
   shows "finite_dimensional V"
 
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: <various type problems but gets close>
  *)
-theorem exercise_3_11: undefined oops
+
+theorem exercise_3_11:
+   fixes V::"'a::real_vector set" and f::"'a ⇒ 'a"
+  assumes (*"linear f"*) (*"finite (null_space f)"*) "finite (range f)"
+  shows "finite V"
+
+  (* TODO *)
+  oops
 
 
 (*
 problem_number:4_4
 natural language statement:
-Suppose $p \in \mathcal{P}(\mathbf{C})$ has degree $m$. Prove that $p$ has $m$ distinct roots if and only if $p$ and its derivative $p^{\prime}$ have no roots in common.
+Suppose $p \in \mathcal{P}(\mathbf{C})$ has degree $m$. 
+Prove that $p$ has $m$ distinct roots if and only if $p$ and its derivative $p^{\prime}$ 
+have no roots in common.
 lean statement:
 theorem exercise_4_4 (p : polynomial \<complex>) :
   p.degree = @card (root_set p \<complex>) (polynomial.root_set_fintype p \<complex>) \<longleftrightarrow>
@@ -373,15 +416,20 @@ theorem distinct_roots_of_poly_iff_no_common_roots_with_derivative:
   assumes "degree p = m"
   shows "distinct_roots p ↔ (∀x. poly p x = 0 ⟶ poly (deriv p) x ≠ 0)"
 
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: <makes up definitions that do not exist in Isabelle e.g. distinct_roots,
+uses wrong defs that are inappropriate here like deriv, wrong double implication symbol >
  *)
-theorem exercise_4_4: undefined oops
-
+theorem exercise_4_4: 
+  fixes p::"complex poly" 
+  assumes "degree p = m" 
+  shows "( {x. poly p x = 0}\<inter> {x. pderiv p = 0} = {}) \<longleftrightarrow> card {x. poly p x = 0}=m "
+  oops
 
 (*
 problem_number:5_1
 natural language statement:
-Suppose $T \in \mathcal{L}(V)$. Prove that if $U_{1}, \ldots, U_{m}$ are subspaces of $V$ invariant under $T$, then $U_{1}+\cdots+U_{m}$ is invariant under $T$.
+Suppose $T \in \mathcal{L}(V)$. Prove that if $U_{1}, \ldots, U_{m}$ are subspaces
+ of $V$ invariant under $T$, then $U_{1}+\cdots+U_{m}$ is invariant under $T$.
 lean statement:
 theorem exercise_5_1 {F V : Type*} [add_comm_group V] [field F]
   [module F V] {L : V \<rightarrow>ₗ[F] V} {n : \<nat>} (U : fin n \<rightarrow> submodule F V)
@@ -403,7 +451,8 @@ theorem exercise_5_1: undefined oops
 (*
 problem_number:5_4
 natural language statement:
-Suppose that $S, T \in \mathcal{L}(V)$ are such that $S T=T S$. Prove that $\operatorname{null} (T-\lambda I)$ is invariant under $S$ for every $\lambda \in \mathbf{F}$.
+Suppose that $S, T \in \mathcal{L}(V)$ are such that $S T=T S$. 
+Prove that $\operatorname{null} (T-\lambda I)$ is invariant under $S$ for every $\lambda \in \mathbf{F}$.
 lean statement:
 theorem exercise_5_4 {F V : Type*} [add_comm_group V] [field F]
   [module F V] (S T : V \<rightarrow>ₗ[F] V) (hST : S ∘ T = T ∘ S) (c : F):
@@ -798,10 +847,16 @@ theorem not_exists_self_adjoint_operator_of_two_eigenvectors:
   fixes T::"real^3 \<Rightarrow> real^3"
   assumes "linear T" "self_adjoint T" "T (vector [1,2,3]) = 0" "T (vector [2,5,7]) = vector [2,5,7]"
   shows False
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: <linear assumption issue. makes use of nonexistent def. self_adjoint>
  *)
-theorem exercise_7_8: undefined oops
 
+theorem exercise_7_8: 
+  fixes T::"real^3 \<Rightarrow> real^3" assumes  (* "linear T"*) 
+(* TODO T linear *)
+  "T (vector [1,2,3]) = 0" "T (vector [2,5,7]) = vector [2,5,7]"
+"adjoint T = T"
+  shows False
+  oops
 
 (*
 problem_number:7_9
@@ -864,8 +919,6 @@ theorem exists_sqrt_of_normal_operator:
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
 theorem exercise_7_11: undefined oops
-
-
 (*
 problem_number:7_14
 natural language statement:
@@ -900,9 +953,12 @@ theorem exists_inner_product_of_eigenvectors_basis:
   fixes T::"'a::euclidean_space \<Rightarrow> 'a"
   assumes "linear T" "\<exists>b. independent b \<and> b \<subseteq> carrier_vec n \<and> span b = carrier_vec n"
   shows "\<exists>B. inner_product_space B \<and> (\<forall>x\<in>b. eigenvector B T x)"
-Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
+Our comment on the codex statement: <various type errors, wrong statement, and makes up defs that
+don't exist in Isabelle.>
  *)
-theorem exercise_7_15: undefined oops
+theorem exercise_7_15:
+  undefined
+  oops
 
 
 (*
@@ -916,10 +972,11 @@ theorem sum_of_positive_operators_is_positive:
   fixes V::"'a::euclidean_space set" and f g::"'a \<Rightarrow> 'a"
   assumes "linear f" "linear g" "\<forall>x\<in>V. 0 \<le> f x ⋅ x" "\<forall>x\<in>V. 0 \<le> g x ⋅ x"
   shows "\<forall>x\<in>V. 0 \<le> (f + g) x ⋅ x"
-Our comment on the codex statement: <wrong assumptions and conclusion>
+Our comment on the codex statement: <wrong assumptions and type issues>
  *)
 theorem exercise_7_17: 
-  undefined
+undefined
+
   oops
 
 
@@ -936,7 +993,9 @@ theorem positive_of_positive_power:
   shows "positive (T^k)"
 Our comment on the codex statement: <YOU CAN LEAVE YOUR COMMENT HERE>
  *)
-theorem exercise_7_18: undefined oops
+theorem exercise_7_18:
+undefined
+  oops
 
 
 
